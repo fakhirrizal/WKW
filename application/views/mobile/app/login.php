@@ -167,7 +167,7 @@
 	<div class="page-bg"></div>
 		<div class="signin-form">
 			<?= $this->session->flashdata('error') ?>
-			<form role="form" action="<?= site_url('login_process'); ?>" method='post'>
+			<form role="form" action="<?= site_url('mobile_side/login_process'); ?>" method='post'>
 				<p id="getLocation"></p>
 				<!-- <h2>Sign in</h2>
 				<p class="hint-text">Sign in with your social media account</p> -->

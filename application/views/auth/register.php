@@ -4,15 +4,15 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta name="description" content="Dispermasdesdukcapil Prov. Jateng">
-		<meta name="author" content="Dispermasdesdukcapil Prov. Jateng">
-		<title>Dispermasdesdukcapil - Halaman Login</title>
+		<meta name="description" content="Warta Kalipucang Wetan">
+		<meta name="author" content="Warta Kalipucang Wetan">
+		<title>Warta Kalipucang Wetan - Halaman Login</title>
 		<link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" rel="stylesheet">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-		<link href="http://dispendukcapil.batangkab.go.id:80/pelayanan/assets/img/logo_prov_mail.png" rel="icon" type="image/png">
+		<link href="http://dispendukcapil.batangkab.go.id/pelayanan/assets/img/kab/3325.png" rel="icon" type="image/png">
 		<style type="text/css">
 			body {
 				color: #434343;
@@ -197,8 +197,8 @@
 					<button type="submit" class="btn btn-info btn-lg btn-block signup-btn">Daftar</button>
 				</div>
 				<!-- <div class="text-center small"><a href="#">Lupa Kata Sandi?</a></div> -->
-				<div class="text-center"><hr>© Copyright 2019, All Right Reserved
-				<br>Created by Dispermasdesdukcapil Prov. Jateng</div>
+				<div class="text-center"><hr>© Copyright 2020, All Right Reserved
+				<br>Created by Warta Kalipucang Wetan</div>
 			</form>
 			<div class="text-center small">Sudah punya akun? <a href="<?php echo site_url(); ?>">Masuk disini!</a></div>
 			<script>

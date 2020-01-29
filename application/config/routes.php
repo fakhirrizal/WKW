@@ -111,26 +111,27 @@ $route['admin_side/data_kk'] = 'admin/Report/data_kk';
 $route['admin_side/perbarui_permohonan_kk'] = 'admin/Master/perbarui_permohonan_kk';
 $route['admin_side/data_ktp'] = 'admin/Report/data_ktp';
 
-/* Member */
-$route['member_side/launcher'] = 'member/App/launcher';
-$route['member_side/beranda'] = 'member/App/home';
-$route['member_side/menu'] = 'member/App/menu';
-$route['member_side/log_activity'] = 'member/App/log_activity';
-$route['member_side/cleaning_log'] = 'member/App/cleaning_log';
-$route['member_side/tentang_aplikasi'] = 'member/App/about';
-$route['member_side/bantuan'] = 'member/App/helper';
+/* Mobile */
+$route['mobile_side/login'] = 'mobile/App/login';
+$route['mobile_side/login_process'] = 'mobile/App/login_process';
+$route['mobile_side/logout'] = 'mobile/App/logout';
+$route['mobile_side/beranda'] = 'mobile/App/home';
+$route['mobile_side/log_activity'] = 'mobile/App/log_activity';
+$route['mobile_side/cleaning_log'] = 'mobile/App/cleaning_log';
+$route['mobile_side/tentang_aplikasi'] = 'mobile/App/about';
+$route['mobile_side/bantuan'] = 'mobile/App/helper';
 
-$route['member_side/tambah_data_pengajuan_ktp'] = 'member/Master/tambah_data_ktp';
-$route['member_side/ajukan_cetak_ktp'] = 'member/Master/simpan_data_ktp';
-$route['member_side/riwayat_pengajuan_ktp'] = 'member/Report/riwayat_pengajuan_ktp';
-$route['member_side/perbarui_data_pengajuan_ktp'] = 'member/Report/perbarui_data_pengajuan_ktp';
-$route['member_side/hapus_data_pengajuan_ktp/(:any)'] = 'member/Report/hapus_data_pengajuan_ktp/$1';
+$route['mobile_side/tambah_data_pengajuan_ktp'] = 'mobile/Master/tambah_data_ktp';
+$route['mobile_side/ajukan_cetak_ktp'] = 'mobile/Master/simpan_data_ktp';
+$route['mobile_side/riwayat_pengajuan_ktp'] = 'mobile/Report/riwayat_pengajuan_ktp';
+$route['mobile_side/perbarui_data_pengajuan_ktp'] = 'mobile/Report/perbarui_data_pengajuan_ktp';
+$route['mobile_side/hapus_data_pengajuan_ktp/(:any)'] = 'mobile/Report/hapus_data_pengajuan_ktp/$1';
 
-$route['member_side/riwayat_pengajuan_kk'] = 'member/Report/riwayat_pengajuan_kk';
-$route['member_side/tambah_data_pengajuan_kk'] = 'member/Master/tambah_data_kk';
-$route['member_side/ajukan_permohonan_kk'] = 'member/Master/simpan_data_kk';
-$route['member_side/detil_data_pengajuan_kk/(:any)'] = 'member/Report/detil_data_pengajuan_kk/$1';
-$route['member_side/hapus_data_pengajuan_kk/(:any)'] = 'member/Report/hapus_data_pengajuan_kk/$1';
+$route['mobile_side/riwayat_pengajuan_kk'] = 'mobile/Report/riwayat_pengajuan_kk';
+$route['mobile_side/tambah_data_pengajuan_kk'] = 'mobile/Master/tambah_data_kk';
+$route['mobile_side/ajukan_permohonan_kk'] = 'mobile/Master/simpan_data_kk';
+$route['mobile_side/detil_data_pengajuan_kk/(:any)'] = 'mobile/Report/detil_data_pengajuan_kk/$1';
+$route['mobile_side/hapus_data_pengajuan_kk/(:any)'] = 'mobile/Report/hapus_data_pengajuan_kk/$1';
 
 /* REST API */
 $route['api'] = 'Rest_server/documentation';

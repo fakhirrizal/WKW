@@ -18,7 +18,7 @@
 		<link href="https://sitri.online/assets/layouts/layout3/css/layout.min.css" rel="stylesheet" type="text/css" />
 		<link href="https://sitri.online/assets/layouts/layout3/css/themes/default.min.css" rel="stylesheet" type="text/css" id="style_color" />
 		<link href="https://sitri.online/assets/layouts/layout3/css/custom.min.css" rel="stylesheet" type="text/css" />
-		<link href="http://dispendukcapil.batangkab.go.id:80/pelayanan/assets/img/logo_prov_mail.png" rel="icon" type="image/x-icon">
+		<link href="http://dispendukcapil.batangkab.go.id/pelayanan/assets/img/kab/3325.png" rel="icon" type="image/x-icon">
 	</head>
 
 		<body class="page-container-bg-solid page-md">
@@ -1855,7 +1855,7 @@
 			</div>
 		</div>
 		<div class="page-footer">
-			<div class="container">2019 © Dispermasdesdukcapil Prov. Jateng.
+			<div class="container">2019 © Warta Kalipucang Wetan.
 			</div>
 		</div>
 		<div class="scroll-to-top">

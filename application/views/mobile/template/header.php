@@ -1,7 +1,7 @@
 <?php
 if(($this->session->userdata('id'))==NULL OR ($this->session->userdata('role_id'))!='2'){
             echo "<script>alert('Harap login terlebih dahulu')</script>";
-            echo "<script>window.location='".base_url('Auth/logout')."'</script>";
+            echo "<script>window.location='".base_url('mobile_side/logout')."'</script>";
         }
 else{
 ?>
@@ -9,11 +9,11 @@ else{
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<title>Dispermasdesdukcapil Prov. Jateng</title>
+		<title>Warta Kalipucang Wetan</title>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta content="width=device-width, initial-scale=1" name="viewport" />
-		<meta content="Dispermasdesdukcapil Prov. Jateng" name="description" />
-		<meta content="Dispermasdesdukcapil Prov. Jateng" name="author" />
+		<meta content="Warta Kalipucang Wetan" name="description" />
+		<meta content="Warta Kalipucang Wetan" name="author" />
 		<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
 		<link href="<?=base_url('assets/global/plugins/font-awesome/css/font-awesome.min.css');?>" rel="stylesheet" type="text/css" />
 		<link href="<?=base_url('assets/global/plugins/simple-line-icons/simple-line-icons.min.css');?>" rel="stylesheet" type="text/css" />
@@ -33,14 +33,14 @@ else{
 		<link href="<?=base_url('assets/layouts/layout3/css/layout.min.css');?>" rel="stylesheet" type="text/css" />
 		<link href="<?=base_url('assets/layouts/layout3/css/themes/default.min.css');?>" rel="stylesheet" type="text/css" id="style_color" />
 		<link href="<?=base_url('assets/layouts/layout3/css/custom.min.css');?>" rel="stylesheet" type="text/css" />
-		<link href="http://dispendukcapil.batangkab.go.id:80/pelayanan/assets/img/logo_prov_mail.png" rel="icon" type="image/x-icon">
+		<link href="http://dispendukcapil.batangkab.go.id/pelayanan/assets/img/kab/3325.png" rel="icon" type="image/x-icon">
 	</head>
 	<body class="page-container-bg-solid page-md">
 		<div class="page-header">
 			<div class="page-header-top">
 				<div class="container">
 					<div id="logo" class="pull-left">
-						<h3><img src="http://dispendukcapil.batangkab.go.id/pelayanan/assets/img/kab/3325.png" width='6%'>           Dispermasdesdukcapil Prov. Jateng</h4>
+						<h3><img src="http://dispendukcapil.batangkab.go.id/pelayanan/assets/img/kab/3325.png" width='6%'>           Warta Kalipucang Wetan</h4>
 					</div>
 					<a href="javascript:;" class="menu-toggler"></a>
 					<div class="top-menu">
