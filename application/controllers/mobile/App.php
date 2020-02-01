@@ -92,23 +92,26 @@ class App extends CI_Controller {
 	}
     public function home()
 	{
-		$data['parent'] = 'home';
-		$data['child'] = '';
-		$data['grand_child'] = '';
-		// $q = "SELECT a.* FROM user a WHERE a.role='radiografer' AND a.deleted='0'";
-		// $data['radiografer'] = $this->Main_model->manualQuery($q);
-		// $q2 = "SELECT a.* FROM job a WHERE a.deleted='0'";
-		// $data['do_kegiatan'] = $this->Main_model->manualQuery($q2);
-		// $q3 = "SELECT a.* FROM job_type a WHERE a.deleted='0'";
-		// $data['jenis_kegiatan'] = $this->Main_model->manualQuery($q3);
-		// $q4 = "SELECT a.* FROM category a WHERE a.deleted='0'";
-		// $data['jenis_pemeriksaan'] = $this->Main_model->manualQuery($q4);
-		// $q5 = "SELECT a.id,b.job_name,c.fullname,d.name,a.created_at FROM monitoring a LEFT JOIN job b ON a.job_id=b.id LEFT JOIN user_profile c ON a.user_id=c.user_id LEFT JOIN patient d ON a.patient_id=d.id WHERE a.deleted='0' ORDER BY `a`.`created_at` DESC";
-		// $data['laporan'] = $this->Main_model->manualQuery($q5);
-		// $q6 = "SELECT a.* FROM job_type a WHERE a.deleted='0'";
-		// $data['data_jenis'] = $this->Main_model->manualQuery($q6);
-		$this->load->view('mobile/template/header',$data);
-		$this->load->view('mobile/app/home',$data);
+		$this->load->view('mobile/template/header');
+		$this->load->view('mobile/app/home');
+		$this->load->view('mobile/template/footer');
+	}
+	public function administration()
+	{
+		$this->load->view('mobile/template/header');
+		$this->load->view('mobile/app/administration');
+		$this->load->view('mobile/template/footer');
+	}
+	public function economy()
+	{
+		$this->load->view('mobile/template/header');
+		$this->load->view('mobile/app/economy');
+		$this->load->view('mobile/template/footer');
+	}
+	public function population()
+	{
+		$this->load->view('mobile/template/header');
+		$this->load->view('mobile/app/population');
 		$this->load->view('mobile/template/footer');
 	}
 	public function log_activity()
@@ -169,6 +172,17 @@ class App extends CI_Controller {
 				'pos' => 'LEFT'
 			))->result();
 			$this->load->view('mobile/app/ajax_detail_log_aktifitas',$data);
+		}
+	}
+	public function ajax_page(){
+		if($this->input->post('modul')=='beranda'){
+			$this->load->view('mobile/app/ajax_page/beranda');
+		}elseif($this->input->post('modul')=='administrasi'){
+			$this->load->view('mobile/app/ajax_page/administrasi');
+		}elseif($this->input->post('modul')=='ekonomi'){
+			$this->load->view('mobile/app/ajax_page/ekonomi');
+		}elseif($this->input->post('modul')=='kependudukan'){
+			$this->load->view('mobile/app/ajax_page/kependudukan');
 		}
 	}
 }
