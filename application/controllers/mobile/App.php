@@ -23,7 +23,12 @@ class App extends CI_Controller {
 	}
 	public function login()
 	{
-		$this->load->view('mobile/app/login');
+		
+		if(($this->session->userdata('id'))==NULL){
+			$this->load->view('mobile/app/login');
+		}else{
+			redirect('mobile_side/beranda');
+		}
 	}
 	public function login_process(){
 		$cek = $this->Main_model->getSelectedData('user a', '*', array("a.username" => $this->input->post('username'), "a.is_active" => '1', 'a.deleted' => '0'), 'a.username ASC')->result();
@@ -60,6 +65,7 @@ class App extends CI_Controller {
 							$sess_data['role_id'] = $value2->role_id;
 							$sess_data['fullname'] = $value->fullname;
 							$sess_data['photo'] = $value->photo;
+							$sess_data['from'] = 'mobile';
 							$sess_data['location'] = $this->input->post('location');
 							$this->session->set_userdata($sess_data);
 							redirect('mobile_side/beranda');
@@ -176,7 +182,9 @@ class App extends CI_Controller {
 	}
 	public function ajax_page(){
 		if($this->input->post('modul')=='beranda'){
-			$this->load->view('mobile/app/ajax_page/beranda');
+			$data['berita'] = $this->Main_model->getSelectedData('berita a', 'a.*', '', "a.created_at DESC",'2')->result();
+			$data['potensi_desa'] = $this->Main_model->getSelectedData('potensi_desa a', 'a.*', '', "a.created_at DESC",'1')->result();
+			$this->load->view('mobile/app/ajax_page/beranda',$data);
 		}elseif($this->input->post('modul')=='administrasi'){
 			$this->load->view('mobile/app/ajax_page/administrasi');
 		}elseif($this->input->post('modul')=='ekonomi'){

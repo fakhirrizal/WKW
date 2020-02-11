@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 26 Jan 2020 pada 09.32
+-- Generation Time: 11 Feb 2020 pada 10.25
 -- Versi Server: 10.1.19-MariaDB
 -- PHP Version: 5.6.28
 
@@ -65,8 +65,17 @@ CREATE TABLE `berita` (
   `id_berita` int(9) NOT NULL,
   `judul` text NOT NULL,
   `foto` text NOT NULL,
-  `isi` text NOT NULL
+  `isi` text NOT NULL,
+  `created_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `berita`
+--
+
+INSERT INTO `berita` (`id_berita`, `judul`, `foto`, `isi`, `created_at`) VALUES
+(0, 'Kue Penyu Cap Go Meh Perlambang Panjang Usia', '1.jpg', 'Kue berbentuk penyu jadi penganan khas saat Cap Go Meh di Buleleng, Bali. Penyu dipilih sebagai hewan yang panjang usia. Warga keturunan Tionghoa berharap kue penyu dapat berdampak terhadap kehidupan.', '2020-02-10 00:00:00'),
+(1, 'Perajin Arak, Tuak, dan Brem di Seluruh Bali Akan Didata', '2.jpg', 'Kepala Dinas Perindustrian dan Perdagangan Bali Wayan Jarta mengatakan, pihaknya akan mendata para perajin tuak, arak, dan brem yang ada di Bali. Sebab, sebelum dilegalkannya minuman fermentasi khas Bali, para perajian yang termasuk skala kecil memproduksi arak secara sembunyi-sembunyi. Hingga saat ini, Dinas Perindustrian dan Perdagangan Bali belum memiliki data pasti berapa jumlah perajin minuman keras khas Bali tersebut.', '2020-02-02 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -117,6 +126,23 @@ CREATE TABLE `masyarakat` (
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `migrations`
+--
+
+CREATE TABLE `migrations` (
+  `version` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data untuk tabel `migrations`
+--
+
+INSERT INTO `migrations` (`version`) VALUES
+(0);
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `pengaduan`
 --
 
@@ -149,6 +175,27 @@ CREATE TABLE `permohonan_informasi` (
   `file_ktp` text NOT NULL,
   `file_badan_hukum` text
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `potensi_desa`
+--
+
+CREATE TABLE `potensi_desa` (
+  `id_potensi_desa` int(9) NOT NULL,
+  `judul` text NOT NULL,
+  `foto` text NOT NULL,
+  `isi` text NOT NULL,
+  `created_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `potensi_desa`
+--
+
+INSERT INTO `potensi_desa` (`id_potensi_desa`, `judul`, `foto`, `isi`, `created_at`) VALUES
+(0, 'Batik Rifaiyah', '1.jpg', 'Mengenal Batik Rifaiyah Khas Batang, Keunikan Motif hingga Proses Membatik yang Kaya Makna Spiritual', '2020-02-02 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -215,8 +262,9 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `pass`, `fullname`, `photo`, `total_login`, `last_login`, `last_activity`, `login_attempts`, `last_login_attempt`, `remember_time`, `remember_exp`, `ip_address`, `is_active`, `verification_token`, `recovery_token`, `unlock_token`, `created_by`, `created_at`, `updated_by`, `updated_at`, `deleted_by`, `deleted_at`, `deleted`) VALUES
-(0, 'admin', '1', '', NULL, 7, '2019-12-09 11:08:32', '2019-12-09 11:08:32', 7, '2019-12-09 11:08:32', NULL, NULL, '::1', 1, NULL, NULL, NULL, 0, '2019-12-07 22:15:17', NULL, NULL, NULL, NULL, 0),
-(1, 'adm', '1', '', NULL, 0, '2019-12-10 00:00:00', '2019-12-03 00:00:00', 0, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, 0, '2019-12-08 23:32:46', NULL, NULL, NULL, NULL, 0);
+(0, 'admin', '1', 'Administrator', NULL, 9, '2020-02-10 19:05:56', '2020-02-10 19:05:56', 9, '2020-02-10 19:05:56', NULL, NULL, '::1', 1, NULL, NULL, NULL, 0, '2019-12-07 22:15:17', NULL, NULL, NULL, NULL, 0),
+(1, 'adm', '1', 'Administrator', NULL, 7, '2020-02-10 06:31:54', '2020-02-10 06:31:54', 7, '2020-02-10 06:31:54', NULL, NULL, '::1', 1, NULL, NULL, NULL, 0, '2019-12-08 23:32:46', NULL, NULL, NULL, NULL, 0),
+(2, 'warga', '1', 'Sugiyono', NULL, 7, '2020-02-11 16:08:12', '2020-02-11 16:08:12', 7, '2020-02-11 16:08:12', NULL, NULL, '::1', 1, NULL, NULL, NULL, 0, '2020-01-27 20:01:22', NULL, NULL, NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -226,7 +274,7 @@ INSERT INTO `user` (`id`, `username`, `pass`, `fullname`, `photo`, `total_login`
 
 CREATE TABLE `user_role` (
   `id` int(11) UNSIGNED NOT NULL,
-  `company_id` int(9) NOT NULL,
+  `company_id` int(9) DEFAULT NULL,
   `name` varchar(100) NOT NULL,
   `definition` varchar(255) NOT NULL,
   `description` varchar(255) DEFAULT NULL,
@@ -245,9 +293,9 @@ CREATE TABLE `user_role` (
 --
 
 INSERT INTO `user_role` (`id`, `company_id`, `name`, `definition`, `description`, `route`, `created_by`, `created_at`, `updated_by`, `updated_at`, `deleted_by`, `deleted_at`, `deleted`) VALUES
-(0, 0, 'Super Admin', 'Super Administrator', NULL, 'admin_side/beranda', 0, '2018-10-27 17:52:08', NULL, NULL, NULL, NULL, 0),
-(1, 0, 'Admin', 'Administrator (Owner)', 'Admin Kelurahan', 'admin_side/beranda', 0, '2017-03-06 01:19:26', 2, '2018-10-27 18:55:37', NULL, NULL, 0),
-(2, 0, 'Pemohon', 'Masyarakat', NULL, 'member_side/beranda', 0, '2017-03-06 01:19:26', NULL, NULL, NULL, NULL, 0);
+(0, NULL, 'Super Admin', 'Super Administrator', NULL, 'admin_side/beranda', 0, '2018-10-27 17:52:08', NULL, NULL, NULL, NULL, 0),
+(1, NULL, 'Admin', 'Administrator (Owner)', 'Admin Kelurahan', 'admin_side/beranda', 0, '2017-03-06 01:19:26', 2, '2018-10-27 18:55:37', NULL, NULL, 0),
+(2, NULL, 'Pemohon', 'Masyarakat', NULL, 'member_side/beranda', 0, '2017-03-06 01:19:26', NULL, NULL, NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -266,7 +314,8 @@ CREATE TABLE `user_to_role` (
 
 INSERT INTO `user_to_role` (`user_id`, `role_id`) VALUES
 (0, 0),
-(1, 1);
+(1, 1),
+(2, 2);
 
 --
 -- Indexes for dumped tables
@@ -320,6 +369,12 @@ ALTER TABLE `permohonan_informasi`
   ADD KEY `user_id` (`user_id`);
 
 --
+-- Indexes for table `potensi_desa`
+--
+ALTER TABLE `potensi_desa`
+  ADD PRIMARY KEY (`id_potensi_desa`);
+
+--
 -- Indexes for table `ppid`
 --
 ALTER TABLE `ppid`
@@ -368,7 +423,7 @@ ALTER TABLE `apbdes`
 -- AUTO_INCREMENT for table `berita`
 --
 ALTER TABLE `berita`
-  MODIFY `id_berita` int(9) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_berita` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `data_kependudukan`
 --
@@ -395,6 +450,11 @@ ALTER TABLE `pengaduan`
 ALTER TABLE `permohonan_informasi`
   MODIFY `id_permohonan_informasi` int(9) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT for table `potensi_desa`
+--
+ALTER TABLE `potensi_desa`
+  MODIFY `id_potensi_desa` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
 -- AUTO_INCREMENT for table `ppid`
 --
 ALTER TABLE `ppid`
@@ -408,12 +468,12 @@ ALTER TABLE `rencana_apbdes`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(9) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(9) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `user_role`
 --
 ALTER TABLE `user_role`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

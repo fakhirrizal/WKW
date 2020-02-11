@@ -8,18 +8,32 @@ class Auth extends CI_Controller {
 		if(($this->session->userdata('id'))==NULL){
 			$this->load->view('auth/login');
 		}else{
-			$cek = $this->Main_model->getSelectedData('user_to_role a', 'b.route', array('a.user_id'=>$this->session->userdata('id'),'b.deleted'=>'0'), "",'','','',array(
-				'table' => 'user_role b',
-				'on' => 'a.role_id=b.id',
-				'pos' => 'LEFT'
-			))->result();
-			if($cek!=NULL){
-				foreach ($cek as $key => $value) {
-					redirect($value->route);
+			if($this->session->userdata('from')=='mobile'){
+				redirect('mobile_side/beranda');
+			}else{
+				$cek = $this->Main_model->getSelectedData('user_to_role a', 'a.role_id,b.route', array('a.user_id'=>$this->session->userdata('id'),'b.deleted'=>'0'), "",'','','',array(
+					'table' => 'user_role b',
+					'on' => 'a.role_id=b.id',
+					'pos' => 'LEFT'
+				))->result();
+				if($cek!=NULL){
+					foreach ($cek as $key => $value) {
+						if($value->role_id=='0' OR $value->role_id=='1'){
+							redirect($value->route);
+						}
+						else{
+							$this->session->sess_destroy();
+							$this->session->set_flashdata('error','<div class="alert alert-danger alert-dismissible" role="alert" style="text-align: justify;">
+														<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+														<strong>Ups! </strong>Akun Anda tidak dikenali sistem.
+													</div>' );
+							echo "<script>window.location='".base_url('login')."'</script>";
+						}
+					}
 				}
-			}
-			else{
-				$this->load->view('auth/login');
+				else{
+					$this->load->view('auth/login');
+				}
 			}
 		}
 	}
@@ -54,11 +68,20 @@ class Auth extends CI_Controller {
 						echo "<script>window.location='".base_url('login')."'</script>";
 					}else{
 						foreach ($role as $key => $value2) {
-							$sess_data['id'] = $value2->user_id;
-							$sess_data['role_id'] = $value2->role_id;
-							$sess_data['location'] = $this->input->post('location');
-							$this->session->set_userdata($sess_data);
-							redirect($value2->route);
+							if($value2->role_id=='0' OR $value2->role_id=='1'){
+								$sess_data['id'] = $value2->user_id;
+								$sess_data['role_id'] = $value2->role_id;
+								$sess_data['location'] = $this->input->post('location');
+								$this->session->set_userdata($sess_data);
+								redirect($value2->route);
+							}
+							else{
+								$this->session->set_flashdata('error','<div class="alert alert-danger alert-dismissible" role="alert" style="text-align: justify;">
+															<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+															<strong>Ups! </strong>Akun Anda tidak dikenali sistem.
+														</div>' );
+								echo "<script>window.location='".base_url('login')."'</script>";
+							}
 						}
 					}
 				}

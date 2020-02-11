@@ -1,9 +1,15 @@
 <?php
-if(($this->session->userdata('id'))==NULL OR ($this->session->userdata('role_id'))!='0'){
-            echo "<script>alert('Harap login terlebih dahulu')</script>";
-            echo "<script>window.location='".base_url('Auth/logout')."'</script>";
-        }
-else{
+if(($this->session->userdata('id'))==NULL){
+	echo "<script>alert('Harap login terlebih dahulu')</script>";
+	echo "<script>window.location='".base_url('Auth/logout')."'</script>";
+}else{
+	if($this->session->userdata('role_id')=='0' OR $this->session->userdata('role_id')=='1'){
+		echo'';
+	}else{
+		echo "<script>alert('Harap login terlebih dahulu')</script>";
+		echo "<script>window.location='".base_url('Auth/logout')."'</script>";
+	}
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,30 +22,30 @@ else{
 		<meta content="Warta Kalipucang Wetan" name="author" />
 		<!-- BEGIN GLOBAL MANDATORY STYLES -->
 		<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
-		<link href="<?=base_url('assets/global/plugins/font-awesome/css/font-awesome.min.css');?>" rel="stylesheet" type="text/css" />
-		<link href="<?=base_url('assets/global/plugins/simple-line-icons/simple-line-icons.min.css');?>" rel="stylesheet" type="text/css" />
-		<link href="<?=base_url('assets/global/plugins/bootstrap/css/bootstrap.min.css');?>" rel="stylesheet" type="text/css" />
-		<link href="<?=base_url('assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css');?>" rel="stylesheet" type="text/css" />
+		<link href="<?=base_url('assets_dashboard/global/plugins/font-awesome/css/font-awesome.min.css');?>" rel="stylesheet" type="text/css" />
+		<link href="<?=base_url('assets_dashboard/global/plugins/simple-line-icons/simple-line-icons.min.css');?>" rel="stylesheet" type="text/css" />
+		<link href="<?=base_url('assets_dashboard/global/plugins/bootstrap/css/bootstrap.min.css');?>" rel="stylesheet" type="text/css" />
+		<link href="<?=base_url('assets_dashboard/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css');?>" rel="stylesheet" type="text/css" />
 		<!-- END GLOBAL MANDATORY STYLES -->
 		<!-- BEGIN THEME GLOBAL STYLES -->
-		<link href="<?=base_url('assets/global/plugins/datatables/datatables.min.css');?>" rel="stylesheet" type="text/css" />
-		<link href="<?=base_url('assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css');?>" rel="stylesheet" type="text/css" />
-		<link href="<?=base_url('assets/global/plugins/select2/css/select2.min.css');?>" rel="stylesheet" type="text/css" />
-		<link href="<?=base_url('assets/global/plugins/select2/css/select2-bootstrap.min.css');?>" rel="stylesheet" type="text/css" />
-		<link href="<?=base_url('assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css');?>" rel="stylesheet" type="text/css" />
-		<link href="<?=base_url('assets/global/plugins/cubeportfolio/css/cubeportfolio.css');?>" rel="stylesheet" type="text/css" />
-		<link href="<?=base_url('assets/global/plugins/ladda/ladda-themeless.min.css');?>" rel="stylesheet" type="text/css" />
-		<link href="<?=base_url('assets/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.css');?>" rel="stylesheet" type="text/css" />
-		<link href="<?=base_url('assets/global/css/components-md.min.css');?>" rel="stylesheet" id="style_components" type="text/css" />
-		<link href="<?=base_url('assets/global/css/plugins-md.min.css');?>" rel="stylesheet" type="text/css" />
-		<link href="<?=base_url('assets/pages/css/blog.min.css');?>" rel="stylesheet" type="text/css" />
+		<link href="<?=base_url('assets_dashboard/global/plugins/datatables/datatables.min.css');?>" rel="stylesheet" type="text/css" />
+		<link href="<?=base_url('assets_dashboard/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css');?>" rel="stylesheet" type="text/css" />
+		<link href="<?=base_url('assets_dashboard/global/plugins/select2/css/select2.min.css');?>" rel="stylesheet" type="text/css" />
+		<link href="<?=base_url('assets_dashboard/global/plugins/select2/css/select2-bootstrap.min.css');?>" rel="stylesheet" type="text/css" />
+		<link href="<?=base_url('assets_dashboard/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css');?>" rel="stylesheet" type="text/css" />
+		<link href="<?=base_url('assets_dashboard/global/plugins/cubeportfolio/css/cubeportfolio.css');?>" rel="stylesheet" type="text/css" />
+		<link href="<?=base_url('assets_dashboard/global/plugins/ladda/ladda-themeless.min.css');?>" rel="stylesheet" type="text/css" />
+		<link href="<?=base_url('assets_dashboard/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.css');?>" rel="stylesheet" type="text/css" />
+		<link href="<?=base_url('assets_dashboard/global/css/components-md.min.css');?>" rel="stylesheet" id="style_components" type="text/css" />
+		<link href="<?=base_url('assets_dashboard/global/css/plugins-md.min.css');?>" rel="stylesheet" type="text/css" />
+		<link href="<?=base_url('assets_dashboard/pages/css/blog.min.css');?>" rel="stylesheet" type="text/css" />
 		<!-- END THEME GLOBAL STYLES -->
 		<!-- BEGIN THEME LAYOUT STYLES -->
-		<link href="<?=base_url('assets/layouts/layout3/css/layout.min.css');?>" rel="stylesheet" type="text/css" />
-		<link href="<?=base_url('assets/layouts/layout3/css/themes/default.min.css');?>" rel="stylesheet" type="text/css" id="style_color" />
-		<link href="<?=base_url('assets/layouts/layout3/css/custom.min.css');?>" rel="stylesheet" type="text/css" />
+		<link href="<?=base_url('assets_dashboard/layouts/layout3/css/layout.min.css');?>" rel="stylesheet" type="text/css" />
+		<link href="<?=base_url('assets_dashboard/layouts/layout3/css/themes/default.min.css');?>" rel="stylesheet" type="text/css" id="style_color" />
+		<link href="<?=base_url('assets_dashboard/layouts/layout3/css/custom.min.css');?>" rel="stylesheet" type="text/css" />
 		<!-- END THEME LAYOUT STYLES -->
-		<link href="http://dispendukcapil.batangkab.go.id/pelayanan/assets/img/kab/3325.png" rel="icon" type="image/x-icon">
+		<link href="<?=base_url('assets_dashboard/batang.png');?>" rel="icon" type="image/x-icon">
 	</head>
 
 		<body class="page-container-bg-solid page-md">
@@ -47,7 +53,7 @@ else{
 			<div class="page-header-top">
 				<div class="container">
 					<div id="logo" class="pull-left">
-						<h3><img src="http://dispendukcapil.batangkab.go.id/pelayanan/assets/img/kab/3325.png" width='6%'>           Warta Kalipucang Wetan</h4>
+						<h3><img src="<?=base_url('assets_dashboard/batang.png');?>" width='6%'>           Warta Kalipucang Wetan</h4>
 					</div>
 					<a href="javascript:;" class="menu-toggler"></a>
 					<div class="top-menu">
@@ -103,14 +109,19 @@ else{
 									<span class="arrow <?php if($parent=='master'){echo 'open';}else{echo '';} ?>"></span>
 								</a>
 								<ul class="dropdown-menu pull-left">
-									<li class=" <?php if($child=='administrator'){echo 'active';}else{echo '';} ?>">
-										<a href="<?php echo site_url('admin_side/administrator'); ?>" class="nav-link nav-toggle ">
-											<i class="icon-user-following"></i> Data Admin
+									<li class=" <?php if($child=='pengguna'){echo 'active';}else{echo '';} ?>">
+										<a href="<?php echo site_url('admin_side/data_anggota'); ?>" class="nav-link nav-toggle ">
+											<i class="icon-pin"></i> Data Pengguna
 										</a>
 									</li>
-									<li class=" <?php if($child=='member'){echo 'active';}else{echo '';} ?>">
-										<a href="<?php echo site_url('admin_side/data_anggota'); ?>" class="nav-link nav-toggle ">
-											<i class="icon-users"></i> Data Pengguna
+									<li class=" <?php if($child=='berita'){echo 'active';}else{echo '';} ?>">
+										<a href="<?php echo site_url('admin_side/berita'); ?>" class="nav-link nav-toggle ">
+											<i class="icon-pin"></i> Berita
+										</a>
+									</li>
+									<li class=" <?php if($child=='potensi_desa'){echo 'active';}else{echo '';} ?>">
+										<a href="<?php echo site_url('admin_side/potensi_desa'); ?>" class="nav-link nav-toggle ">
+											<i class="icon-pin"></i> Potensi Desa
 										</a>
 									</li>
 									<!-- <li class="dropdown-submenu <?php if($child=='antrean'){echo 'active';}else{echo '';} ?>">
@@ -129,19 +140,44 @@ else{
 									</li> -->
 								</ul>
 							</li>
-							<li class="menu-dropdown classic-menu-dropdown <?php if($parent=='rekap_data'){echo 'active';}else{echo '';} ?>">
-								<a href="javascript:;"><i class="icon-layers"></i> Rekap Data
-									<span class="arrow <?php if($parent=='rekap_data'){echo 'open';}else{echo '';} ?>"></span>
+							<li class="menu-dropdown classic-menu-dropdown <?php if($parent=='laporan_masyarakat'){echo 'active';}else{echo '';} ?>">
+								<a href="javascript:;"><i class="icon-layers"></i> Laporan Masyarakat
+									<span class="arrow <?php if($parent=='laporan_masyarakat'){echo 'open';}else{echo '';} ?>"></span>
 								</a>
 								<ul class="dropdown-menu pull-left">
-									<li class=" <?php if($child=='data_kk'){echo 'active';}else{echo '';} ?>">
-										<a href="<?php echo site_url('admin_side/data_kk'); ?>" class="nav-link nav-toggle ">
-											<i class="icon-layers"></i> Data KK
+									<li class=" <?php if($child=='permohonan_ktp'){echo 'active';}else{echo '';} ?>">
+										<a href="<?php echo site_url('admin_side/permohonan_ktp'); ?>" class="nav-link nav-toggle ">
+											<i class="icon-pin"></i> Permohonan KTP
 										</a>
 									</li>
-									<li class=" <?php if($child=='data_ktp'){echo 'active';}else{echo '';} ?>">
-										<a href="<?php echo site_url('admin_side/data_ktp'); ?>" class="nav-link nav-toggle ">
-											<i class="icon-layers"></i> Data KTP
+									<li class=" <?php if($child=='permohonan_kk'){echo 'active';}else{echo '';} ?>">
+										<a href="<?php echo site_url('admin_side/permohonan_kk'); ?>" class="nav-link nav-toggle ">
+											<i class="icon-pin"></i> Permohonan KK
+											
+										</a>
+									</li>
+								</ul>
+							</li>
+							<li class="menu-dropdown classic-menu-dropdown <?php if($parent=='tentang_desa'){echo 'active';}else{echo '';} ?>">
+								<a href="javascript:;"><i class="icon-map"></i> Tentang Desa
+									<span class="arrow <?php if($parent=='tentang_desa'){echo 'open';}else{echo '';} ?>"></span>
+								</a>
+								<ul class="dropdown-menu pull-left">
+									<li class=" <?php if($child=='apbdesa'){echo 'active';}else{echo '';} ?>">
+										<a href="<?php echo site_url('admin_side/apbdesa'); ?>" class="nav-link nav-toggle ">
+											<i class="icon-pin"></i> APBDESA
+										</a>
+									</li>
+									<li class=" <?php if($child=='data_kependudukan'){echo 'active';}else{echo '';} ?>">
+										<a href="<?php echo site_url('admin_side/data_kependudukan'); ?>" class="nav-link nav-toggle ">
+											<i class="icon-pin"></i> Data Kependudukan
+											
+										</a>
+									</li>
+									<li class=" <?php if($child=='ppid'){echo 'active';}else{echo '';} ?>">
+										<a href="<?php echo site_url('admin_side/ppid'); ?>" class="nav-link nav-toggle ">
+											<i class="icon-pin"></i> PPID
+											
 										</a>
 									</li>
 								</ul>
@@ -198,4 +234,4 @@ else{
 				<div class="page-content">
 					<div class="container">
 						<!-- BEGIN PAGE BREADCRUMBS -->
-<?php } ?>
+<?php // }} ?>

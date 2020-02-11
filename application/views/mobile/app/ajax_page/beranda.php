@@ -47,12 +47,15 @@
     <br>
     <h5 class="card-title">Warta</h5>
     <div class="row">
+      <?php
+      foreach ($berita as $key => $value) {
+      ?>
       <div class="col-6">
         <div class="card">
 
           <!-- Card image -->
           <div class="view view-cascade overlay">
-            <img  class="card-img-top" src="<?= base_url(); ?>/assets/img/other/adm.jpg" alt="Card image cap">
+            <img  class="card-img-top" src="<?= base_url(); ?>/data_upload/berita/<?= $value->foto; ?>" alt="<?= $value->judul; ?>">
             <a href="#!">
               <div class="mask rgba-white-slight"></div>
             </a>
@@ -61,33 +64,9 @@
           <div class="card-body">
 
             <!-- Title -->
-            <h6 class="card-title ">Judul Post</h6>
+            <h6 class="card-title "><?= $value->judul; ?></h6>
             <!-- Text -->
-            <p class="card-text fa-sm">Isi dari Sekumpulan Artikel</p>
-            <!-- Button -->
-            <a href="#" class="">Lihat</a>
-
-          </div>
-
-        </div>
-      </div>
-      <div class="col-6">
-        <div class="card">
-
-          <!-- Card image -->
-          <div class="view view-cascade overlay">
-            <img  class="card-img-top" src="<?= base_url(); ?>/assets/img/other/adm.jpg" alt="Card image cap">
-            <a href="#!">
-              <div class="mask rgba-white-slight"></div>
-            </a>
-          </div>
-          <!-- Card content -->
-          <div class="card-body">
-
-            <!-- Title -->
-            <h6 class="card-title ">Judul Post</h6>
-            <!-- Text -->
-            <p class="card-text fa-sm">Isi dari Sekumpulan Artikel</p>
+            <p class="card-text fa-sm"><?= $value->isi; ?></p>
             <!-- Button -->
             <a href="#" class="">Lihat</a>
 
@@ -98,14 +77,20 @@
           <span class="badge badge-default ">Lihat warta lainnya</span>
         </div>
       </div>
+      <?php
+      }
+      ?>
     </div>
     <br>
     <h5 class="card-title">Potensi Desa</h5>
+    <?php
+    foreach ($potensi_desa as $key => $value) {
+    ?>
     <div class="card">
 
       <!-- Card image -->
       <div class="view view-cascade overlay">
-        <img  class="card-img-top" src="<?= base_url(); ?>/assets/img/other/batik-rifaiyah.jpg" alt="Card image cap">
+        <img  class="card-img-top" src="<?= base_url(); ?>/data_upload/potensi_desa/<?= $value->foto; ?>" alt="<?= $value->judul; ?>">
         <a href="#!">
           <div class="mask rgba-white-slight"></div>
         </a>
@@ -114,14 +99,17 @@
       <div class="card-body">
 
         <!-- Title -->
-        <h6 class="card-title ">Batik Rifaiyah</h6>
+        <h6 class="card-title "><?= $value->judul; ?></h6>
         <!-- Text -->
-        <p class="card-text fa-sm">Mengenal Batik Rifaiyah Khas Batang, Keunikan Motif hingga Proses Membatik yang Kaya Makna Spiritual</p>
+        <p class="card-text fa-sm"><?= $value->isi; ?></p>
         <!-- Button -->
         <a href="#" class="">Lihat</a>
 
       </div>
     </div>
+    <?php
+    }
+    ?>
     <br>
     <h5 class="card-title">APBDES 2020</h5>
     <div class="col-12">

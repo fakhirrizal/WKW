@@ -111,6 +111,20 @@ $route['admin_side/data_kk'] = 'admin/Report/data_kk';
 $route['admin_side/perbarui_permohonan_kk'] = 'admin/Master/perbarui_permohonan_kk';
 $route['admin_side/data_ktp'] = 'admin/Report/data_ktp';
 
+$route['admin_side/berita'] = 'admin/Master/berita';
+$route['admin_side/tambah_berita'] = 'admin/Master/tambah_berita';
+$route['admin_side/simpan_berita'] = 'admin/Master/simpan_berita';
+$route['admin_side/detail_berita/(:any)'] = 'admin/Master/detail_berita/$1';
+$route['admin_side/perbarui_berita'] = 'admin/Master/perbarui_berita';
+$route['admin_side/hapus_berita/(:any)'] = 'admin/Master/hapus_berita/$1';
+
+$route['admin_side/potensi_desa'] = 'admin/Master/potensi_desa';
+$route['admin_side/tambah_potensi_desa'] = 'admin/Master/tambah_potensi_desa';
+$route['admin_side/simpan_potensi_desa'] = 'admin/Master/simpan_potensi_desa';
+$route['admin_side/detail_potensi_desa/(:any)'] = 'admin/Master/detail_potensi_desa/$1';
+$route['admin_side/perbarui_potensi_desa'] = 'admin/Master/perbarui_potensi_desa';
+$route['admin_side/hapus_potensi_desa/(:any)'] = 'admin/Master/hapus_potensi_desa/$1';
+
 /* Mobile */
 $route['mobile_side/login'] = 'mobile/App/login';
 $route['mobile_side/login_process'] = 'mobile/App/login_process';

@@ -1,209 +1,140 @@
 <!DOCTYPE html>
+<!-- 
+Template Name: Metronic - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.3.6
+Version: 4.5.6
+Author: KeenThemes
+Website: http://www.keenthemes.com/
+Contact: support@keenthemes.com
+Follow: www.twitter.com/keenthemes
+Dribbble: www.dribbble.com/keenthemes
+Like: www.facebook.com/keenthemes
+Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes
+Renew Support: http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes
+License: You must have a valid license purchased only from themeforest(the above link) in order to legally use the theme for your project.
+-->
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta name="description" content="Warta Kalipucang Wetan">
-		<meta name="author" content="Warta Kalipucang Wetan">
-		<title>Warta Kalipucang Wetan - Halaman Login</title>
-		<link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" rel="stylesheet">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-		<link href="http://dispendukcapil.batangkab.go.id/pelayanan/assets/img/kab/3325.png" rel="icon" type="image/png">
-		<style type="text/css">
-			body {
-				color: #434343;
-				background: #dfe7e9;
-				font-family: 'Varela Round', sans-serif;
-				/* background-image: url("http://pks.id/contentAsset/image/a94620bb-2c7d-4b1a-babb-feb66f90b674/fileAsset/filter/Resize/resize_w/1340/byInode/1"); */
-			}
-			.form-control {
-				font-size: 16px;
-				transition: all 0.4s;
-				box-shadow: none;
-			}
-			.form-control:focus {
-				border-color: #5cb85c;
-			}
-			.form-control, .btn {
-				border-radius: 50px;
-				outline: none !important;
-			}
-			.signin-form {
-				width: 400px;
-				margin: 0 auto;
-				padding: 30px 0;
-			}
-			.signin-form form {
-				border-radius: 5px;
-				margin-bottom: 20px;
-				background: #fff;
-				box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-				padding: 40px;
-			}
-			.signin-form a {
-				color: #5cb85c;
-			}
-			.signin-form h2 {
-				text-align: center;
-				font-size: 34px;
-				margin: 10px 0 15px;
-			}
-			.signin-form .hint-text {
-				color: #999;
-				text-align: center;
-				margin-bottom: 20px;
-			}
-			.signin-form .form-group {
-				margin-bottom: 20px;
-			}
-			.signin-form .btn {
-				font-size: 18px;
-				line-height: 26px;
-				font-weight: bold;
-				text-align: center;
-			}
-			.signin-form .small {
-				font-size: 13px;
-			}
-			.signup-btn {
-				text-align: center;
-				border-color: #5cb85c;
-				transition: all 0.4s;
-			}
-			.signup-btn:hover {
-				background: #5cb85c;
-				opacity: 0.8;
-			}
-			.or-seperator {
-				margin: 50px 0 15px;
-				text-align: center;
-				border-top: 1px solid #e0e0e0;
-			}
-			.or-seperator b {
-				padding: 0 10px;
-				width: 40px;
-				height: 40px;
-				font-size: 16px;
-				text-align: center;
-				line-height: 40px;
-				background: #fff;
-				display: inline-block;
-				border: 1px solid #e0e0e0;
-				border-radius: 50%;
-				position: relative;
-				top: -22px;
-				z-index: 1;
-			}
-			.social-btn .btn {
-				color: #fff;
-				margin: 10px 0 0 30px;
-				font-size: 15px;
-				width: 55px;
-				height: 55px;
-				line-height: 38px;
-				border-radius: 50%;
-				font-weight: normal;
-				text-align: center;
-				border: none;
-				transition: all 0.4s;
-			}
-			.social-btn .btn:first-child {
-				margin-left: 0;
-			}
-			.social-btn .btn:hover {
-				opacity: 0.8;
-			}
-			.social-btn .btn-primary {
-				background: #507cc0;
-			}
-			.social-btn .btn-info {
-				background: #64ccf1;
-			}
-			.social-btn .btn-danger {
-				background: #df4930;
-			}
-			.social-btn .btn i {
-				font-size: 20px;
-			}
-		</style>
-		<style>
-			.page-bg {
-				background-image: url("<?=base_url('assets/logo.JPG');?>");
-				-webkit-filter: blur(99px);
-				-moz-filter: blur(99px);
-				-o-filter: blur(99px);
-				-ms-filter: blur(99px);
-				filter: blur(99px);
-				position: fixed;
-				width: 100%;
-				height: 100%;
-				top: 0;
-				left: 0;
-				z-index: -1;
-			}    	
-		</style>
-		<!-- <style>
-			.signin-form {
-				background-image: url("http://pks.id/contentAsset/image/a94620bb-2c7d-4b1a-babb-feb66f90b674/fileAsset/filter/Resize/resize_w/1340/byInode/1");
-				-webkit-filter: blur(99px);
-				-moz-filter: blur(99px);
-				-o-filter: blur(99px);
-				-ms-filter: blur(99px);
-				filter: blur(99px);
-				position: fixed;
-				width: 100%;
-				height: 100%;
-				top: 0;
-				left: 0;
-				z-index: -1;
-			}
-		</style> -->
-	</head>
-	<body onload="getLocation()">
-	<div class="page-bg"></div>
-		<div class="signin-form">
-			<?= $this->session->flashdata('error') ?>
-			<form role="form" action="<?= site_url('login_process'); ?>" method='post'>
-				<p id="getLocation"></p>
-				<!-- <h2>Sign in</h2>
-				<p class="hint-text">Sign in with your social media account</p> -->
-				<div class="social-btn text-center">
-					<!-- <a href="#" class="btn btn-danger btn-lg" title="Google"><i class="fa fa-google"></i></a> -->
-					<img src="http://dispendukcapil.batangkab.go.id/pelayanan/assets/img/kab/3325.png" width='50%'>
-					<br><br><p><font size="5">Selamat Datang  !!!</font></p><hr>
-				</div>
-				<!-- <div class="or-seperator"><b></b></div> -->
-				<div class="form-group">
-					<input type="text" class="form-control input-lg" name="username" placeholder="Nama Pengguna" required="required">
-				</div>
-				<div class="form-group">
-					<input type="password" class="form-control input-lg" name="password" placeholder="Kata Sandi" required="required">
-				</div>
-				<div class="form-group">
-					<button type="submit" class="btn btn-info btn-lg btn-block signup-btn">Masuk</button>
-				</div>
-				<div class="text-center small"><a href="#">Lupa Kata Sandi?</a></div>
-				<div class="text-center"><hr>© Copyright 2020, All Right Reserved
-				<br>Created by Warta Kalipucang Wetan</div>
-			</form>
-			<div class="text-center small">Tidak punya akun? <a href="<?php echo site_url('registrasi'); ?>">Daftar disini!</a></div>
-			<script>
-				var view = document.getElementById("getLocation");
-				function getLocation() {
-					if (navigator.geolocation) {
-						navigator.geolocation.getCurrentPosition(showPosition);
-					} else {
-						view.innerHTML = "";
-					}
-				}
-				function showPosition(position) {
-					view.innerHTML = "<input type='hidden' name='location' value='" + position.coords.latitude + "," + position.coords.longitude +"' />";
-				}
-			</script>
-		</div>
-	</body>
+    <!--<![endif]-->
+    <!-- BEGIN HEAD -->
+
+    <head>
+        <meta charset="utf-8" />
+        <title>Sistem Informasi - Warta Kalipucang Wetan</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta content="width=device-width, initial-scale=1" name="viewport" />
+        <meta content="Warta Kalipucang Wetan" name="description" />
+        <meta content="Warta Kalipucang Wetan" name="author" />
+        <!-- BEGIN GLOBAL MANDATORY STYLES -->
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
+        <link href="<?=base_url('assets_dashboard/global/plugins/font-awesome/css/font-awesome.min.css');?>" rel="stylesheet" type="text/css" />
+        <link href="<?=base_url('assets_dashboard/global/plugins/simple-line-icons/simple-line-icons.min.css');?>" rel="stylesheet" type="text/css" />
+        <link href="<?=base_url('assets_dashboard/global/plugins/bootstrap/css/bootstrap.min.css');?>" rel="stylesheet" type="text/css" />
+        <link href="<?=base_url('assets_dashboard/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css');?>" rel="stylesheet" type="text/css" />
+        <!-- END GLOBAL MANDATORY STYLES -->
+        <!-- BEGIN PAGE LEVEL PLUGINS -->
+        <link href="<?=base_url('assets_dashboard/global/plugins/select2/css/select2.min.css');?>" rel="stylesheet" type="text/css" />
+        <link href="<?=base_url('assets_dashboard/global/plugins/select2/css/select2-bootstrap.min.css');?>" rel="stylesheet" type="text/css" />
+        <!-- END PAGE LEVEL PLUGINS -->
+        <!-- BEGIN THEME GLOBAL STYLES -->
+        <link href="<?=base_url('assets_dashboard/global/css/components-md.min.css');?>" rel="stylesheet" id="style_components" type="text/css" />
+        <link href="<?=base_url('assets_dashboard/global/css/plugins-md.min.css');?>" rel="stylesheet" type="text/css" />
+        <!-- END THEME GLOBAL STYLES -->
+        <!-- BEGIN PAGE LEVEL STYLES -->
+        <link href="<?=base_url('assets_dashboard/pages/css/login-2.css');?>" rel="stylesheet" type="text/css" />
+        <!-- END PAGE LEVEL STYLES -->
+        <!-- BEGIN THEME LAYOUT STYLES -->
+        <!-- END THEME LAYOUT STYLES -->
+        <link rel="shortcut icon" href="<?= site_url(); ?>assets_dashboard/icon.png" /> </head>
+    <!-- END HEAD -->
+
+    <body class=" login">
+        <!-- BEGIN LOGO -->
+        <div class="logo">
+            <a href="#">
+                <img src="<?=base_url('assets_dashboard/pages/img/wkw.png');?>" style="height: 60px;" alt="" /> </a>
+        </div>
+        <!-- END LOGO -->
+        <!-- BEGIN LOGIN -->
+        <div class="content">
+            <!-- BEGIN LOGIN FORM -->
+            <form class="login-form" action="<?= site_url('login_process'); ?>" method="post">
+                <?= $this->session->flashdata('error') ?>
+                <div class="form-title">
+                    <span class="form-title">Welcome.</span>
+                    <span class="form-subtitle">Please log in to use the system.</span>
+                </div>
+                <div class="alert alert-danger display-hide">
+                    <button class="close" data-close="alert"></button>
+                    <span> Masukkan Username dan Password. </span>
+
+                </div>
+                <div class="form-group">
+                    <label class="control-label visible-ie8 visible-ie9">Username</label>
+                    <input class="form-control form-control-solid placeholder-no-fix" type="text" autocomplete="off" placeholder="Username" name="username" /> </div>
+                <div class="form-group">
+                    <label class="control-label visible-ie8 visible-ie9">Password</label>
+                    <input class="form-control form-control-solid placeholder-no-fix" type="password" autocomplete="off" placeholder="Password" name="password" /> </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn red btn-block uppercase">Login</button>
+                </div>
+                <div class="form-actions">
+                    <div class="pull-left">
+                        <label class="rememberme mt-checkbox mt-checkbox-outline">
+                            <input type="checkbox" name="remember" value="1" /> Remember me
+                            <span></span>
+                        </label>
+                    </div>
+                    <div class="pull-right forget-password-block">
+                        <a href="javascript:;" id="forget-password" class="forget-password">Forgot Password?</a>
+                    </div>
+                </div>
+            </form>
+            <!-- END LOGIN FORM -->
+            <!-- BEGIN FORGOT PASSWORD FORM -->
+            <form class="forget-form" action="#" method="post">
+                <div class="form-title">
+                    <span class="form-title">Forget Password ?</span>
+                    <span class="form-subtitle">Enter your e-mail to reset it.</span>
+                </div>
+                <div class="form-group">
+                    <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Email" name="email" /> </div>
+                <div class="form-actions">
+                    <button type="button" id="back-btn" class="btn btn-default">Back</button>
+                    <button type="submit" class="btn btn-primary uppercase pull-right">Submit</button>
+                </div>
+            </form>
+            <!-- END FORGOT PASSWORD FORM -->
+        </div>
+        <div class="copyright"> 2019 © Warta Kalipucang Wetan - Batang. </div>
+        <!-- END LOGIN -->
+        <!--[if lt IE 9]>
+<script src="../assets_dashboard/global/plugins/respond.min.js"></script>
+<script src="../assets_dashboard/global/plugins/excanvas.min.js"></script> 
+<![endif]-->
+        <!-- BEGIN CORE PLUGINS -->
+        <script src="<?=base_url('assets_dashboard/global/plugins/jquery.min.js');?>" type="text/javascript"></script>
+        <script src="<?=base_url('assets_dashboard/global/plugins/bootstrap/js/bootstrap.min.js');?>" type="text/javascript"></script>
+        <script src="<?=base_url('assets_dashboard/global/plugins/js.cookie.min.js');?>" type="text/javascript"></script>
+        <script src="<?=base_url('assets_dashboard/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js');?>" type="text/javascript"></script>
+        <script src="<?=base_url('assets_dashboard/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js');?>" type="text/javascript"></script>
+        <script src="<?=base_url('assets_dashboard/global/plugins/jquery.blockui.min.js');?>" type="text/javascript"></script>
+        <script src="<?=base_url('assets_dashboard/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js');?>" type="text/javascript"></script>
+        <!-- END CORE PLUGINS -->
+        <!-- BEGIN PAGE LEVEL PLUGINS -->
+        <script src="<?=base_url('assets_dashboard/global/plugins/jquery-validation/js/jquery.validate.min.js');?>" type="text/javascript"></script>
+        <script src="<?=base_url('assets_dashboard/global/plugins/jquery-validation/js/additional-methods.min.js');?>" type="text/javascript"></script>
+        <script src="<?=base_url('assets_dashboard/global/plugins/select2/js/select2.full.min.js');?>" type="text/javascript"></script>
+        <!-- END PAGE LEVEL PLUGINS -->
+        <!-- BEGIN THEME GLOBAL SCRIPTS -->
+        <script src="<?=base_url('assets_dashboard/global/scripts/app.min.js');?>" type="text/javascript"></script>
+        <!-- END THEME GLOBAL SCRIPTS -->
+        <!-- BEGIN PAGE LEVEL SCRIPTS -->
+        <script src="<?=base_url('assets_dashboard/pages/scripts/login.min.js');?>" type="text/javascript"></script>
+        <!-- END PAGE LEVEL SCRIPTS -->
+        <!-- BEGIN THEME LAYOUT SCRIPTS -->
+        <!-- END THEME LAYOUT SCRIPTS -->
+    </body>
+
 </html>
