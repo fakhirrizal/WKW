@@ -150,7 +150,7 @@
 			</div>
 			<div class="modal-body">
 				<div class="box box-primary">
-                    <form role="form" class="form-horizontal" action="<?=base_url('admin_side/perbarui_permohonan_kk');?>" method="post"  enctype='multipart/form-data'>
+                    <form role="form" class="form-horizontal" action="<?=base_url('admin_side/perbarui_permohonan_kk');?>" method="post" enctype='multipart/form-data'>
 						<input type="hidden" name="id" value="<?=$this->uri->segment(3);?>">
 						<div class="form-body">
                             <div class="form-group form-md-line-input has-danger">
