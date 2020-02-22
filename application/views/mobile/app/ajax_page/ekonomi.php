@@ -1,9 +1,9 @@
 <!-- Start your project here-->  
-<div id="cssload">
+<!-- <div id="cssload">
   <span class="loader">
     <span class="loader-inner"></span>
   </span>
-  </div>
+  </div> -->
   <img src="<?= base_url(); ?>/assets/img/other/banner-apbdes.png" class="img-fluid w-100" alt="">
   <div class="container">
     <h5 class="card-title p-3">APBDESA</h5>
