@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>WKW</title>
+        <!-- MDB icon -->
+        <link rel="icon" href="../assets/img/mdb-favicon.ico" type="image/x-icon">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+        <!-- Bootstrap core CSS -->
+        <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+        <!-- Material Design Bootstrap -->
+        <link rel="stylesheet" href="../assets/css/mdb.min.css">
+        <!-- Your custom styles (optional) -->
+        <link rel="stylesheet" href="../assets/css/style.css">
+    </head>
+	<body>
+        <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+        <script type="text/javascript">
+            function getPageWO() {
+                $('#halaman_apbdesa').html('<img src="https://wpamelia.com/wp-content/uploads/2018/11/ezgif-2-6d0b072c3d3f.gif" />');
+                var modul = 'apbdesa';
+                jQuery.ajax({
+                    url: "ajax_page.php",
+                    data: {modul:modul},
+                    type: "POST",
+                    success:function(data){
+                        $('#halaman_apbdesa').html(data);
+                        $("#loading-image").hide();
+                    }
+                });
+            }
+            getPageWO();
+        </script>
+        <img id="loading-image" src="https://wpamelia.com/wp-content/uploads/2018/11/ezgif-2-6d0b072c3d3f.gif" width='100%'/>
+        <div id="halaman_apbdesa">
+        </div>  
+        <div class="paddingbawah"/>
+        <div id="taskbar">
+            <div class="float">          
+                <div class="kotak animated fadeIn bounceIn">
+                    <a href="beranda.html">
+                    <img src="../assets/img/other/beranda.svg" width="40px">
+                    </a>
+                </div>
+                <div class="kotak">
+                    <a href="layanan.html">
+                    <img src="../assets/img/other/layanan.svg" width="40px">
+                    </a>
+                </div>
+                <div class="kotak">
+                    <a href="apbdesa.html">
+                    <img src="../assets/img/other/apbdesa.svg" width="40px">
+                    </a>
+                </div>
+                <div class="kotak">
+                    <a href="kependudukan.html">
+                    <img src="../assets/img/other/penduduk.svg" width="40px">
+                    </a>
+                </div>
+                <div class="kotak">
+                    <a href="profil.html">
+                    <img src="../assets/img/other/profil.svg" width="40px">
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- End your project here-->
+    
+        <!-- jQuery -->
+        <script type="text/javascript" src="../assets/js/jquery.min.js"></script>
+        <!-- Bootstrap tooltips -->
+        <script type="text/javascript" src="../assets/js/popper.min.js"></script>
+        <!-- Bootstrap core JavaScript -->
+        <script type="text/javascript" src="../assets/js/bootstrap.min.js"></script>
+        <!-- MDB core JavaScript -->
+        <script type="text/javascript" src="../assets/js/mdb.min.js"></script>
+        <!-- Your custom scripts (optional) -->
+    </body>
+</html>
