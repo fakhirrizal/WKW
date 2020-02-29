@@ -2,7 +2,7 @@
 $nama_file='Form Permohonan KTP'; // Beri nama file PDF hasil.
 define('_MPDF_PATH','mpdf60/');
 include(_MPDF_PATH . "mpdf.php");
-$mpdf=new mPDF('utf-8', 'A4'); // Create new mPDF Document
+$mpdf=new mPDF('utf-8', 'A4-L'); // Create new mPDF Document
 ob_start(); 
 $mpdf->useGraphs = false;
 ?>

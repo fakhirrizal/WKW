@@ -20,7 +20,7 @@ $mpdf->useGraphs = false;
                 <td width="12%" rowspan="6" style="border-style:none; border-width:medium; ">
                     <p align="center">
                         <font face="Arial">
-                        <img border="0" src="logo-batang.png" width="105" height="128">
+                        <img border="0" src="../assets/logo-batang.png" width="105" height="128">
                         </font>
                 </td>
                 <td width="76%" style="border-style: none; border-width: medium">

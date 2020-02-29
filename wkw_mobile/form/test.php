@@ -1,0 +1,2 @@
+database = sdgs
+user = testUser

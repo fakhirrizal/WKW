@@ -2,7 +2,9 @@
 $nama_file='Form KK'; // Beri nama file PDF hasil.
 define('_MPDF_PATH','mpdf60/');
 include(_MPDF_PATH . "mpdf.php");
-$mpdf=new mPDF('utf-8', 'A4'); // Create new mPDF Document
+// $mpdf=new mPDF('utf-8', 'A4-L');
+$mpdf = new mPDF(['mode' => 'utf-8', 'format' => [190, 236]]);
+$mpdf = new mPDF(['orientation' => 'L']);
 ob_start(); 
 $mpdf->useGraphs = false;
 ?>
