@@ -17,26 +17,44 @@ class Kabupaten extends REST_Controller {
 	}
 	function index_get() {
 		if($this->get('id_provinsi')!=NULL){
-			$hasil = $this->Main_model->getSelectedData('kabupaten a', 'a.id_kabupaten,a.nm_kabupaten,f.nm_provinsi', array('a.id_provinsi'=>$this->get('id_provinsi')),'','','','',array(
+			$hasil = $this->Main_model->getSelectedData('kabupaten a', 'a.*', array('a.id_provinsi'=>$this->get('id_provinsi')),'','','','',array(
 				'table' => 'provinsi f',
 				'on' => 'a.id_provinsi=f.id_provinsi',
 				'pos' => 'left'
 			))->result();
-			$this->response($hasil, 200);
+			if($hasil==NULL){
+				$balikan['status'] = '0';
+				$balikan['message'] = 'Data kosong.';
+				$this->response($balikan, 200);
+			}else{
+				$this->response($hasil, 200);
+			}
 		}elseif($this->get('id_kabupaten')!=NULL){
-			$hasil = $this->Main_model->getSelectedData('kabupaten a', 'a.id_kabupaten,a.nm_kabupaten,f.nm_provinsi', array('a.id_kabupaten'=>$this->get('id_kabupaten')),'','','','',array(
+			$hasil = $this->Main_model->getSelectedData('kabupaten a', 'a.*', array('a.id_kabupaten'=>$this->get('id_kabupaten')),'','','','',array(
 				'table' => 'provinsi f',
 				'on' => 'a.id_provinsi=f.id_provinsi',
 				'pos' => 'left'
 			))->row();
-			$this->response($hasil, 200);
+			if($hasil==NULL){
+				$balikan['status'] = '0';
+				$balikan['message'] = 'Data kosong.';
+				$this->response($balikan, 200);
+			}else{
+				$this->response($hasil, 200);
+			}
 		}else{
-			$hasil = $this->Main_model->getSelectedData('kabupaten a', 'a.id_kabupaten,a.nm_kabupaten,f.nm_provinsi','','','','','',array(
+			$hasil = $this->Main_model->getSelectedData('kabupaten a', 'a.*','','','','','',array(
 				'table' => 'provinsi f',
 				'on' => 'a.id_provinsi=f.id_provinsi',
 				'pos' => 'left'
 			))->result();
-			$this->response($hasil, 200);
+			if($hasil==NULL){
+				$balikan['status'] = '0';
+				$balikan['message'] = 'Data kosong.';
+				$this->response($balikan, 200);
+			}else{
+				$this->response($hasil, 200);
+			}
 		}
 	}
 

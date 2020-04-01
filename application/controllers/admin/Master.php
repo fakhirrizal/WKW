@@ -761,6 +761,119 @@ class Master extends CI_Controller {
 			echo "<script>window.location='".base_url()."admin_side/potensi_desa/'</script>";
 		}
 	}
+	/* APBDESA */
+	public function apbdesa_desa(){
+		$data['parent'] = 'tentang_desa';
+        $data['child'] = 'apbdesa';
+        $data['grand_child'] = '';
+        $this->load->view('admin/template/header',$data);
+        $this->load->view('admin/master/apbdesa_desa',$data);
+        $this->load->view('admin/template/footer');
+	}
+	public function json_apbdesa(){
+		$get_data = $this->Main_model->getSelectedData('apbdes a', 'a.*,(SELECT SUM(b.nominal) FROM apbdes b WHERE b.tahun=a.tahun AND b.keterangan="pagu") AS pagu,(SELECT SUM(c.nominal) FROM apbdes c WHERE c.tahun=a.tahun AND c.keterangan="pengeluaran") AS pengeluaran', '', '', '', '', 'a.tahun')->result();
+        $data_tampil = array();
+        $no = 1;
+		foreach ($get_data as $key => $value) {
+			$isi['no'] = $no++.'.';
+			$isi['tahun'] = $value->tahun;
+			$isi['pagu'] = 'Rp '.number_format($value->pagu,2);
+			$isi['out'] = 'Rp '.number_format($value->pengeluaran,2);
+			$return_on_click = "return confirm('Anda yakin?')";
+			$isi['action'] =	'
+								<div class="btn-group" style="text-align: center;">
+									<button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Aksi
+										<i class="fa fa-angle-down"></i>
+									</button>
+									<ul class="dropdown-menu" role="menu">
+										<li>
+											<a href="'.site_url('admin_side/detail_apbdesa/'.md5($value->tahun)).'">
+												<i class="icon-action-redo"></i> Detail Data </a>
+										</li>
+									</ul>
+								</div>
+								';
+			$data_tampil[] = $isi;
+		}
+		$results = array(
+			"sEcho" => 1,
+			"iTotalRecords" => count($data_tampil),
+			"iTotalDisplayRecords" => count($data_tampil),
+			"aaData"=>$data_tampil);
+		echo json_encode($results);
+	}
+	public function simpan_data_rincian_apbdesa(){
+		$this->db->trans_start();
+		$data_insert_1 = array(
+			'tahun' => $this->input->post('tahun'),
+			'keterangan' => $this->input->post('keterangan'),
+			'kategori' => $this->input->post('kategori'),
+			'rincian' => $this->input->post('rincian'),
+			'nominal' => $this->input->post('nominal')
+		);
+		$this->Main_model->insertData('apbdes',$data_insert_1);
+		$this->Main_model->log_activity($this->session->userdata('id'),'Updating data',"Menambahkan data rincian APBDESA (".$this->input->post('kategori').")",$this->session->userdata('location'));
+		$this->db->trans_complete();
+		if($this->db->trans_status() === false){
+			$this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal disimpan.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/detail_apbdesa/".md5($this->input->post('tahun'))."'</script>";
+		}
+		else{
+			$this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil disimpan.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/detail_apbdesa/".md5($this->input->post('tahun'))."'</script>";
+		}
+	}
+	public function detail_apbdesa(){
+		$data['parent'] = 'tentang_desa';
+        $data['child'] = 'apbdesa';
+		$data['grand_child'] = '';
+		$data['data_utama'] = $this->Main_model->getSelectedData('apbdes a', 'a.*',array('md5(a.tahun)'=>$this->uri->segment(3)), '', '1')->row();
+        $this->load->view('admin/template/header',$data);
+        $this->load->view('admin/master/detail_apbdesa',$data);
+        $this->load->view('admin/template/footer');
+	}
+	public function perbarui_data_rincian_apbdesa(){
+		$this->db->trans_start();
+		$data_insert_1 = array(
+			'kategori' => $this->input->post('kategori'),
+			'rincian' => $this->input->post('rincian'),
+			'nominal' => $this->input->post('nominal')
+		);
+		$this->Main_model->updateData('apbdes',$data_insert_1,array('md5(id_apbdes)'=>$this->input->post('id')));
+		$this->Main_model->log_activity($this->session->userdata('id'),'Updating data',"Memperbarui data rincian APBDESA (".$this->input->post('kategori').")",$this->session->userdata('location'));
+		$this->db->trans_complete();
+		if($this->db->trans_status() === false){
+			$this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal disimpan.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/detail_apbdesa/".md5($this->input->post('tahun'))."'</script>";
+		}
+		else{
+			$this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil disimpan.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/detail_apbdesa/".md5($this->input->post('tahun'))."'</script>";
+		}
+	}
+	public function hapus_item_apbdesa(){
+		$this->db->trans_start();
+		$id = '';
+		$nama = '';
+		$thn = '';
+		$get_data = $this->Main_model->getSelectedData('apbdes a', 'a.*',array('md5(a.id_apbdes)'=>$this->uri->segment(3)))->row();
+		$id = $get_data->id_apbdes;
+		$nama = $get_data->rincian;
+		$thn = $get_data->tahun;
+
+		$this->Main_model->deleteData('apbdes',array('id_apbdes'=>$id));
+
+		$this->Main_model->log_activity($this->session->userdata('id'),"Deleting data","Menghapus data rincian APBDESA (".$nama.")",$this->session->userdata('location'));
+		$this->db->trans_complete();
+		if($this->db->trans_status() === false){
+			$this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal dihapus.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/detail_apbdesa/".md5($thn)."'</script>";
+		}
+		else{
+			$this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil dihapus.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/detail_apbdesa/".md5($thn)."'</script>";
+		}
+	}
 	/* Other Function */
 	public function ajax_function(){
 		if($this->input->post('modul')=='get_data_kabupaten_by_keterangan_admin'){
@@ -800,824 +913,9 @@ class Master extends CI_Controller {
 				echo'<option value="'.$value->id_desa.'">'.$value->nm_desa.'</option>';
 			}
 		}
-		elseif($this->input->post('modul')=='get_data_form_by_jenis_permohonan'){
-			if($this->input->post('id')=='Tambah Anak'){
-				echo'
-				<input type="hidden" name="jumlah_file" value="5">
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1"></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<select name="jenis2" class="form-control">
-								<option value="">-- Pilih --</option>
-							</select>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<hr>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">KK Asli <span class="required"> * </span></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file1" placeholder="Type something" required>
-							<input type="hidden" name="ket1" value="KK Asli">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">KTP Istri <span class="required"> * </span></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file2" placeholder="Type something" required>
-							<input type="hidden" name="ket2" value="KTP Istri">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">KTP Suami <span class="required"> * </span></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file3" placeholder="Type something" required>
-							<input type="hidden" name="ket3" value="KTP Suami">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">Buku Nikah <span class="required"> * </span></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file4" placeholder="Type something" required>
-							<input type="hidden" name="ket4" value="Buku Nikah">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">Surat Kelahiran <span class="required"> * </span></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file5" placeholder="Type something" required>
-							<input type="hidden" name="ket5" value="Surat Kelahiran">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				';
-			}elseif($this->input->post('id')=='Pindah RT'){
-				echo'
-				<input type="hidden" name="jumlah_file" value="3">
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1"></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<select name="jenis2" class="form-control">
-								<option value="">-- Pilih --</option>
-							</select>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<hr>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">KK Asli <span class="required"> * </span></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file1" placeholder="Type something">
-							<input type="hidden" name="ket1" value="KK Asli">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">KTP Asli <span class="required"> * </span></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file2" placeholder="Type something">
-							<input type="hidden" name="ket2" value="KTP Asli">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">Buku Nikah</label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file3" placeholder="Type something">
-							<input type="hidden" name="ket3" value="Buku Nikah">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				';
-			}elseif($this->input->post('id')=='Pindah Kelurahan'){
-				echo'
-				<input type="hidden" name="jumlah_file" value="5">
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1"></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<select name="jenis2" class="form-control">
-								<option value="">-- Pilih --</option>
-							</select>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<hr>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">KK Asli <span class="required"> * </span></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file1" placeholder="Type something" required>
-							<input type="hidden" name="ket1" value="KK Asli">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">KTP Pemohon <span class="required"> * </span></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file2" placeholder="Type something" required>
-							<input type="hidden" name="ket2" value="KTP Pemohon">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">Surat Pindah Dari Kelurahan Asal <span class="required"> * </span></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file3" placeholder="Type something" required>
-							<input type="hidden" name="ket3" value="Surat Pindah Dari Kelurahan Asal">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">Buku Nikah</label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file4" placeholder="Type something">
-							<input type="hidden" name="ket4" value="Buku Nikah">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">Surat Permohonan Pembuatan KK Kelurahan Tujuan <span class="required"> * </span></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file5" placeholder="Type something" required>
-							<input type="hidden" name="ket5" value="Surat Permohonan Pembuatan KK Kelurahan Tujuan">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				';
-			}elseif($this->input->post('id')=='Perubahan Data'){
-				echo'
-				<div id="form_pilihan2">
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1"></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<select name="jenis2" id="jenis2" class="form-control" required>
-								<option value="">-- Pilih --</option>
-								<option value="Nama, Tempat Tanggal Lahir, Pekerjaan">Nama, Tempat Tanggal Lahir, Pekerjaan</option>
-								<option value="Perubahan Status">Perubahan Status</option>
-							</select>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				</div>';
-			}elseif($this->input->post('id')=='Perubahan Pisah KK'){
-				echo'
-				<div id="form_pilihan2">
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1"></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<select name="jenis2" id="jenis2" class="form-control" required>
-								<option value="">-- Pilih --</option>
-								<option value="Pisah KK Karena Cerai">Pisah KK Karena Cerai</option>
-								<option value="Pisah KK">Pisah KK</option>
-							</select>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				</div>';
-			}elseif($this->input->post('id')=='Buat KK Baru'){
-				echo'
-				<div id="form_pilihan2">
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1"></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<select name="jenis2" id="jenis2" class="form-control" required>
-								<option value="">-- Pilih --</option>
-								<option value="Pindahan dari luar Kota atau Provinsi">Pindahan dari luar Kota atau Provinsi</option>
-								<option value="Pindahan dari luar Kecamatan">Pindahan dari luar Kecamatan</option>
-								<option value="Pindah dari Kecamatan membentuk keluarga baru">Pindah dari Kecamatan membentuk keluarga baru</option>
-								<option value="Pindah dari luar Kota membentuk keluarga baru">Pindah dari luar Kota membentuk keluarga baru</option>
-							</select>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				</div>';
-			}elseif($this->input->post('id')=='Pindah Antar Kelurahan Membenuk Keluarga Baru'){
-				echo'
-				<input type="hidden" name="jumlah_file" value="6">
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1"></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<select name="jenis2" class="form-control">
-								<option value="">-- Pilih --</option>
-							</select>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<hr>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">KTP Pemohon <span class="required"> * </span></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file2" placeholder="Type something" required>
-							<input type="hidden" name="ket2" value="KTP Pemohon">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">Surat Pindah Dari Kelurahan Asal <span class="required"> * </span></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file3" placeholder="Type something" required>
-							<input type="hidden" name="ket3" value="Surat Pindah Dari Kelurahan Asal">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">Buku Nikah <span class="required"> * </span></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file4" placeholder="Type something" required>
-							<input type="hidden" name="ket4" value="Buku Nikah">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">Surat Permohonan Pembuatan KK Kelurahan Tujuan <span class="required"> * </span></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file5" placeholder="Type something" required>
-							<input type="hidden" name="ket5" value="Surat Permohonan Pembuatan KK Kelurahan Tujuan">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">KK Asli Pihak Laki-Laki <span class="required"> * </span></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file1" placeholder="Type something" required>
-							<input type="hidden" name="ket1" value="KK Asli Pihak Laki-Laki">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">KK Asli Pihak Perempuan <span class="required"> * </span></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file6" placeholder="Type something" required>
-							<input type="hidden" name="ket6" value="KK Asli Pihak Perempuan">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				';
-			}else{echo'';}
-		}
-		elseif($this->input->post('modul')=='get_data_form_by_sub_jenis_permohonan'){
-			if($this->input->post('id')=='Nama, Tempat Tanggal Lahir, Pekerjaan'){
-				echo'
-				
-				<input type="hidden" name="jumlah_file" value="4">
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1"></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<select name="jenis2" id="jenis3" class="form-control" required>
-								<option value="">-- Pilih --</option>
-								<option value="Nama, Tempat Tanggal Lahir, Pekerjaan" selected>Nama, Tempat Tanggal Lahir, Pekerjaan</option>
-								<option value="Perubahan Status">Perubahan Status</option>
-							</select>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<hr>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">KK Asli <span class="required"> * </span></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file1" placeholder="Type something" required>
-							<input type="hidden" name="ket1" value="KK Asli">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">KTP Pemohon <span class="required"> * </span></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file2" placeholder="Type something" required>
-							<input type="hidden" name="ket2" value="KTP Pemohon">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">Data Dukung (Akta atau Ijazah) <span class="required"> * </span></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file3" placeholder="Type something" required>
-							<input type="hidden" name="ket3" value="Data Dukung">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">Buku Nikah</label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file4" placeholder="Type something">
-							<input type="hidden" name="ket4" value="Buku Nikah">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				
-				</div>';
-			}elseif($this->input->post('id')=='Perubahan Status'){
-				echo'
-				
-				<input type="hidden" name="jumlah_file" value="3">
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1"></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<select name="jenis2" id="jenis3" class="form-control" required>
-								<option value="">-- Pilih --</option>
-								<option value="Nama, Tempat Tanggal Lahir, Pekerjaan">Nama, Tempat Tanggal Lahir, Pekerjaan</option>
-								<option value="Perubahan Status" selected>Perubahan Status</option>
-							</select>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<hr>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">KK Asli <span class="required"> * </span></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file1" placeholder="Type something" required>
-							<input type="hidden" name="ket1" value="KK Asli">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">KTP Pemohon <span class="required"> * </span></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file2" placeholder="Type something" required>
-							<input type="hidden" name="ket2" value="KTP Pemohon">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">Buku nikah/ Surat Cerai/ Akte Kematian <span class="required"> * </span></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file3" placeholder="Type something" required>
-							<input type="hidden" name="ket3" value="Buku nikah/ Surat Cerai/ Akte Kematian">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				
-				</div>';
-			}elseif($this->input->post('id')=='Pisah KK Karena Cerai'){
-				echo'
-				
-				<input type="hidden" name="jumlah_file" value="3">
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1"></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<select name="jenis2" id="jenis3" class="form-control" required>
-								<option value="">-- Pilih --</option>
-								<option value="Pisah KK Karena Cerai" selected>Pisah KK Karena Cerai</option>
-								<option value="Pisah KK">Pisah KK</option>
-							</select>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<hr>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">KK Asli <span class="required"> * </span></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file1" placeholder="Type something" required>
-							<input type="hidden" name="ket1" value="KK Asli">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">KTP Pemohon <span class="required"> * </span></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file2" placeholder="Type something" required>
-							<input type="hidden" name="ket2" value="KTP Pemohon">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">Surat Cerai <span class="required"> * </span></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file3" placeholder="Type something" required>
-							<input type="hidden" name="ket3" value="Surat Cerai">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				
-				</div>';
-			}elseif($this->input->post('id')=='Pisah KK'){
-				echo'
-				
-				<input type="hidden" name="jumlah_file" value="1">
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1"></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<select name="jenis2" id="jenis3" class="form-control" required>
-								<option value="">-- Pilih --</option>
-								<option value="Pisah KK Karena Cerai" selected>Pisah KK Karena Cerai</option>
-								<option value="Pisah KK">Pisah KK</option>
-							</select>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<hr>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">KK Asli <span class="required"> * </span></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file1" placeholder="Type something" required>
-							<input type="hidden" name="ket1" value="KK Asli">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				
-				</div>';
-			}elseif($this->input->post('id')=='Pindahan dari luar Kota atau Provinsi'){
-				echo'
-				
-				<input type="hidden" name="jumlah_file" value="2">
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1"></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<select name="jenis2" id="jenis3" class="form-control" required>
-								<option value="Pindahan dari luar Kota atau Provinsi" selected>Pindahan dari luar Kota atau Provinsi</option>
-								<option value="Pindahan dari luar Kecamatan">Pindahan dari luar Kecamatan</option>
-								<option value="Pindah dari Kecamatan membentuk keluarga baru">Pindah dari Kecamatan membentuk keluarga baru</option>
-								<option value="Pindah dari luar Kota membentuk keluarga baru">Pindah dari luar Kota membentuk keluarga baru</option>
-							</select>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<hr>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">Surat kedatangan dari Disdukcapil Batang <span class="required"> * </span></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file1" placeholder="Type something" required>
-							<input type="hidden" name="ket1" value="Surat kedatangan dari Disdukcapil Batang">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">Surat permohonan pembuatan KK Kelurahan yang ditempati <span class="required"> * </span></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file2" placeholder="Type something" required>
-							<input type="hidden" name="ket2" value="Surat permohonan pembuatan KK Kelurahan yang ditempati">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				
-				</div>';
-			}elseif($this->input->post('id')=='Pindahan dari luar Kecamatan'){
-				echo'
-				
-				<input type="hidden" name="jumlah_file" value="3">
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1"></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<select name="jenis2" id="jenis3" class="form-control" required>
-								<option value="Pindahan dari luar Kota atau Provinsi">Pindahan dari luar Kota atau Provinsi</option>
-								<option value="Pindahan dari luar Kecamatan" selected>Pindahan dari luar Kecamatan</option>
-								<option value="Pindah dari Kecamatan membentuk keluarga baru">Pindah dari Kecamatan membentuk keluarga baru</option>
-								<option value="Pindah dari luar Kota membentuk keluarga baru">Pindah dari luar Kota membentuk keluarga baru</option>
-							</select>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<hr>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">Surat SKPWNI dari Kecamatan asal <span class="required"> * </span></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file1" placeholder="Type something" required>
-							<input type="hidden" name="ket1" value="Surat SKPWNI dari Kecamatan asal">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">Surat permohonan pembuatan KK Kelurahan yang ditempati <span class="required"> * </span></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file2" placeholder="Type something" required>
-							<input type="hidden" name="ket2" value="Surat permohonan pembuatan KK Kelurahan yang ditempati">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">KTP Pemohon <span class="required"> * </span></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file3" placeholder="Type something" required>
-							<input type="hidden" name="ket3" value="KTP Pemohon">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				
-				</div>';
-			}elseif($this->input->post('id')=='Pindah dari Kecamatan membentuk keluarga baru'){
-				echo'
-				
-				<input type="hidden" name="jumlah_file" value="5">
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1"></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<select name="jenis2" id="jenis3" class="form-control" required>
-								<option value="Pindahan dari luar Kota atau Provinsi">Pindahan dari luar Kota atau Provinsi</option>
-								<option value="Pindahan dari luar Kecamatan">Pindahan dari luar Kecamatan</option>
-								<option value="Pindah dari Kecamatan membentuk keluarga baru" selected>Pindah dari Kecamatan membentuk keluarga baru</option>
-								<option value="Pindah dari luar Kota membentuk keluarga baru">Pindah dari luar Kota membentuk keluarga baru</option>
-							</select>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<hr>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">Surat SKPWNI dari Kecamatan asal <span class="required"> * </span></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file1" placeholder="Type something" required>
-							<input type="hidden" name="ket1" value="Surat SKPWNI dari Kecamatan asal">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">Surat permohonan pembuatan KK Kelurahan yang ditempati <span class="required"> * </span></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file2" placeholder="Type something" required>
-							<input type="hidden" name="ket2" value="Surat permohonan pembuatan KK Kelurahan yang ditempati">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">KK Asli <span class="required"> * </span></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file3" placeholder="Type something" required>
-							<input type="hidden" name="ket3" value="KK Asli">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">Buku Nikah <span class="required"> * </span></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file4" placeholder="Type something" required>
-							<input type="hidden" name="ket4" value="Buku Nikah">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">KTP Pemohon <span class="required"> * </span></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file5" placeholder="Type something" required>
-							<input type="hidden" name="ket5" value="KTP Pemohon">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				
-				</div>';
-			}elseif($this->input->post('id')=='Pindah dari luar Kota membentuk keluarga baru'){
-				echo'
-				
-				<input type="hidden" name="jumlah_file" value="5">
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1"></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<select name="jenis2" id="jenis3" class="form-control" required>
-								<option value="Pindahan dari luar Kota atau Provinsi">Pindahan dari luar Kota atau Provinsi</option>
-								<option value="Pindahan dari luar Kecamatan">Pindahan dari luar Kecamatan</option>
-								<option value="Pindah dari Kecamatan membentuk keluarga baru">Pindah dari Kecamatan membentuk keluarga baru</option>
-								<option value="Pindah dari luar Kota membentuk keluarga baru" selected>Pindah dari luar Kota membentuk keluarga baru</option>
-							</select>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<hr>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">Surat kedatangan dari Disdukcapil Batang <span class="required"> * </span></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file1" placeholder="Type something" required>
-							<input type="hidden" name="ket1" value="Surat kedatangan dari Disdukcapil Batang">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">Surat permohonan pembuatan KK Kelurahan yang ditempati <span class="required"> * </span></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file2" placeholder="Type something" required>
-							<input type="hidden" name="ket2" value="Surat permohonan pembuatan KK Kelurahan yang ditempati">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">KK Asli <span class="required"> * </span></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file3" placeholder="Type something" required>
-							<input type="hidden" name="ket3" value="KK Asli">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">Buku Nikah <span class="required"> * </span></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file4" placeholder="Type something" required>
-							<input type="hidden" name="ket4" value="Buku Nikah">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				</div>
-				<div class="form-group form-md-line-input has-danger">
-					<label class="col-md-2 control-label" for="form_control_1">KTP Pemohon <span class="required"> * </span></label>
-					<div class="col-md-10">
-						<div class="input-icon">
-							<input type="file" accept="application/pdf" class="form-control" name="file5" placeholder="Type something" required>
-							<input type="hidden" name="ket5" value="KTP Pemohon">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Some help goes here...</span>
-							<i class="icon-pin"></i>
-						</div>
-					</div>
-				
-				</div>';
-			}
+		elseif($this->input->post('modul')=='modul_ubah_data_rincian_apbdesa'){
+			$data['data_utama'] = $this->Main_model->getSelectedData('apbdes a', 'a.*', array('md5(a.id_apbdes)'=>$this->input->post('id')))->row();
+			$this->load->view('admin/master/ajax_page/form_ubah_data_rincian_apbdesa',$data);
 		}
 	}
 }
