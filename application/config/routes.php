@@ -93,24 +93,6 @@ $route['admin_side/simpan_data_anggota'] = 'admin/Master/save_member_data';
 $route['admin_side/atur_ulang_kata_sandi_anggota/(:any)'] = 'admin/Master/reset_password_member_account/$1';
 $route['admin_side/hapus_data_anggota/(:any)'] = 'admin/Master/delete_member_data/$1';
 
-$route['admin_side/antrean_kk'] = 'admin/Master/antrean_kk';
-$route['admin_side/tambah_data_kk'] = 'admin/Master/tambah_data_kk';
-$route['admin_side/ajukan_permohonan_kk'] = 'admin/Master/simpan_data_kk';
-$route['admin_side/detil_data_pengajuan_kk/(:any)'] = 'admin/Report/detil_data_pengajuan_kk/$1';
-$route['admin_side/perbarui_data_antrean_kk'] = 'admin/Master/perbarui_data_antrean_kk';
-$route['admin_side/hapus_data_pengajuan_kk/(:any)'] = 'admin/Report/hapus_data_pengajuan_kk/$1';
-$route['admin_side/antrean_ktp'] = 'admin/Master/antrean_ktp';
-$route['admin_side/tambah_data_ktp'] = 'admin/Master/tambah_data_ktp';
-$route['admin_side/simpan_data_ktp'] = 'admin/Master/simpan_data_ktp';
-$route['admin_side/perbarui_data_antrean_ktp'] = 'admin/Report/perbarui_data_antrean_ktp';
-$route['admin_side/ubah_status_tercetak/(:any)'] = 'admin/Report/ubah_status_tercetak/$1';
-$route['admin_side/hapus_data_antrean_ktp/(:any)'] = 'admin/Master/hapus_data_antrean_ktp/$1';
-
-$route['admin_side/data_antrean'] = 'admin/Report/data_antrean';
-$route['admin_side/data_kk'] = 'admin/Report/data_kk';
-$route['admin_side/perbarui_permohonan_kk'] = 'admin/Master/perbarui_permohonan_kk';
-$route['admin_side/data_ktp'] = 'admin/Report/data_ktp';
-
 $route['admin_side/berita'] = 'admin/Master/berita';
 $route['admin_side/tambah_berita'] = 'admin/Master/tambah_berita';
 $route['admin_side/simpan_berita'] = 'admin/Master/simpan_berita';
@@ -125,6 +107,12 @@ $route['admin_side/detail_potensi_desa/(:any)'] = 'admin/Master/detail_potensi_d
 $route['admin_side/perbarui_potensi_desa'] = 'admin/Master/perbarui_potensi_desa';
 $route['admin_side/hapus_potensi_desa/(:any)'] = 'admin/Master/hapus_potensi_desa/$1';
 
+$route['admin_side/apbdesa'] = 'admin/Master/apbdesa_desa';
+$route['admin_side/detail_apbdesa/(:any)'] = 'admin/Master/detail_apbdesa/$1';
+$route['admin_side/simpan_data_rincian_apbdesa'] = 'admin/Master/simpan_data_rincian_apbdesa';
+$route['admin_side/perbarui_data_rincian_apbdesa'] = 'admin/Master/perbarui_data_rincian_apbdesa';
+$route['admin_side/hapus_item_apbdesa/(:any)'] = 'admin/Master/hapus_item_apbdesa/$1';
+
 /* Mobile */
 $route['mobile_side/login'] = 'mobile/App/login';
 $route['mobile_side/login_process'] = 'mobile/App/login_process';
@@ -137,18 +125,6 @@ $route['mobile_side/log_activity'] = 'mobile/App/log_activity';
 $route['mobile_side/cleaning_log'] = 'mobile/App/cleaning_log';
 $route['mobile_side/tentang_aplikasi'] = 'mobile/App/about';
 $route['mobile_side/bantuan'] = 'mobile/App/helper';
-
-$route['mobile_side/tambah_data_pengajuan_ktp'] = 'mobile/Master/tambah_data_ktp';
-$route['mobile_side/ajukan_cetak_ktp'] = 'mobile/Master/simpan_data_ktp';
-$route['mobile_side/riwayat_pengajuan_ktp'] = 'mobile/Report/riwayat_pengajuan_ktp';
-$route['mobile_side/perbarui_data_pengajuan_ktp'] = 'mobile/Report/perbarui_data_pengajuan_ktp';
-$route['mobile_side/hapus_data_pengajuan_ktp/(:any)'] = 'mobile/Report/hapus_data_pengajuan_ktp/$1';
-
-$route['mobile_side/riwayat_pengajuan_kk'] = 'mobile/Report/riwayat_pengajuan_kk';
-$route['mobile_side/tambah_data_pengajuan_kk'] = 'mobile/Master/tambah_data_kk';
-$route['mobile_side/ajukan_permohonan_kk'] = 'mobile/Master/simpan_data_kk';
-$route['mobile_side/detil_data_pengajuan_kk/(:any)'] = 'mobile/Report/detil_data_pengajuan_kk/$1';
-$route['mobile_side/hapus_data_pengajuan_kk/(:any)'] = 'mobile/Report/hapus_data_pengajuan_kk/$1';
 
 /* REST API */
 $route['api'] = 'Rest_server/documentation';

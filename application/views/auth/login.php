@@ -46,7 +46,7 @@ License: You must have a valid license purchased only from themeforest(the above
         <!-- END PAGE LEVEL STYLES -->
         <!-- BEGIN THEME LAYOUT STYLES -->
         <!-- END THEME LAYOUT STYLES -->
-        <link rel="shortcut icon" href="<?= site_url(); ?>assets_dashboard/icon.png" /> </head>
+        <link href="<?=base_url('assets_dashboard/batang.png');?>" rel="icon" type="image/x-icon"> </head>
     <!-- END HEAD -->
 
     <body class=" login">
