@@ -262,21 +262,21 @@ class Master extends CI_Controller {
 	public function member_data()
 	{
 		$data['parent'] = 'master';
-		$data['child'] = 'member';
+		$data['child'] = 'pengguna';
 		$data['grand_child'] = '';
 		$this->load->view('admin/template/header',$data);
 		$this->load->view('admin/master/member_data',$data);
 		$this->load->view('admin/template/footer');
 	}
 	public function json_member(){
-		$get_data1 = $this->Main_model->getSelectedData('user a', 'a.*,c.fullname,c.nin,c.email,c.number_phone',array("a.is_active" => '1','a.deleted' => '0','b.role_id' => '2'),'','','','',array(
+		$get_data1 = $this->Main_model->getSelectedData('user a', 'a.*,c.nama AS fullname,c.nik AS nin,c.email,c.no_hp AS number_phone',array("a.is_active" => '1','a.deleted' => '0','b.role_id' => '2'),'','','','',array(
 			array(
 				'table' => 'user_to_role b',
 				'on' => 'a.id=b.user_id',
 				'pos' => 'LEFT'
 			),
 			array(
-				'table' => 'user_profile c',
+				'table' => 'masyarakat c',
 				'on' => 'a.id=c.user_id',
 				'pos' => 'LEFT'
 			)
@@ -331,14 +331,14 @@ class Master extends CI_Controller {
 	public function add_member_data()
 	{
 		$data['parent'] = 'master';
-		$data['child'] = 'member';
+		$data['child'] = 'pengguna';
 		$data['grand_child'] = '';
 		$this->load->view('admin/template/header',$data);
 		$this->load->view('admin/master/add_member_data',$data);
 		$this->load->view('admin/template/footer');
 	}
 	public function save_member_data(){
-		$cek_ = $this->Main_model->getSelectedData('user a', 'a.*',array('a.username'=>$this->input->post('un')))->row();
+		$cek_ = $this->Main_model->getSelectedData('user a', 'a.*',array('a.username'=>$this->input->post('nik')))->row();
 		if($cek_==NULL){
 			$this->db->trans_start();
 			$get_user_id = $this->Main_model->getLastID('user','id');
@@ -347,6 +347,7 @@ class Master extends CI_Controller {
 				'id' => $get_user_id['id']+1,
 				'username' => $this->input->post('un'),
 				'pass' => $this->input->post('ps'),
+				'fullname' => $this->input->post('nama'),
 				'is_active' => '1',
 				'created_by' => $this->session->userdata('id'),
 				'created_at' => date('Y-m-d H:i:s')
@@ -356,12 +357,12 @@ class Master extends CI_Controller {
 
 			$data_insert2 = array(
 				'user_id' => $get_user_id['id']+1,
-				'fullname' => $this->input->post('nama'),
-				'nin' => $this->input->post('nik'),
-				'number_phone' => $this->input->post('no_hp'),
+				'nama' => $this->input->post('nama'),
+				'nik' => $this->input->post('nik'),
+				'no_hp' => $this->input->post('no_hp'),
 				'email' => $this->input->post('email')
 			);
-			$this->Main_model->insertData('user_profile',$data_insert2);
+			$this->Main_model->insertData('masyarakat',$data_insert2);
 			// print_r($data_insert2);
 
 			$data_insert3 = array(
@@ -387,13 +388,108 @@ class Master extends CI_Controller {
 		}
 		
 	}
+	public function edit_member_data()
+	{
+		$data['parent'] = 'master';
+		$data['child'] = 'pengguna';
+		$data['grand_child'] = '';
+		$data['data_utama'] = $this->Main_model->getSelectedData('user a', 'a.photo,c.*,cc.nm_kabupaten,ccc.nm_kecamatan,cccc.nm_desa', array('md5(a.id)'=>$this->uri->segment(3),'a.deleted'=>'0'), '', '', '', '', array(
+			array(
+				'table' => 'masyarakat c',
+				'on' => 'a.id=c.user_id',
+				'pos' => 'LEFT'
+			),
+			array(
+				'table' => 'kabupaten cc',
+				'on' => 'c.id_kabupaten=cc.id_kabupaten',
+				'pos' => 'LEFT'
+			),
+			array(
+				'table' => 'kecamatan ccc',
+				'on' => 'c.id_kecamatan=ccc.id_kecamatan',
+				'pos' => 'LEFT'
+			),
+			array(
+				'table' => 'desa cccc',
+				'on' => 'c.id_desa=cccc.id_desa',
+				'pos' => 'LEFT'
+			)
+		))->row();
+		$data['provinsi'] = $this->Main_model->getSelectedData('provinsi a', 'a.*')->result();
+		$this->load->view('admin/template/header',$data);
+		$this->load->view('admin/master/edit_member_data',$data);
+		$this->load->view('admin/template/footer');
+	}
+	public function update_member_data(){
+		$this->db->trans_start();
+		$nmfile = "file_".time(); // nama file saya beri nama langsung dan diikuti fungsi time
+		$config['upload_path'] = dirname($_SERVER["SCRIPT_FILENAME"]).'/data_upload/photo_profile/'; // path folder
+		$config['allowed_types'] = 'jpg|jpeg|png|bmp'; // type yang dapat diakses bisa anda sesuaikan
+		$config['max_size'] = '3072'; // maksimum besar file 3M
+		$config['file_name'] = $nmfile; // nama yang terupload nantinya
+
+		$this->upload->initialize($config);
+		if(isset($_FILES['file']['name']))
+		{
+			if(!$this->upload->do_upload('file'))
+			{
+				echo'';
+			}
+			else
+			{
+				$gbr = $this->upload->data();
+				$data_insert_1 = array(
+					'photo' => $gbr['file_name']
+				);
+				$this->Main_model->updateData('user',$data_insert_1,array('md5(id)'=>$this->input->post('user_id')));
+			}
+		}else{echo'';}
+		if($this->input->post('pass')!=NULL){
+			$data_insert1 = array(
+				'pass' => $this->input->post('pass'),
+				'fullname' => $this->input->post('nama')
+			);
+			$this->Main_model->updateData('user',$data_insert1,array('md5(id)'=>$this->input->post('user_id')));
+			// print_r($data_insert1);
+		}
+		else{
+			$data_insert1 = array(
+				'fullname' => $this->input->post('nama')
+			);
+			$this->Main_model->updateData('user',$data_insert1,array('md5(id)'=>$this->input->post('user_id')));
+			// print_r($data_insert1);
+		}
+		$data_insert2 = array(
+			'nama' => $this->input->post('nama'),
+			'alamat' => $this->input->post('alamat'),
+			'rt' => $this->input->post('rt'),
+			'rw' => $this->input->post('rw'),
+			'id_desa' => $this->input->post('id_desa'),
+			'id_kecamatan' => $this->input->post('id_kecamatan'),
+			'id_kabupaten' => $this->input->post('id_kabupaten'),
+			'id_provinsi' => $this->input->post('id_provinsi'),
+			'nik' => $this->input->post('un'),
+			'no_hp' => $this->input->post('no_hp'),
+			'email' => $this->input->post('email')
+		);
+		$this->Main_model->updateData('masyarakat',$data_insert2,array('md5(user_id)'=>$this->input->post('user_id')));
+		$this->db->trans_complete();
+		if($this->db->trans_status() === false){
+			$this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal diubah.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/ubah_data_anggota/".$this->input->post('user_id')."'</script>";
+		}
+		else{
+			$this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil diubah.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/data_anggota/'</script>";
+		}
+	}
 	public function reset_password_member_account(){
 		$this->db->trans_start();
 		$user_id = '';
 		$name = '';
-		$get_data = $this->Main_model->getSelectedData('user_profile a', 'a.*',array('md5(a.user_id)'=>$this->uri->segment(3)))->row();
+		$get_data = $this->Main_model->getSelectedData('masyarakat a', 'a.*',array('md5(a.user_id)'=>$this->uri->segment(3)))->row();
 		$user_id = $get_data->user_id;
-		$name = $get_data->fullname;
+		$name = $get_data->nama;
 
 		$this->Main_model->updateData('user',array('pass'=>'1234'),array('id'=>$user_id));
 
@@ -412,11 +508,11 @@ class Master extends CI_Controller {
 		$this->db->trans_start();
 		$user_id = '';
 		$name = '';
-		$get_data = $this->Main_model->getSelectedData('user_profile a', 'a.*',array('md5(a.user_id)'=>$this->uri->segment(3)))->row();
+		$get_data = $this->Main_model->getSelectedData('masyarakat a', 'a.*',array('md5(a.user_id)'=>$this->uri->segment(3)))->row();
 		$user_id = $get_data->user_id;
-		$name = $get_data->fullname;
+		$name = $get_data->nama;
 
-		$this->Main_model->deleteData('user_profile',array('user_id'=>$user_id));
+		$this->Main_model->deleteData('masyarakat',array('user_id'=>$user_id));
 		$this->Main_model->deleteData('user_to_role',array('user_id'=>$user_id));
 		$this->Main_model->deleteData('user',array('id'=>$user_id));
 
@@ -485,6 +581,7 @@ class Master extends CI_Controller {
 	}
 	public function simpan_berita(){
 		$this->db->trans_start();
+		$namefile = '';
 		$get_last_id = $this->Main_model->getLastID('berita','id_berita');
 		$nmfile = "file_".time(); // nama file saya beri nama langsung dan diikuti fungsi time
 		$config['upload_path'] = dirname($_SERVER["SCRIPT_FILENAME"]).'/data_upload/berita/'; // path folder
@@ -502,6 +599,7 @@ class Master extends CI_Controller {
 			else
 			{
 				$gbr = $this->upload->data();
+				$namefile = $gbr['file_name'];
 				$data_insert_ = array(
 					'id_berita' => $get_last_id['id_berita']+1,
 					'judul' => $this->input->post('judul'),
@@ -512,7 +610,20 @@ class Master extends CI_Controller {
 				$this->Main_model->insertData("berita",$data_insert_);
 			}
 		}else{echo'';}
-
+		$res = array();
+		$res['data']['title'] = 'Berita Terbaru';
+		$res['data']['body'] = $this->input->post('judul');
+		$res['data']['message'] = 'Silahkan lihat detailnya';
+		$res['data']['image'] = base_url().'data_upload/berita/'.$namefile;
+		$get_user = $this->db->query("SELECT a.* FROM user a WHERE a.verification_token != ''")->result();
+		foreach ($get_user as $key => $value) {
+			$fields = array(
+				'to' => $value->verification_token,
+				'data' => $res
+			);
+			$this->Main_model->sendPushNotificationn($fields);
+		}
+		
 		$this->Main_model->log_activity($this->session->userdata('id'),'Adding data',"Menambahkan data berita",$this->session->userdata('location'));
 		$this->db->trans_complete();
 		if($this->db->trans_status() === false){

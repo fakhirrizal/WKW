@@ -72,10 +72,11 @@
 																		</div>
 																		<div class="portlet-body">
 																			Berikut parameter yang harus diisi,<br><br>
-																			<textarea class='form-control' rows='4' readonly>
+																			<textarea class='form-control' rows='5' readonly>
 																				{
 																						"username": NIK,
-																						"password": string
+																						"password": string,
+																						"device_id": string
 																				}
 																			</textarea><br>
 																			Balikannya sebagai berikut (jika berhasil/ atau dikenali oleh sistem),<br><br>
@@ -168,6 +169,41 @@
 												</div>
 											</div>
 											<!-- Akhir -->
+                                            <!-- Awal -->
+                                            <div class="portlet-body">
+                                                <div class="panel-group accordion" id="accordion3">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a class="accordion-toggle accordion-toggle-styled collapsed" data-toggle="collapse" data-parent="#accordion3" href="#collapse_3_23" aria-expanded="false"> <span class="label label-success"> GET </span>&nbsp;&nbsp;{URL}/api/auth/Reset_password?user_id={user_id}</a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapse_3_23" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="portlet light ">
+                                                                        <div class="portlet-title">
+                                                                            <b>URL</b> : https://kalipucangwetan.id/api/auth/Reset_password?user_id={user_id}<br>
+                                                                            <b>Method</b> : GET<br>
+                                                                            <b>Deskripsi</b> : Mengatur ulang kata sandi dari akun pengguna tertentu<br><br>
+                                                                        </div>
+                                                                        <div class="portlet-body">
+                                                                            Balikannya sebagai berikut,<br><br>
+                                                                            <textarea class='form-control' rows='4' readonly>
+                                                                            {
+                                                                                    "status": 0/ 1,
+                                                                                    "message": string
+                                                                            }
+                                                                            </textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Akhir -->
 										</div>
 										<div class="tab-pane" id="portlet_tab2_2">
                                             <!-- Awal -->

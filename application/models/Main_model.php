@@ -29,10 +29,18 @@ class Main_model extends CI_Model{
 
 		return $this->db->get($tbl_name);
 	}
-	// function manualQuery($q)
-	// 	{
-	// 		return $this->db->query($q)->result();
-	// 	}
+	function random_string($n) { 
+		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ~`!@#$%^&*()-_=+[{]}|";:,<.>/?'; 
+		$randomString = ''; 
+	
+		for ($i = 0; $i < $n; $i++) { 
+			$index = rand(0, strlen($characters) - 1); 
+			$randomString .= $characters[$index]; 
+		} 
+	
+		return $randomString; 
+	} 
+  
 	function insertData($table,$data){
 		$res = $this->db->insert($table,$data);
 		return $res;
@@ -124,5 +132,41 @@ class Main_model extends CI_Model{
 		$split_date = explode(' ',$datetime);
 		$show_string = $this->convert_tanggal($split_date[0]).' '.substr($split_date[1],0,5);
 		return $show_string;
+	}
+	function sendPushNotificationn($fields)
+	{
+		// Set POST variables
+		$url = 'https://fcm.googleapis.com/fcm/send';
+		$api = 'AAAAVz8CzVQ:APA91bGBXtyZ3Dusmj01LlCQJPKY_BRhHv3pIG1W-O2NG3h9DWG70bOlcD1X5Fml_ibIX386MtkWAmhnyrEbkajJSwNbK8NgAhupBiVQeKBgLaTdHGTZmhL9j7LVPPayTJD8CQnJ8_NO';
+		$headers = array(
+			'Authorization: key=' . $api,
+			'Content-Type: application/json'
+		);
+
+		// Open connection
+		$ch = curl_init();
+
+		// Set the url, number of POST vars, POST data
+		curl_setopt($ch, CURLOPT_URL, $url);
+
+		curl_setopt($ch, CURLOPT_POST, true);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+		// Disabling SSL Certificate support temporarly
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+		curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
+
+		// Execute post
+		$result = curl_exec($ch);
+		if ($result === FALSE) {
+			die('Curl failed: ' . curl_error($ch));
+		}
+
+		// Close connection
+		curl_close($ch);
+
+		return $result;
 	}
 }

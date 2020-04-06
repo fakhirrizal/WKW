@@ -43,7 +43,7 @@
 		<i class="fa fa-circle"></i>
 	</li>
 	<li>
-		<span>Tambah Data</span>
+		<span>Ubah Data</span>
 	</li>
 </ul>
 <?= $this->session->flashdata('sukses') ?>
@@ -90,7 +90,7 @@
 							<div class="row">
 								<div class="col-md-offset-2 col-md-10">
 									<button type="reset" class="btn default">Batal</button>
-									<button type="submit" class="btn blue">Simpan</button>
+									<button type="submit" class="btn blue">Perbarui</button>
 								</div>
 							</div>
 						</div>
