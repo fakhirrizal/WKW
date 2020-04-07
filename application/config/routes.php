@@ -64,6 +64,7 @@ $route['admin_side/launcher'] = 'admin/App/launcher';
 $route['admin_side/beranda'] = 'admin/App/home';
 $route['admin_side/menu'] = 'admin/App/menu';
 $route['admin_side/log_activity'] = 'admin/App/log_activity';
+$route['admin_side/hapus_aktifitas/(:any)'] = 'admin/App/delete_activity/$1';
 $route['admin_side/cleaning_log'] = 'admin/App/cleaning_log';
 $route['admin_side/tentang_aplikasi'] = 'admin/App/about';
 $route['admin_side/bantuan'] = 'admin/App/helper';
@@ -90,6 +91,8 @@ $route['admin_side/hapus_data_admin/(:any)'] = 'admin/Master/delete_administrato
 $route['admin_side/data_anggota'] = 'admin/Master/member_data';
 $route['admin_side/tambah_data_anggota'] = 'admin/Master/add_member_data';
 $route['admin_side/simpan_data_anggota'] = 'admin/Master/save_member_data';
+$route['admin_side/ubah_data_anggota/(:any)'] = 'admin/Master/edit_member_data/$1';
+$route['admin_side/perbarui_data_anggota'] = 'admin/Master/update_member_data';
 $route['admin_side/atur_ulang_kata_sandi_anggota/(:any)'] = 'admin/Master/reset_password_member_account/$1';
 $route['admin_side/hapus_data_anggota/(:any)'] = 'admin/Master/delete_member_data/$1';
 

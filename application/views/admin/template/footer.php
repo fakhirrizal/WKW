@@ -85,7 +85,7 @@
         <!-- END PRE-FOOTER -->
         <!-- BEGIN INNER FOOTER -->
         <div class="page-footer">
-            <div class="container"> 2019 &copy; Warta Kalipucang Wetan.
+            <div class="container"> 2020 &copy; Warta Kalipucang Wetan.
             </div>
         </div>
         <div class="scroll-to-top">

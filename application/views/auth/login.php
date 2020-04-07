@@ -107,7 +107,7 @@ License: You must have a valid license purchased only from themeforest(the above
             </form>
             <!-- END FORGOT PASSWORD FORM -->
         </div>
-        <div class="copyright"> 2019 © Warta Kalipucang Wetan - Batang. </div>
+        <div class="copyright"> 2020 © Warta Kalipucang Wetan - Batang. </div>
         <!-- END LOGIN -->
         <!--[if lt IE 9]>
 <script src="../assets_dashboard/global/plugins/respond.min.js"></script>

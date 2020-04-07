@@ -1,38 +1,4 @@
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-<!-- <script src="<?=base_url('assets/pages/scripts/components-editors.min.js');?>" type="text/javascript"></script> -->
-<script type="text/javascript">
-
-	$(function(){
-
-		$.ajaxSetup({
-			type:"POST",
-			url: "<?php echo site_url('/admin/Master/ajax_function')?>",
-			cache: false,
-		});
-
-		$("#wilayah").change(function(){
-			var value=$(this).val();
-			$.ajax({
-				data:{id:value,modul:'get_data_kabupaten_by_keterangan_admin'},
-				success: function(respond){
-					$("#tampil").html(respond);
-				}
-			})
-		});
-
-		$("#id_provinsi").change(function(){
-			var value=$(this).val();
-			$.ajax({
-				data:{id:value,modul:'get_kabupaten_by_id_provinsi'},
-				success: function(respond){
-					$("#id_kabupaten").html(respond);
-				}
-			})
-		});
-
-	})
-
-</script>
 <ul class="page-breadcrumb breadcrumb">
 	<li>
 		<span>Master</span>
@@ -59,7 +25,6 @@
 			<div class="portlet light ">
 				<div class="portlet-body">
 					<form role="form" class="form-horizontal" action="<?=base_url('admin_side/simpan_data_anggota');?>" method="post" enctype='multipart/form-data'>
-						<input type="hidden" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>">
 						<div class="form-body">
 							<div class="form-group form-md-line-input has-danger">
 								<label class="col-md-2 control-label" for="form_control_1">NIK <span class="required"> * </span></label>
@@ -106,17 +71,6 @@
 								</div>
 							</div>
 							<hr>
-							<div class="form-group form-md-line-input has-danger">
-								<label class="col-md-2 control-label" for="form_control_1">Username <span class="required"> * </span></label>
-								<div class="col-md-10">
-									<div class="input-icon">
-										<input type="text" class="form-control" name="un" placeholder="Type something" required>
-										<div class="form-control-focus"> </div>
-										<span class="help-block">Some help goes here...</span>
-										<i class="icon-user-following"></i>
-									</div>
-								</div>
-							</div>
 							<div class="form-group form-md-line-input has-danger">
 								<label class="col-md-2 control-label" for="form_control_1">Kata Sandi <span class="required"> * </span></label>
 								<div class="col-md-10">
