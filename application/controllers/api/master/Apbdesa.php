@@ -16,23 +16,101 @@ class Apbdesa extends REST_Controller {
 		$this->methods['users_delete']['limit'] = 50; // 50 requests per hour per user/key
 	}
 	function index_get() {
-		if($this->get('tahun')!=NULL){
-			$hasil = $this->Main_model->getSelectedData('apbdes a', 'a.*', array('a.tahun'=>$this->get('tahun')), 'a.keterangan')->result();
+		if($this->get('tahun')!=NULL AND $this->get('keterangan')!=NULL AND $this->get('kategori')!=NULL){
+			$hasil = $this->Main_model->getSelectedData('apbdes a', 'a.*', array('a.tahun'=>$this->get('tahun'),'a.keterangan'=>$this->get('keterangan'),'a.kategori'=>$this->get('kategori')))->result();
 			if($hasil==NULL){
 				$balikan['status'] = '0';
 				$balikan['message'] = 'Data kosong.';
 				$this->response($balikan, 200);
 			}else{
-				$this->response($hasil, 200);
+				$balikan['status'] = '1';
+				$balikan['list'] = $hasil;
+				$balikan['total'] = count($hasil);
+				$this->response($balikan, 200);
+			}
+		}elseif($this->get('tahun')!=NULL AND $this->get('keterangan')==NULL AND $this->get('kategori')!=NULL){
+			$hasil = $this->Main_model->getSelectedData('apbdes a', 'a.*', array('a.tahun'=>$this->get('tahun'),'a.kategori'=>$this->get('kategori')))->result();
+			if($hasil==NULL){
+				$balikan['status'] = '0';
+				$balikan['message'] = 'Data kosong.';
+				$this->response($balikan, 200);
+			}else{
+				$balikan['status'] = '1';
+				$balikan['list'] = $hasil;
+				$balikan['total'] = count($hasil);
+				$this->response($balikan, 200);
+			}
+		}elseif($this->get('tahun')!=NULL AND $this->get('keterangan')!=NULL AND $this->get('kategori')==NULL){
+			$hasil = $this->Main_model->getSelectedData('apbdes a', 'a.*', array('a.tahun'=>$this->get('tahun'),'a.keterangan'=>$this->get('keterangan')))->result();
+			if($hasil==NULL){
+				$balikan['status'] = '0';
+				$balikan['message'] = 'Data kosong.';
+				$this->response($balikan, 200);
+			}else{
+				$balikan['status'] = '1';
+				$balikan['list'] = $hasil;
+				$balikan['total'] = count($hasil);
+				$this->response($balikan, 200);
+			}
+		}elseif($this->get('tahun')!=NULL AND $this->get('keterangan')==NULL AND $this->get('kategori')==NULL){
+			$hasil = $this->Main_model->getSelectedData('apbdes a', 'a.*', array('a.tahun'=>$this->get('tahun')))->result();
+			if($hasil==NULL){
+				$balikan['status'] = '0';
+				$balikan['message'] = 'Data kosong.';
+				$this->response($balikan, 200);
+			}else{
+				$balikan['status'] = '1';
+				$balikan['list'] = $hasil;
+				$balikan['total'] = count($hasil);
+				$this->response($balikan, 200);
+			}
+		}elseif($this->get('tahun')==NULL AND $this->get('keterangan')!=NULL AND $this->get('kategori')!=NULL){
+			$hasil = $this->Main_model->getSelectedData('apbdes a', 'a.*', array('a.keterangan'=>$this->get('keterangan'),'a.kategori'=>$this->get('kategori')))->result();
+			if($hasil==NULL){
+				$balikan['status'] = '0';
+				$balikan['message'] = 'Data kosong.';
+				$this->response($balikan, 200);
+			}else{
+				$balikan['status'] = '1';
+				$balikan['list'] = $hasil;
+				$balikan['total'] = count($hasil);
+				$this->response($balikan, 200);
+			}
+		}elseif($this->get('tahun')==NULL AND $this->get('keterangan')!=NULL AND $this->get('kategori')==NULL){
+			$hasil = $this->Main_model->getSelectedData('apbdes a', 'a.*', array('a.keterangan'=>$this->get('keterangan')))->result();
+			if($hasil==NULL){
+				$balikan['status'] = '0';
+				$balikan['message'] = 'Data kosong.';
+				$this->response($balikan, 200);
+			}else{
+				$balikan['status'] = '1';
+				$balikan['list'] = $hasil;
+				$balikan['total'] = count($hasil);
+				$this->response($balikan, 200);
+			}
+		}elseif($this->get('tahun')==NULL AND $this->get('keterangan')==NULL AND $this->get('kategori')!=NULL){
+			$hasil = $this->Main_model->getSelectedData('apbdes a', 'a.*', array('a.kategori'=>$this->get('kategori')))->result();
+			if($hasil==NULL){
+				$balikan['status'] = '0';
+				$balikan['message'] = 'Data kosong.';
+				$this->response($balikan, 200);
+			}else{
+				$balikan['status'] = '1';
+				$balikan['list'] = $hasil;
+				$balikan['total'] = count($hasil);
+				$this->response($balikan, 200);
 			}
 		}else{
-			$hasil = $this->Main_model->getSelectedData('apbdes a', 'a.*', '', 'a.keterangan')->result();
+			$hasil = $this->Main_model->getSelectedData('apbdes a', 'a.*')->result();
 			if($hasil==NULL){
 				$balikan['status'] = '0';
 				$balikan['message'] = 'Data kosong.';
 				$this->response($balikan, 200);
 			}else{
-				$this->response($hasil, 200);
+				$balikan['status'] = '1';
+				$balikan['list'] = $hasil;
+				$balikan['total'] = count($hasil);
+				$this->response($balikan, 200);
 			}
 		}
 	}

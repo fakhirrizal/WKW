@@ -27,7 +27,10 @@ class Kabupaten extends REST_Controller {
 				$balikan['message'] = 'Data kosong.';
 				$this->response($balikan, 200);
 			}else{
-				$this->response($hasil, 200);
+				$balikan['status'] = '1';
+				$balikan['list'] = $hasil;
+				$balikan['total'] = count($hasil);
+				$this->response($balikan, 200);
 			}
 		}elseif($this->get('id_kabupaten')!=NULL){
 			$hasil = $this->Main_model->getSelectedData('kabupaten a', 'a.*', array('a.id_kabupaten'=>$this->get('id_kabupaten')),'','','','',array(
@@ -53,7 +56,10 @@ class Kabupaten extends REST_Controller {
 				$balikan['message'] = 'Data kosong.';
 				$this->response($balikan, 200);
 			}else{
-				$this->response($hasil, 200);
+				$balikan['status'] = '1';
+				$balikan['list'] = $hasil;
+				$balikan['total'] = count($hasil);
+				$this->response($balikan, 200);
 			}
 		}
 	}

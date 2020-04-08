@@ -39,7 +39,9 @@ class Desa extends REST_Controller {
 				$balikan['message'] = 'Data kosong.';
 				$this->response($balikan, 200);
 			}else{
-				$this->response($hasil, 200);
+				$balikan['list'] = $hasil;
+				$balikan['total'] = count($hasil);
+				$this->response($balikan, 200);
 			}
 		}elseif($this->get('id_kabupaten')!=NULL){
 			$hasil = $this->Main_model->getSelectedData('desa a', 'a.id_desa,a.nm_desa,c.nm_kecamatan,b.nm_kabupaten,f.nm_provinsi', array('a.id_kabupaten'=>$this->get('id_kabupaten')),'','','','',array(
@@ -64,7 +66,9 @@ class Desa extends REST_Controller {
 				$balikan['message'] = 'Data kosong.';
 				$this->response($balikan, 200);
 			}else{
-				$this->response($hasil, 200);
+				$balikan['list'] = $hasil;
+				$balikan['total'] = count($hasil);
+				$this->response($balikan, 200);
 			}
 		}elseif($this->get('id_kecamatan')!=NULL){
 			$hasil = $this->Main_model->getSelectedData('desa a', 'a.id_desa,a.nm_desa,c.nm_kecamatan,b.nm_kabupaten,f.nm_provinsi', array('a.id_kecamatan'=>$this->get('id_kecamatan')),'','','','',array(
@@ -89,7 +93,10 @@ class Desa extends REST_Controller {
 				$balikan['message'] = 'Data kosong.';
 				$this->response($balikan, 200);
 			}else{
-				$this->response($hasil, 200);
+				$balikan['status'] = '1';
+				$balikan['list'] = $hasil;
+				$balikan['total'] = count($hasil);
+				$this->response($balikan, 200);
 			}
 		}elseif($this->get('id_desa')!=NULL){
 			$hasil = $this->Main_model->getSelectedData('desa a', 'a.id_desa,a.nm_desa,c.nm_kecamatan,b.nm_kabupaten,f.nm_provinsi', array('a.id_desa'=>$this->get('id_desa')),'','','','',array(
@@ -139,7 +146,9 @@ class Desa extends REST_Controller {
 				$balikan['message'] = 'Data kosong.';
 				$this->response($balikan, 200);
 			}else{
-				$this->response($hasil, 200);
+				$balikan['list'] = $hasil;
+				$balikan['total'] = count($hasil);
+				$this->response($balikan, 200);
 			}
 		}
 	}

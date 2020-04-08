@@ -23,6 +23,7 @@ class Berita extends REST_Controller {
 				$balikan['message'] = 'Data kosong.';
 				$this->response($balikan, 200);
 			}else{
+				$isi['status'] = '1';
 				$isi['id_berita'] = $hasil->id_berita;
 				$isi['judul'] = $hasil->judul;
 				$isi['foto'] = base_url().'data_upload/berita/'.$hasil->foto;
@@ -46,7 +47,10 @@ class Berita extends REST_Controller {
 					$isi['created_at'] = $this->Main_model->convert_datetime($value->created_at);
 					$data_tampil[] = $isi;
 				}
-				$this->response($data_tampil, 200);
+				$balikan['status'] = '1';
+				$balikan['list'] = $data_tampil;
+				$balikan['total'] = count($data_tampil);
+				$this->response($balikan, 200);
 			}
 		}
 	}

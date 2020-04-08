@@ -116,6 +116,12 @@ $route['admin_side/simpan_data_rincian_apbdesa'] = 'admin/Master/simpan_data_rin
 $route['admin_side/perbarui_data_rincian_apbdesa'] = 'admin/Master/perbarui_data_rincian_apbdesa';
 $route['admin_side/hapus_item_apbdesa/(:any)'] = 'admin/Master/hapus_item_apbdesa/$1';
 
+$route['admin_side/data_kependudukan'] = 'admin/Master/kependudukan';
+$route['admin_side/simpan_data_rincian_kependudukan'] = 'admin/Master/simpan_data_rincian_kependudukan';
+$route['admin_side/perbarui_rincian_data_kependudukan'] = 'admin/Master/perbarui_rincian_data_kependudukan';
+$route['admin_side/detail_kependudukan/(:any)/(:any)'] = 'admin/Master/detail_kependudukan/$1/$2';
+$route['admin_side/hapus_item_data_kependudukan/(:any)'] = 'admin/Master/hapus_item_data_kependudukan/$1';
+
 /* Mobile */
 $route['mobile_side/login'] = 'mobile/App/login';
 $route['mobile_side/login_process'] = 'mobile/App/login_process';

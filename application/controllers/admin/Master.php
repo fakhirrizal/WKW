@@ -232,9 +232,6 @@ class Master extends CI_Controller {
 			echo "<script>window.location='".base_url()."admin_side/administrator/'</script>";
 		}
 	}
-	public function download_admin_data(){
-		$this->load->view('admin/master/cetak_data_admin');
-	}
 	public function delete_administrator_data(){
 		$this->db->trans_start();
 		$user_id = '';
@@ -872,6 +869,122 @@ class Master extends CI_Controller {
 			echo "<script>window.location='".base_url()."admin_side/potensi_desa/'</script>";
 		}
 	}
+	/* Kependudukan */
+	public function kependudukan(){
+		$data['parent'] = 'tentang_desa';
+        $data['child'] = 'data_kependudukan';
+        $data['grand_child'] = '';
+        $this->load->view('admin/template/header',$data);
+        $this->load->view('admin/master/data_kependudukan',$data);
+        $this->load->view('admin/template/footer');
+	}
+	public function json_kependudukan(){
+		$get_data1 = $this->Main_model->getSelectedData('data_kependudukan a', 'a.*', '', '', '', '', 'a.tahun')->result();
+        $data_tampil = array();
+		$no = 1;
+		foreach ($get_data1 as $key => $row) {
+			$get_data2 = $this->Main_model->getSelectedData('data_kependudukan a', 'a.*', array('a.tahun'=>$row->tahun), '', '', '', 'a.kategori')->result();
+			foreach ($get_data2 as $key => $value) {
+				$isi['no'] = $no++.'.';
+				$isi['tahun'] = $value->tahun;
+				$isi['kategori'] = $value->kategori;
+				$return_on_click = "return confirm('Anda yakin?')";
+				$isi['action'] =	'
+									<div class="btn-group" style="text-align: center;">
+										<button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Aksi
+											<i class="fa fa-angle-down"></i>
+										</button>
+										<ul class="dropdown-menu" role="menu">
+											<li>
+												<a href="'.site_url('admin_side/detail_kependudukan/'.md5($value->tahun)).'/'.md5($value->kategori).'">
+													<i class="icon-action-redo"></i> Detail Data </a>
+											</li>
+										</ul>
+									</div>
+									';
+				$data_tampil[] = $isi;
+			}
+		}
+		$results = array(
+			"sEcho" => 1,
+			"iTotalRecords" => count($data_tampil),
+			"iTotalDisplayRecords" => count($data_tampil),
+			"aaData"=>$data_tampil);
+		echo json_encode($results);
+	}
+	public function simpan_data_rincian_kependudukan(){
+		$this->db->trans_start();
+		$data_insert_1 = array(
+			'tahun' => $this->input->post('tahun'),
+			'keterangan' => $this->input->post('keterangan'),
+			'kategori' => $this->input->post('kategori'),
+			'jumlah' => $this->input->post('jumlah')
+		);
+		$this->Main_model->insertData('data_kependudukan',$data_insert_1);
+		$this->Main_model->log_activity($this->session->userdata('id'),'Updating data',"Menambahkan rincian data kependudukan (".$this->input->post('kategori')." - ".$this->input->post('keterangan').")",$this->session->userdata('location'));
+		$this->db->trans_complete();
+		if($this->db->trans_status() === false){
+			$this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal disimpan.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/detail_kependudukan/".md5($this->input->post('tahun'))."/".md5($this->input->post('kategori'))."'</script>";
+		}
+		else{
+			$this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil disimpan.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/detail_kependudukan/".md5($this->input->post('tahun'))."/".md5($this->input->post('kategori'))."'</script>";
+		}
+	}
+	public function detail_kependudukan(){
+		$data['parent'] = 'tentang_desa';
+        $data['child'] = 'data_kependudukan';
+		$data['grand_child'] = '';
+		$data['data_utama'] = $this->Main_model->getSelectedData('data_kependudukan a', 'a.*',array('md5(a.kategori)'=>$this->uri->segment(4),'md5(a.tahun)'=>$this->uri->segment(3)), '', '1')->row();
+		$data['data_detail'] = $this->Main_model->getSelectedData('data_kependudukan a', 'a.*',array('md5(a.kategori)'=>$this->uri->segment(4),'md5(a.tahun)'=>$this->uri->segment(3)))->result();
+        $this->load->view('admin/template/header',$data);
+        $this->load->view('admin/master/detail_kependudukan',$data);
+        $this->load->view('admin/template/footer');
+	}
+	public function perbarui_rincian_data_kependudukan(){
+		$this->db->trans_start();
+		$data_insert_1 = array(
+			'keterangan' => $this->input->post('keterangan'),
+			'jumlah' => $this->input->post('jumlah')
+		);
+		$this->Main_model->updateData('data_kependudukan',$data_insert_1,array('md5(id)'=>$this->input->post('id')));
+		$this->Main_model->log_activity($this->session->userdata('id'),'Updating data',"Memperbarui rincian data kependudukan (".$this->input->post('kategori')." - ".$this->input->post('keterangan').")",$this->session->userdata('location'));
+		$this->db->trans_complete();
+		if($this->db->trans_status() === false){
+			$this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal disimpan.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/detail_kependudukan/".md5($this->input->post('tahun'))."/".md5($this->input->post('kategori'))."'</script>";
+		}
+		else{
+			$this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil disimpan.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/detail_kependudukan/".md5($this->input->post('tahun'))."/".md5($this->input->post('kategori'))."'</script>";
+		}
+	}
+	public function hapus_item_data_kependudukan(){
+		$this->db->trans_start();
+		$id = '';
+		$nama = '';
+		$thn = '';
+		$kat = '';
+		$get_data = $this->Main_model->getSelectedData('data_kependudukan a', 'a.*',array('md5(a.id)'=>$this->uri->segment(3)))->row();
+		$id = $get_data->id;
+		$nama = $get_data->keterangan;
+		$thn = $get_data->tahun;
+		$kat = $get_data->kategori;
+
+		$this->Main_model->deleteData('data_kependudukan',array('id'=>$id));
+
+		$this->Main_model->log_activity($this->session->userdata('id'),"Deleting data","Menghapus rincian data kependudukan (".$kat." - ".$nama.")",$this->session->userdata('location'));
+		$this->db->trans_complete();
+		if($this->db->trans_status() === false){
+			$this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal dihapus.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/detail_kependudukan/".md5($thn)."'</script>";
+		}
+		else{
+			$this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil dihapus.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/detail_kependudukan/".md5($thn)."/".md5($kat)."'</script>";
+		}
+	}
 	/* APBDESA */
 	public function apbdesa_desa(){
 		$data['parent'] = 'tentang_desa';
@@ -882,7 +995,7 @@ class Master extends CI_Controller {
         $this->load->view('admin/template/footer');
 	}
 	public function json_apbdesa(){
-		$get_data = $this->Main_model->getSelectedData('apbdes a', 'a.*,(SELECT SUM(b.nominal) FROM apbdes b WHERE b.tahun=a.tahun AND b.keterangan="pagu") AS pagu,(SELECT SUM(c.nominal) FROM apbdes c WHERE c.tahun=a.tahun AND c.keterangan="pengeluaran") AS pengeluaran', '', '', '', '', 'a.tahun')->result();
+		$get_data = $this->Main_model->getSelectedData('apbdes a', 'a.*,(SELECT SUM(b.nominal) FROM apbdes b WHERE b.tahun=a.tahun AND b.keterangan="pendapatan") AS pagu,(SELECT SUM(c.nominal) FROM apbdes c WHERE c.tahun=a.tahun AND c.keterangan="pengeluaran") AS pengeluaran', '', '', '', '', 'a.tahun')->result();
         $data_tampil = array();
         $no = 1;
 		foreach ($get_data as $key => $value) {
@@ -1027,6 +1140,10 @@ class Master extends CI_Controller {
 		elseif($this->input->post('modul')=='modul_ubah_data_rincian_apbdesa'){
 			$data['data_utama'] = $this->Main_model->getSelectedData('apbdes a', 'a.*', array('md5(a.id_apbdes)'=>$this->input->post('id')))->row();
 			$this->load->view('admin/master/ajax_page/form_ubah_data_rincian_apbdesa',$data);
+		}
+		elseif($this->input->post('modul')=='modul_ubah_rincian_data_kependudukan'){
+			$data['data_utama'] = $this->Main_model->getSelectedData('data_kependudukan a', 'a.*', array('md5(a.id)'=>$this->input->post('id')))->row();
+			$this->load->view('admin/master/ajax_page/form_ubah_rincian_data_kependudukan',$data);
 		}
 	}
 }

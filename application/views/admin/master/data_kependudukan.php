@@ -8,7 +8,7 @@
 		<i class="fa fa-circle"></i>
 	</li>
 	<li>
-		<span>Data APBDESA</span>
+		<span>Data Kependudukan</span>
 	</li>
 </ul>
 <?= $this->session->flashdata('sukses') ?>
@@ -16,7 +16,7 @@
 <div class="page-content-inner">
 	<div class="m-heading-1 border-yellow m-bordered" style="background-color:#FAD405;">
 		<h3>Catatan</h3>
-		<p> 1. Jika akan menambahkan rincian data APBDESA silahkan masuk ke detail data tahun APBDESA terlebih dahulu.</p>
+		<p> 1. Jika akan menambahkan rincian data kependudukan silahkan masuk ke detail data terlebih dahulu.</p>
 		<!-- <p> 2. Data ekspor berupa file excel (<b>.xls</b>)</p> -->
 	</div>
 	<div class="row">
@@ -28,9 +28,8 @@
 						<thead>
 							<tr>
 								<th style="text-align: center;" width="1%"> # </th>
-								<th style="text-align: center;"> Tahun APBDESA </th>
-								<th style="text-align: center;"> Total Pendapatan </th>
-								<th style="text-align: center;"> Total Belanja </th>
+								<th style="text-align: center;"> Tahun </th>
+								<th style="text-align: center;"> Monografi Kependudukan </th>
 								<th style="text-align: center;" width="1%"> Aksi </th>
 							</tr>
 						</thead>
@@ -42,13 +41,12 @@
 								"order": [[ 0, "asc" ]],
 								"bProcessing": true,
 								"ajax" : {
-									url:"<?= site_url('admin/Master/json_apbdesa'); ?>"
+									url:"<?= site_url('admin/Master/json_kependudukan'); ?>"
 								},
 								"aoColumns": [
 											{ mData: 'no', sClass: "alignCenter" },
 											{ mData: 'tahun', sClass: "alignCenter" },
-											{ mData: 'pagu', sClass: "alignCenter" },
-											{ mData: 'out', sClass: "alignCenter" },
+											{ mData: 'kategori', sClass: "alignCenter" },
 											{ mData: 'action' }
 										]
 							});

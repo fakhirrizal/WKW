@@ -120,66 +120,11 @@ class App extends CI_Controller {
 		$this->load->view('mobile/app/population');
 		$this->load->view('mobile/template/footer');
 	}
-	public function log_activity()
-	{
-		$data['parent'] = 'log_activity';
-		$data['child'] = '';
-		$data['grand_child'] = '';
-		$data['data_tabel'] = $this->Main_model->getSelectedData('activity_logs a', 'a.*,b.fullname', array('a.user_id'=>$this->session->userdata('id')), "a.activity_time DESC",'','','',array(
-			'table' => 'user_profile b',
-			'on' => 'a.user_id=b.user_id',
-			'pos' => 'LEFT'
-		))->result();
-		$this->load->view('mobile/template/header',$data);
-		$this->load->view('mobile/app/log_activity',$data);
-		$this->load->view('mobile/template/footer');
-	}
-	public function cleaning_log(){
-		$this->db->trans_start();
-		$this->Main_model->cleanData('activity_logs');
-		$this->db->trans_complete();
-		if($this->db->trans_status() === false){
-			$this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal dihapus.<br /></div>' );
-			echo "<script>window.location='".base_url()."member_side/log_activity/'</script>";
-		}
-		else{
-			$this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil dihapus.<br /></div>' );
-			echo "<script>window.location='".base_url()."member_side/log_activity/'</script>";
-		}
-	}
-	public function about()
-	{
-		$data['parent'] = 'about';
-		$data['child'] = '';
-		$data['grand_child'] = '';
-		$this->load->view('mobile/template/header',$data);
-		$this->load->view('mobile/app/about',$data);
-		$this->load->view('mobile/template/footer');
-	}
-	public function helper()
-	{
-		$data['parent'] = 'helper';
-		$data['child'] = '';
-		$data['grand_child'] = '';
-		$this->load->view('mobile/template/header',$data);
-		$this->load->view('mobile/app/helper',$data);
-		$this->load->view('mobile/template/footer');
-	}
 	public function logout(){
 		$this->session->sess_destroy();
 		echo "<script>window.location='".base_url('mobile_side/login')."'</script>";
 	}
 	/* Menu setting and user's permission */
-	public function ajax_function(){
-		if($this->input->post('modul')=='modul_detail_log_aktifitas'){
-			$data['data_utama'] = $this->Main_model->getSelectedData('activity_logs a', 'a.*,b.fullname', array('md5(a.activity_id)'=>$this->input->post('id')), "",'','','',array(
-				'table' => 'user_profile b',
-				'on' => 'a.user_id=b.user_id',
-				'pos' => 'LEFT'
-			))->result();
-			$this->load->view('mobile/app/ajax_detail_log_aktifitas',$data);
-		}
-	}
 	public function ajax_page(){
 		if($this->input->post('modul')=='beranda'){
 			$data['berita'] = $this->Main_model->getSelectedData('berita a', 'a.*', '', "a.created_at DESC",'2')->result();

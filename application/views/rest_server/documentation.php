@@ -767,8 +767,8 @@
                                                                                     {
                                                                                             "id_apbdes": int,
                                                                                             "tahun": int,
-                                                                                            "keterangan": pagu/ pengeluaran/ pendapatan,
-                                                                                            "kategori": string,
+                                                                                            "keterangan": pengeluaran/ pendapatan,
+                                                                                            "kategori": Rencana/ Realisasi,
                                                                                             "rincian": string,
                                                                                             "nominal": int
                                                                                     }
@@ -808,8 +808,254 @@
                                                                                     {
                                                                                             "id_apbdes": int,
                                                                                             "tahun": int,
-                                                                                            "keterangan": pagu/ pengeluaran/ pendapatan,
-                                                                                            "kategori": string,
+                                                                                            "keterangan": pengeluaran/ pendapatan,
+                                                                                            "kategori": Rencana/ Realisasi,
+                                                                                            "rincian": string,
+                                                                                            "nominal": int
+                                                                                    }
+                                                                            ]
+                                                                            </textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Akhir -->
+                                            <!-- Awal -->
+                                            <div class="portlet-body">
+                                                <div class="panel-group accordion" id="accordion3">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a class="accordion-toggle accordion-toggle-styled collapsed" data-toggle="collapse" data-parent="#accordion3" href="#collapse_3_28" aria-expanded="false"> <span class="label label-success"> GET </span>&nbsp;&nbsp;{URL}/api/master/Apbdesa?keterangan={keterangan}</a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapse_3_28" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="portlet light ">
+                                                                        <div class="portlet-title">
+                                                                            <b>URL</b> : https://kalipucangwetan.id/api/master/Apbdesa?keterangan={keterangan}<br>
+                                                                            <b>Method</b> : GET<br>
+                                                                            <b>Deskripsi</b> : Mendapatkan semua data APBDESA berdasarkan keterangan (pendapatan atau pengeluaran) tertentu<br><br>
+                                                                        </div>
+                                                                        <div class="portlet-body">
+                                                                            Balikannya sebagai berikut,<br><br>
+                                                                            <textarea class='form-control' rows='10' readonly>
+                                                                            [
+                                                                                    {
+                                                                                            "id_apbdes": int,
+                                                                                            "tahun": int,
+                                                                                            "keterangan": pengeluaran/ pendapatan,
+                                                                                            "kategori": Rencana/ Realisasi,
+                                                                                            "rincian": string,
+                                                                                            "nominal": int
+                                                                                    }
+                                                                            ]
+                                                                            </textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Akhir -->
+                                            <!-- Awal -->
+                                            <div class="portlet-body">
+                                                <div class="panel-group accordion" id="accordion3">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a class="accordion-toggle accordion-toggle-styled collapsed" data-toggle="collapse" data-parent="#accordion3" href="#collapse_3_29" aria-expanded="false"> <span class="label label-success"> GET </span>&nbsp;&nbsp;{URL}/api/master/Apbdesa?kategori={kategori}</a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapse_3_29" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="portlet light ">
+                                                                        <div class="portlet-title">
+                                                                            <b>URL</b> : https://kalipucangwetan.id/api/master/Apbdesa?kategori={kategori}<br>
+                                                                            <b>Method</b> : GET<br>
+                                                                            <b>Deskripsi</b> : Mendapatkan semua data APBDESA berdasarkan kategori (Rencana atau Realisasi) tertentu<br><br>
+                                                                        </div>
+                                                                        <div class="portlet-body">
+                                                                            Balikannya sebagai berikut,<br><br>
+                                                                            <textarea class='form-control' rows='10' readonly>
+                                                                            [
+                                                                                    {
+                                                                                            "id_apbdes": int,
+                                                                                            "tahun": int,
+                                                                                            "keterangan": pengeluaran/ pendapatan,
+                                                                                            "kategori": Rencana/ Realisasi,
+                                                                                            "rincian": string,
+                                                                                            "nominal": int
+                                                                                    }
+                                                                            ]
+                                                                            </textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Akhir -->
+                                            <!-- Awal -->
+                                            <div class="portlet-body">
+                                                <div class="panel-group accordion" id="accordion3">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a class="accordion-toggle accordion-toggle-styled collapsed" data-toggle="collapse" data-parent="#accordion3" href="#collapse_3_30" aria-expanded="false"> <span class="label label-success"> GET </span>&nbsp;&nbsp;{URL}/api/master/Apbdesa?tahun={tahun}&keterangan={keterangan}</a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapse_3_30" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="portlet light ">
+                                                                        <div class="portlet-title">
+                                                                            <b>URL</b> : https://kalipucangwetan.id/api/master/Apbdesa?tahun={tahun}&keterangan={keterangan}<br>
+                                                                            <b>Method</b> : GET<br>
+                                                                            <b>Deskripsi</b> : Mendapatkan semua data APBDESA berdasarkan tahun dan keterangan (pendapatan atau pengeluaran) tertentu<br><br>
+                                                                        </div>
+                                                                        <div class="portlet-body">
+                                                                            Balikannya sebagai berikut,<br><br>
+                                                                            <textarea class='form-control' rows='10' readonly>
+                                                                            [
+                                                                                    {
+                                                                                            "id_apbdes": int,
+                                                                                            "tahun": int,
+                                                                                            "keterangan": pengeluaran/ pendapatan,
+                                                                                            "kategori": Rencana/ Realisasi,
+                                                                                            "rincian": string,
+                                                                                            "nominal": int
+                                                                                    }
+                                                                            ]
+                                                                            </textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Akhir -->
+                                            <!-- Awal -->
+                                            <div class="portlet-body">
+                                                <div class="panel-group accordion" id="accordion3">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a class="accordion-toggle accordion-toggle-styled collapsed" data-toggle="collapse" data-parent="#accordion3" href="#collapse_3_31" aria-expanded="false"> <span class="label label-success"> GET </span>&nbsp;&nbsp;{URL}/api/master/Apbdesa?tahun={tahun}&kategori={kategori}</a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapse_3_31" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="portlet light ">
+                                                                        <div class="portlet-title">
+                                                                            <b>URL</b> : https://kalipucangwetan.id/api/master/Apbdesa?tahun={tahun}&kategori={kategori}<br>
+                                                                            <b>Method</b> : GET<br>
+                                                                            <b>Deskripsi</b> : Mendapatkan semua data APBDESA berdasarkan tahun dan kategori (Rencana atau Realisasi) tertentu<br><br>
+                                                                        </div>
+                                                                        <div class="portlet-body">
+                                                                            Balikannya sebagai berikut,<br><br>
+                                                                            <textarea class='form-control' rows='10' readonly>
+                                                                            [
+                                                                                    {
+                                                                                            "id_apbdes": int,
+                                                                                            "tahun": int,
+                                                                                            "keterangan": pengeluaran/ pendapatan,
+                                                                                            "kategori": Rencana/ Realisasi,
+                                                                                            "rincian": string,
+                                                                                            "nominal": int
+                                                                                    }
+                                                                            ]
+                                                                            </textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Akhir -->
+                                            <!-- Awal -->
+                                            <div class="portlet-body">
+                                                <div class="panel-group accordion" id="accordion3">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a class="accordion-toggle accordion-toggle-styled collapsed" data-toggle="collapse" data-parent="#accordion3" href="#collapse_3_32" aria-expanded="false"> <span class="label label-success"> GET </span>&nbsp;&nbsp;{URL}/api/master/Apbdesa?keterangan={keterangan}&kategori={kategori}</a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapse_3_32" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="portlet light ">
+                                                                        <div class="portlet-title">
+                                                                            <b>URL</b> : https://kalipucangwetan.id/api/master/Apbdesa?keterangan={keterangan}&kategori={kategori}<br>
+                                                                            <b>Method</b> : GET<br>
+                                                                            <b>Deskripsi</b> : Mendapatkan semua data APBDESA berdasarkan keterangan (pendapatan atau pengeluaran) dan kategori (Rencana atau Realisasi) tertentu<br><br>
+                                                                        </div>
+                                                                        <div class="portlet-body">
+                                                                            Balikannya sebagai berikut,<br><br>
+                                                                            <textarea class='form-control' rows='10' readonly>
+                                                                            [
+                                                                                    {
+                                                                                            "id_apbdes": int,
+                                                                                            "tahun": int,
+                                                                                            "keterangan": pengeluaran/ pendapatan,
+                                                                                            "kategori": Rencana/ Realisasi,
+                                                                                            "rincian": string,
+                                                                                            "nominal": int
+                                                                                    }
+                                                                            ]
+                                                                            </textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Akhir -->
+                                            <!-- Awal -->
+                                            <div class="portlet-body">
+                                                <div class="panel-group accordion" id="accordion3">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a class="accordion-toggle accordion-toggle-styled collapsed" data-toggle="collapse" data-parent="#accordion3" href="#collapse_3_33" aria-expanded="false"> <span class="label label-success"> GET </span>&nbsp;&nbsp;{URL}/api/master/Apbdesa?tahun={tahun}&keterangan={keterangan}&kategori={kategori}</a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapse_3_33" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="portlet light ">
+                                                                        <div class="portlet-title">
+                                                                            <b>URL</b> : https://kalipucangwetan.id/api/master/Apbdesa?tahun={tahun}&keterangan={keterangan}&kategori={kategori}<br>
+                                                                            <b>Method</b> : GET<br>
+                                                                            <b>Deskripsi</b> : Mendapatkan semua data APBDESA berdasarkan tahun anggaran, keterangan (pendapatan atau pengeluaran) dan kategori (Rencana atau Realisasi) tertentu<br><br>
+                                                                        </div>
+                                                                        <div class="portlet-body">
+                                                                            Balikannya sebagai berikut,<br><br>
+                                                                            <textarea class='form-control' rows='10' readonly>
+                                                                            [
+                                                                                    {
+                                                                                            "id_apbdes": int,
+                                                                                            "tahun": int,
+                                                                                            "keterangan": pengeluaran/ pendapatan,
+                                                                                            "kategori": Rencana/ Realisasi,
                                                                                             "rincian": string,
                                                                                             "nominal": int
                                                                                     }
@@ -969,6 +1215,158 @@
                                                                                     "foto": {url},
                                                                                     "isi": string,
                                                                                     "created_at": string
+                                                                            }
+                                                                            </textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Akhir -->
+                                            <!-- Awal -->
+                                            <div class="portlet-body">
+                                                <div class="panel-group accordion" id="accordion3">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a class="accordion-toggle accordion-toggle-styled collapsed" data-toggle="collapse" data-parent="#accordion3" href="#collapse_3_24" aria-expanded="false"> <span class="label label-success"> GET </span>&nbsp;&nbsp;{URL}/api/master/Kependudukan</a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapse_3_24" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="portlet light ">
+                                                                        <div class="portlet-title">
+                                                                            <b>URL</b> : https://kalipucangwetan.id/api/master/Kependudukan<br>
+                                                                            <b>Method</b> : GET<br>
+                                                                            <b>Deskripsi</b> : Mendapatkan kumpulan data kependudukan yang ada di Desa Kalipucang Wetan<br><br>
+                                                                        </div>
+                                                                        <div class="portlet-body">
+                                                                            Balikannya sebagai berikut,<br><br>
+                                                                            <textarea class='form-control' rows='7' readonly>
+                                                                            {
+                                                                                    "id": int,
+                                                                                    "kategori": string,
+                                                                                    "keterangan": string,
+                                                                                    "jumlah": int,
+                                                                                    "tahun": int
+                                                                            }
+                                                                            </textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Akhir -->
+                                            <!-- Awal -->
+                                            <div class="portlet-body">
+                                                <div class="panel-group accordion" id="accordion3">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a class="accordion-toggle accordion-toggle-styled collapsed" data-toggle="collapse" data-parent="#accordion3" href="#collapse_3_25" aria-expanded="false"> <span class="label label-success"> GET </span>&nbsp;&nbsp;{URL}/api/master/Kependudukan?tahun={tahun}</a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapse_3_25" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="portlet light ">
+                                                                        <div class="portlet-title">
+                                                                            <b>URL</b> : https://kalipucangwetan.id/api/master/Kependudukan?tahun={tahun}<br>
+                                                                            <b>Method</b> : GET<br>
+                                                                            <b>Deskripsi</b> : Mendapatkan data kependudukan yang ada di Desa Kalipucang Wetan berdasarkan tahun yang dipilih<br><br>
+                                                                        </div>
+                                                                        <div class="portlet-body">
+                                                                            Balikannya sebagai berikut,<br><br>
+                                                                            <textarea class='form-control' rows='7' readonly>
+                                                                            {
+                                                                                    "id": int,
+                                                                                    "kategori": string,
+                                                                                    "keterangan": string,
+                                                                                    "jumlah": int,
+                                                                                    "tahun": int
+                                                                            }
+                                                                            </textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Akhir -->
+                                            <!-- Awal -->
+                                            <div class="portlet-body">
+                                                <div class="panel-group accordion" id="accordion3">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a class="accordion-toggle accordion-toggle-styled collapsed" data-toggle="collapse" data-parent="#accordion3" href="#collapse_3_26" aria-expanded="false"> <span class="label label-success"> GET </span>&nbsp;&nbsp;{URL}/api/master/Kependudukan?kategori={kategori}</a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapse_3_26" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="portlet light ">
+                                                                        <div class="portlet-title">
+                                                                            <b>URL</b> : https://kalipucangwetan.id/api/master/Kependudukan?kategori={kategori}<br>
+                                                                            <b>Method</b> : GET<br>
+                                                                            <b>Deskripsi</b> : Mendapatkan data kependudukan yang ada di Desa Kalipucang Wetan berdasarkan kategori yang dipilih<br><br>
+                                                                        </div>
+                                                                        <div class="portlet-body">
+                                                                            Balikannya sebagai berikut,<br><br>
+                                                                            <textarea class='form-control' rows='7' readonly>
+                                                                            {
+                                                                                    "id": int,
+                                                                                    "kategori": string,
+                                                                                    "keterangan": string,
+                                                                                    "jumlah": int,
+                                                                                    "tahun": int
+                                                                            }
+                                                                            </textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Akhir -->
+                                            <!-- Awal -->
+                                            <div class="portlet-body">
+                                                <div class="panel-group accordion" id="accordion3">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a class="accordion-toggle accordion-toggle-styled collapsed" data-toggle="collapse" data-parent="#accordion3" href="#collapse_3_27" aria-expanded="false"> <span class="label label-success"> GET </span>&nbsp;&nbsp;{URL}/api/master/Kependudukan?tahun={tahun}&kategori={kategori}</a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapse_3_27" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="portlet light ">
+                                                                        <div class="portlet-title">
+                                                                            <b>URL</b> : https://kalipucangwetan.id/api/master/Kependudukan?tahun={tahun}&kategori={kategori}<br>
+                                                                            <b>Method</b> : GET<br>
+                                                                            <b>Deskripsi</b> : Mendapatkan data kependudukan yang ada di Desa Kalipucang Wetan berdasarkan tahun yang dipilih dan kategori tertentu<br><br>
+                                                                        </div>
+                                                                        <div class="portlet-body">
+                                                                            Balikannya sebagai berikut,<br><br>
+                                                                            <textarea class='form-control' rows='7' readonly>
+                                                                            {
+                                                                                    "id": int,
+                                                                                    "kategori": string,
+                                                                                    "keterangan": string,
+                                                                                    "jumlah": int,
+                                                                                    "tahun": int
                                                                             }
                                                                             </textarea>
                                                                         </div>
