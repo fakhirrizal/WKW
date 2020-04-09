@@ -23,11 +23,14 @@ class Kabupaten extends REST_Controller {
 				'pos' => 'left'
 			))->result();
 			if($hasil==NULL){
-				$balikan['status'] = '0';
+				$balikan['status'] = 0;
 				$balikan['message'] = 'Data kosong.';
+				$balikan['list'] = '';
+				$balikan['total'] = 0;
 				$this->response($balikan, 200);
 			}else{
 				$balikan['status'] = '1';
+				$balikan['message'] = 'Ada data.';
 				$balikan['list'] = $hasil;
 				$balikan['total'] = count($hasil);
 				$this->response($balikan, 200);
@@ -39,8 +42,10 @@ class Kabupaten extends REST_Controller {
 				'pos' => 'left'
 			))->row();
 			if($hasil==NULL){
-				$balikan['status'] = '0';
+				$balikan['status'] = 0;
 				$balikan['message'] = 'Data kosong.';
+				$balikan['list'] = '';
+				$balikan['total'] = 0;
 				$this->response($balikan, 200);
 			}else{
 				$this->response($hasil, 200);
@@ -52,11 +57,14 @@ class Kabupaten extends REST_Controller {
 				'pos' => 'left'
 			))->result();
 			if($hasil==NULL){
-				$balikan['status'] = '0';
+				$balikan['status'] = 0;
 				$balikan['message'] = 'Data kosong.';
+				$balikan['list'] = '';
+				$balikan['total'] = 0;
 				$this->response($balikan, 200);
 			}else{
 				$balikan['status'] = '1';
+				$balikan['message'] = 'Ada data.';
 				$balikan['list'] = $hasil;
 				$balikan['total'] = count($hasil);
 				$this->response($balikan, 200);

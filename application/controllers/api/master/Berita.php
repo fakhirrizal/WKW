@@ -19,8 +19,10 @@ class Berita extends REST_Controller {
 		if($this->get('id_berita')!=NULL){
 			$hasil = $this->Main_model->getSelectedData('berita a', 'a.*', array('a.id_berita'=>$this->get('id_berita')))->row();
 			if($hasil==NULL){
-				$balikan['status'] = '0';
+				$balikan['status'] = 0;
 				$balikan['message'] = 'Data kosong.';
+				$balikan['list'] = '';
+				$balikan['total'] = 0;
 				$this->response($balikan, 200);
 			}else{
 				$isi['status'] = '1';
@@ -34,8 +36,10 @@ class Berita extends REST_Controller {
 		}else{
 			$hasil = $this->Main_model->getSelectedData('berita a', 'a.*')->result();
 			if($hasil==NULL){
-				$balikan['status'] = '0';
+				$balikan['status'] = 0;
 				$balikan['message'] = 'Data kosong.';
+				$balikan['list'] = '';
+				$balikan['total'] = 0;
 				$this->response($balikan, 200);
 			}else{
 				$data_tampil = array();
@@ -48,6 +52,7 @@ class Berita extends REST_Controller {
 					$data_tampil[] = $isi;
 				}
 				$balikan['status'] = '1';
+				$balikan['message'] = 'Ada data.';
 				$balikan['list'] = $data_tampil;
 				$balikan['total'] = count($data_tampil);
 				$this->response($balikan, 200);

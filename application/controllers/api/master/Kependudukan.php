@@ -19,11 +19,14 @@ class Kependudukan extends REST_Controller {
 		if($this->get('tahun')!=NULL AND $this->get('kategori')!=NULL){
             $hasil = $this->Main_model->getSelectedData('data_kependudukan a', 'a.*', array('a.tahun'=>$this->get('tahun'),'a.kategori'=>$this->get('kategori')))->result();
             if($hasil==NULL){
-                $balikan['status'] = '0';
+                $balikan['status'] = 0;
                 $balikan['message'] = 'Data kosong.';
+                $balikan['list'] = '';
+				$balikan['total'] = 0;
                 $this->response($balikan, 200);
             }else{
                 $balikan['status'] = '1';
+                $balikan['message'] = 'Ada data.';
                 $balikan['list'] = $hasil;
                 $balikan['total'] = count($hasil);
                 $this->response($balikan, 200);
@@ -31,11 +34,14 @@ class Kependudukan extends REST_Controller {
 		}elseif($this->get('tahun')!=NULL AND $this->get('kategori')==NULL){
             $hasil = $this->Main_model->getSelectedData('data_kependudukan a', 'a.*', array('a.tahun'=>$this->get('tahun')))->result();
             if($hasil==NULL){
-                $balikan['status'] = '0';
+                $balikan['status'] = 0;
                 $balikan['message'] = 'Data kosong.';
+                $balikan['list'] = '';
+				$balikan['total'] = 0;
                 $this->response($balikan, 200);
             }else{
                 $balikan['status'] = '1';
+                $balikan['message'] = 'Ada data.';
                 $balikan['list'] = $hasil;
                 $balikan['total'] = count($hasil);
                 $this->response($balikan, 200);
@@ -43,11 +49,14 @@ class Kependudukan extends REST_Controller {
 		}elseif($this->get('tahun')==NULL AND $this->get('kategori')!=NULL){
             $hasil = $this->Main_model->getSelectedData('data_kependudukan a', 'a.*', array('a.kategori'=>$this->get('kategori')))->result();
             if($hasil==NULL){
-                $balikan['status'] = '0';
+                $balikan['status'] = 0;
                 $balikan['message'] = 'Data kosong.';
+                $balikan['list'] = '';
+				$balikan['total'] = 0;
                 $this->response($balikan, 200);
             }else{
                 $balikan['status'] = '1';
+                $balikan['message'] = 'Ada data.';
                 $balikan['list'] = $hasil;
                 $balikan['total'] = count($hasil);
                 $this->response($balikan, 200);
@@ -55,11 +64,14 @@ class Kependudukan extends REST_Controller {
 		}else{
 			$hasil = $this->Main_model->getSelectedData('data_kependudukan a', 'a.*')->result();
 			if($hasil==NULL){
-				$balikan['status'] = '0';
-				$balikan['message'] = 'Data kosong.';
+				$balikan['status'] = 0;
+                $balikan['message'] = 'Data kosong.';
+                $balikan['list'] = '';
+				$balikan['total'] = 0;
 				$this->response($balikan, 200);
 			}else{
-				$balikan['status'] = '1';
+                $balikan['status'] = '1';
+                $balikan['message'] = 'Ada data.';
 				$balikan['list'] = $hasil;
 				$balikan['total'] = count($hasil);
 				$this->response($balikan, 200);

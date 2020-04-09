@@ -86,12 +86,12 @@
 																						"nik": string,
 																						"nama": string,
 																						"alamat": string,
-																						"rt": int,
-																						"rw": int,
-																						"id_desa": int,
-																						"id_kecamatan": int,
-																						"id_kabupaten": int,
-																						"id_provinsi": int,
+																						"rt": string,
+																						"rw": string,
+																						"id_desa": string,
+																						"id_kecamatan": string,
+																						"id_kabupaten": string,
+																						"id_provinsi": string,
 																						"email": string,
 																						"no_hp": string,
 																						"foto": {url}
@@ -132,12 +132,12 @@
 																						"password": string,
 																						"nama": string,
 																						"alamat": string,
-																						"rt": int,
-																						"rw": int,
-																						"id_desa": int,
-																						"id_kecamatan": int,
-																						"id_kabupaten": int,
-																						"id_provinsi": int,
+																						"rt": string,
+																						"rw": string,
+																						"id_desa": string,
+																						"id_kecamatan": string,
+																						"id_kabupaten": string,
+																						"id_provinsi": string,
 																						"email": string,
 																						"no_hp": string
 																				}
@@ -149,12 +149,12 @@
 																						"nik": string,
 																						"nama": string,
 																						"alamat": string,
-																						"rt": int,
-																						"rw": int,
-																						"id_desa": int,
-																						"id_kecamatan": int,
-																						"id_kabupaten": int,
-																						"id_provinsi": int,
+																						"rt": string,
+																						"rw": string,
+																						"id_desa": string,
+																						"id_kecamatan": string,
+																						"id_kabupaten": string,
+																						"id_provinsi": string,
 																						"email": string,
 																						"no_hp": string,
 																						"foto": {url}
@@ -175,7 +175,7 @@
                                                     <div class="panel panel-default">
                                                         <div class="panel-heading">
                                                             <h4 class="panel-title">
-                                                                <a class="accordion-toggle accordion-toggle-styled collapsed" data-toggle="collapse" data-parent="#accordion3" href="#collapse_3_23" aria-expanded="false"> <span class="label label-success"> GET </span>&nbsp;&nbsp;{URL}/api/auth/Reset_password?user_id={user_id}</a>
+                                                                <a class="accordion-toggle accordion-toggle-styled collapsed" data-toggle="collapse" data-parent="#accordion3" href="#collapse_3_23" aria-expanded="false"> <span class="label label-primary"> POST </span>&nbsp;&nbsp;{URL}/api/auth/Reset_password</a>
                                                             </h4>
                                                         </div>
                                                         <div id="collapse_3_23" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
@@ -183,16 +183,15 @@
                                                                 <div class="col-md-12">
                                                                     <div class="portlet light ">
                                                                         <div class="portlet-title">
-                                                                            <b>URL</b> : https://kalipucangwetan.id/api/auth/Reset_password?user_id={user_id}<br>
-                                                                            <b>Method</b> : GET<br>
+                                                                            <b>URL</b> : https://kalipucangwetan.id/api/auth/Reset_password<br>
+                                                                            <b>Method</b> : POST<br>
                                                                             <b>Deskripsi</b> : Mengatur ulang kata sandi dari akun pengguna tertentu<br><br>
                                                                         </div>
                                                                         <div class="portlet-body">
-                                                                            Balikannya sebagai berikut,<br><br>
-                                                                            <textarea class='form-control' rows='4' readonly>
+                                                                            Berikut parameter yang harus diisi,<br><br>
+                                                                            <textarea class='form-control' rows='3' readonly>
                                                                             {
-                                                                                    "status": 0/ 1,
-                                                                                    "message": string
+                                                                                    "email": string
                                                                             }
                                                                             </textarea>
                                                                         </div>

@@ -19,8 +19,10 @@ class Provinsi extends REST_Controller {
 		if($this->get('id_provinsi')!=NULL){
 			$hasil = $this->Main_model->getSelectedData('provinsi a', 'a.*', array('a.id_provinsi'=>$this->get('id_provinsi')))->row();
 			if($hasil==NULL){
-				$balikan['status'] = '0';
+				$balikan['status'] = 0;
 				$balikan['message'] = 'Data kosong.';
+				$balikan['list'] = '';
+				$balikan['total'] = 0;
 				$this->response($balikan, 200);
 			}else{
 				$this->response($hasil, 200);
@@ -28,11 +30,14 @@ class Provinsi extends REST_Controller {
 		}else{
 			$hasil = $this->Main_model->getSelectedData('provinsi a', 'a.*')->result();
 			if($hasil==NULL){
-				$balikan['status'] = '0';
+				$balikan['status'] = 0;
 				$balikan['message'] = 'Data kosong.';
+				$balikan['list'] = '';
+				$balikan['total'] = 0;
 				$this->response($balikan, 200);
 			}else{
 				$balikan['status'] = '1';
+				$balikan['message'] = 'Ada data.';
 				$balikan['list'] = $hasil;
 				$balikan['total'] = count($hasil);
 				$this->response($balikan, 200);
