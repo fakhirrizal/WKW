@@ -16,8 +16,9 @@ class Berita extends REST_Controller {
 		$this->methods['users_delete']['limit'] = 50; // 50 requests per hour per user/key
 	}
 	function index_get() {
+		$start = $this->get('jumlah')-10;
 		if($this->get('id_berita')!=NULL){
-			$hasil = $this->Main_model->getSelectedData('berita a', 'a.*', array('a.id_berita'=>$this->get('id_berita')))->row();
+			$hasil = $this->Main_model->getSelectedData('berita a', 'a.*', array('a.id_berita'=>$this->get('id_berita')), '', '10', $start)->row();
 			if($hasil==NULL){
 				$balikan['status'] = 0;
 				$balikan['message'] = 'Data kosong.';
@@ -34,7 +35,7 @@ class Berita extends REST_Controller {
 				$this->response($isi, 200);
 			}
 		}else{
-			$hasil = $this->Main_model->getSelectedData('berita a', 'a.*')->result();
+			$hasil = $this->Main_model->getSelectedData('berita a', 'a.*', '', '', '10', '10')->result();
 			if($hasil==NULL){
 				$balikan['status'] = 0;
 				$balikan['message'] = 'Data kosong.';
@@ -54,6 +55,7 @@ class Berita extends REST_Controller {
 				$balikan['status'] = '1';
 				$balikan['message'] = 'Ada data.';
 				$balikan['list'] = $data_tampil;
+				$balikan['jumlah'] = $this->get('jumlah');
 				$balikan['total'] = count($data_tampil);
 				$this->response($balikan, 200);
 			}

@@ -48,7 +48,7 @@ class Reset_password extends REST_Controller {
 					$mail->Username = "layanan@kalipucangwetan.id";
 					$mail->Password = "CW(p{wvO_z+G";
 					$mail->SetFrom("layanan@kalipucangwetan.id","Admin Desa Kalipucang Wetan");
-					$mail->Subject = "News";
+					$mail->Subject = "Reset Password";
 					$mail->MsgHTML("Kata sandi baru Anda adalah : ".$new_pass);
 					$mail->AddAddress($hasil->email,$hasil->nama);
 					$mail->Send();
