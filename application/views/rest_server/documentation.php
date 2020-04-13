@@ -203,6 +203,40 @@
                                                 </div>
                                             </div>
                                             <!-- Akhir -->
+                                            <!-- Awal -->
+                                            <div class="portlet-body">
+                                                <div class="panel-group accordion" id="accordion3">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a class="accordion-toggle accordion-toggle-styled collapsed" data-toggle="collapse" data-parent="#accordion3" href="#collapse_3_34" aria-expanded="false"> <span class="label label-success"> GET </span>&nbsp;&nbsp;{URL}/api/auth/Device?user_id={user_id}</a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapse_3_34" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="portlet light ">
+                                                                        <div class="portlet-title">
+                                                                            <b>URL</b> : https://kalipucangwetan.id/api/auth/Device?user_id={user_id}<br>
+                                                                            <b>Method</b> : GET<br>
+                                                                            <b>Deskripsi</b> : Mendapatkan data Device ID berdasarkan User ID tertentu<br><br>
+                                                                        </div>
+                                                                        <div class="portlet-body">
+                                                                            Balikannya sebagai berikut,<br><br>
+                                                                            <textarea class='form-control' rows='3' readonly>
+                                                                            {
+                                                                                    "device_id": string
+                                                                            }
+                                                                            </textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Akhir -->
 										</div>
 										<div class="tab-pane" id="portlet_tab2_2">
                                             <!-- Awal -->
