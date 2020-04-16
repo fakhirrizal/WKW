@@ -2,7 +2,7 @@
         <tr>
             <td width="12%" rowspan="6" style="border-style:none; border-width:medium; ">
                 <p align="center">
-                    <img border="0" src="logo-batang.png" width="105" height="128">
+                    <img border="0" src="<?= base_url() ?>assets_dashboard/batang.png" width="105" height="128">
             </td>
             <td width="76%" style="border-style: none; border-width: medium">
                 <p align="center">

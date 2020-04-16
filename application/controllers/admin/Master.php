@@ -607,15 +607,22 @@ class Master extends CI_Controller {
 				$this->Main_model->insertData("berita",$data_insert_);
 			}
 		}else{echo'';}
-		$res = array();
-		$res['data']['title'] = 'Berita Terbaru';
-		$res['data']['body'] = $this->input->post('judul');
-		$res['data']['message'] = 'Silahkan lihat detailnya';
-		$res['data']['image'] = base_url().'data_upload/berita/'.$namefile;
+
+		// $res = array();
+		// $res['data']['title'] = 'Berita Terbaru';
+		// $res['data']['body'] = $this->input->post('judul');
+		// $res['data']['message'] = 'Silahkan lihat detailnya';
+		// $res['data']['image'] = base_url().'data_upload/berita/'.$namefile;
+		$res = array(
+			"title" => "Berita Terbaru",
+			"body" => $this->input->post('judul'),
+			"id" => $get_last_id['id_berita']+1,
+			"route" => "/berita",
+		);
 		$get_user = $this->db->query("SELECT a.* FROM user a WHERE a.verification_token != ''")->result();
 		foreach ($get_user as $key => $value) {
 			$fields = array(
-				'to' => $value->verification_token,
+				'registration_ids' => $value->verification_token,
 				'data' => $res
 			);
 			$this->Main_model->sendPushNotificationn($fields);
