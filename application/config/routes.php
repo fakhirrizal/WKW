@@ -112,9 +112,15 @@ $route['admin_side/hapus_potensi_desa/(:any)'] = 'admin/Master/hapus_potensi_des
 
 $route['admin_side/apbdesa'] = 'admin/Master/apbdesa_desa';
 $route['admin_side/detail_apbdesa/(:any)'] = 'admin/Master/detail_apbdesa/$1';
+$route['admin_side/detail_anggaran/(:any)'] = 'admin/Master/detail_anggaran/$1';
 $route['admin_side/simpan_data_rincian_apbdesa'] = 'admin/Master/simpan_data_rincian_apbdesa';
 $route['admin_side/perbarui_data_rincian_apbdesa'] = 'admin/Master/perbarui_data_rincian_apbdesa';
+$route['admin_side/simpan_detail_anggaran'] = 'admin/Master/simpan_detail_anggaran';
+$route['admin_side/perbarui_data_sub_output'] = 'admin/Master/perbarui_data_sub_output';
+$route['admin_side/perbarui_data_output'] = 'admin/Master/perbarui_data_output';
 $route['admin_side/hapus_item_apbdesa/(:any)'] = 'admin/Master/hapus_item_apbdesa/$1';
+$route['admin_side/hapus_sub_output/(:any)'] = 'admin/Master/hapus_sub_output/$1';
+$route['admin_side/hapus_output/(:any)'] = 'admin/Master/hapus_output/$1';
 
 $route['admin_side/data_kependudukan'] = 'admin/Master/kependudukan';
 $route['admin_side/simpan_data_rincian_kependudukan'] = 'admin/Master/simpan_data_rincian_kependudukan';

@@ -618,11 +618,14 @@ class Master extends CI_Controller {
 			"body" => $this->input->post('judul'),
 			"id" => $get_last_id['id_berita']+1,
 			"route" => "/berita",
+			'vibrate'   => 1,
+			'sound'     => 1
 		);
 		$get_user = $this->db->query("SELECT a.* FROM user a WHERE a.verification_token != ''")->result();
 		foreach ($get_user as $key => $value) {
+			$registrationIds = array( $value->verification_token );
 			$fields = array(
-				'registration_ids' => $value->verification_token,
+				'registration_ids' => $registrationIds,
 				'data' => $res
 			);
 			$this->Main_model->sendPushNotificationn($fields);
@@ -1039,8 +1042,7 @@ class Master extends CI_Controller {
 			'tahun' => $this->input->post('tahun'),
 			'keterangan' => $this->input->post('keterangan'),
 			'kategori' => $this->input->post('kategori'),
-			'rincian' => $this->input->post('rincian'),
-			'nominal' => $this->input->post('nominal')
+			'rincian' => $this->input->post('rincian')
 		);
 		$this->Main_model->insertData('apbdes',$data_insert_1);
 		$this->Main_model->log_activity($this->session->userdata('id'),'Updating data',"Menambahkan data rincian APBDESA (".$this->input->post('kategori').")",$this->session->userdata('location'));
@@ -1063,6 +1065,17 @@ class Master extends CI_Controller {
         $this->load->view('admin/master/detail_apbdesa',$data);
         $this->load->view('admin/template/footer');
 	}
+	public function detail_anggaran()
+	{
+		$data['parent'] = 'tentang_desa';
+        $data['child'] = 'apbdesa';
+		$data['grand_child'] = '';
+		$data['data_utama'] =  $this->Main_model->getSelectedData('apbdes a', 'a.*', array('md5(a.id_apbdes)'=>$this->uri->segment(3)))->row();
+		$data['sub_output'] = $this->Main_model->getSelectedData('sub_output a', 'a.*', array('md5(a.id_apbdes)'=>$this->uri->segment(3)))->result();
+		$this->load->view('admin/template/header',$data);
+		$this->load->view('admin/master/detail_anggaran',$data);
+		$this->load->view('admin/template/footer');
+	}
 	public function perbarui_data_rincian_apbdesa(){
 		$this->db->trans_start();
 		$data_insert_1 = array(
@@ -1082,6 +1095,105 @@ class Master extends CI_Controller {
 			echo "<script>window.location='".base_url()."admin_side/detail_apbdesa/".md5($this->input->post('tahun'))."'</script>";
 		}
 	}
+	public function simpan_detail_anggaran(){
+		if($this->input->post('radio2')=='sub_output'){
+			if($this->input->post('sub_output')==''){
+				$this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal disimpan.<br /></div>' );
+				echo "<script>window.location='".base_url()."admin_side/detail_anggaran/".md5($this->input->post('id_apbdesa'))."'</script>";
+			}else{
+				$this->db->trans_start();
+				$data_insert_1 = array(
+					'id_apbdes' => $this->input->post('id_apbdesa'),
+					'sub_output' => $this->input->post('sub_output')
+				);
+				$this->Main_model->insertData('sub_output',$data_insert_1);
+				$this->Main_model->log_activity($this->session->userdata('id'),'Updating data',"Menambahkan data rincian APBDESA (".$this->input->post('sub_output').")",$this->session->userdata('location'));
+				$this->db->trans_complete();
+				if($this->db->trans_status() === false){
+					$this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal disimpan.<br /></div>' );
+					echo "<script>window.location='".base_url()."admin_side/detail_anggaran/".md5($this->input->post('id_apbdesa'))."'</script>";
+				}
+				else{
+					$this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil disimpan.<br /></div>' );
+					echo "<script>window.location='".base_url()."admin_side/detail_anggaran/".md5($this->input->post('id_apbdesa'))."'</script>";
+				}
+			}
+		}else{
+			if($this->input->post('id_sub_output')=='' OR $this->input->post('output')=='' OR $this->input->post('nominal')==''){
+				$this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal disimpan.<br /></div>' );
+				echo "<script>window.location='".base_url()."admin_side/detail_anggaran/".md5($this->input->post('id_apbdesa'))."'</script>";
+			}else{
+				$this->db->trans_start();
+				$data_insert_1 = array(
+					'id_apbdes' => $this->input->post('id_apbdesa'),
+					'id_sub_output' => $this->input->post('id_sub_output'),
+					'output' => $this->input->post('output'),
+					'nominal' => $this->input->post('nominal')
+				);
+				$this->Main_model->insertData('output',$data_insert_1);
+				$get_sub_output = $this->Main_model->getSelectedData('sub_output a', 'a.*',array('a.id_sub_output'=>$this->input->post('id_sub_output')))->row();
+				$nominal_sub_output = ($get_sub_output->nominal)+$this->input->post('nominal');
+				$this->Main_model->updateData('sub_output',array('nominal'=>$nominal_sub_output),array('id_sub_output'=>$this->input->post('id_sub_output')));
+				$get_anggaran = $this->Main_model->getSelectedData('apbdes a', 'a.*',array('a.id_apbdes'=>$this->input->post('id_apbdesa')))->row();
+				$nominal_anggaran = ($get_anggaran->nominal)+$this->input->post('nominal');
+				$this->Main_model->updateData('apbdes',array('nominal'=>$nominal_anggaran),array('id_apbdes'=>$this->input->post('id_apbdesa')));
+				$this->Main_model->log_activity($this->session->userdata('id'),'Updating data',"Menambahkan data rincian APBDESA (".$this->input->post('output').")",$this->session->userdata('location'));
+				$this->db->trans_complete();
+				if($this->db->trans_status() === false){
+					$this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal disimpan.<br /></div>' );
+					echo "<script>window.location='".base_url()."admin_side/detail_anggaran/".md5($this->input->post('id_apbdesa'))."'</script>";
+				}
+				else{
+					$this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil disimpan.<br /></div>' );
+					echo "<script>window.location='".base_url()."admin_side/detail_anggaran/".md5($this->input->post('id_apbdesa'))."'</script>";
+				}
+			}
+		}
+	}
+	public function perbarui_data_sub_output(){
+		$this->db->trans_start();
+		$data_insert_1 = array(
+			'sub_output' => $this->input->post('sub_output'),
+			'nominal' => $this->input->post('nominal')
+		);
+		$this->Main_model->updateData('sub_output',$data_insert_1,array('md5(id_sub_output)'=>$this->input->post('id')));
+		$this->Main_model->log_activity($this->session->userdata('id'),'Updating data',"Memperbarui data rincian APBDESA (".$this->input->post('sub_output').")",$this->session->userdata('location'));
+		$this->db->trans_complete();
+		if($this->db->trans_status() === false){
+			$this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal disimpan.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/detail_anggaran/".$this->input->post('id_apbdesa')."'</script>";
+		}
+		else{
+			$this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil disimpan.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/detail_anggaran/".$this->input->post('id_apbdesa')."'</script>";
+		}
+	}
+	public function perbarui_data_output(){
+		$this->db->trans_start();
+		$nominal = 0;
+		$data_insert_1 = array(
+			'output' => $this->input->post('output'),
+			'nominal' => $this->input->post('nominal')
+		);
+		$nominal = $this->input->post('lama')-$this->input->post('nominal');
+		$this->Main_model->updateData('output',$data_insert_1,array('md5(id_output)'=>$this->input->post('id')));
+		$get_data_sub_output = $this->Main_model->getSelectedData('sub_output a', 'a.*', array('md5(a.id_sub_output)'=>$this->input->post('id_sub_output')))->row();
+		$baru = ($get_data_sub_output->nominal)-($nominal);
+		$this->Main_model->updateData('sub_output',array('nominal'=>$baru),array('id_sub_output'=>$get_data_sub_output->id_sub_output));
+		$get_data_apbdes = $this->Main_model->getSelectedData('apbdes a', 'a.*', array('md5(a.id_apbdes)'=>$this->input->post('id_apbdesa')))->row();
+		$apbdes_baru = ($get_data_apbdes->nominal)-($nominal);
+		$this->Main_model->updateData('apbdes',array('nominal'=>$apbdes_baru),array('id_apbdes'=>$get_data_apbdes->id_apbdes));
+		$this->Main_model->log_activity($this->session->userdata('id'),'Updating data',"Memperbarui data rincian APBDESA (".$this->input->post('output').")",$this->session->userdata('location'));
+		$this->db->trans_complete();
+		if($this->db->trans_status() === false){
+			$this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal disimpan.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/detail_anggaran/".$this->input->post('id_apbdesa')."'</script>";
+		}
+		else{
+			$this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil disimpan.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/detail_anggaran/".$this->input->post('id_apbdesa')."'</script>";
+		}
+	}
 	public function hapus_item_apbdesa(){
 		$this->db->trans_start();
 		$id = '';
@@ -1093,6 +1205,8 @@ class Master extends CI_Controller {
 		$thn = $get_data->tahun;
 
 		$this->Main_model->deleteData('apbdes',array('id_apbdes'=>$id));
+		$this->Main_model->deleteData('sub_output',array('id_apbdes'=>$id));
+		$this->Main_model->deleteData('output',array('id_apbdes'=>$id));
 
 		$this->Main_model->log_activity($this->session->userdata('id'),"Deleting data","Menghapus data rincian APBDESA (".$nama.")",$this->session->userdata('location'));
 		$this->db->trans_complete();
@@ -1103,6 +1217,73 @@ class Master extends CI_Controller {
 		else{
 			$this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil dihapus.<br /></div>' );
 			echo "<script>window.location='".base_url()."admin_side/detail_apbdesa/".md5($thn)."'</script>";
+		}
+	}
+	public function hapus_sub_output(){
+		$this->db->trans_start();
+		$id = '';
+		$apbdes = '';
+		$nama = '';
+		$baru = 0;
+		$get_data = $this->Main_model->getSelectedData('sub_output a', 'a.*',array('md5(a.id_sub_output)'=>$this->uri->segment(3)))->row();
+		$id = $get_data->id_sub_output;
+		$apbdes = $get_data->id_apbdes;
+		$nama = $get_data->sub_output;
+
+		$get_data_apbdes = $this->Main_model->getSelectedData('apbdes a', 'a.*',array('a.id_apbdes'=>$apbdes))->row();
+		$baru = ($get_data_apbdes->nominal)-($get_data->nominal);
+
+		$this->Main_model->deleteData('sub_output',array('id_sub_output'=>$id));
+		$this->Main_model->deleteData('output',array('id_sub_output'=>$id));
+
+		$this->Main_model->updateData('apbdes',array('nominal'=>$baru),array('id_apbdes'=>$apbdes));
+
+		$this->Main_model->log_activity($this->session->userdata('id'),"Deleting data","Menghapus data rincian APBDESA (".$nama.")",$this->session->userdata('location'));
+		$this->db->trans_complete();
+		if($this->db->trans_status() === false){
+			$this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal dihapus.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/detail_anggaran/".md5($apbdes)."'</script>";
+		}
+		else{
+			$this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil dihapus.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/detail_anggaran/".md5($apbdes)."'</script>";
+		}
+	}
+	public function hapus_output(){
+		$this->db->trans_start();
+		$id = '';
+		$apbdes = '';
+		$nama = '';
+		$apbdes_baru = 0;
+		$baru = 0;
+		$id_sub_output = '';
+		$get_data = $this->Main_model->getSelectedData('output a', 'a.*',array('md5(a.id_output)'=>$this->uri->segment(3)))->row();
+		$id = $get_data->id_output;
+		$apbdes = $get_data->id_apbdes;
+		$nama = $get_data->output;
+		$id_sub_output = $get_data->id_sub_output;
+
+		$get_data_sub_output = $this->Main_model->getSelectedData('sub_output a', 'a.*', array('a.id_sub_output'=>$id_sub_output))->row();
+		$baru = ($get_data_sub_output->nominal)-($get_data->nominal);
+
+		$get_data_apbdes = $this->Main_model->getSelectedData('apbdes a', 'a.*', array('a.id_apbdes'=>$apbdes))->row();
+		$apbdes_baru = ($get_data_apbdes->nominal)-($get_data->nominal);
+
+		$this->Main_model->deleteData('output',array('id_output'=>$id));
+
+		$this->Main_model->updateData('sub_output',array('nominal'=>$baru),array('id_sub_output'=>$id_sub_output));
+
+		$this->Main_model->updateData('apbdes',array('nominal'=>$apbdes_baru),array('id_apbdes'=>$apbdes));
+
+		$this->Main_model->log_activity($this->session->userdata('id'),"Deleting data","Menghapus data rincian APBDESA (".$nama.")",$this->session->userdata('location'));
+		$this->db->trans_complete();
+		if($this->db->trans_status() === false){
+			$this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal dihapus.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/detail_anggaran/".md5($apbdes)."'</script>";
+		}
+		else{
+			$this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil dihapus.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/detail_anggaran/".md5($apbdes)."'</script>";
 		}
 	}
 	/* Other Function */
@@ -1151,6 +1332,18 @@ class Master extends CI_Controller {
 		elseif($this->input->post('modul')=='modul_ubah_rincian_data_kependudukan'){
 			$data['data_utama'] = $this->Main_model->getSelectedData('data_kependudukan a', 'a.*', array('md5(a.id)'=>$this->input->post('id')))->row();
 			$this->load->view('admin/master/ajax_page/form_ubah_rincian_data_kependudukan',$data);
+		}
+		elseif($this->input->post('modul')=='modul_ubah_data_sub_output'){
+			$data['data_utama'] = $this->Main_model->getSelectedData('sub_output a', 'a.*', array('md5(a.id_sub_output)'=>$this->input->post('id')))->row();
+			$this->load->view('admin/master/ajax_page/form_ubah_data_sub_output',$data);
+		}
+		elseif($this->input->post('modul')=='modul_ubah_data_output'){
+			$data['data_utama'] = $this->Main_model->getSelectedData('output a', 'a.*,b.sub_output', array('md5(a.id_output)'=>$this->input->post('id')), '', '', '', '', array(
+				'table' => 'sub_output b',
+				'on' => 'a.id_sub_output=b.id_sub_output',
+				'pos' => 'LEFT'
+			))->row();
+			$this->load->view('admin/master/ajax_page/form_ubah_data_output',$data);
 		}
 	}
 }

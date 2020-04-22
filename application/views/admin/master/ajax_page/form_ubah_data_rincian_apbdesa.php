@@ -20,6 +20,9 @@
                         <option value=''>-- Pilih --</option>
                         <option value='pendapatan' <?php if($data_utama->keterangan=='pendapatan'){echo'selected';}else{echo'';} ?>> Pendapatan </option>
                         <option value='pengeluaran' <?php if($data_utama->keterangan=='pengeluaran'){echo'selected';}else{echo'';} ?>> Belanja </option>
+                        <option value='surplus / defisit' <?php if($data_utama->keterangan=='surplus / defisit'){echo'selected';}else{echo'';} ?>> Surplus / Defisit </option>
+                        <option value='pembiayaan' <?php if($data_utama->keterangan=='pembiayaan'){echo'selected';}else{echo'';} ?>> Pembiayaan </option>
+                        <option value='silpa' <?php if($data_utama->keterangan=='silpa'){echo'selected';}else{echo'';} ?>> Silpa / Silpa Tahun Berjalan </option>
                     </select>
                     <div class="form-control-focus"> </div>
                     <span class="help-block">Some help goes here...</span>
@@ -57,7 +60,7 @@
             <label class="col-md-2 control-label" for="form_control_1">Nominal <span class="required"> * </span></label>
             <div class="col-md-10">
                 <div class="input-icon">
-                    <input type="number" class="form-control" name="nominal" value='<?= $data_utama->nominal; ?>' required>
+                    <input type="number" class="form-control" name="nominal" value='<?= $data_utama->nominal; ?>' readonly>
                     <div class="form-control-focus"> </div>
                     <span class="help-block">Some help goes here...</span>
                     <i class="icon-pin"></i>
