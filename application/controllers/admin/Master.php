@@ -613,19 +613,23 @@ class Master extends CI_Controller {
 		// $res['data']['body'] = $this->input->post('judul');
 		// $res['data']['message'] = 'Silahkan lihat detailnya';
 		// $res['data']['image'] = base_url().'data_upload/berita/'.$namefile;
-		$res = array(
+		$body = array(
 			"title" => "Berita Terbaru",
-			"body" => $this->input->post('judul'),
+			"body" => $this->input->post('judul')
+		);
+		$res = array(
+			"click_action" => "FLUTTER_NOTIFICATION_CLICK",
 			"id" => $get_last_id['id_berita']+1,
 			"route" => "/berita",
-			'vibrate'   => 1,
-			'sound'     => 1
+			"icon" => "images/icon_wkw.png"
 		);
 		$get_user = $this->db->query("SELECT a.* FROM user a WHERE a.verification_token != ''")->result();
 		foreach ($get_user as $key => $value) {
-			$registrationIds = array( $value->verification_token );
+			// $registrationIds = array( $value->verification_token );
 			$fields = array(
-				'registration_ids' => $registrationIds,
+				'to' => $value->verification_token,
+				'notification' => $body,
+				"priority"=> "high",
 				'data' => $res
 			);
 			$this->Main_model->sendPushNotificationn($fields);
