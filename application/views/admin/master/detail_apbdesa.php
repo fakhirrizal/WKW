@@ -17,6 +17,9 @@
 </ul>
 <?= $this->session->flashdata('sukses') ?>
 <?= $this->session->flashdata('gagal') ?>
+<?php
+$return_on_click = "return confirm('Anda yakin?')";
+?>
 <div class="page-content-inner">
 	<div class="m-heading-1 border-yellow m-bordered" style="background-color:#FAD405;">
 		<h3>Catatan</h3>
@@ -65,6 +68,15 @@
                                             <li>
                                                 <a href="#tab_15_3" data-toggle="tab"> Belanja </a>
                                             </li>
+                                            <li>
+                                                <a href="#tab_15_4" data-toggle="tab"> Surplus / Defisit </a>
+                                            </li>
+                                            <li>
+                                                <a href="#tab_15_5" data-toggle="tab"> Pembiayaan </a>
+                                            </li>
+                                            <li>
+                                                <a href="#tab_15_6" data-toggle="tab"> Silpa / Silpa Tahun Berjalan </a>
+                                            </li>
                                         </ul>
                                         <div class="tab-content">
                                             <div class="tab-pane active" id="tab_15_2">
@@ -81,8 +93,7 @@
                                                     <tbody>
                                                         <?php
                                                         $no = 1;
-                                                        $get_pagu = $this->Main_model->getSelectedData('apbdes a', 'a.*',array('md5(a.tahun)'=>$this->uri->segment(3),'a.keterangan'=>'pemasukan'))->result();
-                                                        $return_on_click = "return confirm('Anda yakin?')";
+                                                        $get_pagu = $this->Main_model->getSelectedData('apbdes a', 'a.*',array('md5(a.tahun)'=>$this->uri->segment(3),'a.keterangan'=>'pendapatan'))->result();
                                                         foreach ($get_pagu as $key => $value) {
                                                             echo'
                                                             <tr>
@@ -96,6 +107,10 @@
                                                                             <i class="fa fa-angle-down"></i>
                                                                         </button>
                                                                         <ul class="dropdown-menu" role="menu">
+                                                                            <li>
+                                                                                <a href="'.site_url('admin_side/detail_anggaran/'.md5($value->id_apbdes)).'">
+                                                                                    <i class="icon-action-redo"></i> Detail Data </a>
+                                                                            </li>
                                                                             <li>
                                                                                 <a class="ubahdata" id="'.md5($value->id_apbdes).'">
                                                                                     <i class="icon-note"></i> Ubah Data </a>
@@ -143,11 +158,165 @@
                                                                         </button>
                                                                         <ul class="dropdown-menu" role="menu">
                                                                             <li>
+                                                                                <a href="'.site_url('admin_side/detail_anggaran/'.md5($value->id_apbdes)).'">
+                                                                                    <i class="icon-action-redo"></i> Detail Data </a>
+                                                                            </li>
+                                                                            <li>
                                                                                 <a class="ubahdata" id="'.md5($value->id_apbdes).'">
                                                                                     <i class="icon-note"></i> Ubah Data </a>
                                                                             </li>
                                                                             <li>
-                                                                                <a href="'.site_url('admin_side/hapus_item_apbdesa/'.md5($value->id_apbdes)).'">
+                                                                                <a onclick="'.$return_on_click.'" href="'.site_url('admin_side/hapus_item_apbdesa/'.md5($value->id_apbdes)).'">
+                                                                                    <i class="icon-trash"></i> Hapus Data </a>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            ';
+                                                        }
+                                                        ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="tab-pane" id="tab_15_4">
+                                                <table class="table table-striped table-bordered table-hover table-checkable order-column" id="tbl">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="text-align: center;" width="1%"> # </th>
+                                                            <th style="text-align: center;"> Kategori </th>
+                                                            <th style="text-align: center;"> Keterangan </th>
+                                                            <th style="text-align: center;"> Nominal </th>
+                                                            <th style="text-align: center;" width="1%"> Aksi </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <?php
+                                                        $no = 1;
+                                                        $get_pagu = $this->Main_model->getSelectedData('apbdes a', 'a.*',array('md5(a.tahun)'=>$this->uri->segment(3),'a.keterangan'=>'surplus / defisit'))->result();
+                                                        foreach ($get_pagu as $key => $value) {
+                                                            echo'
+                                                            <tr>
+                                                                <td style="text-align: center;"> '.$no++.'. </td>
+                                                                <td style="text-align: center;"> '.$value->kategori.' </td>
+                                                                <td > '.$value->rincian.' </td>
+                                                                <td style="text-align: center;"> Rp '.number_format($value->nominal,2).' </td>
+                                                                <td style="text-align: center;">
+                                                                    <div class="btn-group" style="text-align: center;">
+                                                                        <button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Aksi
+                                                                            <i class="fa fa-angle-down"></i>
+                                                                        </button>
+                                                                        <ul class="dropdown-menu" role="menu">
+                                                                            <li>
+                                                                                <a href="'.site_url('admin_side/detail_anggaran/'.md5($value->id_apbdes)).'">
+                                                                                    <i class="icon-action-redo"></i> Detail Data </a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a class="ubahdata" id="'.md5($value->id_apbdes).'">
+                                                                                    <i class="icon-note"></i> Ubah Data </a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a onclick="'.$return_on_click.'" href="'.site_url('admin_side/hapus_item_apbdesa/'.md5($value->id_apbdes)).'">
+                                                                                    <i class="icon-trash"></i> Hapus Data </a>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            ';
+                                                        }
+                                                        ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="tab-pane" id="tab_15_5">
+                                                <table class="table table-striped table-bordered table-hover table-checkable order-column" id="tbl">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="text-align: center;" width="1%"> # </th>
+                                                            <th style="text-align: center;"> Kategori </th>
+                                                            <th style="text-align: center;"> Keterangan </th>
+                                                            <th style="text-align: center;"> Nominal </th>
+                                                            <th style="text-align: center;" width="1%"> Aksi </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <?php
+                                                        $no = 1;
+                                                        $get_pagu = $this->Main_model->getSelectedData('apbdes a', 'a.*',array('md5(a.tahun)'=>$this->uri->segment(3),'a.keterangan'=>'pembiayaan'))->result();
+                                                        foreach ($get_pagu as $key => $value) {
+                                                            echo'
+                                                            <tr>
+                                                                <td style="text-align: center;"> '.$no++.'. </td>
+                                                                <td style="text-align: center;"> '.$value->kategori.' </td>
+                                                                <td > '.$value->rincian.' </td>
+                                                                <td style="text-align: center;"> Rp '.number_format($value->nominal,2).' </td>
+                                                                <td style="text-align: center;">
+                                                                    <div class="btn-group" style="text-align: center;">
+                                                                        <button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Aksi
+                                                                            <i class="fa fa-angle-down"></i>
+                                                                        </button>
+                                                                        <ul class="dropdown-menu" role="menu">
+                                                                            <li>
+                                                                                <a href="'.site_url('admin_side/detail_anggaran/'.md5($value->id_apbdes)).'">
+                                                                                    <i class="icon-action-redo"></i> Detail Data </a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a class="ubahdata" id="'.md5($value->id_apbdes).'">
+                                                                                    <i class="icon-note"></i> Ubah Data </a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a onclick="'.$return_on_click.'" href="'.site_url('admin_side/hapus_item_apbdesa/'.md5($value->id_apbdes)).'">
+                                                                                    <i class="icon-trash"></i> Hapus Data </a>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            ';
+                                                        }
+                                                        ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="tab-pane" id="tab_15_6">
+                                                <table class="table table-striped table-bordered table-hover table-checkable order-column" id="tbl">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="text-align: center;" width="1%"> # </th>
+                                                            <th style="text-align: center;"> Kategori </th>
+                                                            <th style="text-align: center;"> Keterangan </th>
+                                                            <th style="text-align: center;"> Nominal </th>
+                                                            <th style="text-align: center;" width="1%"> Aksi </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <?php
+                                                        $no = 1;
+                                                        $get_pagu = $this->Main_model->getSelectedData('apbdes a', 'a.*',array('md5(a.tahun)'=>$this->uri->segment(3),'a.keterangan'=>'silpa'))->result();
+                                                        foreach ($get_pagu as $key => $value) {
+                                                            echo'
+                                                            <tr>
+                                                                <td style="text-align: center;"> '.$no++.'. </td>
+                                                                <td style="text-align: center;"> '.$value->kategori.' </td>
+                                                                <td > '.$value->rincian.' </td>
+                                                                <td style="text-align: center;"> Rp '.number_format($value->nominal,2).' </td>
+                                                                <td style="text-align: center;">
+                                                                    <div class="btn-group" style="text-align: center;">
+                                                                        <button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Aksi
+                                                                            <i class="fa fa-angle-down"></i>
+                                                                        </button>
+                                                                        <ul class="dropdown-menu" role="menu">
+                                                                            <li>
+                                                                                <a href="'.site_url('admin_side/detail_anggaran/'.md5($value->id_apbdes)).'">
+                                                                                    <i class="icon-action-redo"></i> Detail Data </a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a class="ubahdata" id="'.md5($value->id_apbdes).'">
+                                                                                    <i class="icon-note"></i> Ubah Data </a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a onclick="'.$return_on_click.'" href="'.site_url('admin_side/hapus_item_apbdesa/'.md5($value->id_apbdes)).'">
                                                                                     <i class="icon-trash"></i> Hapus Data </a>
                                                                             </li>
                                                                         </ul>
@@ -217,6 +386,9 @@
                                             <option value=''>-- Pilih --</option>
                                             <option value='pendapatan' > Pendapatan </option>
                                             <option value='pengeluaran' > Belanja </option>
+                                            <option value='surplus / defisit' > Surplus / Defisit </option>
+                                            <option value='pembiayaan' > Pembiayaan </option>
+                                            <option value='silpa' > Silpa / Silpa Tahun Berjalan </option>
                                         </select>
                                         <div class="form-control-focus"> </div>
                                         <span class="help-block">Some help goes here...</span>
@@ -244,17 +416,6 @@
                                 <div class="col-md-10">
                                     <div class="input-icon">
                                         <input type="text" class="form-control" name="rincian" >
-                                        <div class="form-control-focus"> </div>
-                                        <span class="help-block">Some help goes here...</span>
-                                        <i class="icon-pin"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group form-md-line-input has-danger">
-                                <label class="col-md-2 control-label" for="form_control_1">Nominal <span class="required"> * </span></label>
-                                <div class="col-md-10">
-                                    <div class="input-icon">
-                                        <input type="number" class="form-control" name="nominal" required>
                                         <div class="form-control-focus"> </div>
                                         <span class="help-block">Some help goes here...</span>
                                         <i class="icon-pin"></i>

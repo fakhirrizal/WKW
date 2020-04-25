@@ -42,6 +42,49 @@ class Device extends REST_Controller {
 	}
 
 	function index_post() {
+        if($this->post('api_key')=='' OR $this->post('registrationIds')==''){
+            echo'API Key dan registrationIds wajib diisi!!';
+        }else{
+            // API access key from Google API's Console
+            $get_token = $this->post('api_key');
+            $get_id = $this->post('registrationIds');
+            define( 'API_ACCESS_KEY', $get_token );
+            $registrationIds = array( $get_id );
+            // prep the bundle
+            $msg = array
+            (
+                'message'   => $this->post('message'),
+                'title'     => $this->post('title'),
+                'subtitle'  => $this->post('subtitle'),
+                'tickerText'    => $this->post('tickerText'),
+                'vibrate'   => $this->post('vibrate'),
+                'sound'     => $this->post('sound'),
+                'largeIcon' => $this->post('largeIcon'),
+                'smallIcon' => $this->post('smallIcon')
+            );
+            $fields = array
+            (
+                'registration_ids'  => $registrationIds,
+                'data'          => $msg
+            );
+            
+            $headers = array
+            (
+                'Authorization: key=' . API_ACCESS_KEY,
+                'Content-Type: application/json'
+            );
+            
+            $ch = curl_init();
+            curl_setopt( $ch,CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send' );
+            curl_setopt( $ch,CURLOPT_POST, true );
+            curl_setopt( $ch,CURLOPT_HTTPHEADER, $headers );
+            curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
+            curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false );
+            curl_setopt( $ch,CURLOPT_POSTFIELDS, json_encode( $fields ) );
+            $result = curl_exec($ch );
+            curl_close( $ch );
+            echo $result;
+        }
 	}
 
 	function index_put() {

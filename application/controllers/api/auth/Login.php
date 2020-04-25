@@ -37,7 +37,7 @@ class Login extends REST_Controller {
 						$this->Main_model->updateData('user',$data_log,array('id'=>$value->id));
 						$hasil['status'] = '0';
 						$hasil['message'] = 'Harap memasukkan Device ID';
-						$hasil['user_id'] = '';
+						$hasil['user_id'] = 0;
 						$hasil['nik'] = '';
 						$hasil['nama'] = '';
 						$hasil['alamat'] = '';
@@ -95,7 +95,7 @@ class Login extends REST_Controller {
 					$this->Main_model->updateData('user',$data_log,array('id'=>$value->id));
 					$hasil['status'] = '0';
 					$hasil['message'] = 'Password yg Anda masukkan tidak valid';
-					$hasil['user_id'] = '';
+					$hasil['user_id'] = 0;
 					$hasil['nik'] = '';
 					$hasil['nama'] = '';
 					$hasil['alamat'] = '';
@@ -115,7 +115,7 @@ class Login extends REST_Controller {
 		else{
 			$hasil['status'] = '0';
 			$hasil['message'] = 'Username yang Anda masukkan tidak terdaftar';
-			$hasil['user_id'] = '';
+			$hasil['user_id'] = 0;
             $hasil['nik'] = '';
             $hasil['nama'] = '';
             $hasil['alamat'] = '';

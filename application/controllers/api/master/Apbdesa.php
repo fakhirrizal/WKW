@@ -19,7 +19,7 @@ class Apbdesa extends REST_Controller {
 		if($this->get('tahun')!=NULL AND $this->get('keterangan')!=NULL AND $this->get('kategori')!=NULL){
 			$hasil = $this->Main_model->getSelectedData('apbdes a', 'a.*', array('a.tahun'=>$this->get('tahun'),'a.keterangan'=>$this->get('keterangan'),'a.kategori'=>$this->get('kategori')))->result();
 			if($hasil==NULL){
-				$balikan['status'] = 0;
+				$balikan['status'] = '0';
 				$balikan['message'] = 'Data kosong.';
 				$balikan['list'] = '';
 				$balikan['total'] = 0;
@@ -34,7 +34,7 @@ class Apbdesa extends REST_Controller {
 		}elseif($this->get('tahun')!=NULL AND $this->get('keterangan')==NULL AND $this->get('kategori')!=NULL){
 			$hasil = $this->Main_model->getSelectedData('apbdes a', 'a.*', array('a.tahun'=>$this->get('tahun'),'a.kategori'=>$this->get('kategori')))->result();
 			if($hasil==NULL){
-				$balikan['status'] = 0;
+				$balikan['status'] = '0';
 				$balikan['message'] = 'Data kosong.';
 				$balikan['list'] = '';
 				$balikan['total'] = 0;
@@ -49,7 +49,7 @@ class Apbdesa extends REST_Controller {
 		}elseif($this->get('tahun')!=NULL AND $this->get('keterangan')!=NULL AND $this->get('kategori')==NULL){
 			$hasil = $this->Main_model->getSelectedData('apbdes a', 'a.*', array('a.tahun'=>$this->get('tahun'),'a.keterangan'=>$this->get('keterangan')))->result();
 			if($hasil==NULL){
-				$balikan['status'] = 0;
+				$balikan['status'] = '0';
 				$balikan['message'] = 'Data kosong.';
 				$balikan['list'] = '';
 				$balikan['total'] = 0;
@@ -64,7 +64,7 @@ class Apbdesa extends REST_Controller {
 		}elseif($this->get('tahun')!=NULL AND $this->get('keterangan')==NULL AND $this->get('kategori')==NULL){
 			$hasil = $this->Main_model->getSelectedData('apbdes a', 'a.*', array('a.tahun'=>$this->get('tahun')))->result();
 			if($hasil==NULL){
-				$balikan['status'] = 0;
+				$balikan['status'] = '0';
 				$balikan['message'] = 'Data kosong.';
 				$balikan['list'] = '';
 				$balikan['total'] = 0;
@@ -79,7 +79,7 @@ class Apbdesa extends REST_Controller {
 		}elseif($this->get('tahun')==NULL AND $this->get('keterangan')!=NULL AND $this->get('kategori')!=NULL){
 			$hasil = $this->Main_model->getSelectedData('apbdes a', 'a.*', array('a.keterangan'=>$this->get('keterangan'),'a.kategori'=>$this->get('kategori')))->result();
 			if($hasil==NULL){
-				$balikan['status'] = 0;
+				$balikan['status'] = '0';
 				$balikan['message'] = 'Data kosong.';
 				$balikan['list'] = '';
 				$balikan['total'] = 0;
@@ -94,7 +94,7 @@ class Apbdesa extends REST_Controller {
 		}elseif($this->get('tahun')==NULL AND $this->get('keterangan')!=NULL AND $this->get('kategori')==NULL){
 			$hasil = $this->Main_model->getSelectedData('apbdes a', 'a.*', array('a.keterangan'=>$this->get('keterangan')))->result();
 			if($hasil==NULL){
-				$balikan['status'] = 0;
+				$balikan['status'] = '0';
 				$balikan['message'] = 'Data kosong.';
 				$balikan['list'] = '';
 				$balikan['total'] = 0;
@@ -109,7 +109,37 @@ class Apbdesa extends REST_Controller {
 		}elseif($this->get('tahun')==NULL AND $this->get('keterangan')==NULL AND $this->get('kategori')!=NULL){
 			$hasil = $this->Main_model->getSelectedData('apbdes a', 'a.*', array('a.kategori'=>$this->get('kategori')))->result();
 			if($hasil==NULL){
-				$balikan['status'] = 0;
+				$balikan['status'] = '0';
+				$balikan['message'] = 'Data kosong.';
+				$balikan['list'] = '';
+				$balikan['total'] = 0;
+				$this->response($balikan, 200);
+			}else{
+				$balikan['status'] = '1';
+				$balikan['message'] = 'Ada data.';
+				$balikan['list'] = $hasil;
+				$balikan['total'] = count($hasil);
+				$this->response($balikan, 200);
+			}
+		}elseif($this->get('id_apbdes')!=NULL){
+			$hasil = $this->Main_model->getSelectedData('sub_output a', 'a.*', array('a.id_apbdes'=>$this->get('id_apbdes')))->result();
+			if($hasil==NULL){
+				$balikan['status'] = '0';
+				$balikan['message'] = 'Data kosong.';
+				$balikan['list'] = '';
+				$balikan['total'] = 0;
+				$this->response($balikan, 200);
+			}else{
+				$balikan['status'] = '1';
+				$balikan['message'] = 'Ada data.';
+				$balikan['list'] = $hasil;
+				$balikan['total'] = count($hasil);
+				$this->response($balikan, 200);
+			}
+		}elseif($this->get('id_sub_output')!=NULL){
+			$hasil = $this->Main_model->getSelectedData('output a', 'a.*', array('a.id_sub_output'=>$this->get('id_sub_output')))->result();
+			if($hasil==NULL){
+				$balikan['status'] = '0';
 				$balikan['message'] = 'Data kosong.';
 				$balikan['list'] = '';
 				$balikan['total'] = 0;
@@ -124,7 +154,7 @@ class Apbdesa extends REST_Controller {
 		}else{
 			$hasil = $this->Main_model->getSelectedData('apbdes a', 'a.*')->result();
 			if($hasil==NULL){
-				$balikan['status'] = 0;
+				$balikan['status'] = '0';
 				$balikan['message'] = 'Data kosong.';
 				$balikan['list'] = '';
 				$balikan['total'] = 0;

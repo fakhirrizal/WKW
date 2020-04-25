@@ -49,7 +49,7 @@ License: You must have a valid license purchased only from themeforest(the above
         <link href="<?=base_url('assets_dashboard/batang.png');?>" rel="icon" type="image/x-icon"> </head>
     <!-- END HEAD -->
 
-    <body class=" login">
+    <body class=" login" onload="getLocation()">
         <!-- BEGIN LOGO -->
         <div class="logo">
             <a href="#">
@@ -61,6 +61,7 @@ License: You must have a valid license purchased only from themeforest(the above
             <!-- BEGIN LOGIN FORM -->
             <form class="login-form" action="<?= site_url('login_process'); ?>" method="post">
                 <?= $this->session->flashdata('error') ?>
+                <p id="getLocation"></p>
                 <div class="form-title">
                     <span class="form-title">Welcome.</span>
                     <span class="form-subtitle">Please log in to use the system.</span>
@@ -91,6 +92,19 @@ License: You must have a valid license purchased only from themeforest(the above
                     </div>
                 </div>
             </form>
+            <script>
+				var view = document.getElementById("getLocation");
+				function getLocation() {
+					if (navigator.geolocation) {
+						navigator.geolocation.getCurrentPosition(showPosition);
+					} else {
+						view.innerHTML = "";
+					}
+				}
+				function showPosition(position) {
+					view.innerHTML = "<input type='hidden' name='location' value='" + position.coords.latitude + "," + position.coords.longitude +"' />";
+				}
+			</script>
             <!-- END LOGIN FORM -->
             <!-- BEGIN FORGOT PASSWORD FORM -->
             <form class="forget-form" action="#" method="post">
