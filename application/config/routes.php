@@ -69,16 +69,6 @@ $route['admin_side/cleaning_log'] = 'admin/App/cleaning_log';
 $route['admin_side/tentang_aplikasi'] = 'admin/App/about';
 $route['admin_side/bantuan'] = 'admin/App/helper';
 
-$route['admin_side/dasbor_peta'] = 'admin/Dashboard';
-$route['admin_side/peta_provinsi/(:any)'] = 'admin/Dashboard/province/$1';
-$route['admin_side/peta_kabupaten/(:any)'] = 'admin/Dashboard/city/$1';
-$route['admin_side/peta_kecamatan/(:any)'] = 'admin/Dashboard/sub_district/$1';
-
-$route['admin_side/dasbor_grafik'] = 'admin/Dashboard/main_graph';
-$route['admin_side/dasbor_grafik_provinsi/(:any)/(:any)'] = 'admin/Dashboard/graph_province/$1/$2';
-$route['admin_side/dasbor_grafik_kabupaten/(:any)/(:any)'] = 'admin/Dashboard/graph_region/$1/$2';
-$route['admin_side/dasbor_grafik_kecamatan/(:any)/(:any)'] = 'admin/Dashboard/graph_district/$1/$2';
-
 $route['admin_side/administrator'] = 'admin/Master/administrator_data';
 $route['admin_side/tambah_data_admin'] = 'admin/Master/add_administrator_data';
 $route['admin_side/simpan_data_admin'] = 'admin/Master/save_administrator_data';
@@ -121,6 +111,20 @@ $route['admin_side/perbarui_data_output'] = 'admin/Master/perbarui_data_output';
 $route['admin_side/hapus_item_apbdesa/(:any)'] = 'admin/Master/hapus_item_apbdesa/$1';
 $route['admin_side/hapus_sub_output/(:any)'] = 'admin/Master/hapus_sub_output/$1';
 $route['admin_side/hapus_output/(:any)'] = 'admin/Master/hapus_output/$1';
+
+$route['admin_side/ppid'] = 'admin/Master/ppid';
+$route['admin_side/tambah_ppid'] = 'admin/Master/tambah_ppid';
+$route['admin_side/simpan_ppid'] = 'admin/Master/simpan_ppid';
+$route['admin_side/ubah_ppid/(:any)'] = 'admin/Master/ubah_ppid/$1';
+$route['admin_side/perbarui_ppid'] = 'admin/Master/perbarui_ppid';
+$route['admin_side/hapus_ppid/(:any)'] = 'admin/Master/hapus_ppid/$1';
+
+$route['admin_side/lembaga_desa'] = 'admin/Master/lembaga_desa';
+$route['admin_side/detail_lembaga_desa/(:any)'] = 'admin/Master/detail_lembaga_desa/$1';
+$route['admin_side/perbarui_data_lembaga_desa'] = 'admin/Master/perbarui_data_lembaga_desa';
+$route['admin_side/simpan_data_anggota_lembaga_desa'] = 'admin/Master/simpan_data_anggota_lembaga_desa';
+$route['admin_side/perbarui_data_anggota_lembaga_desa'] = 'admin/Master/perbarui_data_anggota_lembaga_desa';
+$route['admin_side/hapus_data_anggota_lembaga_desa/(:any)'] = 'admin/Master/hapus_data_anggota_lembaga_desa/$1';
 
 $route['admin_side/data_kependudukan'] = 'admin/Master/kependudukan';
 $route['admin_side/simpan_data_rincian_kependudukan'] = 'admin/Master/simpan_data_rincian_kependudukan';

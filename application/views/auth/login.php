@@ -51,10 +51,11 @@ License: You must have a valid license purchased only from themeforest(the above
 
     <body class=" login" onload="getLocation()">
         <!-- BEGIN LOGO -->
-        <div class="logo">
-            <a href="#">
-                <img src="<?=base_url('assets_dashboard/pages/img/wkw.png');?>" style="height: 60px;" alt="" /> </a>
-        </div>
+        <!-- <div class="logo">
+            <a href="#"> -->
+                <div style='text-align:center;'><img src="<?=base_url('assets/logo.svg');?>" style="height: 270px;" alt="" /></div>
+            <!-- </a>
+        </div> -->
         <!-- END LOGO -->
         <!-- BEGIN LOGIN -->
         <div class="content">
