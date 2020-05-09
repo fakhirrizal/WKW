@@ -43,6 +43,9 @@
 										</li>
 										<li>
 											<a href="#portlet_tab2_2" data-toggle="tab"> Data Master </a>
+                                        </li>
+                                        <li>
+											<a href="#portlet_tab2_4" data-toggle="tab"> Application </a>
 										</li>
 										<li class="active">
 											<a href="#portlet_tab2_1" data-toggle="tab"> Authentication </a>
@@ -1545,6 +1548,274 @@
 										</div>
 										<div class="tab-pane" id="portlet_tab2_3">
 											Data masih kosong
+                                        </div>
+                                        <div class="tab-pane" id="portlet_tab2_4">
+											<!-- Awal -->
+                                            <div class="portlet-body">
+                                                <div class="panel-group accordion" id="accordion3">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a class="accordion-toggle accordion-toggle-styled collapsed" data-toggle="collapse" data-parent="#accordion3" href="#collapse_3_38" aria-expanded="false"> <span class="label label-success"> GET </span>&nbsp;&nbsp;{URL}/api/apps/Profil_ppid</a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapse_3_38" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="portlet light ">
+                                                                        <div class="portlet-title">
+                                                                            <b>URL</b> : https://kalipucangwetan.id/api/apps/Profil_ppid<br>
+                                                                            <b>Method</b> : GET<br>
+                                                                            <b>Deskripsi</b> : Mendapatkan teks dari Profil PPID<br><br>
+                                                                        </div>
+                                                                        <div class="portlet-body">
+                                                                            Balikannya sebagai berikut,<br><br>
+                                                                            <textarea class='form-control' rows='4' readonly>
+                                                                            {
+                                                                                    "id": int,
+                                                                                    "teks": string
+                                                                            }
+                                                                            </textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Akhir -->
+                                            <!-- Awal -->
+											<div class="portlet-body">
+												<div class="panel-group accordion" id="accordion3">
+													<div class="panel panel-default">
+														<div class="panel-heading">
+															<h4 class="panel-title">
+																<a class="accordion-toggle accordion-toggle-styled collapsed" data-toggle="collapse" data-parent="#accordion3" href="#collapse_3_39" aria-expanded="false"> <span class="label label-primary"> POST </span>&nbsp;&nbsp;{URL}/api/apps/Permohonan_informasi</a>
+															</h4>
+														</div>
+														<div id="collapse_3_39" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+															<div class="row">
+																<div class="col-md-12">
+																	<div class="portlet light ">
+																		<div class="portlet-title">
+																			<b>URL</b> : https://kalipucangwetan.id/api/apps/Permohonan_informasi<br>
+																			<b>Method</b> : POST<br>
+																			<b>Deskripsi</b> : Untuk mengetahui status user apakah terdaftar di sistem atau tidak.<br><br>
+																		</div>
+																		<div class="portlet-body">
+																			Berikut parameter yang harus diisi,<br><br>
+																			<textarea class='form-control' rows='13' readonly>
+																				{
+																						"user_id": string,
+																						"nama": string,
+																						"alamat": string,
+																						"no_hp": string,
+																						"email": string,
+																						"rincian_informasi_yang_dibutuhkan": string,
+																						"tujuan": string,
+																						"cara_memperoleh": string,
+																						"cara_mendapatkan": string,
+																						"file_ktp": base64,
+																						"file_badan_hukum": base64
+																				}
+                                                                            </textarea><br>
+                                                                            <b>Keterangan</b><br>
+                                                                            File badan hukum bersifat opsional, jika pemohonan mengatasnamakan lembaga
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+                                            <!-- Akhir -->
+                                            <!-- Awal -->
+                                            <div class="portlet-body">
+                                                <div class="panel-group accordion" id="accordion3">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a class="accordion-toggle accordion-toggle-styled collapsed" data-toggle="collapse" data-parent="#accordion3" href="#collapse_3_40" aria-expanded="false"> <span class="label label-success"> GET </span>&nbsp;&nbsp;{URL}/api/apps/Ppid</a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapse_3_40" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="portlet light ">
+                                                                        <div class="portlet-title">
+                                                                            <b>URL</b> : https://kalipucangwetan.id/api/apps/Ppid<br>
+                                                                            <b>Method</b> : GET<br>
+                                                                            <b>Deskripsi</b> : Mendapatkan semua data informasi PPID<br><br>
+                                                                        </div>
+                                                                        <div class="portlet-body">
+                                                                            Balikannya sebagai berikut,<br><br>
+                                                                            <textarea class='form-control' rows='6' readonly>
+                                                                            {
+                                                                                    "id_ppid": string,
+                                                                                    "kategori": string,
+                                                                                    "judul": string,
+                                                                                    "file": {url}
+                                                                            }
+                                                                            </textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Akhir -->
+                                            <!-- Awal -->
+                                            <div class="portlet-body">
+                                                <div class="panel-group accordion" id="accordion3">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a class="accordion-toggle accordion-toggle-styled collapsed" data-toggle="collapse" data-parent="#accordion3" href="#collapse_3_41" aria-expanded="false"> <span class="label label-success"> GET </span>&nbsp;&nbsp;{URL}/api/apps/Ppid?kategori={kategori}</a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapse_3_41" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="portlet light ">
+                                                                        <div class="portlet-title">
+                                                                            <b>URL</b> : https://kalipucangwetan.id/api/apps/Ppid?kategori={kategori}<br>
+                                                                            <b>Method</b> : GET<br>
+                                                                            <b>Deskripsi</b> : Mendapatkan semua data informasi PPID berdasarkan kategori tertentu<br><br>
+                                                                        </div>
+                                                                        <div class="portlet-body">
+                                                                            Balikannya sebagai berikut,<br><br>
+                                                                            <textarea class='form-control' rows='6' readonly>
+                                                                            {
+                                                                                    "id_ppid": string,
+                                                                                    "kategori": string,
+                                                                                    "judul": string,
+                                                                                    "file": {url}
+                                                                            }
+                                                                            </textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Akhir -->
+                                            <!-- Awal -->
+                                            <div class="portlet-body">
+                                                <div class="panel-group accordion" id="accordion3">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a class="accordion-toggle accordion-toggle-styled collapsed" data-toggle="collapse" data-parent="#accordion3" href="#collapse_3_42" aria-expanded="false"> <span class="label label-success"> GET </span>&nbsp;&nbsp;{URL}/api/apps/Ppid?id_ppid={id_ppid}</a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapse_3_42" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="portlet light ">
+                                                                        <div class="portlet-title">
+                                                                            <b>URL</b> : https://kalipucangwetan.id/api/apps/Ppid?id_ppid={id_ppid}<br>
+                                                                            <b>Method</b> : GET<br>
+                                                                            <b>Deskripsi</b> : Mendapatkan data informasi PPID berdasarkan ID tertentu<br><br>
+                                                                        </div>
+                                                                        <div class="portlet-body">
+                                                                            Balikannya sebagai berikut,<br><br>
+                                                                            <textarea class='form-control' rows='6' readonly>
+                                                                            {
+                                                                                    "id_ppid": string,
+                                                                                    "kategori": string,
+                                                                                    "judul": string,
+                                                                                    "file": {url}
+                                                                            }
+                                                                            </textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Akhir -->
+                                            <!-- Awal -->
+                                            <div class="portlet-body">
+                                                <div class="panel-group accordion" id="accordion3">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a class="accordion-toggle accordion-toggle-styled collapsed" data-toggle="collapse" data-parent="#accordion3" href="#collapse_3_43" aria-expanded="false"> <span class="label label-success"> GET </span>&nbsp;&nbsp;{URL}/api/apps/Lembaga_desa</a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapse_3_43" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="portlet light ">
+                                                                        <div class="portlet-title">
+                                                                            <b>URL</b> : https://kalipucangwetan.id/api/apps/Lembaga_desa<br>
+                                                                            <b>Method</b> : GET<br>
+                                                                            <b>Deskripsi</b> : Mendapatkan data Lembaga Desa yang ada di Kalipucang Wetan<br><br>
+                                                                        </div>
+                                                                        <div class="portlet-body">
+                                                                            Balikannya sebagai berikut,<br><br>
+                                                                            <textarea class='form-control' rows='5' readonly>
+                                                                            {
+                                                                                    "id_lembaga_desa": string,
+                                                                                    "nama": string,
+                                                                                    "keterangan": string
+                                                                            }
+                                                                            </textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Akhir -->
+                                            <!-- Awal -->
+                                            <div class="portlet-body">
+                                                <div class="panel-group accordion" id="accordion3">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a class="accordion-toggle accordion-toggle-styled collapsed" data-toggle="collapse" data-parent="#accordion3" href="#collapse_3_44" aria-expanded="false"> <span class="label label-success"> GET </span>&nbsp;&nbsp;{URL}/api/apps/Lembaga_desa?id_lembaga_desa={id_lembaga_desa}</a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapse_3_44" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="portlet light ">
+                                                                        <div class="portlet-title">
+                                                                            <b>URL</b> : https://kalipucangwetan.id/api/apps/Anggota_lembaga_desa?id_lembaga_desa={id_lembaga_desa}<br>
+                                                                            <b>Method</b> : GET<br>
+                                                                            <b>Deskripsi</b> : Mendapatkan data anggota dari suatu Lembaga Desa tertentu<br><br>
+                                                                        </div>
+                                                                        <div class="portlet-body">
+                                                                            Balikannya sebagai berikut,<br><br>
+                                                                            <textarea class='form-control' rows='7' readonly>
+                                                                            {
+                                                                                    "id_anggota_lembaga_desa": string,
+                                                                                    "lembaga_desa": string,
+                                                                                    "nama": string,
+                                                                                    "jabatan": string,
+                                                                                    "foto": {url}
+                                                                            }
+                                                                            </textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Akhir -->
 										</div>
 									</div>
 								</div>

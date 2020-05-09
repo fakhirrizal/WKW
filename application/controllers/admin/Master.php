@@ -1290,6 +1290,354 @@ class Master extends CI_Controller {
 			echo "<script>window.location='".base_url()."admin_side/detail_anggaran/".md5($apbdes)."'</script>";
 		}
 	}
+	/* PPID */
+	public function ppid(){
+		$data['parent'] = 'tentang_desa';
+        $data['child'] = 'ppid';
+		$data['grand_child'] = '';
+		$this->load->view('admin/template/header',$data);
+		$this->load->view('admin/master/ppid',$data);
+		$this->load->view('admin/template/footer');
+	}
+	public function json_ppid(){
+		$get_data = $this->Main_model->getSelectedData('ppid a', 'a.*')->result();
+        $data_tampil = array();
+        $no = 1;
+		foreach ($get_data as $key => $value) {
+			$isi['no'] = $no++.'.';
+			$isi['judul'] = $value->kategori;
+			$isi['isi'] = $value->judul;
+			$isi['file'] = '<a class="detaildata" id="'.md5($value->id_ppid).'">Lihat File</a>';
+			$return_on_click = "return confirm('Anda yakin?')";
+			if($value->judul=='Laporan Tahunan PPID'){
+				$isi['action'] =	'
+				<div class="btn-group" style="text-align: center;">
+					<button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Aksi
+						<i class="fa fa-angle-down"></i>
+					</button>
+					<ul class="dropdown-menu" role="menu">
+						<li>
+							<a href="'.site_url('admin_side/ubah_ppid/'.md5($value->id_ppid)).'">
+								<i class="icon-note"></i> Ubah Data </a>
+						</li>
+					</ul>
+				</div>
+				';
+			}else{
+				$isi['action'] =	'
+				<div class="btn-group" style="text-align: center;">
+					<button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Aksi
+						<i class="fa fa-angle-down"></i>
+					</button>
+					<ul class="dropdown-menu" role="menu">
+						<li>
+							<a href="'.site_url('admin_side/ubah_ppid/'.md5($value->id_ppid)).'">
+								<i class="icon-note"></i> Ubah Data </a>
+						</li>
+						<li>
+							<a onclick="'.$return_on_click.'" href="'.site_url('admin_side/hapus_ppid/'.md5($value->id_ppid)).'">
+								<i class="icon-trash"></i> Hapus Data </a>
+						</li>
+					</ul>
+				</div>
+				';
+			}
+			$data_tampil[] = $isi;
+		}
+		$results = array(
+			"sEcho" => 1,
+			"iTotalRecords" => count($data_tampil),
+			"iTotalDisplayRecords" => count($data_tampil),
+			"aaData"=>$data_tampil);
+		echo json_encode($results);
+	}
+	public function tambah_ppid(){
+		$data['parent'] = 'tentang_desa';
+        $data['child'] = 'ppid';
+		$data['grand_child'] = '';
+		$this->load->view('admin/template/header',$data);
+		$this->load->view('admin/master/tambah_ppid',$data);
+		$this->load->view('admin/template/footer');
+	}
+	public function simpan_ppid(){
+		$this->db->trans_start();
+		$namafile = '';
+		$nmfile = "file_".time(); // nama file saya beri nama langsung dan diikuti fungsi time
+		$config['upload_path'] = dirname($_SERVER["SCRIPT_FILENAME"]).'/data_upload/ppid/'; // path folder
+		$config['allowed_types'] = 'pdf'; // type yang dapat diakses bisa anda sesuaikan
+		$config['max_size'] = '3072'; // maksimum besar file 3M
+		$config['file_name'] = $nmfile; // nama yang terupload nantinya
+
+		$this->upload->initialize($config);
+		if(isset($_FILES['file']['name']))
+		{
+			if(!$this->upload->do_upload('file'))
+			{
+				echo'';
+			}
+			else
+			{
+				$gbr = $this->upload->data();
+				$namafile = $gbr['file_name'];
+			}
+		}else{echo'';}
+		$data_insert1 = array(
+			'kategori' => $this->input->post('keterangan'),
+			'judul' => $this->input->post('judul'),
+			'file' => $namafile
+		);
+		$this->Main_model->insertData('ppid',$data_insert1);
+		$this->Main_model->log_activity($this->session->userdata('id'),'Adding data',"Menambahkan data PPID (".$this->input->post('judul')." - ".$this->input->post('keterangan').")",$this->session->userdata('location'));
+		$this->db->trans_complete();
+		if($this->db->trans_status() === false){
+			$this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal disimpan.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/tambah_ppid/'</script>";
+		}
+		else{
+			$this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil disimpan.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/ppid/'</script>";
+		}
+	}
+	public function ubah_ppid()
+	{
+		$data['parent'] = 'tentang_desa';
+        $data['child'] = 'ppid';
+		$data['grand_child'] = '';
+		$data['data_utama'] =  $this->Main_model->getSelectedData('ppid a', 'a.*', array('md5(a.id_ppid)'=>$this->uri->segment(3)))->row();
+		$this->load->view('admin/template/header',$data);
+		$this->load->view('admin/master/ubah_ppid',$data);
+		$this->load->view('admin/template/footer');
+	}
+	public function perbarui_ppid(){
+		$this->db->trans_start();
+		$namafile = '';
+		$nmfile = "file_".time(); // nama file saya beri nama langsung dan diikuti fungsi time
+		$config['upload_path'] = dirname($_SERVER["SCRIPT_FILENAME"]).'/data_upload/ppid/'; // path folder
+		$config['allowed_types'] = 'pdf'; // type yang dapat diakses bisa anda sesuaikan
+		$config['max_size'] = '3072'; // maksimum besar file 3M
+		$config['file_name'] = $nmfile; // nama yang terupload nantinya
+
+		$this->upload->initialize($config);
+		if(isset($_FILES['file']['name']))
+		{
+			if(!$this->upload->do_upload('file'))
+			{
+				echo'';
+			}
+			else
+			{
+				$gbr = $this->upload->data();
+				$this->Main_model->updateData('ppid',array('file'=>$gbr['file_name']),array('md5(id_ppid)'=>$this->input->post('id')));
+			}
+		}else{echo'';}
+		$data_insert1 = array(
+			'kategori' => $this->input->post('keterangan'),
+			'judul' => $this->input->post('judul')
+		);
+		$this->Main_model->updateData('ppid',$data_insert1,array('md5(id_ppid)'=>$this->input->post('id')));
+		$this->Main_model->log_activity($this->session->userdata('id'),'Updating data',"Mengubah data PPID (".$this->input->post('judul')." - ".$this->input->post('keterangan').")",$this->session->userdata('location'));
+		$this->db->trans_complete();
+		if($this->db->trans_status() === false){
+			$this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal disimpan.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/ubah_ppid/".$this->input->post('id')."'</script>";
+		}
+		else{
+			$this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil disimpan.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/ppid/'</script>";
+		}
+	}
+	public function hapus_ppid(){
+		$this->db->trans_start();
+		$id = '';
+		$nama = '';
+		$ket = '';
+		$get_data = $this->Main_model->getSelectedData('ppid a', 'a.*',array('md5(a.id_ppid)'=>$this->uri->segment(3)))->row();
+		$id = $get_data->id_ppid;
+		$nama = $get_data->judul;
+		$ket = $get_data->kategori;
+
+		$this->Main_model->deleteData('ppid',array('id_ppid'=>$id));
+
+		$this->Main_model->log_activity($this->session->userdata('id'),"Deleting data","Menghapus data PPID (".$nama." - ".$ket.")",$this->session->userdata('location'));
+		$this->db->trans_complete();
+		if($this->db->trans_status() === false){
+			$this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal dihapus.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/ppid/'</script>";
+		}
+		else{
+			$this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil dihapus.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/ppid/'</script>";
+		}
+	}
+	/* Lembaga Desa */
+	public function lembaga_desa(){
+		$data['parent'] = 'tentang_desa';
+        $data['child'] = 'lembaga_desa';
+		$data['grand_child'] = '';
+		$this->load->view('admin/template/header',$data);
+		$this->load->view('admin/master/lembaga_desa',$data);
+		$this->load->view('admin/template/footer');
+	}
+	public function json_lembaga_desa(){
+		$get_data = $this->Main_model->getSelectedData('lembaga_desa a', 'a.*')->result();
+        $data_tampil = array();
+        $no = 1;
+		foreach ($get_data as $key => $value) {
+			$angg = $this->Main_model->getSelectedData('anggota_lembaga_desa a', 'a.*', array('a.id_lembaga_desa'=>$value->id_lembaga_desa))->result();
+			$isi['no'] = $no++.'.';
+			$isi['judul'] = $value->nama;
+			$isi['isi'] = number_format(count($angg),0).' Orang';
+			$isi['action'] =	'
+			<div class="btn-group" style="text-align: center;">
+				<button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Aksi
+					<i class="fa fa-angle-down"></i>
+				</button>
+				<ul class="dropdown-menu" role="menu">
+					<li>
+						<a href="'.site_url('admin_side/detail_lembaga_desa/'.md5($value->id_lembaga_desa)).'">
+							<i class="icon-action-redo"></i> Detail Data </a>
+					</li>
+				</ul>
+			</div>
+			';
+			$data_tampil[] = $isi;
+		}
+		$results = array(
+			"sEcho" => 1,
+			"iTotalRecords" => count($data_tampil),
+			"iTotalDisplayRecords" => count($data_tampil),
+			"aaData"=>$data_tampil);
+		echo json_encode($results);
+	}
+	public function detail_lembaga_desa()
+	{
+		$data['parent'] = 'tentang_desa';
+        $data['child'] = 'lembaga_desa';
+		$data['grand_child'] = '';
+		$data['data_utama'] =  $this->Main_model->getSelectedData('lembaga_desa a', 'a.*', array('md5(a.id_lembaga_desa)'=>$this->uri->segment(3)))->row();
+		$data['anggota_lembaga_desa'] = $this->Main_model->getSelectedData('anggota_lembaga_desa a', 'a.*', array('md5(a.id_lembaga_desa)'=>$this->uri->segment(3)))->result();
+		$this->load->view('admin/template/header',$data);
+		$this->load->view('admin/master/detail_lembaga_desa',$data);
+		$this->load->view('admin/template/footer');
+	}
+	public function perbarui_data_lembaga_desa(){
+		$this->db->trans_start();
+		$data_insert1 = array(
+			'keterangan' => $this->input->post('ket')
+		);
+		$this->Main_model->updateData('lembaga_desa',$data_insert1,array('id_lembaga_desa'=>$this->input->post('id_')));
+		$this->Main_model->log_activity($this->session->userdata('id'),'Updating data',"Mengubah data lembaga desa (".$this->input->post('nama').")",$this->session->userdata('location'));
+		$this->db->trans_complete();
+		if($this->db->trans_status() === false){
+			$this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal disimpan.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/detail_lembaga_desa/".md5($this->input->post('id_'))."'</script>";
+		}
+		else{
+			$this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil disimpan.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/detail_lembaga_desa/".md5($this->input->post('id_'))."'</script>";
+		}
+	}
+	public function simpan_data_anggota_lembaga_desa(){
+		$this->db->trans_start();
+		$namafile = '';
+		$nmfile = "file_".time(); // nama file saya beri nama langsung dan diikuti fungsi time
+		$config['upload_path'] = dirname($_SERVER["SCRIPT_FILENAME"]).'/data_upload/anggota_lembaga_desa/'; // path folder
+		$config['allowed_types'] = 'jpg|jpeg|png|bmp'; // type yang dapat diakses bisa anda sesuaikan
+		$config['max_size'] = '3072'; // maksimum besar file 3M
+		$config['file_name'] = $nmfile; // nama yang terupload nantinya
+
+		$this->upload->initialize($config);
+		if(isset($_FILES['file']['name']))
+		{
+			if(!$this->upload->do_upload('file'))
+			{
+				echo'';
+			}
+			else
+			{
+				$gbr = $this->upload->data();
+				$namafile = $gbr['file_name'];
+			}
+		}else{echo'';}
+		$data_insert1 = array(
+			'id_lembaga_desa' => $this->input->post('id_'),
+			'nama' => $this->input->post('nama'),
+			'jabatan' => $this->input->post('jabatan')
+			,'foto' => $namafile
+		);
+		$this->Main_model->insertData('anggota_lembaga_desa',$data_insert1);
+		$this->Main_model->log_activity($this->session->userdata('id'),'Adding data',"Menambahkan data anggota lembaga desa (".$this->input->post('nama').")",$this->session->userdata('location'));
+		$this->db->trans_complete();
+		if($this->db->trans_status() === false){
+			$this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal disimpan.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/detail_lembaga_desa/".md5($this->input->post('id_'))."'</script>";
+		}
+		else{
+			$this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil disimpan.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/detail_lembaga_desa/".md5($this->input->post('id_'))."'</script>";
+		}
+	}
+	public function perbarui_data_anggota_lembaga_desa(){
+		$this->db->trans_start();
+		$namafile = '';
+		$nmfile = "file_".time(); // nama file saya beri nama langsung dan diikuti fungsi time
+		$config['upload_path'] = dirname($_SERVER["SCRIPT_FILENAME"]).'/data_upload/anggota_lembaga_desa/'; // path folder
+		$config['allowed_types'] = 'jpg|jpeg|png|bmp'; // type yang dapat diakses bisa anda sesuaikan
+		$config['max_size'] = '3072'; // maksimum besar file 3M
+		$config['file_name'] = $nmfile; // nama yang terupload nantinya
+
+		$this->upload->initialize($config);
+		if(isset($_FILES['file']['name']))
+		{
+			if(!$this->upload->do_upload('file'))
+			{
+				echo'';
+			}
+			else
+			{
+				$gbr = $this->upload->data();
+				$this->Main_model->updateData('anggota_lembaga_desa',array('foto'=>$gbr['file_name']),array('md5(id_anggota_lembaga_desa)'=>$this->input->post('id_anggota_lembaga_desa')));
+			}
+		}else{echo'';}
+		$data_insert1 = array(
+			'nama' => $this->input->post('nama'),
+			'jabatan' => $this->input->post('jabatan')
+		);
+		$this->Main_model->updateData('anggota_lembaga_desa',$data_insert1,array('md5(id_anggota_lembaga_desa)'=>$this->input->post('id_anggota_lembaga_desa')));
+		$this->Main_model->log_activity($this->session->userdata('id'),'Updating data',"Mengubah data anggota lembaga desa (".$this->input->post('nama').")",$this->session->userdata('location'));
+		$this->db->trans_complete();
+		if($this->db->trans_status() === false){
+			$this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal disimpan.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/detail_lembaga_desa/".$this->input->post('id_lembaga_desa')."'</script>";
+		}
+		else{
+			$this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil disimpan.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/detail_lembaga_desa/".$this->input->post('id_lembaga_desa')."'</script>";
+		}
+	}
+	public function hapus_data_anggota_lembaga_desa(){
+		$this->db->trans_start();
+		$id = '';
+		$nama = '';
+		$ket = '';
+		$get_data = $this->Main_model->getSelectedData('anggota_lembaga_desa a', 'a.*',array('md5(a.id_anggota_lembaga_desa)'=>$this->uri->segment(3)))->row();
+		$id = $get_data->id_anggota_lembaga_desa;
+		$nama = $get_data->nama;
+		$ket = md5($get_data->id_lembaga_desa);
+
+		$this->Main_model->deleteData('anggota_lembaga_desa',array('id_anggota_lembaga_desa'=>$id));
+
+		$this->Main_model->log_activity($this->session->userdata('id'),"Deleting data","Menghapus data anggota lembaga desa (".$nama.")",$this->session->userdata('location'));
+		$this->db->trans_complete();
+		if($this->db->trans_status() === false){
+			$this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal dihapus.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/detail_lembaga_desa/".$ket."'</script>";
+		}
+		else{
+			$this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil dihapus.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/detail_lembaga_desa/".$ket."'</script>";
+		}
+	}
 	/* Other Function */
 	public function ajax_function(){
 		if($this->input->post('modul')=='get_data_kabupaten_by_keterangan_admin'){
@@ -1348,6 +1696,14 @@ class Master extends CI_Controller {
 				'pos' => 'LEFT'
 			))->row();
 			$this->load->view('admin/master/ajax_page/form_ubah_data_output',$data);
+		}
+		elseif($this->input->post('modul')=='modul_detail_file_ppid'){
+			$data = $this->Main_model->getSelectedData('ppid a', 'a.*', array('md5(a.id_ppid)'=>$this->input->post('id')))->row();
+			echo'<iframe src="'.base_url().'data_upload/ppid/'.$data->file.'" width="100%" height="500px"></iframe>';
+		}
+		elseif($this->input->post('modul')=='modul_ubah_data_anggota_lembaga_desa'){
+			$data['data_utama'] = $this->Main_model->getSelectedData('anggota_lembaga_desa a', 'a.*', array('md5(a.id_anggota_lembaga_desa)'=>$this->input->post('id')))->row();
+			$this->load->view('admin/master/ajax_page/form_ubah_data_anggota_lembaga_desa',$data);
 		}
 	}
 }

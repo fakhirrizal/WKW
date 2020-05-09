@@ -124,20 +124,6 @@ if(($this->session->userdata('id'))==NULL){
 											<i class="icon-pin"></i> Potensi Desa
 										</a>
 									</li>
-									<!-- <li class="dropdown-submenu <?php if($child=='antrean'){echo 'active';}else{echo '';} ?>">
-										<a href="javascript:;" class="nav-link nav-toggle  <?php if($child=='antrean'){echo 'active';}else{echo '';} ?>">
-											<i class="icon-layers"></i> Data Antrean
-											<span class="arrow  <?php if($child=='antrean'){echo 'open';}else{echo '';} ?>"></span>
-										</a>
-										<ul class="dropdown-menu">
-											<li class=" <?php if($grand_child=='antrean_kk'){echo 'active';}else{echo '';} ?>">
-												<a href="<?php echo site_url('admin_side/antrean_kk'); ?>" class="nav-link "> Data KK </a>
-											</li>
-											<li class=" <?php if($grand_child=='antrean_ktp'){echo 'active';}else{echo '';} ?>">
-												<a href="<?php echo site_url('admin_side/antrean_ktp'); ?>" class="nav-link "> Data KTP</a>
-											</li>
-										</ul>
-									</li> -->
 								</ul>
 							</li>
 							<li class="menu-dropdown classic-menu-dropdown <?php if($parent=='laporan_masyarakat'){echo 'active';}else{echo '';} ?>">
@@ -177,6 +163,12 @@ if(($this->session->userdata('id'))==NULL){
 									<li class=" <?php if($child=='ppid'){echo 'active';}else{echo '';} ?>">
 										<a href="<?php echo site_url('admin_side/ppid'); ?>" class="nav-link nav-toggle ">
 											<i class="icon-pin"></i> PPID
+											
+										</a>
+									</li>
+									<li class=" <?php if($child=='lembaga_desa'){echo 'active';}else{echo '';} ?>">
+										<a href="<?php echo site_url('admin_side/lembaga_desa'); ?>" class="nav-link nav-toggle ">
+											<i class="icon-pin"></i> Lembaga Desa
 											
 										</a>
 									</li>

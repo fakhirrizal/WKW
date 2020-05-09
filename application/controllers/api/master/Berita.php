@@ -61,7 +61,7 @@ class Berita extends REST_Controller {
 				$balikan['status'] = '1';
 				$balikan['message'] = 'Ada data.';
 				$balikan['list'] = $data_tampil;
-				$balikan['jumlah'] = $jumlah;
+				$balikan['jumlah'] = $tampil_jum;
 				$balikan['total'] = count($hasil_total);
 				$this->response($balikan, 200);
 			}
