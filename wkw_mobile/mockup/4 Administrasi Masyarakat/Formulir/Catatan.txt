@@ -1,3 +1,5 @@
+Surat Keterangan Domisili dan yang lain bagian alamat dicetak tebal Kalipucang Wetan artinya dikunci nama desa sebagai alamat
+
 Gambar 3.0
 - Kelahiran
   - Tunggal
@@ -18,7 +20,14 @@ Gambar 3.2
   - Saudara
   - Tetangga
 
-Surat Keterangan Domisili dan yang lain bagian alamat dicetak tebal Kalipucang Wetan artinya dikunci nama desa sebagai alamat
+Gambar 4.0
+- Hubungan dengan yang meninggal
+  - Suami
+  - Istri
+  - Anak
+  - Orang Tua
+  - Saudara
+  - Tetangga
 
 Gambar 11.0
 - Kewarganegaraan
