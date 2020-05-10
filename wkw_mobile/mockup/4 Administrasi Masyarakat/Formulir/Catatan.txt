@@ -1,0 +1,46 @@
+Gambar 3.0
+- Kelahiran
+  - Tunggal
+  - Kembar 2
+  - Kembar 3
+  - Kembar 4
+- Penolong Kelahiran
+  - Dokter
+  - Bidan / Perawat
+  - Dukun
+  - Lainnya
+
+Gambar 3.2
+- Bayi Tersebut Anak Nomor
+  - Value 1 - 10
+- Hubungan dengan Bayi
+  - Orang Tua
+  - Saudara
+  - Tetangga
+
+Surat Keterangan Domisili dan yang lain bagian alamat dicetak tebal Kalipucang Wetan artinya dikunci nama desa sebagai alamat
+
+Gambar 11.0
+- Kewarganegaraan
+  - WNI
+  - WNA
+- Status Perkawinan
+  - KAWIN
+  - BELUM KAWIN
+  - PERNAH KAWIN
+- Pendidikan
+  - SD/sederajat
+  - SMP/sederajat
+  - SLTA/sederajat
+  - D1
+  - D2
+  - D3
+  - S1
+  - S2
+  - S3
+
+Gambar 11.3
+- Keterangan
+  - Istri
+  - Anak
+  - Orang Tua
