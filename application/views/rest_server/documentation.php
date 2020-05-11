@@ -39,7 +39,7 @@
 									</div>
 									<ul class="nav nav-tabs">
 										<li>
-											<a href="#portlet_tab2_3" data-toggle="tab"> Laporan </a>
+											<a href="#portlet_tab2_3" data-toggle="tab"> Administrasi Masyarakat </a>
 										</li>
 										<li>
 											<a href="#portlet_tab2_2" data-toggle="tab"> Data Master </a>
@@ -1547,7 +1547,243 @@
                                             <!-- Akhir -->
 										</div>
 										<div class="tab-pane" id="portlet_tab2_3">
-											Data masih kosong
+											<!-- Awal -->
+											<div class="portlet-body">
+												<div class="panel-group accordion" id="accordion3">
+													<div class="panel panel-default">
+														<div class="panel-heading">
+															<h4 class="panel-title">
+																<a class="accordion-toggle accordion-toggle-styled collapsed" data-toggle="collapse" data-parent="#accordion3" href="#collapse_3_45" aria-expanded="false"> <span class="label label-primary"> POST </span>&nbsp;&nbsp;{URL}/api/administrasi_masyarakat/Sktm_pendidikan</a>
+															</h4>
+														</div>
+														<div id="collapse_3_45" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+															<div class="row">
+																<div class="col-md-12">
+																	<div class="portlet light ">
+																		<div class="portlet-title">
+																			<b>URL</b> : https://kalipucangwetan.id/api/administrasi_masyarakat/Sktm_pendidikan<br>
+																			<b>Method</b> : POST<br>
+																			<b>Deskripsi</b> : Mendapatkan surat keterangan tidak mampu untuk pendidikan.<br><br>
+																		</div>
+																		<div class="portlet-body">
+																			Berikut parameter yang harus diisi,<br><br>
+																			<textarea class='form-control' rows='10' readonly>
+																				{
+																						"user_id": string,
+																						"tempat_lahir": string,
+																						"tanggal_lahir": YYYY-mm-dd,
+																						"kebangsaan": string,
+																						"pekerjaan": string,
+																						"agama": string,
+																						"nama_ayah": string,
+																						"nama_ibu": string
+																				}
+																			</textarea>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+                                            <!-- Akhir -->
+                                            <!-- Awal -->
+											<div class="portlet-body">
+												<div class="panel-group accordion" id="accordion3">
+													<div class="panel panel-default">
+														<div class="panel-heading">
+															<h4 class="panel-title">
+																<a class="accordion-toggle accordion-toggle-styled collapsed" data-toggle="collapse" data-parent="#accordion3" href="#collapse_3_46" aria-expanded="false"> <span class="label label-primary"> POST </span>&nbsp;&nbsp;{URL}/api/administrasi_masyarakat/Sktm</a>
+															</h4>
+														</div>
+														<div id="collapse_3_46" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+															<div class="row">
+																<div class="col-md-12">
+																	<div class="portlet light ">
+																		<div class="portlet-title">
+																			<b>URL</b> : https://kalipucangwetan.id/api/administrasi_masyarakat/Sktm<br>
+																			<b>Method</b> : POST<br>
+																			<b>Deskripsi</b> : Untuk mendapatkan surat keterangan tidak mampu.<br><br>
+																		</div>
+																		<div class="portlet-body">
+																			Berikut parameter yang harus diisi,<br><br>
+																			<textarea class='form-control' rows='8' readonly>
+																				{
+																						"user_id": string,
+																						"tempat_lahir": string,
+																						"tanggal_lahir": YYYY-mm-dd,
+																						"kebangsaan": string,
+																						"pekerjaan": string,
+																						"agama": string
+																				}
+																			</textarea>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+                                            <!-- Akhir -->
+                                            <!-- Awal -->
+											<div class="portlet-body">
+												<div class="panel-group accordion" id="accordion3">
+													<div class="panel panel-default">
+														<div class="panel-heading">
+															<h4 class="panel-title">
+																<a class="accordion-toggle accordion-toggle-styled collapsed" data-toggle="collapse" data-parent="#accordion3" href="#collapse_3_47" aria-expanded="false"> <span class="label label-primary"> POST </span>&nbsp;&nbsp;{URL}/api/administrasi_masyarakat/Surat_keterangan_domisili</a>
+															</h4>
+														</div>
+														<div id="collapse_3_47" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+															<div class="row">
+																<div class="col-md-12">
+																	<div class="portlet light ">
+																		<div class="portlet-title">
+																			<b>URL</b> : https://kalipucangwetan.id/api/administrasi_masyarakat/Surat_keterangan_domisili<br>
+																			<b>Method</b> : POST<br>
+																			<b>Deskripsi</b> : Untuk mendapatkan surat keterangan domisili.<br><br>
+																		</div>
+																		<div class="portlet-body">
+																			Berikut parameter yang harus diisi,<br><br>
+																			<textarea class='form-control' rows='10' readonly>
+																				{
+																						"user_id": string,
+																						"tempat_lahir": string,
+																						"tanggal_lahir": YYYY-mm-dd,
+																						"kebangsaan": string,
+																						"pekerjaan": string,
+																						"agama": string,
+																						"keperluan": string,
+																						"keterangan": string
+																				}
+																			</textarea>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+                                            <!-- Akhir -->
+                                            <!-- Awal -->
+											<div class="portlet-body">
+												<div class="panel-group accordion" id="accordion3">
+													<div class="panel panel-default">
+														<div class="panel-heading">
+															<h4 class="panel-title">
+																<a class="accordion-toggle accordion-toggle-styled collapsed" data-toggle="collapse" data-parent="#accordion3" href="#collapse_3_48" aria-expanded="false"> <span class="label label-primary"> POST </span>&nbsp;&nbsp;{URL}/api/administrasi_masyarakat/Surat_keterangan_usaha</a>
+															</h4>
+														</div>
+														<div id="collapse_3_48" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+															<div class="row">
+																<div class="col-md-12">
+																	<div class="portlet light ">
+																		<div class="portlet-title">
+																			<b>URL</b> : https://kalipucangwetan.id/api/administrasi_masyarakat/Surat_keterangan_usaha<br>
+																			<b>Method</b> : POST<br>
+																			<b>Deskripsi</b> : Untuk mendapatkan surat keterangan usaha.<br><br>
+																		</div>
+																		<div class="portlet-body">
+																			Berikut parameter yang harus diisi,<br><br>
+																			<textarea class='form-control' rows='9' readonly>
+																				{
+																						"user_id": string,
+																						"tempat_lahir": string,
+																						"tanggal_lahir": YYYY-mm-dd,
+																						"pekerjaan": string,
+																						"agama": string,
+																						"jenis_usaha": string,
+																						"nama_usaha": string
+																				}
+																			</textarea>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+                                            <!-- Akhir -->
+                                            <!-- Awal -->
+											<div class="portlet-body">
+												<div class="panel-group accordion" id="accordion3">
+													<div class="panel panel-default">
+														<div class="panel-heading">
+															<h4 class="panel-title">
+																<a class="accordion-toggle accordion-toggle-styled collapsed" data-toggle="collapse" data-parent="#accordion3" href="#collapse_3_49" aria-expanded="false"> <span class="label label-primary"> POST </span>&nbsp;&nbsp;{URL}/api/administrasi_masyarakat/Surat_pengantar_sim</a>
+															</h4>
+														</div>
+														<div id="collapse_3_49" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+															<div class="row">
+																<div class="col-md-12">
+																	<div class="portlet light ">
+																		<div class="portlet-title">
+																			<b>URL</b> : https://kalipucangwetan.id/api/administrasi_masyarakat/Surat_pengantar_sim<br>
+																			<b>Method</b> : POST<br>
+																			<b>Deskripsi</b> : Untuk mendapatkan surat pengantar membuat SIM.<br><br>
+																		</div>
+																		<div class="portlet-body">
+																			Berikut parameter yang harus diisi,<br><br>
+																			<textarea class='form-control' rows='7' readonly>
+																				{
+																						"user_id": string,
+																						"tempat_lahir": string,
+																						"tanggal_lahir": YYYY-mm-dd,
+																						"pekerjaan": string,
+																						"agama": string
+																				}
+																			</textarea>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+                                            <!-- Akhir -->
+                                            <!-- Awal -->
+											<div class="portlet-body">
+												<div class="panel-group accordion" id="accordion3">
+													<div class="panel panel-default">
+														<div class="panel-heading">
+															<h4 class="panel-title">
+																<a class="accordion-toggle accordion-toggle-styled collapsed" data-toggle="collapse" data-parent="#accordion3" href="#collapse_3_50" aria-expanded="false"> <span class="label label-primary"> POST </span>&nbsp;&nbsp;{URL}/api/administrasi_masyarakat/Surat_pengantar_skck</a>
+															</h4>
+														</div>
+														<div id="collapse_3_50" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+															<div class="row">
+																<div class="col-md-12">
+																	<div class="portlet light ">
+																		<div class="portlet-title">
+																			<b>URL</b> : https://kalipucangwetan.id/api/administrasi_masyarakat/Surat_pengantar_skck<br>
+																			<b>Method</b> : POST<br>
+																			<b>Deskripsi</b> : Untuk mendapatkan surat pengantar membuat SKCK.<br><br>
+																		</div>
+																		<div class="portlet-body">
+																			Berikut parameter yang harus diisi,<br><br>
+																			<textarea class='form-control' rows='7' readonly>
+																				{
+																						"user_id": string,
+																						"tempat_lahir": string,
+																						"tanggal_lahir": YYYY-mm-dd,
+																						"pekerjaan": string,
+																						"agama": string
+																				}
+																			</textarea>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<!-- Akhir -->
                                         </div>
                                         <div class="tab-pane" id="portlet_tab2_4">
 											<!-- Awal -->
