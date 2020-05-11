@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>domisili</title>
+  <title>Surat Keterangan Domisili</title>
 </head>
 <body>
 <table border="0" cellspacing="1" width="100%" style="border-width:0; ">
@@ -112,7 +112,7 @@
     <td width="4%" style="border-style: none; border-width: medium" height="21">
     <p style="line-height: 150%"><font face="Arial">:</font> </td>
     <td width="63%" style="border-style: none; border-width: medium" height="21">
-    <p style="line-height: 150%">&nbsp; </td>
+    <p style="line-height: 150%"><font face="Arial,sans-serif"><?= $nama; ?></font></td>
   </tr>
   <tr>
     <td width="4%" style="border-style: none; border-width: medium" height="21">
@@ -125,7 +125,7 @@
     <td width="4%" style="border-style: none; border-width: medium" height="21">
     <p style="line-height: 150%"><font face="Arial">:</font> </td>
     <td width="63%" style="border-style: none; border-width: medium" height="21">
-    <p style="line-height: 150%">&nbsp; </td>
+    <p style="line-height: 150%"><font face="Arial,sans-serif"><?= $tempat_lahir.', '.$this->Main_model->convert_tanggal($tanggal_lahir); ?></font></td>
   </tr>
   <tr>
     <td width="4%" style="border-style: none; border-width: medium" height="21">
@@ -137,7 +137,7 @@
     <td width="4%" style="border-style: none; border-width: medium" height="21">
     <p style="line-height: 150%"><font face="Arial">:</font> </td>
     <td width="63%" style="border-style: none; border-width: medium" height="21">
-    <p style="line-height: 150%">&nbsp; </td>
+    <p style="line-height: 150%"><font face="Arial,sans-serif"><?= $kebangsaan; ?></font></td>
   </tr>
   <tr>
     <td width="4%" style="border-style: none; border-width: medium" height="21">
@@ -149,7 +149,7 @@
     <td width="4%" style="border-style: none; border-width: medium" height="21">
     <p style="line-height: 150%"><font face="Arial">:</font> </td>
     <td width="63%" style="border-style: none; border-width: medium" height="21">
-    <p style="line-height: 150%">&nbsp; </td>
+    <p style="line-height: 150%"><font face="Arial,sans-serif"><?= $pekerjaan; ?></font></td>
   </tr>
   <tr>
     <td width="4%" style="border-style: none; border-width: medium" height="21">
@@ -161,7 +161,7 @@
     <td width="4%" style="border-style: none; border-width: medium" height="21">
     <p style="line-height: 150%"><font face="Arial">:</font> </td>
     <td width="63%" style="border-style: none; border-width: medium" height="21">
-    <p style="line-height: 150%">&nbsp; </td>
+    <p style="line-height: 150%"><font face="Arial,sans-serif"><?= $agama; ?></font></td>
   </tr>
   <tr>
     <td width="4%" style="border-style: none; border-width: medium" height="21">
@@ -173,7 +173,7 @@
     <td width="4%" style="border-style: none; border-width: medium" height="21">
     <p style="line-height: 150%"><font face="Arial">:</font> </td>
     <td width="63%" style="border-style: none; border-width: medium" height="21">
-    <p style="line-height: 150%">&nbsp; </td>
+    <p style="line-height: 150%"><font face="Arial,sans-serif"><?= $alamat; ?></font></td>
   </tr>
   <tr>
     <td width="4%" style="border-style: none; border-width: medium" height="21">
@@ -185,7 +185,7 @@
     <td width="4%" style="border-style: none; border-width: medium" height="21">
     <p style="line-height: 150%"><font face="Arial">:</font> </td>
     <td width="63%" style="border-style: none; border-width: medium" height="21">
-    <p style="line-height: 150%">&nbsp; </td>
+    <p style="line-height: 150%"><font face="Arial,sans-serif"><?= $keperluan; ?></font></td>
   </tr>
   <tr>
     <td width="4%" style="border-style: none; border-width: medium" height="21">
@@ -197,7 +197,7 @@
     <td width="4%" style="border-style: none; border-width: medium" height="21">
     <p style="line-height: 150%"><font face="Arial">:</font> </td>
     <td width="63%" style="border-style: none; border-width: medium" height="21">
-    <p style="line-height: 150%">&nbsp; </td>
+    <p style="line-height: 150%"><font face="Arial,sans-serif"><?= $keterangan; ?></font></td>
   </tr>
   <tr>
     <td width="4%" style="border-style: none; border-width: medium" height="21">
@@ -205,7 +205,7 @@
     <td width="96%" style="border-style: none; border-width: medium" colspan="4" height="21">
     <p align="justify" style="line-height: 150%"><font face="Arial">Bermaksud 
     menerangkan bahwa nama tersebut diatas benar-benar warga Desa Kalipucang 
-    Wetan dan Berdomisili di Desa Kalipucang Wetan RT ... RW ... Kecamatan 
+    Wetan dan Berdomisili di Desa Kalipucang Wetan RT <?= $rt; ?> RW <?= $rw; ?> Kecamatan 
     Batang Kabupaten Batang.</font> </td>
   </tr>
   <tr>
@@ -230,7 +230,7 @@
     <td width="50%" style="border-style: none; border-width: medium">
     <p style="line-height: 150%">&nbsp; </td>
     <td width="50%" style="border-style: none; border-width: medium" align="center">
-    <p style="line-height: 150%"><font face="Arial">Batang, .... Februari 2020</font>
+    <p style="line-height: 150%"><font face="Arial">Batang, <?= $this->Main_model->convert_tanggal(date('Y-m-d')); ?></font>
     </td>
   </tr>
   <tr>

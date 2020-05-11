@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>keterangan_skck</title>
+	<title>Surat Pengantar SKCK</title>
 </head>
 
 <body>
@@ -158,7 +158,7 @@
 					<font face="Arial">:</font>
 			</td>
 			<td width="63%" style="border-style: none; border-width: medium" height="21">
-				<p style="line-height: 150%">&nbsp;
+				<p style="line-height: 150%"><font face="Arial"><?= $nama; ?></font>
 			</td>
 		</tr>
 		<tr>
@@ -178,7 +178,7 @@
 					<font face="Arial">:</font>
 			</td>
 			<td width="63%" style="border-style: none; border-width: medium" height="21">
-				<p style="line-height: 150%">&nbsp;
+				<p style="line-height: 150%"><font face="Arial"><?= $nik; ?></font>
 			</td>
 		</tr>
 		<tr>
@@ -198,7 +198,7 @@
 					<font face="Arial">:</font>
 			</td>
 			<td width="63%" style="border-style: none; border-width: medium" height="21">
-				<p style="line-height: 150%">&nbsp;
+				<p style="line-height: 150%"><font face="Arial"><?= $tempat_lahir.', '.$this->Main_model->convert_tanggal($tanggal_lahir); ?></font>
 			</td>
 		</tr>
 		<tr>
@@ -218,7 +218,7 @@
 					<font face="Arial">:</font>
 			</td>
 			<td width="63%" style="border-style: none; border-width: medium" height="21">
-				<p style="line-height: 150%">&nbsp;
+				<p style="line-height: 150%"><font face="Arial"><?= $pekerjaan; ?></font>
 			</td>
 		</tr>
 		<tr>
@@ -238,7 +238,7 @@
 					<font face="Arial">:</font>
 			</td>
 			<td width="63%" style="border-style: none; border-width: medium" height="21">
-				<p style="line-height: 150%">&nbsp;
+				<p style="line-height: 150%"><font face="Arial"><?= $agama; ?></font>
 			</td>
 		</tr>
 		<tr>
@@ -258,7 +258,7 @@
 					<font face="Arial">:</font>
 			</td>
 			<td width="63%" style="border-style: none; border-width: medium" height="21">
-				<p style="line-height: 150%"> <font face="Arial">RT ...... RW ......
+				<p style="line-height: 150%"> <font face="Arial">RT <?= $rt; ?> RW <?= $rw; ?>
 						Desa Kalipucang Wetan</font>
 			</td>
 		</tr>
@@ -313,7 +313,7 @@
 					<font face="Arial">:</font>
 			</td>
 			<td width="63%" style="border-style: none; border-width: medium" height="21">
-				<p style="line-height: 150%"><font face="Arial">20 Februari 2020 
+				<p style="line-height: 150%"><font face="Arial"><?= $this->Main_model->convert_tanggal(date('Y-m-d')); ?> 
                 s.d. selesai.</font></td>
 		</tr>
 		<tr>
@@ -360,7 +360,7 @@
 			</td>
 			<td width="50%" style="border-style: none; border-width: medium" align="center">
 				<p style="line-height: 150%">
-					<font face="Arial">Batang, .... Februari 2020</font>
+					<font face="Arial">Batang, <?= $this->Main_model->convert_tanggal(date('Y-m-d')); ?></font>
 			</td>
 		</tr>
 		<tr>

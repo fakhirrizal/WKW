@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>domisili</title>
+  <title>Surat Keterangan Tidak Mampu</title>
 </head>
 <body>
 <table border="0" cellspacing="1" width="100%" style="border-width:0; ">
@@ -113,7 +113,7 @@
     <td width="4%" style="border-style: none; border-width: medium" height="21">
     <p style="line-height: 150%"><font face="Arial">:</font> </td>
     <td width="63%" style="border-style: none; border-width: medium" height="21">
-    <p style="line-height: 150%">&nbsp; </td>
+    <p style="line-height: 150%"><font face="Arial"><?= $nama; ?></font></td>
   </tr>
   <tr>
     <td width="4%" style="border-style: none; border-width: medium" height="21">
@@ -125,7 +125,7 @@
     <td width="4%" style="border-style: none; border-width: medium" height="21">
     <p style="line-height: 150%"><font face="Arial">:</font> </td>
     <td width="63%" style="border-style: none; border-width: medium" height="21">
-    <p style="line-height: 150%">&nbsp; </td>
+    <p style="line-height: 150%"><font face="Arial"><?= $nik; ?></font></td>
   </tr>
   <tr>
     <td width="4%" style="border-style: none; border-width: medium" height="21">
@@ -138,7 +138,7 @@
     <td width="4%" style="border-style: none; border-width: medium" height="21">
     <p style="line-height: 150%"><font face="Arial">:</font> </td>
     <td width="63%" style="border-style: none; border-width: medium" height="21">
-    <p style="line-height: 150%">&nbsp; </td>
+    <p style="line-height: 150%"><font face="Arial"><?= $tempat_lahir.', '.$this->Main_model->convert_tanggal($tanggal_lahir); ?></font></td>
   </tr>
   <tr>
     <td width="4%" style="border-style: none; border-width: medium" height="21">
@@ -150,7 +150,7 @@
     <td width="4%" style="border-style: none; border-width: medium" height="21">
     <p style="line-height: 150%"><font face="Arial">:</font> </td>
     <td width="63%" style="border-style: none; border-width: medium" height="21">
-    <p style="line-height: 150%">&nbsp; </td>
+    <p style="line-height: 150%"><font face="Arial"><?= $kebangsaan; ?></font></td>
   </tr>
   <tr>
     <td width="4%" style="border-style: none; border-width: medium" height="21">
@@ -162,7 +162,7 @@
     <td width="4%" style="border-style: none; border-width: medium" height="21">
     <p style="line-height: 150%"><font face="Arial">:</font> </td>
     <td width="63%" style="border-style: none; border-width: medium" height="21">
-    <p style="line-height: 150%">&nbsp; </td>
+    <p style="line-height: 150%"><font face="Arial"><?= $agama; ?></font></td>
   </tr>
   <tr>
     <td width="4%" style="border-style: none; border-width: medium" height="21">
@@ -174,7 +174,7 @@
     <td width="4%" style="border-style: none; border-width: medium" height="21">
     <p style="line-height: 150%"><font face="Arial">:</font> </td>
     <td width="63%" style="border-style: none; border-width: medium" height="21">
-    <p style="line-height: 150%">&nbsp; </td>
+    <p style="line-height: 150%"><font face="Arial"><?= $pekerjaan; ?></font></td>
   </tr>
   <tr>
     <td width="4%" style="border-style: none; border-width: medium" height="21">
@@ -186,7 +186,7 @@
     <td width="4%" style="border-style: none; border-width: medium" height="21">
     <p style="line-height: 150%"><font face="Arial">:</font> </td>
     <td width="63%" style="border-style: none; border-width: medium" height="21">
-    <p style="line-height: 150%"><font face="Arial">RT ..... RW ..... Desa 
+    <p style="line-height: 150%"><font face="Arial">RT <?= $rt; ?> RW <?= $rw; ?> Desa 
     Kalipucang Wetan</font> </td>
   </tr>
   <tr>
@@ -244,7 +244,7 @@
     <td width="50%" style="border-style: none; border-width: medium">
     <p style="line-height: 150%">&nbsp; </td>
     <td width="50%" style="border-style: none; border-width: medium" align="center">
-    <p style="line-height: 150%"><font face="Arial">Batang, .... Februari 2020</font>
+    <p style="line-height: 150%"><font face="Arial">Batang, <?= $this->Main_model->convert_tanggal(date('Y-m-d')); ?></font>
     </td>
   </tr>
   <tr>
