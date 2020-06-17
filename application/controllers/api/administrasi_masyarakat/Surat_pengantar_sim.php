@@ -49,14 +49,25 @@ class Surat_pengantar_sim extends REST_Controller {
 				'created_at' => date('Y-m-d H:i:s')
 			);
 			$this->Main_model->insertData('surat_pengantar_sim',$data_insert);
-            // print_r($data_insert1);
-            
+            // print_r($data_insert);
+            require FCPATH . 'vendor/autoload.php';
+
+            require_once BASEPATH.'core/CodeIgniter.php';
             $mpdf = new \Mpdf\Mpdf();
             $data = $this->load->view('admin/form_pdf/keterangan_sim', $data_insert, TRUE);
             $mpdf->WriteHTML($data);
-            ob_clean();
+            if (ob_get_contents()) ob_end_clean();
             $pathh = 'data_upload/dokumen/'.($get_last['id_surat_pengantar_sim']+1).'_surat_pengantar_sim.pdf';
             $mpdf->Output($pathh, \Mpdf\Output\Destination::FILE);
+
+            $datainsert = array(
+				'form' => 'Surat Pengantar SIM',
+				'file' => base_url().'data_upload/dokumen/'.($get_last['id_surat_pengantar_sim']+1).'_surat_pengantar_sim.pdf',
+				'created_by' => $this->post('user_id'),
+				'created_at' => date('Y-m-d H:i:s')
+			);
+			$this->Main_model->insertData('riwayat_administrasi',$datainsert);
+            // print_r($datainsert);
 
 			$this->Main_model->log_activity($this->post('user_id'),'Adding data',"Membuat surat pengantar sim");
 			$this->db->trans_complete();
@@ -68,6 +79,7 @@ class Surat_pengantar_sim extends REST_Controller {
 			else{
 				$hasil['status'] = '1';
                 $hasil['message'] = 'Sukses menyimpan data.';
+                $hasil['link'] = base_url().'data_upload/dokumen/'.($get_last['id_surat_pengantar_sim']+1).'_surat_pengantar_sim.pdf';
                 $this->response($hasil, 200);
 			}
 		}

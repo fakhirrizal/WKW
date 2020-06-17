@@ -40,6 +40,9 @@
 									<ul class="nav nav-tabs">
 										<li>
 											<a href="#portlet_tab2_3" data-toggle="tab"> Administrasi Masyarakat </a>
+                                        </li>
+                                        <li>
+											<a href="#portlet_tab2_5" data-toggle="tab"> Data Pengguna </a>
 										</li>
 										<li>
 											<a href="#portlet_tab2_2" data-toggle="tab"> Data Master </a>
@@ -2052,7 +2055,153 @@
                                                 </div>
                                             </div>
                                             <!-- Akhir -->
-										</div>
+                                        </div>
+                                        <div class="tab-pane" id="portlet_tab2_5">
+											<!-- Awal -->
+											<div class="portlet-body">
+												<div class="panel-group accordion" id="accordion3">
+													<div class="panel panel-default">
+														<div class="panel-heading">
+															<h4 class="panel-title">
+																<a class="accordion-toggle accordion-toggle-styled collapsed" data-toggle="collapse" data-parent="#accordion3" href="#collapse_3_51" aria-expanded="false"> <span class="label label-primary"> POST </span>&nbsp;&nbsp;{URL}/api/data_pengguna/Ubah_password</a>
+															</h4>
+														</div>
+														<div id="collapse_3_51" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+															<div class="row">
+																<div class="col-md-12">
+																	<div class="portlet light ">
+																		<div class="portlet-title">
+																			<b>URL</b> : https://kalipucangwetan.id/api/data_pengguna/Ubah_password<br>
+																			<b>Method</b> : POST<br>
+																			<b>Deskripsi</b> : Untuk mengubah kata sandi dari akun pengguna.<br><br>
+																		</div>
+																		<div class="portlet-body">
+																			Berikut parameter yang harus diisi,<br><br>
+																			<textarea class='form-control' rows='5' readonly>
+																				{
+																						"user_id": string,
+																						"password_lama": string,
+																						"password_baru": string
+																				}
+																			</textarea>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+                                            <!-- Akhir -->
+                                            <!-- Awal -->
+											<div class="portlet-body">
+												<div class="panel-group accordion" id="accordion3">
+													<div class="panel panel-default">
+														<div class="panel-heading">
+															<h4 class="panel-title">
+																<a class="accordion-toggle accordion-toggle-styled collapsed" data-toggle="collapse" data-parent="#accordion3" href="#collapse_3_52" aria-expanded="false"> <span class="label label-primary"> POST </span>&nbsp;&nbsp;{URL}/api/data_pengguna/Ubah_foto</a>
+															</h4>
+														</div>
+														<div id="collapse_3_52" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+															<div class="row">
+																<div class="col-md-12">
+																	<div class="portlet light ">
+																		<div class="portlet-title">
+																			<b>URL</b> : https://kalipucangwetan.id/api/data_pengguna/Ubah_foto<br>
+																			<b>Method</b> : POST<br>
+																			<b>Deskripsi</b> : Untuk mengubah foto profil dari akun pengguna.<br><br>
+																		</div>
+																		<div class="portlet-body">
+																			Berikut parameter yang harus diisi,<br><br>
+																			<textarea class='form-control' rows='4' readonly>
+																				{
+																						"user_id": string,
+																						"foto": base64
+																				}
+																			</textarea>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+                                            <!-- Akhir -->
+                                            <!-- Awal -->
+                                            <div class="portlet-body">
+                                                <div class="panel-group accordion" id="accordion3">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a class="accordion-toggle accordion-toggle-styled collapsed" data-toggle="collapse" data-parent="#accordion3" href="#collapse_3_53" aria-expanded="false"> <span class="label label-success"> GET </span>&nbsp;&nbsp;{URL}/api/data_pengguna/Riwayat_administrasi?user_id={user_id}</a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapse_3_53" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="portlet light ">
+                                                                        <div class="portlet-title">
+                                                                            <b>URL</b> : https://kalipucangwetan.id/api/data_pengguna/Riwayat_administrasi?user_id={user_id}<br>
+                                                                            <b>Method</b> : GET<br>
+                                                                            <b>Deskripsi</b> : Mendapatkan semua data riwayat pengajuan adminstrasi dari pengguna tertentu<br><br>
+                                                                        </div>
+                                                                        <div class="portlet-body">
+                                                                            Balikannya sebagai berikut,<br><br>
+                                                                            <textarea class='form-control' rows='5' readonly>
+                                                                            {
+                                                                                    "form": string,
+                                                                                    "file": {url},
+                                                                                    "waktu": string
+                                                                            }
+                                                                            </textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Akhir -->
+                                            <!-- Awal -->
+											<div class="portlet-body">
+												<div class="panel-group accordion" id="accordion3">
+													<div class="panel panel-default">
+														<div class="panel-heading">
+															<h4 class="panel-title">
+																<a class="accordion-toggle accordion-toggle-styled collapsed" data-toggle="collapse" data-parent="#accordion3" href="#collapse_3_54" aria-expanded="false"> <span class="label label-primary"> POST </span>&nbsp;&nbsp;{URL}/api/data_pengguna/Ubah_profil</a>
+															</h4>
+														</div>
+														<div id="collapse_3_54" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+															<div class="row">
+																<div class="col-md-12">
+																	<div class="portlet light ">
+																		<div class="portlet-title">
+																			<b>URL</b> : https://kalipucangwetan.id/api/data_pengguna/Ubah_profil<br>
+																			<b>Method</b> : POST<br>
+																			<b>Deskripsi</b> : Untuk mengubah foto profil dari akun pengguna.<br><br>
+																		</div>
+																		<div class="portlet-body">
+																			Berikut parameter yang harus diisi,<br><br>
+																			<textarea class='form-control' rows='6' readonly>
+																				{
+																						"user_id": string,
+																						"nama": string,
+																						"no_hp": string,
+																						"email": string
+																				}
+																			</textarea>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+                                            <!-- Akhir -->
+                                        </div>
 									</div>
 								</div>
 							</div>

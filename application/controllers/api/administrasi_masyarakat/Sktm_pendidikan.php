@@ -52,14 +52,25 @@ class Sktm_pendidikan extends REST_Controller {
 				'created_at' => date('Y-m-d H:i:s')
 			);
 			$this->Main_model->insertData('sktm_pendidikan',$data_insert);
-            // print_r($data_insert1);
-            
+            // print_r($data_insert);
+            require FCPATH . 'vendor/autoload.php';
+
+            require_once BASEPATH.'core/CodeIgniter.php';
             $mpdf = new \Mpdf\Mpdf();
             $data = $this->load->view('admin/form_pdf/sktm_sekolah', $data_insert, TRUE);
             $mpdf->WriteHTML($data);
-            ob_clean();
+            if (ob_get_contents()) ob_end_clean();
             $pathh = 'data_upload/dokumen/'.($get_last['id_sktm_pendidikan']+1).'_sktm_pendidikan.pdf';
             $mpdf->Output($pathh, \Mpdf\Output\Destination::FILE);
+
+            $datainsert = array(
+				'form' => 'SKTM untuk Pendidikan',
+				'file' => base_url().'data_upload/dokumen/'.($get_last['id_sktm_pendidikan']+1).'_sktm_pendidikan.pdf',
+				'created_by' => $this->post('user_id'),
+				'created_at' => date('Y-m-d H:i:s')
+			);
+			$this->Main_model->insertData('riwayat_administrasi',$datainsert);
+            // print_r($datainsert);
 
 			$this->Main_model->log_activity($this->post('user_id'),'Adding data',"Membuat surat keterangan tidak mampu untuk pendidikan");
 			$this->db->trans_complete();
@@ -71,6 +82,7 @@ class Sktm_pendidikan extends REST_Controller {
 			else{
 				$hasil['status'] = '1';
                 $hasil['message'] = 'Sukses menyimpan data.';
+                $hasil['link'] = base_url().'data_upload/dokumen/'.($get_last['id_sktm_pendidikan']+1).'_sktm_pendidikan.pdf';
                 $this->response($hasil, 200);
 			}
 		}

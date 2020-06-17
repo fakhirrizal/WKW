@@ -1,9 +1,13 @@
 <?php
-$host = "127.0.0.1";
+$host = "localhost";
+// $user = "root";
+// $pass = "";
+// $dbName = "datapemilih";
+$host = "localhost";
 $user = "pcoh4447_pemilih";
 $pass = "pemilihhebat";
 $dbName = "pcoh4447_datapemilih";
-mysql_connect($host, $user, $pass);
-mysql_select_db($dbName)
-or die ("Connect Failed !! : ".mysql_error());
+$mysqli = mysqli_connect($host, $user, $pass, $dbName); 
+// mysqli_select_db($dbName)
+// or die ("Connect Failed !! : ".mysql_error());
 ?>

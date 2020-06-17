@@ -32,7 +32,7 @@ class Reset_password extends REST_Controller {
 					$this->response($balikan, 200);
 				}else{
 					$this->db->trans_start();
-					$new_pass = $this->Main_model->random_string(10);
+					$new_pass = $this->Main_model->random_string(6);
 					require_once(APPPATH.'libraries/class.phpmailer.php');
 
 					$mail = new PHPMailer; 

@@ -53,6 +53,17 @@
 									</div>
 								</div>
 							</div>
+							<div class="form-group form-md-line-input has-danger">
+								<label class="col-md-2 control-label" for="form_control_1">Tanggal <span class="required"> * </span></label>
+								<div class="col-md-10">
+									<div class="input-icon">
+										<input type="datetime-local" class="form-control" name="tanggal" placeholder="Type something" required>
+										<div class="form-control-focus"> </div>
+										<span class="help-block">Some help goes here...</span>
+										<i class="icon-pin"></i>
+									</div>
+								</div>
+							</div>
                             <div class="form-group form-md-line-input has-danger">
                                 <label class="col-md-2 control-label" for="form_control_1">Foto <span class="required"> * </span></label>
                                 <div class="col-md-10">

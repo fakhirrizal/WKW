@@ -602,7 +602,7 @@ class Master extends CI_Controller {
 					'judul' => $this->input->post('judul'),
 					'foto' => $gbr['file_name'],
 					'isi' => $this->input->post('isi'),
-					'created_at' => date('Y-m-d H:i:s')
+					'created_at' => $this->input->post('tanggal')
 				);
 				$this->Main_model->insertData("berita",$data_insert_);
 			}
@@ -674,16 +674,15 @@ class Master extends CI_Controller {
 			{
 				$gbr = $this->upload->data();
 				$data_insert_1 = array(
-					'judul' => $this->input->post('judul'),
-					'foto' => $gbr['file_name'],
-					'isi' => $this->input->post('isi')
+					'foto' => $gbr['file_name']
 				);
 				$this->Main_model->updateData('berita',$data_insert_1,array('md5(id_berita)'=>$this->input->post('id')));
 			}
 		}else{echo'';}
 		$data_insert_2 = array(
 			'judul' => $this->input->post('judul'),
-			'isi' => $this->input->post('isi')
+			'isi' => $this->input->post('isi'),
+			'created_at' => $this->input->post('tanggal')
 		);
 		$this->Main_model->updateData('berita',$data_insert_2,array('md5(id_berita)'=>$this->input->post('id')));
 		$this->Main_model->log_activity($this->session->userdata('id'),'Updating data',"Memperbarui data berita (".$this->input->post('judul').")",$this->session->userdata('location'));
