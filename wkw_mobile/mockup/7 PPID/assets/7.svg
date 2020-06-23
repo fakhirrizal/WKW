@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Creator: CorelDRAW 2017 -->
-<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="180px" height="180px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
-viewBox="0 0 9.36 9.36"
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="140px" height="140px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 26.05 26.05"
  xmlns:xlink="http://www.w3.org/1999/xlink">
  <defs>
   <style type="text/css">
    <![CDATA[
-    .fil0 {fill:#33CC33}
+    .fil0 {fill:#663333}
    ]]>
   </style>
  </defs>
  <g id="Layer_x0020_1">
   <metadata id="CorelCorpID_0Corel-Layer"/>
-  <g id="_2855412003200">
-   <rect class="fil0" x="2.74" y="5.63" width="2.91" height="0.32"/>
-   <rect class="fil0" x="2.74" y="4.91" width="2.91" height="0.32"/>
-   <rect class="fil0" x="2.74" y="4.2" width="2.91" height="0.32"/>
-   <rect class="fil0" x="2.74" y="6.39" width="2.91" height="0.32"/>
-   <path class="fil0" d="M4.68 0c-2.58,0 -4.68,2.1 -4.68,4.68 0,2.59 2.1,4.68 4.68,4.68 2.59,0 4.68,-2.09 4.68,-4.68 0,-2.58 -2.09,-4.68 -4.68,-4.68zm1.61 6.62l0 0.56c0,0.32 -0.25,0.57 -0.56,0.57l-3.06 0c-0.32,0 -0.57,-0.25 -0.57,-0.57l0 -4.19c0,-0.32 0.25,-0.57 0.57,-0.57l3.06 0c0.31,0 0.56,0.25 0.56,0.57 0,0 0,0.57 0,0.57l0 3.06zm0.73 -0.73l0 0.57c0,0.25 -0.17,0.47 -0.4,0.54l0 -0.38 0 -3.06 0 -0.57c0,-0.49 -0.4,-0.89 -0.89,-0.89l-2.88 0c0.07,-0.24 0.29,-0.41 0.55,-0.41l3.05 0c0.32,0 0.57,0.26 0.57,0.57l0 0.57 0 0 0 3.06z"/>
-   <rect class="fil0" x="2.74" y="3.48" width="2.91" height="0.32"/>
+  <g id="_1570160825920">
+   <rect class="fil0" x="7.62" y="15.67" width="8.11" height="0.9"/>
+   <rect class="fil0" x="7.62" y="13.67" width="8.11" height="0.9"/>
+   <rect class="fil0" x="7.62" y="11.67" width="8.11" height="0.9"/>
+   <rect class="fil0" x="7.62" y="17.78" width="8.11" height="0.9"/>
+   <path class="fil0" d="M13.02 0c-7.19,0 -13.02,5.83 -13.02,13.02 0,7.2 5.83,13.03 13.02,13.03 7.2,0 13.03,-5.83 13.03,-13.03 0,-7.19 -5.83,-13.02 -13.03,-13.02zm4.49 18.4l0 1.59c0,0.87 -0.71,1.58 -1.58,1.58l-8.51 0c-0.87,0 -1.58,-0.71 -1.58,-1.58l0 -11.67c0,-0.88 0.71,-1.59 1.58,-1.59l8.51 0c0.87,0 1.58,0.71 1.58,1.59 0,0 0,1.58 0,1.58l0 8.5zm2.03 -2.02l0 1.58c0,0.72 -0.48,1.32 -1.13,1.52l0 -1.08 0 -8.5 0 -1.58c0,-1.37 -1.11,-2.49 -2.48,-2.49l-8 0c0.2,-0.65 0.8,-1.12 1.52,-1.12l8.5 0c0.88,0 1.59,0.7 1.59,1.58l0 1.58 0 0 0 8.51z"/>
+   <rect class="fil0" x="7.62" y="9.67" width="8.11" height="0.9"/>
   </g>
  </g>
 </svg>
