@@ -7,7 +7,7 @@ class Report extends CI_Controller {
     }
     /* Data KK */
     public function data_kk(){
-        $data['parent'] = 'rekap_data';
+        $data['parent'] = 'laporan_masyarakat';
         $data['child'] = 'data_kk';
         $data['grand_child'] = '';
         $this->load->view('admin/template/header',$data);
@@ -75,7 +75,7 @@ class Report extends CI_Controller {
 		echo json_encode($results);
     }
     public function detil_data_pengajuan_kk(){
-		$data['parent'] = 'rekap_data';
+		$data['parent'] = 'laporan_masyarakat';
         $data['child'] = 'data_kk';
         $data['grand_child'] = '';
         $data['data_utama'] = $this->Main_model->getSelectedData('data_kk a', 'a.*,b.fullname', array('md5(a.id_data_kk)'=>$this->uri->segment(3)), 'a.id_data_kk DESC', '', '', '', array(
@@ -116,106 +116,26 @@ class Report extends CI_Controller {
     }
     /* Data KTP */
     public function data_ktp(){
-        $data['parent'] = 'rekap_data';
+        $data['parent'] = 'laporan_masyarakat';
         $data['child'] = 'data_ktp';
         $data['grand_child'] = '';
         $this->load->view('admin/template/header',$data);
         $this->load->view('admin/report/data_ktp',$data);
         $this->load->view('admin/template/footer');
     }
-    public function json_ktp_all(){
-		$get_data1 = $this->Main_model->getSelectedData('data_ktp a', 'a.*')->result();
-        $data_tampil = array();
-        $no = 1;
-		foreach ($get_data1 as $key => $value) {
-			$isi['no'] = $no++.'.';
-			$isi['nik'] = $value->nik;
-			$isi['nama'] = $value->nama;
-            $isi['keterangan'] = $value->keterangan;
-            $isi['status'] = '';
-            if($value->status=='Masuk Antrean'){
-                $isi['status'] = '<span class="label label-warning"> Masuk Antrean </span>';
-            }elseif($value->status=='Tercetak'){
-                $isi['status'] = '<span class="label label-success"> Tercetak </span>';
-            }elseif($value->status=='Ditolak'){
-                $isi['status'] = '<span class="label label-danger"> Ditolak </span>';
-            }elseif($value->status=='Menunggu Persetujuan'){
-                $isi['status'] = '<span class="label label-default"> Menunggu Persetujuan </span>';
-            }else{
-                echo'';
-            }
-            $pecah_tanggal = explode(' ',$value->created_date);
-            $isi['pengajuan'] = $this->Main_model->convert_tanggal($pecah_tanggal[0]).' '.substr($pecah_tanggal[1],0,5);
-			$isi['action'] =	'
-                                <a class="btn btn-xs green" href="https://api.whatsapp.com/send?phone='.$value->wa.'&text=pesan_kamu"> Chat WA </a>
-								';
-			$data_tampil[] = $isi;
-		}
-		$results = array(
-			"sEcho" => 1,
-			"iTotalRecords" => count($data_tampil),
-			"iTotalDisplayRecords" => count($data_tampil),
-			"aaData"=>$data_tampil);
-		echo json_encode($results);
-    }
     public function json_ktp(){
-		$get_data1 = $this->Main_model->getSelectedData('data_ktp a', 'a.*', array('a.status'=>'Menunggu Persetujuan'))->result();
+		$get_data1 = $this->Main_model->getSelectedData('permohonan_ktp a', 'a.*')->result();
         $data_tampil = array();
         $no = 1;
 		foreach ($get_data1 as $key => $value) {
 			$isi['no'] = $no++.'.';
 			$isi['nik'] = $value->nik;
 			$isi['nama'] = $value->nama;
-            $isi['keterangan'] = $value->keterangan;
-            // $isi['status'] = '';
-            // if($value->status=='Proses'){
-            //     $isi['status'] = '<span class="label label-warning"> Proses </span>';
-            // }elseif($value->status=='Selesai'){
-            //     $isi['status'] = '<span class="label label-success"> Selesai </span>';
-            // }else{
-            //     echo'';
-            // }
-            $pecah_tanggal = explode(' ',$value->created_date);
-            $isi['pengajuan'] = $this->Main_model->convert_tanggal($pecah_tanggal[0]).' '.substr($pecah_tanggal[1],0,5);
-			$return_on_click = "return confirm('Anda yakin?')";
-			$isi['action'] =	'
-                                <a class="btn btn-xs green detaildata" data-toggle="modal" data-target="#detaildata" id="'.md5($value->id_data_ktp).'"> Ubah Status </a>
-								';
-			$data_tampil[] = $isi;
-		}
-		$results = array(
-			"sEcho" => 1,
-			"iTotalRecords" => count($data_tampil),
-			"iTotalDisplayRecords" => count($data_tampil),
-			"aaData"=>$data_tampil);
-		echo json_encode($results);
-    }
-    public function json_ktp_antrean(){
-		$get_data1 = $this->Main_model->getSelectedData('data_ktp a', 'a.*', array('a.status'=>'Masuk Antrean'), 'b.id_antrean_ktp ASC', '', '', '', array(
-            'table' => 'antrean_ktp b',
-            'on' => 'a.id_data_ktp=b.id_data_ktp',
-            'pos' => 'left'
-        ))->result();
-        $data_tampil = array();
-        $no = 1;
-		foreach ($get_data1 as $key => $value) {
-			$isi['no'] = $no++.'.';
-			$isi['nik'] = $value->nik;
-			$isi['nama'] = $value->nama;
-            $isi['keterangan'] = $value->keterangan;
-            // $isi['status'] = '';
-            // if($value->status=='Proses'){
-            //     $isi['status'] = '<span class="label label-warning"> Proses </span>';
-            // }elseif($value->status=='Selesai'){
-            //     $isi['status'] = '<span class="label label-success"> Selesai </span>';
-            // }else{
-            //     echo'';
-            // }
-            $pecah_tanggal = explode(' ',$value->created_date);
-            $isi['pengajuan'] = $this->Main_model->convert_tanggal($pecah_tanggal[0]).' '.substr($pecah_tanggal[1],0,5);
-			$isi['action'] =	'
-                                <a class="btn btn-xs green" href="'.base_url().'admin_side/ubah_status_tercetak/'.md5($value->id_data_ktp).'"> Tercetak </a>
-								';
+            $isi['jenis'] = $value->permohonan_ktp;
+            $isi['rtrw'] = $value->rt.'/ '.$value->rw;
+            $isi['file'] = '<a class="detaildata" id="'.md5($value->id_permohonan_ktp).'">Lihat File</a>';
+            $pecah_tanggal = explode(' ',$value->created_at);
+            $isi['waktu'] = $this->Main_model->convert_tanggal($pecah_tanggal[0]).' '.substr($pecah_tanggal[1],0,5);
 			$data_tampil[] = $isi;
 		}
 		$results = array(
@@ -273,6 +193,245 @@ class Report extends CI_Controller {
             $this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil diubah.<br /></div>' );
             echo "<script>window.location='".base_url()."admin_side/data_ktp/'</script>";
         }
+    }
+    /* Keterangan Domisili */
+    public function pengantar_domisili(){
+        $data['parent'] = 'laporan_masyarakat';
+        $data['child'] = 'pengantar_domisili';
+        $data['grand_child'] = '';
+        $this->load->view('admin/template/header',$data);
+        $this->load->view('admin/report/pengajuan_surat_keterangan_domisili',$data);
+        $this->load->view('admin/template/footer');
+    }
+    public function json_domisili(){
+		$get_data = $this->Main_model->getSelectedData('surat_keterangan_domisili a', 'a.*')->result();
+        $data_tampil = array();
+        $no = 1;
+		foreach ($get_data as $key => $value) {
+            $isi['no'] = $no++.'.';
+            $isi['nama'] = $value->nama;
+            $isi['alamat'] = $value->alamat;
+            $isi['rtrw'] = $value->rt.'/ '.$value->rw;
+            $isi['ttl'] = $value->tempat_lahir.', '.$this->Main_model->convert_tanggal($value->tanggal_lahir);
+            $pecah_tanggal = explode(' ',$value->created_at);
+            $isi['waktu'] = $this->Main_model->convert_tanggal($pecah_tanggal[0]).' '.substr($pecah_tanggal[1],0,5);
+            $isi['aksi'] =	'
+            <a class="btn btn-xs green" type="button" href="'.base_url().'admin_side/detail_surat_keterangan_domisili/'.md5($value->id_surat_keterangan_domisili).'"> Detail Data
+            </a>';
+			$data_tampil[] = $isi;
+		}
+		$results = array(
+			"sEcho" => 1,
+			"iTotalRecords" => count($data_tampil),
+			"iTotalDisplayRecords" => count($data_tampil),
+			"aaData"=>$data_tampil);
+		echo json_encode($results);
+    }
+    public function detail_surat_keterangan_domisili(){
+        $data['parent'] = 'laporan_masyarakat';
+        $data['child'] = 'pengantar_domisili';
+        $data['grand_child'] = '';
+        $data['data_utama'] = $this->Main_model->getSelectedData('surat_keterangan_domisili a', 'a.*', array('md5(a.id_surat_keterangan_domisili)'=>$this->uri->segment(3)))->row();
+        $this->load->view('admin/template/header',$data);
+        $this->load->view('admin/report/detail_surat_keterangan_domisili',$data);
+        $this->load->view('admin/template/footer');
+    }
+    /* Keterangan Usaha */
+    public function surat_keterangan_usaha(){
+        $data['parent'] = 'laporan_masyarakat';
+        $data['child'] = 'surat_keterangan_usaha';
+        $data['grand_child'] = '';
+        $this->load->view('admin/template/header',$data);
+        $this->load->view('admin/report/keterangan_usaha',$data);
+        $this->load->view('admin/template/footer');
+    }
+    public function json_surat_keterangan_usaha(){
+		$get_data = $this->Main_model->getSelectedData('surat_keterangan_usaha a', 'a.*')->result();
+        $data_tampil = array();
+        $no = 1;
+		foreach ($get_data as $key => $value) {
+            $isi['no'] = $no++.'.';
+            $isi['nama'] = $value->nama;
+            $isi['usaha'] = $value->nama_usaha;
+            $isi['rtrw'] = $value->rt.'/ '.$value->rw;
+            $isi['ttl'] = $value->tempat_lahir.', '.$this->Main_model->convert_tanggal($value->tanggal_lahir);
+            $pecah_tanggal = explode(' ',$value->created_at);
+            $isi['waktu'] = $this->Main_model->convert_tanggal($pecah_tanggal[0]).' '.substr($pecah_tanggal[1],0,5);
+            $isi['aksi'] =	'
+            <a class="btn btn-xs green" type="button" href="'.base_url().'admin_side/detail_surat_keterangan_usaha/'.md5($value->id_surat_keterangan_usaha).'"> Detail Data
+            </a>';
+			$data_tampil[] = $isi;
+		}
+		$results = array(
+			"sEcho" => 1,
+			"iTotalRecords" => count($data_tampil),
+			"iTotalDisplayRecords" => count($data_tampil),
+			"aaData"=>$data_tampil);
+		echo json_encode($results);
+    }
+    public function detail_surat_keterangan_usaha(){
+        $data['parent'] = 'laporan_masyarakat';
+        $data['child'] = 'surat_keterangan_usaha';
+        $data['grand_child'] = '';
+        $data['data_utama'] = $this->Main_model->getSelectedData('surat_keterangan_usaha a', 'a.*', array('md5(a.id_surat_keterangan_usaha)'=>$this->uri->segment(3)))->row();
+        $this->load->view('admin/template/header',$data);
+        $this->load->view('admin/report/detail_surat_keterangan_usaha',$data);
+        $this->load->view('admin/template/footer');
+    }
+    /* SKTM */
+    public function sktm(){
+        $data['parent'] = 'laporan_masyarakat';
+        $data['child'] = 'sktm';
+        $data['grand_child'] = '';
+        $this->load->view('admin/template/header',$data);
+        $this->load->view('admin/report/sktm',$data);
+        $this->load->view('admin/template/footer');
+    }
+    public function json_sktm_umum(){
+		$get_data = $this->Main_model->getSelectedData('sktm a', 'a.*')->result();
+        $data_tampil = array();
+        $no = 1;
+		foreach ($get_data as $key => $value) {
+            $isi['no'] = $no++.'.';
+            $isi['nama'] = $value->nama;
+            $isi['nik'] = $value->nik;
+            $isi['ttl'] = $value->tempat_lahir.', '.$this->Main_model->convert_tanggal($value->tanggal_lahir);
+            $pecah_tanggal = explode(' ',$value->created_at);
+            $isi['waktu'] = $this->Main_model->convert_tanggal($pecah_tanggal[0]).' '.substr($pecah_tanggal[1],0,5);
+            $isi['action'] =	'
+            <a class="btn btn-xs green" type="button" href="'.base_url().'admin_side/detail_sktm/'.md5($value->id_sktm).'/1"> Detail Data
+            </a>';
+			$data_tampil[] = $isi;
+		}
+		$results = array(
+			"sEcho" => 1,
+			"iTotalRecords" => count($data_tampil),
+			"iTotalDisplayRecords" => count($data_tampil),
+			"aaData"=>$data_tampil);
+		echo json_encode($results);
+    }
+    public function json_sktm_pelajar(){
+		$get_data = $this->Main_model->getSelectedData('sktm_pendidikan a', 'a.*')->result();
+        $data_tampil = array();
+        $no = 1;
+		foreach ($get_data as $key => $value) {
+            $isi['no'] = $no++.'.';
+            $isi['nama'] = $value->nama;
+            $isi['nik'] = $value->nik;
+            $isi['ttl'] = $value->tempat_lahir.', '.$this->Main_model->convert_tanggal($value->tanggal_lahir);
+            $pecah_tanggal = explode(' ',$value->created_at);
+            $isi['waktu'] = $this->Main_model->convert_tanggal($pecah_tanggal[0]).' '.substr($pecah_tanggal[1],0,5);
+            $isi['action'] =	'
+            <a class="btn btn-xs green" type="button" href="'.base_url().'admin_side/detail_sktm/'.md5($value->id_sktm_pendidikan).'/2"> Detail Data
+            </a>';
+			$data_tampil[] = $isi;
+		}
+		$results = array(
+			"sEcho" => 1,
+			"iTotalRecords" => count($data_tampil),
+			"iTotalDisplayRecords" => count($data_tampil),
+			"aaData"=>$data_tampil);
+		echo json_encode($results);
+    }
+    public function detail_sktm(){
+        $data['parent'] = 'laporan_masyarakat';
+        $data['child'] = 'sktm';
+        $data['grand_child'] = '';
+        if($this->uri->segment(4)=='1'){
+            $data['data_utama'] = $this->Main_model->getSelectedData('sktm a', 'a.*', array('md5(a.id_sktm)'=>$this->uri->segment(3)))->row();
+            $this->load->view('admin/template/header',$data);
+            $this->load->view('admin/report/detail_sktm',$data);
+            $this->load->view('admin/template/footer');
+        }elseif($this->uri->segment(4)=='2'){
+            $data['data_utama'] = $this->Main_model->getSelectedData('sktm_pendidikan a', 'a.*', array('md5(a.id_sktm_pendidikan)'=>$this->uri->segment(3)))->row();
+            $this->load->view('admin/template/header',$data);
+            $this->load->view('admin/report/detail_sktm_pendidikan',$data);
+            $this->load->view('admin/template/footer');
+        }else{
+            redirect('admin_side/sktm');
+        }
+    }
+    /* SIM */
+    public function sim(){
+        $data['parent'] = 'laporan_masyarakat';
+        $data['child'] = 'sim';
+        $data['grand_child'] = '';
+        $this->load->view('admin/template/header',$data);
+        $this->load->view('admin/report/sim',$data);
+        $this->load->view('admin/template/footer');
+    }
+    public function json_sim(){
+		$get_data = $this->Main_model->getSelectedData('surat_pengantar_sim a', 'a.*')->result();
+        $data_tampil = array();
+        $no = 1;
+		foreach ($get_data as $key => $value) {
+            $isi['no'] = $no++.'.';
+            $isi['nama'] = $value->nama;
+            $isi['rtrw'] = $value->rt.'/ '.$value->rw;
+            $isi['ttl'] = $value->tempat_lahir.', '.$this->Main_model->convert_tanggal($value->tanggal_lahir);
+            $pecah_tanggal = explode(' ',$value->created_at);
+            $isi['waktu'] = $this->Main_model->convert_tanggal($pecah_tanggal[0]).' '.substr($pecah_tanggal[1],0,5);
+            $isi['aksi'] =	'
+            <a class="btn btn-xs green" type="button" href="'.base_url().'admin_side/detail_pengajuan_sim/'.md5($value->id_surat_pengantar_sim).'"> Detail Data
+            </a>';
+			$data_tampil[] = $isi;
+		}
+		$results = array(
+			"sEcho" => 1,
+			"iTotalRecords" => count($data_tampil),
+			"iTotalDisplayRecords" => count($data_tampil),
+			"aaData"=>$data_tampil);
+		echo json_encode($results);
+    }
+    public function detail_pengajuan_sim(){
+        $data['parent'] = 'laporan_masyarakat';
+        $data['child'] = 'sim';
+        $data['grand_child'] = '';
+        $data['data_utama'] = $this->Main_model->getSelectedData('surat_pengantar_sim a', 'a.*', array('md5(a.id_surat_pengantar_sim)'=>$this->uri->segment(3)))->row();
+        $this->load->view('admin/template/header',$data);
+        $this->load->view('admin/report/detail_pengajuan_sim',$data);
+        $this->load->view('admin/template/footer');
+    }
+    /* SKCK */
+    public function skck(){
+        $data['parent'] = 'laporan_masyarakat';
+        $data['child'] = 'skck';
+        $data['grand_child'] = '';
+        $this->load->view('admin/template/header',$data);
+        $this->load->view('admin/report/skck',$data);
+        $this->load->view('admin/template/footer');
+    }
+    public function json_skck(){
+		$get_data = $this->Main_model->getSelectedData('surat_pengantar_skck a', 'a.*')->result();
+        $data_tampil = array();
+        $no = 1;
+		foreach ($get_data as $key => $value) {
+            $isi['no'] = $no++.'.';
+            $isi['nama'] = $value->nama;
+            $isi['rtrw'] = $value->rt.'/ '.$value->rw;
+            $isi['ttl'] = $value->tempat_lahir.', '.$this->Main_model->convert_tanggal($value->tanggal_lahir);
+            $pecah_tanggal = explode(' ',$value->created_at);
+            $isi['waktu'] = $this->Main_model->convert_tanggal($pecah_tanggal[0]).' '.substr($pecah_tanggal[1],0,5);
+            $isi['aksi'] =	'
+            <a class="btn btn-xs green" type="button" href="'.base_url().'admin_side/detail_pengajuan_skck/'.md5($value->id_surat_pengantar_skck).'"> Detail Data
+            </a>';
+			$data_tampil[] = $isi;
+		}
+		$results = array(
+			"sEcho" => 1,
+			"iTotalRecords" => count($data_tampil),
+			"iTotalDisplayRecords" => count($data_tampil),
+			"aaData"=>$data_tampil);
+		echo json_encode($results);
+    }
+    public function detail_pengajuan_skck(){
+        $data['parent'] = 'laporan_masyarakat';
+        $data['child'] = 'skck';
+        $data['grand_child'] = '';
+        $data['data_utama'] = $this->Main_model->getSelectedData('surat_pengantar_skck a', 'a.*', array('md5(a.id_surat_pengantar_skck)'=>$this->uri->segment(3)))->row();
+        $this->load->view('admin/template/header',$data);
+        $this->load->view('admin/report/detail_pengajuan_skck',$data);
+        $this->load->view('admin/template/footer');
     }
     /* Other Function */
 	public function ajax_function(){
@@ -402,6 +561,10 @@ class Report extends CI_Controller {
                 </div>
             </form>
             ';
+        }
+        elseif($this->input->post('modul')=='modul_file_permohonan_ktp'){
+            $get_data = $this->Main_model->getSelectedData('permohonan_ktp a', 'a.*', array('md5(a.id_permohonan_ktp)'=>$this->input->post('id')))->row();
+            echo'<iframe height="600" width="1075" src="'.$get_data->file.'"></iframe>';
 		}
 	}
 }

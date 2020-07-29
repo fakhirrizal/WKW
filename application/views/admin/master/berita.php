@@ -80,7 +80,7 @@
 								"aoColumns": [
 											{ mData: 'no', sClass: "alignCenter" },
 											{ mData: 'judul', sClass: "alignCenter" } ,
-											{ mData: 'isi', sClass: "alignCenter" },
+											{ mData: 'isi' },
 											{ mData: 'action' }
 										]
 							});

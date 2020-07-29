@@ -17,7 +17,7 @@ class Berita extends REST_Controller {
 	}
 	function index_get() {
 		if($this->get('id_berita')!=NULL){
-			$hasil = $this->Main_model->getSelectedData('berita a', 'a.*', array('a.id_berita'=>$this->get('id_berita')), '', '10', $this->get('jumlah'))->row();
+			$hasil = $this->Main_model->getSelectedData('berita a', 'a.*', array('a.id_berita'=>$this->get('id_berita')), 'a.created_at DESC', '10', $this->get('jumlah'))->row();
 			if($hasil==NULL){
 				$balikan['status'] = 0;
 				$balikan['message'] = 'Data kosong.';
@@ -34,8 +34,8 @@ class Berita extends REST_Controller {
 				$this->response($isi, 200);
 			}
 		}else{
-			$hasil_total = $this->Main_model->getSelectedData('berita a', 'a.*')->result();
-			$hasil = $this->Main_model->getSelectedData('berita a', 'a.*', '', '', '10', $this->get('jumlah'))->result();
+			$hasil_total = $this->Main_model->getSelectedData('berita a', 'a.*', '', 'a.created_at DESC')->result();
+			$hasil = $this->Main_model->getSelectedData('berita a', 'a.*', '', 'a.created_at DESC', '10', $this->get('jumlah'))->result();
 			if($hasil==NULL){
 				$balikan['status'] = 0;
 				$balikan['message'] = 'Data kosong.';

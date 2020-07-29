@@ -35,10 +35,10 @@ if(($this->session->userdata('id'))==NULL){
 		<link href="<?=base_url('assets_dashboard/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css');?>" rel="stylesheet" type="text/css" />
 		<link href="<?=base_url('assets_dashboard/global/plugins/cubeportfolio/css/cubeportfolio.css');?>" rel="stylesheet" type="text/css" />
 		<link href="<?=base_url('assets_dashboard/global/plugins/ladda/ladda-themeless.min.css');?>" rel="stylesheet" type="text/css" />
-		<link href="<?=base_url('assets_dashboard/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.css');?>" rel="stylesheet" type="text/css" />
+		<!-- <link href="<?=base_url('assets_dashboard/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.css');?>" rel="stylesheet" type="text/css" /> -->
 		<link href="<?=base_url('assets_dashboard/global/css/components-md.min.css');?>" rel="stylesheet" id="style_components" type="text/css" />
 		<link href="<?=base_url('assets_dashboard/global/css/plugins-md.min.css');?>" rel="stylesheet" type="text/css" />
-		<link href="<?=base_url('assets_dashboard/pages/css/blog.min.css');?>" rel="stylesheet" type="text/css" />
+		<!-- <link href="<?=base_url('assets_dashboard/pages/css/blog.min.css');?>" rel="stylesheet" type="text/css" /> -->
 		<!-- END THEME GLOBAL STYLES -->
 		<!-- BEGIN THEME LAYOUT STYLES -->
 		<link href="<?=base_url('assets_dashboard/layouts/layout3/css/layout.min.css');?>" rel="stylesheet" type="text/css" />
@@ -62,7 +62,7 @@ if(($this->session->userdata('id'))==NULL){
 								<?php
 									$data_notif = 0;
 								?>
-								<a href="#" class="dropdown-toggle" title="Notifikasi">
+								<a href="javascript:void(0)" class="dropdown-toggle" title="Notifikasi">
 								</a>
 							</li>
 							<li class="dropdown dropdown-user dropdown-dark">
@@ -127,7 +127,7 @@ if(($this->session->userdata('id'))==NULL){
 								</ul>
 							</li>
 							<li class="menu-dropdown classic-menu-dropdown <?php if($parent=='laporan_masyarakat'){echo 'active';}else{echo '';} ?>">
-								<a href="javascript:;"><i class="icon-layers"></i> Laporan Masyarakat
+								<a href="javascript:;"><i class="icon-layers"></i> Layanan Masyarakat
 									<span class="arrow <?php if($parent=='laporan_masyarakat'){echo 'open';}else{echo '';} ?>"></span>
 								</a>
 								<ul class="dropdown-menu pull-left">
@@ -137,9 +137,33 @@ if(($this->session->userdata('id'))==NULL){
 										</a>
 									</li>
 									<li class=" <?php if($child=='permohonan_kk'){echo 'active';}else{echo '';} ?>">
-										<a href="<?php echo site_url('admin_side/permohonan_kk'); ?>" class="nav-link nav-toggle ">
+										<a href="#" class="nav-link nav-toggle ">
 											<i class="icon-pin"></i> Permohonan KK
-											
+										</a>
+									</li>
+									<li class=" <?php if($child=='pengantar_domisili'){echo 'active';}else{echo '';} ?>">
+										<a href="<?php echo site_url('admin_side/pengantar_domisili'); ?>" class="nav-link nav-toggle ">
+											<i class="icon-pin"></i> Pengantar Domisili
+										</a>
+									</li>
+									<li class=" <?php if($child=='surat_keterangan_usaha'){echo 'active';}else{echo '';} ?>">
+										<a href="<?php echo site_url('admin_side/surat_keterangan_usaha'); ?>" class="nav-link nav-toggle ">
+											<i class="icon-pin"></i> Keterangan Usaha
+										</a>
+									</li>
+									<li class=" <?php if($child=='sktm'){echo 'active';}else{echo '';} ?>">
+										<a href="<?php echo site_url('admin_side/sktm'); ?>" class="nav-link nav-toggle ">
+											<i class="icon-pin"></i> SKTM
+										</a>
+									</li>
+									<li class=" <?php if($child=='sim'){echo 'active';}else{echo '';} ?>">
+										<a href="<?php echo site_url('admin_side/sim'); ?>" class="nav-link nav-toggle ">
+											<i class="icon-pin"></i> Pengantar SIM
+										</a>
+									</li>
+									<li class=" <?php if($child=='skck'){echo 'active';}else{echo '';} ?>">
+										<a href="<?php echo site_url('admin_side/skck'); ?>" class="nav-link nav-toggle ">
+											<i class="icon-pin"></i> Pengantar SKCK
 										</a>
 									</li>
 								</ul>
@@ -209,7 +233,7 @@ if(($this->session->userdata('id'))==NULL){
 						<div class="page-toolbar">
 							<!-- BEGIN THEME PANEL -->
 							<div class="btn-group btn-theme-panel">
-								<!-- <a href="#" title="Setting Informasi Aplikasi" class="btn dropdown-toggle" >
+								<!-- <a href="javascript:void(0)" title="Setting Informasi Aplikasi" class="btn dropdown-toggle" >
 									<i class="icon-settings"></i>
 								</a> -->
 								<script type="text/javascript">function startTime(){var today=new Date(),curr_hour=today.getHours(),curr_min=today.getMinutes(),curr_sec=today.getSeconds();curr_hour=checkTime(curr_hour);curr_min=checkTime(curr_min);curr_sec=checkTime(curr_sec);document.getElementById('clock').innerHTML=curr_hour+":"+curr_min+":"+curr_sec;}function checkTime(i){if(i<10){i="0"+i;}return i;}setInterval(startTime,500);</script>
