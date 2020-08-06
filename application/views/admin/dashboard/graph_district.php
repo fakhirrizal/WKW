@@ -145,7 +145,7 @@
                                             echo'
                                             <tr>
                                                 <td style="text-align: center;">'.$no++.'.</td>
-                                                <td><a href="#">'.$value->nm_desa.'</a></td>
+                                                <td><a href="javascript:void(0)">'.$value->nm_desa.'</a></td>
                                                 <td style="text-align: center;">'.number_format($jumlah_kube,0).' Kelompok</td>
                                                 <td style="text-align: center;">'.number_format($jumlah_rutilahu,0).' Kelompok</td>
                                                 <td style="text-align: center;">'.number_format($jumlah_sarling,0).' Tim</td>
@@ -381,7 +381,7 @@
                                             echo'
                                             <tr>
                                                 <td style="text-align: center;">'.$no++.'.</td>
-                                                <td><a href="#">'.$value->nm_desa.'</a></td>
+                                                <td><a href="javascript:void(0)">'.$value->nm_desa.'</a></td>
                                                 <td style="text-align: center;">'.number_format($persentase_kube,2).'%</td>
                                                 <td style="text-align: center;">'.number_format($persentase_rutilahu,2).'%</td>
                                                 <td style="text-align: center;">'.number_format($persentase_sarling,2).'%</td>
@@ -611,7 +611,7 @@
                                             echo'
                                             <tr>
                                                 <td style="text-align: center;">'.$no++.'.</td>
-                                                <td><a href="#">'.$value->nm_desa.'</a></td>
+                                                <td><a href="javascript:void(0)">'.$value->nm_desa.'</a></td>
                                                 <td style="text-align: center;">Rp '.number_format($anggaran_kube,2).' ('.number_format($persentase_anggaran_kube,2).'%)</td>
                                                 <td style="text-align: center;">Rp '.number_format($anggaran_rutilahu,2).' ('.number_format($persentase_anggaran_rutilahu,2).'%)</td>
                                                 <td style="text-align: center;">Rp '.number_format($anggaran_sarling,2).' ('.number_format($persentase_anggaran_sarling,2).'%)</td>
@@ -826,7 +826,7 @@
                                             echo'
                                             <tr>
                                                 <td style="text-align: center;">'.$no++.'.</td>
-                                                <td><a href="#">'.$value->nm_desa.'</a></td>
+                                                <td><a href="javascript:void(0)">'.$value->nm_desa.'</a></td>
                                                 <td style="text-align: center;">'.number_format($persentase_fisik_kube,2).'%</td>
                                                 <td style="text-align: center;">'.number_format($persentase_fisik_rutilahu,2).'%</td>
                                                 <td style="text-align: center;">'.number_format($persentase_fisik_sarling,2).'%</td>

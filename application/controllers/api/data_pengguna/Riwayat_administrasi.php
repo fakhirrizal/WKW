@@ -24,8 +24,9 @@ class Riwayat_administrasi extends REST_Controller {
 				$balikan['list'] = '';
 				$this->response($balikan, 200);
 			}else{
-                $get_riwayat = $this->Main_model->getSelectedData('riwayat_administrasi a', 'a.*', array('a.crated_by'=>$this->get('user_id')))->result();
-                if($get_riwayat==NULL){
+                $get_riwayat_total = $this->Main_model->getSelectedData('riwayat_administrasi a', 'a.*', array('a.created_by'=>$this->get('user_id')))->result();
+                $get_riwayat = $this->Main_model->getSelectedData('riwayat_administrasi a', 'a.*', array('a.created_by'=>$this->get('user_id')), '', '10', $this->get('jumlah'))->result();
+				if($get_riwayat_total==NULL){
                     $balikan['status'] = 1;
                     $balikan['message'] = 'Data kosong.';
                     $balikan['list'] = '';
@@ -33,14 +34,22 @@ class Riwayat_administrasi extends REST_Controller {
                 }else{
                     $data_tampung = array();
                     foreach ($get_riwayat as $key => $value) {
-                        $isi['form'] = $hasil->form;
-                        $isi['file'] = $hasil->file;
+                        $isi['form'] = $value->form;
+                        $isi['file'] = $value->file;
                         $isi['waktu'] = $this->Main_model->convert_datetime($value->created_at);
                         $data_tampung[] = $isi;
-                    }
+					}
+					$jumlah = $this->get('jumlah')+10;
+					if($jumlah>count($get_riwayat_total)){
+						$tampil_jum = count($get_riwayat_total);
+					}else{
+						$tampil_jum = $jumlah;
+					}
                     $balikan['status'] = 1;
                     $balikan['message'] = 'Data ada.';
-                    $balikan['list'] = $data_tampung;
+					$balikan['list'] = $data_tampung;
+					$balikan['jumlah'] = $tampil_jum;
+					$balikan['total'] = count($get_riwayat_total);
                     $this->response($balikan, 200);
                 }
 			}

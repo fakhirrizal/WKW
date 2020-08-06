@@ -52,7 +52,7 @@ License: You must have a valid license purchased only from themeforest(the above
     <body class=" login" onload="getLocation()">
         <!-- BEGIN LOGO -->
         <!-- <div class="logo">
-            <a href="#"> -->
+            <a href="javascript:void(0)"> -->
                 <div style='text-align:center;'><img src="<?=base_url('assets/logo.svg');?>" style="height: 270px;" alt="" /></div>
             <!-- </a>
         </div> -->

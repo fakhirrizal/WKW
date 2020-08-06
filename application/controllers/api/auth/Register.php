@@ -22,7 +22,7 @@ class Register extends REST_Controller {
         if($this->post('nik')==NULL){
             $hasil['status'] = '0';
             $hasil['message'] = 'NIK tidak boleh kosong!';
-            $hasil['user_id'] = '';
+            $hasil['user_id'] = 0;
             $hasil['nik'] = '';
             $hasil['nama'] = '';
             $hasil['alamat'] = '';
@@ -39,7 +39,7 @@ class Register extends REST_Controller {
         }elseif($this->post('email')==NULL){
             $hasil['status'] = '0';
             $hasil['message'] = 'Email tidak boleh kosong!';
-            $hasil['user_id'] = '';
+            $hasil['user_id'] = 0;
             $hasil['nik'] = '';
             $hasil['nama'] = '';
             $hasil['alamat'] = '';
@@ -58,7 +58,7 @@ class Register extends REST_Controller {
             if($cek!=NULL){
                 $hasil['status'] = '0';
                 $hasil['message'] = 'NIK telah terdaftar!';
-                $hasil['user_id'] = '';
+                $hasil['user_id'] = 0;
                 $hasil['nik'] = '';
                 $hasil['nama'] = '';
                 $hasil['alamat'] = '';
@@ -118,7 +118,7 @@ class Register extends REST_Controller {
                     if($this->db->trans_status() === false){
                         $hasil['status'] = '0';
                         $hasil['message'] = 'Registrasi gagal, harap diulangi lagi!';
-                        $hasil['user_id'] = '';
+                        $hasil['user_id'] = 0;
                         $hasil['nik'] = '';
                         $hasil['nama'] = '';
                         $hasil['alamat'] = '';
@@ -156,7 +156,7 @@ class Register extends REST_Controller {
                 }else{
                     $hasil['status'] = '0';
                     $hasil['message'] = 'Email telah terdaftar!';
-                    $hasil['user_id'] = '';
+                    $hasil['user_id'] = 0;
                     $hasil['nik'] = '';
                     $hasil['nama'] = '';
                     $hasil['alamat'] = '';

@@ -1079,12 +1079,50 @@ class Master extends CI_Controller {
 		$this->load->view('admin/master/detail_anggaran',$data);
 		$this->load->view('admin/template/footer');
 	}
+	public function json_output(){
+		$data_tampil = array();
+		$no = 1;
+		$get_data = $this->Main_model->getSelectedData('output a', 'a.*,b.sub_output', array('md5(a.id_apbdes)'=>$this->input->get('id_apbdes')), 'a.id_sub_output ASC', '', '', '', array(
+			'table' => 'sub_output b',
+			'on' => 'a.id_sub_output=b.id_sub_output',
+			'pos' => 'LEFT'
+		))->result();
+		foreach ($get_data as $key => $value) {
+			$isi['number'] = $no++.'.';
+			$isi['sub_output'] = $value->sub_output;
+			$isi['output'] = $value->output;
+			$isi['nominal'] = 'Rp '.number_format($value->nominal,2);
+			$return_on_click = "return confirm('Anda yakin?')";
+			$isi['aksi'] =	'
+			<div class="btn-group" >
+				<button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Aksi
+					<i class="fa fa-angle-down"></i>
+				</button>
+				<ul class="dropdown-menu" role="menu">
+					<li>
+						<a class="ubahdata2" id="'.md5($value->id_output).'">
+							<i class="icon-note"></i> Ubah Data </a>
+					</li>
+					<li>
+						<a onclick="'.$return_on_click.'" href="'.site_url('admin_side/hapus_output/'.md5($value->id_output)).'">
+							<i class="icon-trash"></i> Hapus Data </a>
+					</li>
+				</ul>
+			</div>
+								';
+			$data_tampil[] = $isi;
+		}
+		$results = array(
+			"sEcho" => 1,
+			"iTotalRecords" => count($data_tampil),
+			"iTotalDisplayRecords" => count($data_tampil),
+			"aaData"=>$data_tampil);
+		echo json_encode($results);
+	}
 	public function perbarui_data_rincian_apbdesa(){
 		$this->db->trans_start();
 		$data_insert_1 = array(
-			'kategori' => $this->input->post('kategori'),
-			'rincian' => $this->input->post('rincian'),
-			'nominal' => $this->input->post('nominal')
+			'rincian' => $this->input->post('rincian')
 		);
 		$this->Main_model->updateData('apbdes',$data_insert_1,array('md5(id_apbdes)'=>$this->input->post('id')));
 		$this->Main_model->log_activity($this->session->userdata('id'),'Updating data',"Memperbarui data rincian APBDESA (".$this->input->post('kategori').")",$this->session->userdata('location'));

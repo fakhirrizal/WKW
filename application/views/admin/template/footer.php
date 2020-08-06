@@ -116,8 +116,8 @@
 		<script src="<?=base_url('assets_dashboard/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js');?>" type="text/javascript"></script>
 		<script src="<?=base_url('assets_dashboard/global/plugins/ladda/spin.min.js');?>" type="text/javascript"></script>
 		<script src="<?=base_url('assets_dashboard/global/plugins/ladda/ladda.min.js');?>" type="text/javascript"></script>
-		<script src="<?=base_url('assets_dashboard/global/plugins/bootstrap-wysihtml5/wysihtml5-0.3.0.js');?>" type="text/javascript"></script>
-		<script src="<?=base_url('assets_dashboard/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.js');?>" type="text/javascript"></script>
+		<!-- <script src="<?=base_url('assets_dashboard/global/plugins/bootstrap-wysihtml5/wysihtml5-0.3.0.js');?>" type="text/javascript"></script>
+		<script src="<?=base_url('assets_dashboard/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.js');?>" type="text/javascript"></script> -->
 		<script src="<?=base_url('assets_dashboard/global/scripts/app.min.js');?>" type="text/javascript"></script>
 		<script src="<?=base_url('assets_dashboard/pages/scripts/components-select2.min.js');?>" type="text/javascript"></script>
 		<script src="<?=base_url('assets_dashboard/pages/scripts/table-datatables-managed.min.js');?>" type="text/javascript"></script>
