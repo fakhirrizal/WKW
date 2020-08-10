@@ -30,7 +30,7 @@ class Main_model extends CI_Model{
 		return $this->db->get($tbl_name);
 	}
 	function random_string($n) { 
-		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ~`!@#$%^&*()-_=+[{]}|";:,<.>/?'; 
+		$characters = '0123456789'; 
 		$randomString = ''; 
 	
 		for ($i = 0; $i < $n; $i++) { 

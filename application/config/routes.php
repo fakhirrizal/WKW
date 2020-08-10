@@ -133,17 +133,27 @@ $route['admin_side/detail_kependudukan/(:any)/(:any)'] = 'admin/Master/detail_ke
 $route['admin_side/hapus_item_data_kependudukan/(:any)'] = 'admin/Master/hapus_item_data_kependudukan/$1';
 
 $route['admin_side/permohonan_ktp'] = 'admin/Report/data_ktp';
+$route['admin_side/ubah_pengajuan_ktp/(:any)'] = 'admin/Report/ubah_pengajuan_ktp/$1';
+$route['admin_side/perbarui_pengajuan_ktp'] = 'admin/Report/perbarui_pengajuan_ktp';
 $route['admin_side/permohonan_kk'] = 'admin/Report/data_kk';
 $route['admin_side/pengantar_domisili'] = 'admin/Report/pengantar_domisili';
 $route['admin_side/detail_surat_keterangan_domisili/(:any)'] = 'admin/Report/detail_surat_keterangan_domisili/$1';
+$route['admin_side/ubah_pengajuan_domisili/(:any)'] = 'admin/Report/ubah_pengajuan_domisili/$1';
+$route['admin_side/perbarui_pengajuan_domisili'] = 'admin/Report/perbarui_pengajuan_domisili';
 $route['admin_side/surat_keterangan_usaha'] = 'admin/Report/surat_keterangan_usaha';
 $route['admin_side/detail_surat_keterangan_usaha/(:any)'] = 'admin/Report/detail_surat_keterangan_usaha/$1';
+$route['admin_side/ubah_pengajuan_usaha/(:any)'] = 'admin/Report/ubah_pengajuan_usaha/$1';
+$route['admin_side/perbarui_pengajuan_usaha'] = 'admin/Report/perbarui_pengajuan_usaha';
 $route['admin_side/sktm'] = 'admin/Report/sktm';
 $route['admin_side/detail_sktm/(:any)/(:any)'] = 'admin/Report/detail_sktm/$1/$2';
 $route['admin_side/sim'] = 'admin/Report/sim';
 $route['admin_side/detail_pengajuan_sim/(:any)'] = 'admin/Report/detail_pengajuan_sim/$1';
+$route['admin_side/ubah_pengajuan_sim/(:any)'] = 'admin/Report/ubah_pengajuan_sim/$1';
+$route['admin_side/perbarui_pengajuan_sim'] = 'admin/Report/perbarui_pengajuan_sim';
 $route['admin_side/skck'] = 'admin/Report/skck';
 $route['admin_side/detail_pengajuan_skck/(:any)'] = 'admin/Report/detail_pengajuan_skck/$1';
+$route['admin_side/ubah_pengajuan_skck/(:any)'] = 'admin/Report/ubah_pengajuan_skck/$1';
+$route['admin_side/perbarui_pengajuan_skck'] = 'admin/Report/perbarui_pengajuan_skck';
 
 /* Mobile */
 $route['mobile_side/login'] = 'mobile/App/login';

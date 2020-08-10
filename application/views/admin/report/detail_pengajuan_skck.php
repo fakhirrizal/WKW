@@ -25,6 +25,7 @@
 		<div class="col-md-12">
 			<div class="portlet light ">
 				<div class="portlet-body">
+					<a href="<?php echo base_url()."admin_side/ubah_pengajuan_skck/".md5($data_utama->id_surat_pengantar_skck); ?>" class="btn btn-success" role="button"><i class="icon-pencil"></i> Ubah Data</a><br><br>
 					<div class='row'>
 						<div class="col-md-6">
 							<table class="table">

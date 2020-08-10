@@ -194,6 +194,55 @@ class Report extends CI_Controller {
             echo "<script>window.location='".base_url()."admin_side/data_ktp/'</script>";
         }
     }
+    public function ubah_pengajuan_ktp(){
+        $data['parent'] = 'laporan_masyarakat';
+        $data['child'] = 'data_ktp';
+        $data['grand_child'] = '';
+        $data['data_utama'] = $this->Main_model->getSelectedData('permohonan_ktp a', 'a.*', array('md5(a.id_permohonan_ktp)'=>$this->uri->segment(3)))->row();
+        $this->load->view('admin/template/header',$data);
+        $this->load->view('admin/report/ubah_pengajuan_ktp',$data);
+        $this->load->view('admin/template/footer');
+    }
+    public function perbarui_pengajuan_ktp(){
+        $this->db->trans_start();
+        $cur_date = date('YmdHis');
+        $nama_file = base_url().'data_upload/dokumen/'.$this->input->post('id').'ktp'.$cur_date.'.pdf';
+
+        $data_insert = array(
+            'nama' => $this->input->post('nama'),
+            'permohonan_ktp' => $this->input->post('permohonan_ktp'),
+            'kk' => $this->input->post('kk'),
+            'nik' => $this->input->post('nik'),
+            'rt' => $this->input->post('rt'),
+            'rw' => $this->input->post('rw'),
+            'file' => $nama_file
+        );
+        $this->Main_model->updateData('permohonan_ktp',$data_insert,array('md5(id_permohonan_ktp)'=>$this->input->post('id')));
+        // print_r($data_insert);
+        // Composer Autoloader
+        require FCPATH . 'vendor/autoload.php';
+
+        require_once BASEPATH.'core/CodeIgniter.php';
+        $mpdf = new \Mpdf\Mpdf();
+        $data = $this->load->view('admin/form_pdf/keterangan', $data_insert, TRUE);
+        $mpdf->WriteHTML($data);
+        if (ob_get_contents()) ob_end_clean();
+        $pathh = 'data_upload/dokumen/'.$this->input->post('id').'ktp'.$cur_date.'.pdf';
+        $mpdf->Output($pathh, \Mpdf\Output\Destination::FILE);
+
+        $this->Main_model->updateData('riwayat_administrasi',array('file'=>$nama_file),array('file'=>$this->input->post('file_lama'),'md5(created_by)'=>$this->input->post('user')));
+
+        $this->Main_model->log_activity($this->session->userdata('id'),"Updating data","Mengubah data pengajuan KTP (".$this->input->post('nama').")",$this->session->userdata('location'));
+        $this->db->trans_complete();
+        if($this->db->trans_status() === false){
+            $this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal diubah.<br /></div>' );
+            echo "<script>window.location='".base_url()."admin_side/ubah_pengajuan_ktp/".$this->input->post('id')."'</script>";
+        }
+        else{
+            $this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil diubah.<br /></div>' );
+            echo "<script>window.location='".base_url()."admin_side/detail_pengajuan_ktp/".$this->input->post('id')."'</script>";
+        }
+    }
     /* Keterangan Domisili */
     public function pengantar_domisili(){
         $data['parent'] = 'laporan_masyarakat';
@@ -236,6 +285,60 @@ class Report extends CI_Controller {
         $this->load->view('admin/report/detail_surat_keterangan_domisili',$data);
         $this->load->view('admin/template/footer');
     }
+    public function ubah_pengajuan_domisili(){
+        $data['parent'] = 'laporan_masyarakat';
+        $data['child'] = 'pengantar_domisili';
+        $data['grand_child'] = '';
+        $data['data_utama'] = $this->Main_model->getSelectedData('surat_keterangan_domisili a', 'a.*', array('md5(a.id_surat_keterangan_domisili)'=>$this->uri->segment(3)))->row();
+        $this->load->view('admin/template/header',$data);
+        $this->load->view('admin/report/ubah_pengajuan_domisili',$data);
+        $this->load->view('admin/template/footer');
+    }
+    public function perbarui_pengajuan_domisili(){
+        $this->db->trans_start();
+        $cur_date = date('YmdHis');
+        $nama_file = base_url().'data_upload/dokumen/'.$this->input->post('id').'domisili'.$cur_date.'.pdf';
+
+        $data_insert = array(
+            'nama' => $this->input->post('nama'),
+            'tempat_lahir' => $this->input->post('tempat_lahir'),
+            'tanggal_lahir' => $this->input->post('tanggal_lahir'),
+            'kebangsaan' => $this->input->post('kebangsaan'),
+            'pekerjaan' => $this->input->post('pekerjaan'),
+            'agama' => $this->input->post('agama'),
+            'alamat' => $this->input->post('alamat'),
+            'rt' => $this->input->post('rt'),
+            'rw' => $this->input->post('rw'),
+            'keperluan' => $this->input->post('keperluan'),
+            'keterangan' => $this->input->post('keterangan'),
+            'file' => $nama_file
+        );
+        $this->Main_model->updateData('surat_keterangan_domisili',$data_insert,array('md5(id_surat_keterangan_domisili)'=>$this->input->post('id')));
+        // print_r($data_insert);
+        // Composer Autoloader
+        require FCPATH . 'vendor/autoload.php';
+
+        require_once BASEPATH.'core/CodeIgniter.php';
+        $mpdf = new \Mpdf\Mpdf();
+        $data = $this->load->view('admin/form_pdf/keterangan_domisili', $data_insert, TRUE);
+        $mpdf->WriteHTML($data);
+        if (ob_get_contents()) ob_end_clean();
+        $pathh = 'data_upload/dokumen/'.$this->input->post('id').'domisili'.$cur_date.'.pdf';
+        $mpdf->Output($pathh, \Mpdf\Output\Destination::FILE);
+
+        $this->Main_model->updateData('riwayat_administrasi',array('file'=>$nama_file),array('file'=>$this->input->post('file_lama'),'md5(created_by)'=>$this->input->post('user')));
+
+        $this->Main_model->log_activity($this->session->userdata('id'),"Updating data","Mengubah data pengajuan keterangan domisili (".$this->input->post('nama').")",$this->session->userdata('location'));
+        $this->db->trans_complete();
+        if($this->db->trans_status() === false){
+            $this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal diubah.<br /></div>' );
+            echo "<script>window.location='".base_url()."admin_side/ubah_pengajuan_domisili/".$this->input->post('id')."'</script>";
+        }
+        else{
+            $this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil diubah.<br /></div>' );
+            echo "<script>window.location='".base_url()."admin_side/detail_surat_keterangan_domisili/".$this->input->post('id')."'</script>";
+        }
+    }
     /* Keterangan Usaha */
     public function surat_keterangan_usaha(){
         $data['parent'] = 'laporan_masyarakat';
@@ -277,6 +380,58 @@ class Report extends CI_Controller {
         $this->load->view('admin/template/header',$data);
         $this->load->view('admin/report/detail_surat_keterangan_usaha',$data);
         $this->load->view('admin/template/footer');
+    }
+    public function ubah_pengajuan_usaha(){
+        $data['parent'] = 'laporan_masyarakat';
+        $data['child'] = 'surat_keterangan_usaha';
+        $data['grand_child'] = '';
+        $data['data_utama'] = $this->Main_model->getSelectedData('surat_keterangan_usaha a', 'a.*', array('md5(a.id_surat_keterangan_usaha)'=>$this->uri->segment(3)))->row();
+        $this->load->view('admin/template/header',$data);
+        $this->load->view('admin/report/ubah_pengajuan_usaha',$data);
+        $this->load->view('admin/template/footer');
+    }
+    public function perbarui_pengajuan_usaha(){
+        $this->db->trans_start();
+        $cur_date = date('YmdHis');
+        $nama_file = base_url().'data_upload/dokumen/'.$this->input->post('id').'usaha'.$cur_date.'.pdf';
+
+        $data_insert = array(
+            'nama' => $this->input->post('nama'),
+            'tempat_lahir' => $this->input->post('tempat_lahir'),
+            'tanggal_lahir' => $this->input->post('tanggal_lahir'),
+            'pekerjaan' => $this->input->post('pekerjaan'),
+            'agama' => $this->input->post('agama'),
+            'rt' => $this->input->post('rt'),
+            'rw' => $this->input->post('rw'),
+            'jenis_usaha' => $this->input->post('jenis_usaha'),
+            'nama_usaha' => $this->input->post('nama_usaha'),
+            'file' => $nama_file
+        );
+        $this->Main_model->updateData('surat_keterangan_usaha',$data_insert,array('md5(id_surat_keterangan_usaha)'=>$this->input->post('id')));
+        // print_r($data_insert);
+        // Composer Autoloader
+        require FCPATH . 'vendor/autoload.php';
+
+        require_once BASEPATH.'core/CodeIgniter.php';
+        $mpdf = new \Mpdf\Mpdf();
+        $data = $this->load->view('admin/form_pdf/keterangan_usaha', $data_insert, TRUE);
+        $mpdf->WriteHTML($data);
+        if (ob_get_contents()) ob_end_clean();
+        $pathh = 'data_upload/dokumen/'.$this->input->post('id').'usaha'.$cur_date.'.pdf';
+        $mpdf->Output($pathh, \Mpdf\Output\Destination::FILE);
+
+        $this->Main_model->updateData('riwayat_administrasi',array('file'=>$nama_file),array('file'=>$this->input->post('file_lama'),'md5(created_by)'=>$this->input->post('user')));
+
+        $this->Main_model->log_activity($this->session->userdata('id'),"Updating data","Mengubah data pengajuan ijin usaha (".$this->input->post('nama').")",$this->session->userdata('location'));
+        $this->db->trans_complete();
+        if($this->db->trans_status() === false){
+            $this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal diubah.<br /></div>' );
+            echo "<script>window.location='".base_url()."admin_side/ubah_pengajuan_usaha/".$this->input->post('id')."'</script>";
+        }
+        else{
+            $this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil diubah.<br /></div>' );
+            echo "<script>window.location='".base_url()."admin_side/detail_surat_keterangan_usaha/".$this->input->post('id')."'</script>";
+        }
     }
     /* SKTM */
     public function sktm(){
@@ -392,6 +547,57 @@ class Report extends CI_Controller {
         $this->load->view('admin/report/detail_pengajuan_sim',$data);
         $this->load->view('admin/template/footer');
     }
+    public function ubah_pengajuan_sim(){
+        $data['parent'] = 'laporan_masyarakat';
+        $data['child'] = 'sim';
+        $data['grand_child'] = '';
+        $data['data_utama'] = $this->Main_model->getSelectedData('surat_pengantar_sim a', 'a.*', array('md5(a.id_surat_pengantar_sim)'=>$this->uri->segment(3)))->row();
+        $this->load->view('admin/template/header',$data);
+        $this->load->view('admin/report/ubah_pengajuan_sim',$data);
+        $this->load->view('admin/template/footer');
+    }
+    public function perbarui_pengajuan_sim(){
+        $this->db->trans_start();
+        $cur_date = date('YmdHis');
+        $nama_file = base_url().'data_upload/dokumen/'.$this->input->post('id').'sim'.$cur_date.'.pdf';
+
+        $data_insert = array(
+            'nama' => $this->input->post('nama'),
+            'tempat_lahir' => $this->input->post('tempat_lahir'),
+            'tanggal_lahir' => $this->input->post('tanggal_lahir'),
+            'nik' => $this->input->post('nik'),
+            'pekerjaan' => $this->input->post('pekerjaan'),
+            'agama' => $this->input->post('agama'),
+            'rt' => $this->input->post('rt'),
+            'rw' => $this->input->post('rw'),
+            'file' => $nama_file
+        );
+        $this->Main_model->updateData('surat_pengantar_sim',$data_insert,array('md5(id_surat_pengantar_sim)'=>$this->input->post('id')));
+        // print_r($data_insert);
+        // Composer Autoloader
+        require FCPATH . 'vendor/autoload.php';
+
+        require_once BASEPATH.'core/CodeIgniter.php';
+        $mpdf = new \Mpdf\Mpdf();
+        $data = $this->load->view('admin/form_pdf/keterangan_sim', $data_insert, TRUE);
+        $mpdf->WriteHTML($data);
+        if (ob_get_contents()) ob_end_clean();
+        $pathh = 'data_upload/dokumen/'.$this->input->post('id').'sim'.$cur_date.'.pdf';
+        $mpdf->Output($pathh, \Mpdf\Output\Destination::FILE);
+
+        $this->Main_model->updateData('riwayat_administrasi',array('file'=>$nama_file),array('file'=>$this->input->post('file_lama'),'md5(created_by)'=>$this->input->post('user')));
+
+        $this->Main_model->log_activity($this->session->userdata('id'),"Updating data","Mengubah data pengajuan SIM (".$this->input->post('nama').")",$this->session->userdata('location'));
+        $this->db->trans_complete();
+        if($this->db->trans_status() === false){
+            $this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal diubah.<br /></div>' );
+            echo "<script>window.location='".base_url()."admin_side/ubah_pengajuan_sim/".$this->input->post('id')."'</script>";
+        }
+        else{
+            $this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil diubah.<br /></div>' );
+            echo "<script>window.location='".base_url()."admin_side/detail_pengajuan_sim/".$this->input->post('id')."'</script>";
+        }
+    }
     /* SKCK */
     public function skck(){
         $data['parent'] = 'laporan_masyarakat';
@@ -432,6 +638,57 @@ class Report extends CI_Controller {
         $this->load->view('admin/template/header',$data);
         $this->load->view('admin/report/detail_pengajuan_skck',$data);
         $this->load->view('admin/template/footer');
+    }
+    public function ubah_pengajuan_skck(){
+        $data['parent'] = 'laporan_masyarakat';
+        $data['child'] = 'skck';
+        $data['grand_child'] = '';
+        $data['data_utama'] = $this->Main_model->getSelectedData('surat_pengantar_skck a', 'a.*', array('md5(a.id_surat_pengantar_skck)'=>$this->uri->segment(3)))->row();
+        $this->load->view('admin/template/header',$data);
+        $this->load->view('admin/report/ubah_pengajuan_skck',$data);
+        $this->load->view('admin/template/footer');
+    }
+    public function perbarui_pengajuan_skck(){
+        $this->db->trans_start();
+        $cur_date = date('YmdHis');
+        $nama_file = base_url().'data_upload/dokumen/'.$this->input->post('id').'skck'.$cur_date.'.pdf';
+
+        $data_insert = array(
+            'nama' => $this->input->post('nama'),
+            'tempat_lahir' => $this->input->post('tempat_lahir'),
+            'tanggal_lahir' => $this->input->post('tanggal_lahir'),
+            'nik' => $this->input->post('nik'),
+            'pekerjaan' => $this->input->post('pekerjaan'),
+            'agama' => $this->input->post('agama'),
+            'rt' => $this->input->post('rt'),
+            'rw' => $this->input->post('rw'),
+            'file' => $nama_file
+        );
+        $this->Main_model->updateData('surat_pengantar_skck',$data_insert,array('md5(id_surat_pengantar_skck)'=>$this->input->post('id')));
+        // print_r($data_insert);
+        // Composer Autoloader
+        require FCPATH . 'vendor/autoload.php';
+
+        require_once BASEPATH.'core/CodeIgniter.php';
+        $mpdf = new \Mpdf\Mpdf();
+        $data = $this->load->view('admin/form_pdf/keterangan_skck', $data_insert, TRUE);
+        $mpdf->WriteHTML($data);
+        if (ob_get_contents()) ob_end_clean();
+        $pathh = 'data_upload/dokumen/'.$this->input->post('id').'skck'.$cur_date.'.pdf';
+        $mpdf->Output($pathh, \Mpdf\Output\Destination::FILE);
+
+        $this->Main_model->updateData('riwayat_administrasi',array('file'=>$nama_file),array('file'=>$this->input->post('file_lama'),'md5(created_by)'=>$this->input->post('user')));
+
+        $this->Main_model->log_activity($this->session->userdata('id'),"Updating data","Mengubah data pengajuan SKCK (".$this->input->post('nama').")",$this->session->userdata('location'));
+        $this->db->trans_complete();
+        if($this->db->trans_status() === false){
+            $this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal diubah.<br /></div>' );
+            echo "<script>window.location='".base_url()."admin_side/ubah_pengajuan_skck/".$this->input->post('id')."'</script>";
+        }
+        else{
+            $this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil diubah.<br /></div>' );
+            echo "<script>window.location='".base_url()."admin_side/detail_pengajuan_skck/".$this->input->post('id')."'</script>";
+        }
     }
     /* Other Function */
 	public function ajax_function(){
