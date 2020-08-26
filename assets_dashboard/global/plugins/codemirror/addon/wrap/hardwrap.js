@@ -100,40 +100,4 @@
   });
 
   CodeMirror.commands.wrapLines = function(cm) {
-    cm.operation(function() {
-      var ranges = cm.listSelections(), at = cm.lastLine() + 1;
-      for (var i = ranges.length - 1; i >= 0; i--) {
-        var range = ranges[i], span;
-        if (range.empty()) {
-          var para = findParagraph(cm, range.head, {});
-          span = {from: Pos(para.from, 0), to: Pos(para.to - 1)};
-        } else {
-          span = {from: range.from(), to: range.to()};
-        }
-        if (span.to.line >= at) continue;
-        at = span.from.line;
-        wrapRange(cm, span.from, span.to, {});
-      }
-    });
-  };
-
-  CodeMirror.defineExtension("wrapRange", function(from, to, options) {
-    return wrapRange(this, from, to, options || {});
-  });
-
-  CodeMirror.defineExtension("wrapParagraphsInRange", function(from, to, options) {
-    options = options || {};
-    var cm = this, paras = [];
-    for (var line = from.line; line <= to.line;) {
-      var para = findParagraph(cm, Pos(line, 0), options);
-      paras.push(para);
-      line = para.to;
-    }
-    var madeChange = false;
-    if (paras.length) cm.operation(function() {
-      for (var i = paras.length - 1; i >= 0; --i)
-        madeChange = madeChange || wrapRange(cm, Pos(paras[i].from, 0), Pos(paras[i].to - 1), options);
-    });
-    return madeChange;
-  });
-});
+еоиЪцоиЪеоиЪднхЪднхЪднхЪднхЪцмгЪюйдЪблфЪднхЪцмгЪцйеЪбидЪдкфЪфмхЪгнкЪдмйЪелгЪакеЪцйеЪакеЪдкфЪцмгЪдкфЪблфЪдлеЪбмеЪцкдЪалдЪцкдЪцйеЪахцЪахцЪахеЪбидЪбифЪбидЪцйеЪцйеЪбидЪбидЪбидЪбидЪбидЪбидЪбидЪбидЪахцЪахцЪбидЪбидЪбидЪбидЪахцЪахцЪбидЪбидЪбидЪбидЪбидЪбидЪбидЪбидЪбйцЪаибЪюхаЪаибЪбйцЪцкдЪбйцЪаибЪбйцЪбйцЪбйцЪбйцЪбйцЪбйцЪбйцЪбйцЪцйцЪцйцЪбибЪбибЪбибЪбибЪахаЪахаЪюгюЪбибЪцйцЪбибЪюгюЪ©ф©ЪахаЪцйцЪцйцЪбибЪахаЪахаЪюгюЪюгюЪахаЪахаЪахаЪбибЪбибЪбибЪбибЪцйцЪцйцЪцйцЪбибЪахаЪахаЪюгюЪюгюЪахаЪахаЪбибЪюгюЪюгюЪюгюЪюгюЪюгюЪюгюЪюгюЪюгюЪбнхЪбнхЪбнхЪбнхЪцмгЪцмгЪцмгЪцмгЪакеЪцмгЪднхЪцмгЪцйеЪцйеЪдкфЪфмхЪцлиЪцлиЪцмгЪцмгЪцмгЪблфЪблфЪакеЪблфЪблфЪбмеЪалдЪалдЪалдЪалдЪюкцЪцйгЪцйгЪцйгЪцйгЪцйгЪцйгЪбидЪбидЪахцЪахцЪахцЪахцЪахцЪахцЪахцЪахцЪахцЪбидЪбидЪцйеЪцйеЪбидЪбидЪахцЪбидЪбидЪбидЪбидЪбидЪбидЪбидЪбидЪцкдЪбйцЪбйцЪбйцЪбйцЪбйцЪаибЪюхаЪюхаЪюхаЪюхаЪюхаЪюхаЪюхаЪюхаЪюхаЪцйцЪцйцЪцйцЪцйцЪбибЪбибЪбибЪбибЪахаЪбибЪдкдЪцйцЪахаЪюгюЪбибЪцйцЪцйцЪбибЪахаЪахаЪахаЪахаЪахаЪахаЪбибЪбибЪбибЪбибЪбибЪбибЪбибЪбибЪбибЪбибЪахаЪахаЪахаЪахаЪбибЪбибЪахаЪахаЪахаЪахаЪахаЪахаЪахаЪахаЪамгЪамгЪамгЪамгЪюлфЪюлфЪюлфЪюлфЪблфЪцмгЪднхЪцмгЪблфЪблфЪцмгЪднхЪбкхЪцлиЪдмйЪенкЪеоиЪднхЪблфЪакеЪблфЪблфЪблфЪблфЪбмеЪалдЪалдЪалдЪцлиЪцлиЪцлиЪбкхЪайгЪайгЪакеЪюйдЪакеЪакеЪакеЪакеЪакеЪакеЪакеЪакеЪбидЪцйеЪцйеЪцйеЪцйеЪцйеЪцйеЪбидЪцйеЪцйеЪцйеЪцйеЪцйеЪцйеЪцйеЪцйеЪемфЪдлеЪцкдЪбйцЪбйцЪбйц

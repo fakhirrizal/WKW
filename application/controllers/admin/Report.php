@@ -506,6 +506,112 @@ class Report extends CI_Controller {
             redirect('admin_side/sktm');
         }
     }
+    public function ubah_pengajuan_sktm_umum(){
+        $data['parent'] = 'laporan_masyarakat';
+        $data['child'] = 'sktm';
+        $data['grand_child'] = '';
+        $data['data_utama'] = $this->Main_model->getSelectedData('sktm a', 'a.*', array('md5(a.id_sktm)'=>$this->uri->segment(3)))->row();
+        $this->load->view('admin/template/header',$data);
+        $this->load->view('admin/report/ubah_pengajuan_sktm_umum',$data);
+        $this->load->view('admin/template/footer');
+    }
+    public function perbarui_pengajuan_sktm_umum(){
+        $this->db->trans_start();
+        $cur_date = date('YmdHis');
+        $nama_file = base_url().'data_upload/dokumen/'.$this->input->post('id').'sktm_umum'.$cur_date.'.pdf';
+
+        $data_insert = array(
+            'nama' => $this->input->post('nama'),
+            'tempat_lahir' => $this->input->post('tempat_lahir'),
+            'tanggal_lahir' => $this->input->post('tanggal_lahir'),
+            'nik' => $this->input->post('nik'),
+            'kebangsaan' => $this->input->post('kebangsaan'),
+            'pekerjaan' => $this->input->post('pekerjaan'),
+            'agama' => $this->input->post('agama'),
+            'rt' => $this->input->post('rt'),
+            'rw' => $this->input->post('rw'),
+            'file' => $nama_file
+        );
+        $this->Main_model->updateData('sktm',$data_insert,array('md5(id_sktm)'=>$this->input->post('id')));
+        // print_r($data_insert);
+        // Composer Autoloader
+        require FCPATH . 'vendor/autoload.php';
+
+        require_once BASEPATH.'core/CodeIgniter.php';
+        $mpdf = new \Mpdf\Mpdf();
+        $data = $this->load->view('admin/form_pdf/sktm', $data_insert, TRUE);
+        $mpdf->WriteHTML($data);
+        if (ob_get_contents()) ob_end_clean();
+        $pathh = 'data_upload/dokumen/'.$this->input->post('id').'sktm_umum'.$cur_date.'.pdf';
+        $mpdf->Output($pathh, \Mpdf\Output\Destination::FILE);
+
+        $this->Main_model->updateData('riwayat_administrasi',array('file'=>$nama_file),array('file'=>$this->input->post('file_lama'),'md5(created_by)'=>$this->input->post('user')));
+
+        $this->Main_model->log_activity($this->session->userdata('id'),"Updating data","Mengubah data pengajuan SKTM (".$this->input->post('nama').")",$this->session->userdata('location'));
+        $this->db->trans_complete();
+        if($this->db->trans_status() === false){
+            $this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal diubah.<br /></div>' );
+            echo "<script>window.location='".base_url()."admin_side/ubah_pengajuan_sktm_umum/".$this->input->post('id')."'</script>";
+        }
+        else{
+            $this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil diubah.<br /></div>' );
+            echo "<script>window.location='".base_url()."admin_side/detail_sktm/".$this->input->post('id')."/1'</script>";
+        }
+    }
+    public function ubah_pengajuan_sktm_pendidikan(){
+        $data['parent'] = 'laporan_masyarakat';
+        $data['child'] = 'sktm';
+        $data['grand_child'] = '';
+        $data['data_utama'] = $this->Main_model->getSelectedData('sktm_pendidikan a', 'a.*', array('md5(a.id_sktm_pendidikan)'=>$this->uri->segment(3)))->row();
+        $this->load->view('admin/template/header',$data);
+        $this->load->view('admin/report/ubah_pengajuan_sktm_pendidikan',$data);
+        $this->load->view('admin/template/footer');
+    }
+    public function perbarui_pengajuan_sktm_pendidikan(){
+        $this->db->trans_start();
+        $cur_date = date('YmdHis');
+        $nama_file = base_url().'data_upload/dokumen/'.$this->input->post('id').'sktm_pendidikan'.$cur_date.'.pdf';
+
+        $data_insert = array(
+            'nama' => $this->input->post('nama'),
+            'tempat_lahir' => $this->input->post('tempat_lahir'),
+            'tanggal_lahir' => $this->input->post('tanggal_lahir'),
+            'nik' => $this->input->post('nik'),
+            'kebangsaan' => $this->input->post('kebangsaan'),
+            'pekerjaan' => $this->input->post('pekerjaan'),
+            'agama' => $this->input->post('agama'),
+            'rt' => $this->input->post('rt'),
+            'rw' => $this->input->post('rw'),
+            'nama_ayah' => $this->input->post('nama_ayah'),
+            'nama_ibu' => $this->input->post('nama_ibu'),
+            'file' => $nama_file
+        );
+        $this->Main_model->updateData('sktm_pendidikan',$data_insert,array('md5(id_sktm_pendidikan)'=>$this->input->post('id')));
+        // print_r($data_insert);
+        // Composer Autoloader
+        require FCPATH . 'vendor/autoload.php';
+
+        require_once BASEPATH.'core/CodeIgniter.php';
+        $mpdf = new \Mpdf\Mpdf();
+        $data = $this->load->view('admin/form_pdf/sktm_sekolah', $data_insert, TRUE);
+        $mpdf->WriteHTML($data);
+        if (ob_get_contents()) ob_end_clean();
+        $pathh = 'data_upload/dokumen/'.$this->input->post('id').'sktm_pendidikan'.$cur_date.'.pdf';
+        $mpdf->Output($pathh, \Mpdf\Output\Destination::FILE);
+
+        $this->Main_model->updateData('riwayat_administrasi',array('file'=>$nama_file),array('file'=>$this->input->post('file_lama'),'md5(created_by)'=>$this->input->post('user')));
+
+        $this->Main_model->log_activity($this->session->userdata('id'),"Updating data","Mengubah data pengajuan SKTM Pendidikan (".$this->input->post('nama').")",$this->session->userdata('location'));
+        $this->db->trans_complete();
+        if($this->db->trans_status() === false){
+            $this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal diubah.<br /></div>' );
+            echo "<script>window.location='".base_url()."admin_side/ubah_pengajuan_sktm_pendidikan/".$this->input->post('id')."'</script>";
+        }
+        else{
+            $this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil diubah.<br /></div>' );
+            echo "<script>window.location='".base_url()."admin_side/detail_sktm/".$this->input->post('id')."/2'</script>";
+        }
+    }
     /* SIM */
     public function sim(){
         $data['parent'] = 'laporan_masyarakat';

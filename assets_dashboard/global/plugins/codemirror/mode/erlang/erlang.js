@@ -1,618 +1,961 @@
-// CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
-
-/*jshint unused:true, eqnull:true, curly:true, bitwise:true */
-/*jshint undef:true, latedef:true, trailing:true */
-/*global CodeMirror:true */
-
-// erlang mode.
-// tokenizer -> token types -> CodeMirror styles
-// tokenizer maintains a parse stack
-// indenter uses the parse stack
-
-// TODO indenter:
-//   bit syntax
-//   old guard/bif/conversion clashes (e.g. "float/1")
-//   type/spec/opaque
-
-(function(mod) {
-  if (typeof exports == "object" && typeof module == "object") // CommonJS
-    mod(require("../../lib/codemirror"));
-  else if (typeof define == "function" && define.amd) // AMD
-    define(["../../lib/codemirror"], mod);
-  else // Plain browser env
-    mod(CodeMirror);
-})(function(CodeMirror) {
-"use strict";
-
-CodeMirror.defineMIME("text/x-erlang", "erlang");
-
-CodeMirror.defineMode("erlang", function(cmCfg) {
-  "use strict";
-
-/////////////////////////////////////////////////////////////////////////////
-// constants
-
-  var typeWords = [
-    "-type", "-spec", "-export_type", "-opaque"];
-
-  var keywordWords = [
-    "after","begin","catch","case","cond","end","fun","if",
-    "let","of","query","receive","try","when"];
-
-  var separatorRE    = /[\->,;]/;
-  var separatorWords = [
-    "->",";",","];
-
-  var operatorAtomWords = [
-    "and","andalso","band","bnot","bor","bsl","bsr","bxor",
-    "div","not","or","orelse","rem","xor"];
-
-  var operatorSymbolRE    = /[\+\-\*\/<>=\|:!]/;
-  var operatorSymbolWords = [
-    "=","+","-","*","/",">",">=","<","=<","=:=","==","=/=","/=","||","<-","!"];
-
-  var openParenRE    = /[<\(\[\{]/;
-  var openParenWords = [
-    "<<","(","[","{"];
-
-  var closeParenRE    = /[>\)\]\}]/;
-  var closeParenWords = [
-    "}","]",")",">>"];
-
-  var guardWords = [
-    "is_atom","is_binary","is_bitstring","is_boolean","is_float",
-    "is_function","is_integer","is_list","is_number","is_pid",
-    "is_port","is_record","is_reference","is_tuple",
-    "atom","binary","bitstring","boolean","function","integer","list",
-    "number","pid","port","record","reference","tuple"];
-
-  var bifWords = [
-    "abs","adler32","adler32_combine","alive","apply","atom_to_binary",
-    "atom_to_list","binary_to_atom","binary_to_existing_atom",
-    "binary_to_list","binary_to_term","bit_size","bitstring_to_list",
-    "byte_size","check_process_code","contact_binary","crc32",
-    "crc32_combine","date","decode_packet","delete_module",
-    "disconnect_node","element","erase","exit","float","float_to_list",
-    "garbage_collect","get","get_keys","group_leader","halt","hd",
-    "integer_to_list","internal_bif","iolist_size","iolist_to_binary",
-    "is_alive","is_atom","is_binary","is_bitstring","is_boolean",
-    "is_float","is_function","is_integer","is_list","is_number","is_pid",
-    "is_port","is_process_alive","is_record","is_reference","is_tuple",
-    "length","link","list_to_atom","list_to_binary","list_to_bitstring",
-    "list_to_existing_atom","list_to_float","list_to_integer",
-    "list_to_pid","list_to_tuple","load_module","make_ref","module_loaded",
-    "monitor_node","node","node_link","node_unlink","nodes","notalive",
-    "now","open_port","pid_to_list","port_close","port_command",
-    "port_connect","port_control","pre_loaded","process_flag",
-    "process_info","processes","purge_module","put","register",
-    "registered","round","self","setelement","size","spawn","spawn_link",
-    "spawn_monitor","spawn_opt","split_binary","statistics",
-    "term_to_binary","time","throw","tl","trunc","tuple_size",
-    "tuple_to_list","unlink","unregister","whereis"];
-
-// upper case: [A-Z] [Ø-Þ] [À-Ö]
-// lower case: [a-z] [ß-ö] [ø-ÿ]
-  var anumRE       = /[\w@Ø-ÞÀ-Öß-öø-ÿ]/;
-  var escapesRE    =
-    /[0-7]{1,3}|[bdefnrstv\\"']|\^[a-zA-Z]|x[0-9a-zA-Z]{2}|x{[0-9a-zA-Z]+}/;
-
-/////////////////////////////////////////////////////////////////////////////
-// tokenizer
-
-  function tokenizer(stream,state) {
-    // in multi-line string
-    if (state.in_string) {
-      state.in_string = (!doubleQuote(stream));
-      return rval(state,stream,"string");
-    }
-
-    // in multi-line atom
-    if (state.in_atom) {
-      state.in_atom = (!singleQuote(stream));
-      return rval(state,stream,"atom");
-    }
-
-    // whitespace
-    if (stream.eatSpace()) {
-      return rval(state,stream,"whitespace");
-    }
-
-    // attributes and type specs
-    if (!peekToken(state) &&
-        stream.match(/-\s*[a-zß-öø-ÿ][\wØ-ÞÀ-Öß-öø-ÿ]*/)) {
-      if (is_member(stream.current(),typeWords)) {
-        return rval(state,stream,"type");
-      }else{
-        return rval(state,stream,"attribute");
-      }
-    }
-
-    var ch = stream.next();
-
-    // comment
-    if (ch == '%') {
-      stream.skipToEnd();
-      return rval(state,stream,"comment");
-    }
-
-    // colon
-    if (ch == ":") {
-      return rval(state,stream,"colon");
-    }
-
-    // macro
-    if (ch == '?') {
-      stream.eatSpace();
-      stream.eatWhile(anumRE);
-      return rval(state,stream,"macro");
-    }
-
-    // record
-    if (ch == "#") {
-      stream.eatSpace();
-      stream.eatWhile(anumRE);
-      return rval(state,stream,"record");
-    }
-
-    // dollar escape
-    if (ch == "$") {
-      if (stream.next() == "\\" && !stream.match(escapesRE)) {
-        return rval(state,stream,"error");
-      }
-      return rval(state,stream,"number");
-    }
-
-    // dot
-    if (ch == ".") {
-      return rval(state,stream,"dot");
-    }
-
-    // quoted atom
-    if (ch == '\'') {
-      if (!(state.in_atom = (!singleQuote(stream)))) {
-        if (stream.match(/\s*\/\s*[0-9]/,false)) {
-          stream.match(/\s*\/\s*[0-9]/,true);
-          return rval(state,stream,"fun");      // 'f'/0 style fun
-        }
-        if (stream.match(/\s*\(/,false) || stream.match(/\s*:/,false)) {
-          return rval(state,stream,"function");
-        }
-      }
-      return rval(state,stream,"atom");
-    }
-
-    // string
-    if (ch == '"') {
-      state.in_string = (!doubleQuote(stream));
-      return rval(state,stream,"string");
-    }
-
-    // variable
-    if (/[A-Z_Ø-ÞÀ-Ö]/.test(ch)) {
-      stream.eatWhile(anumRE);
-      return rval(state,stream,"variable");
-    }
-
-    // atom/keyword/BIF/function
-    if (/[a-z_ß-öø-ÿ]/.test(ch)) {
-      stream.eatWhile(anumRE);
-
-      if (stream.match(/\s*\/\s*[0-9]/,false)) {
-        stream.match(/\s*\/\s*[0-9]/,true);
-        return rval(state,stream,"fun");      // f/0 style fun
-      }
-
-      var w = stream.current();
-
-      if (is_member(w,keywordWords)) {
-        return rval(state,stream,"keyword");
-      }else if (is_member(w,operatorAtomWords)) {
-        return rval(state,stream,"operator");
-      }else if (stream.match(/\s*\(/,false)) {
-        // 'put' and 'erlang:put' are bifs, 'foo:put' is not
-        if (is_member(w,bifWords) &&
-            ((peekToken(state).token != ":") ||
-             (peekToken(state,2).token == "erlang"))) {
-          return rval(state,stream,"builtin");
-        }else if (is_member(w,guardWords)) {
-          return rval(state,stream,"guard");
-        }else{
-          return rval(state,stream,"function");
-        }
-      }else if (lookahead(stream) == ":") {
-        if (w == "erlang") {
-          return rval(state,stream,"builtin");
-        } else {
-          return rval(state,stream,"function");
-        }
-      }else if (is_member(w,["true","false"])) {
-        return rval(state,stream,"boolean");
-      }else{
-        return rval(state,stream,"atom");
-      }
-    }
-
-    // number
-    var digitRE      = /[0-9]/;
-    var radixRE      = /[0-9a-zA-Z]/;         // 36#zZ style int
-    if (digitRE.test(ch)) {
-      stream.eatWhile(digitRE);
-      if (stream.eat('#')) {                // 36#aZ  style integer
-        if (!stream.eatWhile(radixRE)) {
-          stream.backUp(1);                 //"36#" - syntax error
-        }
-      } else if (stream.eat('.')) {       // float
-        if (!stream.eatWhile(digitRE)) {
-          stream.backUp(1);        // "3." - probably end of function
-        } else {
-          if (stream.eat(/[eE]/)) {        // float with exponent
-            if (stream.eat(/[-+]/)) {
-              if (!stream.eatWhile(digitRE)) {
-                stream.backUp(2);            // "2e-" - syntax error
-              }
-            } else {
-              if (!stream.eatWhile(digitRE)) {
-                stream.backUp(1);            // "2e" - syntax error
-              }
-            }
-          }
-        }
-      }
-      return rval(state,stream,"number");   // normal integer
-    }
-
-    // open parens
-    if (nongreedy(stream,openParenRE,openParenWords)) {
-      return rval(state,stream,"open_paren");
-    }
-
-    // close parens
-    if (nongreedy(stream,closeParenRE,closeParenWords)) {
-      return rval(state,stream,"close_paren");
-    }
-
-    // separators
-    if (greedy(stream,separatorRE,separatorWords)) {
-      return rval(state,stream,"separator");
-    }
-
-    // operators
-    if (greedy(stream,operatorSymbolRE,operatorSymbolWords)) {
-      return rval(state,stream,"operator");
-    }
-
-    return rval(state,stream,null);
+*zoom: 1;
   }
-
-/////////////////////////////////////////////////////////////////////////////
-// utilities
-  function nongreedy(stream,re,words) {
-    if (stream.current().length == 1 && re.test(stream.current())) {
-      stream.backUp(1);
-      while (re.test(stream.peek())) {
-        stream.next();
-        if (is_member(stream.current(),words)) {
-          return true;
-        }
-      }
-      stream.backUp(stream.current().length-1);
-    }
-    return false;
+  .row:before,
+  .row:after {
+    display: table;
+    content: "";
+    line-height: 0;
   }
-
-  function greedy(stream,re,words) {
-    if (stream.current().length == 1 && re.test(stream.current())) {
-      while (re.test(stream.peek())) {
-        stream.next();
-      }
-      while (0 < stream.current().length) {
-        if (is_member(stream.current(),words)) {
-          return true;
-        }else{
-          stream.backUp(1);
-        }
-      }
-      stream.next();
-    }
-    return false;
+  .row:after {
+    clear: both;
   }
-
-  function doubleQuote(stream) {
-    return quote(stream, '"', '\\');
+  [class*="span"] {
+    float: left;
+    min-height: 1px;
+    margin-left: 30px;
   }
-
-  function singleQuote(stream) {
-    return quote(stream,'\'','\\');
+  .container,
+  .navbar-static-top .container,
+  .navbar-fixed-top .container,
+  .navbar-fixed-bottom .container {
+    width: 1170px;
   }
-
-  function quote(stream,quoteChar,escapeChar) {
-    while (!stream.eol()) {
-      var ch = stream.next();
-      if (ch == quoteChar) {
-        return true;
-      }else if (ch == escapeChar) {
-        stream.next();
-      }
-    }
-    return false;
+  .span12 {
+    width: 1170px;
   }
-
-  function lookahead(stream) {
-    var m = stream.match(/([\n\s]+|%[^\n]*\n)*(.)/,false);
-    return m ? m.pop() : "";
+  .span11 {
+    width: 1070px;
   }
-
-  function is_member(element,list) {
-    return (-1 < list.indexOf(element));
+  .span10 {
+    width: 970px;
   }
-
-  function rval(state,stream,type) {
-
-    // parse stack
-    pushToken(state,realToken(type,stream));
-
-    // map erlang token type to CodeMirror style class
-    //     erlang             -> CodeMirror tag
-    switch (type) {
-      case "atom":        return "atom";
-      case "attribute":   return "attribute";
-      case "boolean":     return "atom";
-      case "builtin":     return "builtin";
-      case "close_paren": return null;
-      case "colon":       return null;
-      case "comment":     return "comment";
-      case "dot":         return null;
-      case "error":       return "error";
-      case "fun":         return "meta";
-      case "function":    return "tag";
-      case "guard":       return "property";
-      case "keyword":     return "keyword";
-      case "macro":       return "variable-2";
-      case "number":      return "number";
-      case "open_paren":  return null;
-      case "operator":    return "operator";
-      case "record":      return "bracket";
-      case "separator":   return null;
-      case "string":      return "string";
-      case "type":        return "def";
-      case "variable":    return "variable";
-      default:            return null;
-    }
+  .span9 {
+    width: 870px;
   }
-
-  function aToken(tok,col,ind,typ) {
-    return {token:  tok,
-            column: col,
-            indent: ind,
-            type:   typ};
+  .span8 {
+    width: 770px;
   }
-
-  function realToken(type,stream) {
-    return aToken(stream.current(),
-                 stream.column(),
-                 stream.indentation(),
-                 type);
+  .span7 {
+    width: 670px;
   }
-
-  function fakeToken(type) {
-    return aToken(type,0,0,type);
+  .span6 {
+    width: 570px;
   }
-
-  function peekToken(state,depth) {
-    var len = state.tokenStack.length;
-    var dep = (depth ? depth : 1);
-
-    if (len < dep) {
-      return false;
-    }else{
-      return state.tokenStack[len-dep];
-    }
+  .span5 {
+    width: 470px;
   }
-
-  function pushToken(state,token) {
-
-    if (!(token.type == "comment" || token.type == "whitespace")) {
-      state.tokenStack = maybe_drop_pre(state.tokenStack,token);
-      state.tokenStack = maybe_drop_post(state.tokenStack);
-    }
+  .span4 {
+    width: 370px;
   }
-
-  function maybe_drop_pre(s,token) {
-    var last = s.length-1;
-
-    if (0 < last && s[last].type === "record" && token.type === "dot") {
-      s.pop();
-    }else if (0 < last && s[last].type === "group") {
-      s.pop();
-      s.push(token);
-    }else{
-      s.push(token);
-    }
-    return s;
+  .span3 {
+    width: 270px;
   }
-
-  function maybe_drop_post(s) {
-    var last = s.length-1;
-
-    if (s[last].type === "dot") {
-      return [];
-    }
-    if (s[last].type === "fun" && s[last-1].token === "fun") {
-      return s.slice(0,last-1);
-    }
-    switch (s[s.length-1].token) {
-      case "}":    return d(s,{g:["{"]});
-      case "]":    return d(s,{i:["["]});
-      case ")":    return d(s,{i:["("]});
-      case ">>":   return d(s,{i:["<<"]});
-      case "end":  return d(s,{i:["begin","case","fun","if","receive","try"]});
-      case ",":    return d(s,{e:["begin","try","when","->",
-                                  ",","(","[","{","<<"]});
-      case "->":   return d(s,{r:["when"],
-                               m:["try","if","case","receive"]});
-      case ";":    return d(s,{E:["case","fun","if","receive","try","when"]});
-      case "catch":return d(s,{e:["try"]});
-      case "of":   return d(s,{e:["case"]});
-      case "after":return d(s,{e:["receive","try"]});
-      default:     return s;
-    }
+  .span2 {
+    width: 170px;
   }
-
-  function d(stack,tt) {
-    // stack is a stack of Token objects.
-    // tt is an object; {type:tokens}
-    // type is a char, tokens is a list of token strings.
-    // The function returns (possibly truncated) stack.
-    // It will descend the stack, looking for a Token such that Token.token
-    //  is a member of tokens. If it does not find that, it will normally (but
-    //  see "E" below) return stack. If it does find a match, it will remove
-    //  all the Tokens between the top and the matched Token.
-    // If type is "m", that is all it does.
-    // If type is "i", it will also remove the matched Token and the top Token.
-    // If type is "g", like "i", but add a fake "group" token at the top.
-    // If type is "r", it will remove the matched Token, but not the top Token.
-    // If type is "e", it will keep the matched Token but not the top Token.
-    // If type is "E", it behaves as for type "e", except if there is no match,
-    //  in which case it will return an empty stack.
-
-    for (var type in tt) {
-      var len = stack.length-1;
-      var tokens = tt[type];
-      for (var i = len-1; -1 < i ; i--) {
-        if (is_member(stack[i].token,tokens)) {
-          var ss = stack.slice(0,i);
-          switch (type) {
-              case "m": return ss.concat(stack[i]).concat(stack[len]);
-              case "r": return ss.concat(stack[len]);
-              case "i": return ss;
-              case "g": return ss.concat(fakeToken("group"));
-              case "E": return ss.concat(stack[i]);
-              case "e": return ss.concat(stack[i]);
-          }
-        }
-      }
-    }
-    return (type == "E" ? [] : stack);
+  .span1 {
+    width: 70px;
   }
-
-/////////////////////////////////////////////////////////////////////////////
-// indenter
-
-  function indenter(state,textAfter) {
-    var t;
-    var unit = cmCfg.indentUnit;
-    var wordAfter = wordafter(textAfter);
-    var currT = peekToken(state,1);
-    var prevT = peekToken(state,2);
-
-    if (state.in_string || state.in_atom) {
-      return CodeMirror.Pass;
-    }else if (!prevT) {
-      return 0;
-    }else if (currT.token == "when") {
-      return currT.column+unit;
-    }else if (wordAfter === "when" && prevT.type === "function") {
-      return prevT.indent+unit;
-    }else if (wordAfter === "(" && currT.token === "fun") {
-      return  currT.column+3;
-    }else if (wordAfter === "catch" && (t = getToken(state,["try"]))) {
-      return t.column;
-    }else if (is_member(wordAfter,["end","after","of"])) {
-      t = getToken(state,["begin","case","fun","if","receive","try"]);
-      return t ? t.column : CodeMirror.Pass;
-    }else if (is_member(wordAfter,closeParenWords)) {
-      t = getToken(state,openParenWords);
-      return t ? t.column : CodeMirror.Pass;
-    }else if (is_member(currT.token,[",","|","||"]) ||
-              is_member(wordAfter,[",","|","||"])) {
-      t = postcommaToken(state);
-      return t ? t.column+t.token.length : unit;
-    }else if (currT.token == "->") {
-      if (is_member(prevT.token, ["receive","case","if","try"])) {
-        return prevT.column+unit+unit;
-      }else{
-        return prevT.column+unit;
-      }
-    }else if (is_member(currT.token,openParenWords)) {
-      return currT.column+currT.token.length;
-    }else{
-      t = defaultToken(state);
-      return truthy(t) ? t.column+unit : 0;
-    }
+  .offset12 {
+    margin-left: 1230px;
   }
-
-  function wordafter(str) {
-    var m = str.match(/,|[a-z]+|\}|\]|\)|>>|\|+|\(/);
-
-    return truthy(m) && (m.index === 0) ? m[0] : "";
+  .offset11 {
+    margin-left: 1130px;
   }
-
-  function postcommaToken(state) {
-    var objs = state.tokenStack.slice(0,-1);
-    var i = getTokenIndex(objs,"type",["open_paren"]);
-
-    return truthy(objs[i]) ? objs[i] : false;
+  .offset10 {
+    margin-left: 1030px;
   }
-
-  function defaultToken(state) {
-    var objs = state.tokenStack;
-    var stop = getTokenIndex(objs,"type",["open_paren","separator","keyword"]);
-    var oper = getTokenIndex(objs,"type",["operator"]);
-
-    if (truthy(stop) && truthy(oper) && stop < oper) {
-      return objs[stop+1];
-    } else if (truthy(stop)) {
-      return objs[stop];
-    } else {
-      return false;
-    }
+  .offset9 {
+    margin-left: 930px;
   }
-
-  function getToken(state,tokens) {
-    var objs = state.tokenStack;
-    var i = getTokenIndex(objs,"token",tokens);
-
-    return truthy(objs[i]) ? objs[i] : false;
+  .offset8 {
+    margin-left: 830px;
   }
-
-  function getTokenIndex(objs,propname,propvals) {
-
-    for (var i = objs.length-1; -1 < i ; i--) {
-      if (is_member(objs[i][propname],propvals)) {
-        return i;
-      }
-    }
-    return false;
+  .offset7 {
+    margin-left: 730px;
   }
-
-  function truthy(x) {
-    return (x !== false) && (x != null);
+  .offset6 {
+    margin-left: 630px;
   }
-
-/////////////////////////////////////////////////////////////////////////////
-// this object defines the mode
-
-  return {
-    startState:
-      function() {
-        return {tokenStack: [],
-                in_string:  false,
-                in_atom:    false};
-      },
-
-    token:
-      function(stream, state) {
-        return tokenizer(stream, state);
-      },
-
-    indent:
-      function(state, textAfter) {
-        return indenter(state,textAfter);
-      },
-
-    lineComment: "%"
-  };
-});
-
-});
+  .offset5 {
+    margin-left: 530px;
+  }
+  .offset4 {
+    margin-left: 430px;
+  }
+  .offset3 {
+    margin-left: 330px;
+  }
+  .offset2 {
+    margin-left: 230px;
+  }
+  .offset1 {
+    margin-left: 130px;
+  }
+  .row-fluid {
+    width: 100%;
+    *zoom: 1;
+  }
+  .row-fluid:before,
+  .row-fluid:after {
+    display: table;
+    content: "";
+    line-height: 0;
+  }
+  .row-fluid:after {
+    clear: both;
+  }
+  .row-fluid [class*="span"] {
+    display: block;
+    width: 100%;
+    min-height: 32px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    float: left;
+    margin-left: 2.564102564102564%;
+    *margin-left: 2.5109110747408616%;
+  }
+  .row-fluid [class*="span"]:first-child {
+    margin-left: 0;
+  }
+  .row-fluid .controls-row [class*="span"] + [class*="span"] {
+    margin-left: 2.564102564102564%;
+  }
+  .row-fluid .span12 {
+    width: 100%;
+    *width: 99.94680851063829%;
+  }
+  .row-fluid .span11 {
+    width: 91.45299145299145%;
+    *width: 91.39979996362975%;
+  }
+  .row-fluid .span10 {
+    width: 82.90598290598291%;
+    *width: 82.8527914166212%;
+  }
+  .row-fluid .span9 {
+    width: 74.35897435897436%;
+    *width: 74.30578286961266%;
+  }
+  .row-fluid .span8 {
+    width: 65.81196581196582%;
+    *width: 65.75877432260411%;
+  }
+  .row-fluid .span7 {
+    width: 57.26495726495726%;
+    *width: 57.21176577559556%;
+  }
+  .row-fluid .span6 {
+    width: 48.717948717948715%;
+    *width: 48.664757228587014%;
+  }
+  .row-fluid .span5 {
+    width: 40.17094017094017%;
+    *width: 40.11774868157847%;
+  }
+  .row-fluid .span4 {
+    width: 31.623931623931625%;
+    *width: 31.570740134569924%;
+  }
+  .row-fluid .span3 {
+    width: 23.076923076923077%;
+    *width: 23.023731587561375%;
+  }
+  .row-fluid .span2 {
+    width: 14.52991452991453%;
+    *width: 14.476723040552828%;
+  }
+  .row-fluid .span1 {
+    width: 5.982905982905983%;
+    *width: 5.929714493544281%;
+  }
+  .row-fluid .offset12 {
+    margin-left: 105.12820512820512%;
+    *margin-left: 105.02182214948171%;
+  }
+  .row-fluid .offset12:first-child {
+    margin-left: 102.56410256410257%;
+    *margin-left: 102.45771958537915%;
+  }
+  .row-fluid .offset11 {
+    margin-left: 96.58119658119658%;
+    *margin-left: 96.47481360247316%;
+  }
+  .row-fluid .offset11:first-child {
+    margin-left: 94.01709401709402%;
+    *margin-left: 93.91071103837061%;
+  }
+  .row-fluid .offset10 {
+    margin-left: 88.03418803418803%;
+    *margin-left: 87.92780505546462%;
+  }
+  .row-fluid .offset10:first-child {
+    margin-left: 85.47008547008548%;
+    *margin-left: 85.36370249136206%;
+  }
+  .row-fluid .offset9 {
+    margin-left: 79.48717948717949%;
+    *margin-left: 79.38079650845607%;
+  }
+  .row-fluid .offset9:first-child {
+    margin-left: 76.92307692307693%;
+    *margin-left: 76.81669394435352%;
+  }
+  .row-fluid .offset8 {
+    margin-left: 70.94017094017094%;
+    *margin-left: 70.83378796144753%;
+  }
+  .row-fluid .offset8:first-child {
+    margin-left: 68.37606837606839%;
+    *margin-left: 68.26968539734497%;
+  }
+  .row-fluid .offset7 {
+    margin-left: 62.393162393162385%;
+    *margin-left: 62.28677941443899%;
+  }
+  .row-fluid .offset7:first-child {
+    margin-left: 59.82905982905982%;
+    *margin-left: 59.72267685033642%;
+  }
+  .row-fluid .offset6 {
+    margin-left: 53.84615384615384%;
+    *margin-left: 53.739770867430444%;
+  }
+  .row-fluid .offset6:first-child {
+    margin-left: 51.28205128205128%;
+    *margin-left: 51.175668303327875%;
+  }
+  .row-fluid .offset5 {
+    margin-left: 45.299145299145295%;
+    *margin-left: 45.1927623204219%;
+  }
+  .row-fluid .offset5:first-child {
+    margin-left: 42.73504273504273%;
+    *margin-left: 42.62865975631933%;
+  }
+  .row-fluid .offset4 {
+    margin-left: 36.75213675213675%;
+    *margin-left: 36.645753773413354%;
+  }
+  .row-fluid .offset4:first-child {
+    margin-left: 34.18803418803419%;
+    *margin-left: 34.081651209310785%;
+  }
+  .row-fluid .offset3 {
+    margin-left: 28.205128205128204%;
+    *margin-left: 28.0987452264048%;
+  }
+  .row-fluid .offset3:first-child {
+    margin-left: 25.641025641025642%;
+    *margin-left: 25.53464266230224%;
+  }
+  .row-fluid .offset2 {
+    margin-left: 19.65811965811966%;
+    *margin-left: 19.551736679396257%;
+  }
+  .row-fluid .offset2:first-child {
+    margin-left: 17.094017094017094%;
+    *margin-left: 16.98763411529369%;
+  }
+  .row-fluid .offset1 {
+    margin-left: 11.11111111111111%;
+    *margin-left: 11.004728132387708%;
+  }
+  .row-fluid .offset1:first-child {
+    margin-left: 8.547008547008547%;
+    *margin-left: 8.440625568285142%;
+  }
+  input,
+  textarea,
+  .uneditable-input {
+    margin-left: 0;
+  }
+  .controls-row [class*="span"] + [class*="span"] {
+    margin-left: 30px;
+  }
+  input.span12,
+  textarea.span12,
+  .uneditable-input.span12 {
+    width: 1156px;
+  }
+  input.span11,
+  textarea.span11,
+  .uneditable-input.span11 {
+    width: 1056px;
+  }
+  input.span10,
+  textarea.span10,
+  .uneditable-input.span10 {
+    width: 956px;
+  }
+  input.span9,
+  textarea.span9,
+  .uneditable-input.span9 {
+    width: 856px;
+  }
+  input.span8,
+  textarea.span8,
+  .uneditable-input.span8 {
+    width: 756px;
+  }
+  input.span7,
+  textarea.span7,
+  .uneditable-input.span7 {
+    width: 656px;
+  }
+  input.span6,
+  textarea.span6,
+  .uneditable-input.span6 {
+    width: 556px;
+  }
+  input.span5,
+  textarea.span5,
+  .uneditable-input.span5 {
+    width: 456px;
+  }
+  input.span4,
+  textarea.span4,
+  .uneditable-input.span4 {
+    width: 356px;
+  }
+  input.span3,
+  textarea.span3,
+  .uneditable-input.span3 {
+    width: 256px;
+  }
+  input.span2,
+  textarea.span2,
+  .uneditable-input.span2 {
+    width: 156px;
+  }
+  input.span1,
+  textarea.span1,
+  .uneditable-input.span1 {
+    width: 56px;
+  }
+  .thumbnails {
+    margin-left: -30px;
+  }
+  .thumbnails > li {
+    margin-left: 30px;
+  }
+  .row-fluid .thumbnails {
+    margin-left: 0;
+  }
+}
+@media (min-width: 768px) and (max-width: 979px) {
+  .row {
+    margin-left: -20px;
+    *zoom: 1;
+  }
+  .row:before,
+  .row:after {
+    display: table;
+    content: "";
+    line-height: 0;
+  }
+  .row:after {
+    clear: both;
+  }
+  [class*="span"] {
+    float: left;
+    min-height: 1px;
+    margin-left: 20px;
+  }
+  .container,
+  .navbar-static-top .container,
+  .navbar-fixed-top .container,
+  .navbar-fixed-bottom .container {
+    width: 724px;
+  }
+  .span12 {
+    width: 724px;
+  }
+  .span11 {
+    width: 662px;
+  }
+  .span10 {
+    width: 600px;
+  }
+  .span9 {
+    width: 538px;
+  }
+  .span8 {
+    width: 476px;
+  }
+  .span7 {
+    width: 414px;
+  }
+  .span6 {
+    width: 352px;
+  }
+  .span5 {
+    width: 290px;
+  }
+  .span4 {
+    width: 228px;
+  }
+  .span3 {
+    width: 166px;
+  }
+  .span2 {
+    width: 104px;
+  }
+  .span1 {
+    width: 42px;
+  }
+  .offset12 {
+    margin-left: 764px;
+  }
+  .offset11 {
+    margin-left: 702px;
+  }
+  .offset10 {
+    margin-left: 640px;
+  }
+  .offset9 {
+    margin-left: 578px;
+  }
+  .offset8 {
+    margin-left: 516px;
+  }
+  .offset7 {
+    margin-left: 454px;
+  }
+  .offset6 {
+    margin-left: 392px;
+  }
+  .offset5 {
+    margin-left: 330px;
+  }
+  .offset4 {
+    margin-left: 268px;
+  }
+  .offset3 {
+    margin-left: 206px;
+  }
+  .offset2 {
+    margin-left: 144px;
+  }
+  .offset1 {
+    margin-left: 82px;
+  }
+  .row-fluid {
+    width: 100%;
+    *zoom: 1;
+  }
+  .row-fluid:before,
+  .row-fluid:after {
+    display: table;
+    content: "";
+    line-height: 0;
+  }
+  .row-fluid:after {
+    clear: both;
+  }
+  .row-fluid [class*="span"] {
+    display: block;
+    width: 100%;
+    min-height: 32px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    float: left;
+    margin-left: 2.7624309392265194%;
+    *margin-left: 2.709239449864817%;
+  }
+  .row-fluid [class*="span"]:first-child {
+    margin-left: 0;
+  }
+  .row-fluid .controls-row [class*="span"] + [class*="span"] {
+    margin-left: 2.7624309392265194%;
+  }
+  .row-fluid .span12 {
+    width: 100%;
+    *width: 99.94680851063829%;
+  }
+  .row-fluid .span11 {
+    width: 91.43646408839778%;
+    *width: 91.38327259903608%;
+  }
+  .row-fluid .span10 {
+    width: 82.87292817679558%;
+    *width: 82.81973668743387%;
+  }
+  .row-fluid .span9 {
+    width: 74.30939226519337%;
+    *width: 74.25620077583166%;
+  }
+  .row-fluid .span8 {
+    width: 65.74585635359117%;
+    *width: 65.69266486422946%;
+  }
+  .row-fluid .span7 {
+    width: 57.18232044198895%;
+    *width: 57.12912895262725%;
+  }
+  .row-fluid .span6 {
+    width: 48.61878453038674%;
+    *width: 48.56559304102504%;
+  }
+  .row-fluid .span5 {
+    width: 40.05524861878453%;
+    *width: 40.00205712942283%;
+  }
+  .row-fluid .span4 {
+    width: 31.491712707182323%;
+    *width: 31.43852121782062%;
+  }
+  .row-fluid .span3 {
+    width: 22.92817679558011%;
+    *width: 22.87498530621841%;
+  }
+  .row-fluid .span2 {
+    width: 14.3646408839779%;
+    *width: 14.311449394616199%;
+  }
+  .row-fluid .span1 {
+    width: 5.801104972375691%;
+    *width: 5.747913483013988%;
+  }
+  .row-fluid .offset12 {
+    margin-left: 105.52486187845304%;
+    *margin-left: 105.41847889972962%;
+  }
+  .row-fluid .offset12:first-child {
+    margin-left: 102.76243093922652%;
+    *margin-left: 102.6560479605031%;
+  }
+  .row-fluid .offset11 {
+    margin-left: 96.96132596685082%;
+    *margin-left: 96.8549429881274%;
+  }
+  .row-fluid .offset11:first-child {
+    margin-left: 94.1988950276243%;
+    *margin-left: 94.09251204890089%;
+  }
+  .row-fluid .offset10 {
+    margin-left: 88.39779005524862%;
+    *margin-left: 88.2914070765252%;
+  }
+  .row-fluid .offset10:first-child {
+    margin-left: 85.6353591160221%;
+    *margin-left: 85.52897613729868%;
+  }
+  .row-fluid .offset9 {
+    margin-left: 79.8342541436464%;
+    *margin-left: 79.72787116492299%;
+  }
+  .row-fluid .offset9:first-child {
+    margin-left: 77.07182320441989%;
+    *margin-left: 76.96544022569647%;
+  }
+  .row-fluid .offset8 {
+    margin-left: 71.2707182320442%;
+    *margin-left: 71.16433525332079%;
+  }
+  .row-fluid .offset8:first-child {
+    margin-left: 68.50828729281768%;
+    *margin-left: 68.40190431409427%;
+  }
+  .row-fluid .offset7 {
+    margin-left: 62.70718232044199%;
+    *margin-left: 62.600799341718584%;
+  }
+  .row-fluid .offset7:first-child {
+    margin-left: 59.94475138121547%;
+    *margin-left: 59.838368402492065%;
+  }
+  .row-fluid .offset6 {
+    margin-left: 54.14364640883978%;
+    *margin-left: 54.037263430116376%;
+  }
+  .row-fluid .offset6:first-child {
+    margin-left: 51.38121546961326%;
+    *margin-left: 51.27483249088986%;
+  }
+  .row-fluid .offset5 {
+    margin-left: 45.58011049723757%;
+    *margin-left: 45.47372751851417%;
+  }
+  .row-fluid .offset5:first-child {
+    margin-left: 42.81767955801105%;
+    *margin-left: 42.71129657928765%;
+  }
+  .row-fluid .offset4 {
+    margin-left: 37.01657458563536%;
+    *margin-left: 36.91019160691196%;
+  }
+  .row-fluid .offset4:first-child {
+    margin-left: 34.25414364640884%;
+    *margin-left: 34.14776066768544%;
+  }
+  .row-fluid .offset3 {
+    margin-left: 28.45303867403315%;
+    *margin-left: 28.346655695309746%;
+  }
+  .row-fluid .offset3:first-child {
+    margin-left: 25.69060773480663%;
+    *margin-left: 25.584224756083227%;
+  }
+  .row-fluid .offset2 {
+    margin-left: 19.88950276243094%;
+    *margin-left: 19.783119783707537%;
+  }
+  .row-fluid .offset2:first-child {
+    margin-left: 17.12707182320442%;
+    *margin-left: 17.02068884448102%;
+  }
+  .row-fluid .offset1 {
+    margin-left: 11.32596685082873%;
+    *margin-left: 11.219583872105325%;
+  }
+  .row-fluid .offset1:first-child {
+    margin-left: 8.56353591160221%;
+    *margin-left: 8.457152932878806%;
+  }
+  input,
+  textarea,
+  .uneditable-input {
+    margin-left: 0;
+  }
+  .controls-row [class*="span"] + [class*="span"] {
+    margin-left: 20px;
+  }
+  input.span12,
+  textarea.span12,
+  .uneditable-input.span12 {
+    width: 710px;
+  }
+  input.span11,
+  textarea.span11,
+  .uneditable-input.span11 {
+    width: 648px;
+  }
+  input.span10,
+  textarea.span10,
+  .uneditable-input.span10 {
+    width: 586px;
+  }
+  input.span9,
+  textarea.span9,
+  .uneditable-input.span9 {
+    width: 524px;
+  }
+  input.span8,
+  textarea.span8,
+  .uneditable-input.span8 {
+    width: 462px;
+  }
+  input.span7,
+  textarea.span7,
+  .uneditable-input.span7 {
+    width: 400px;
+  }
+  input.span6,
+  textarea.span6,
+  .uneditable-input.span6 {
+    width: 338px;
+  }
+  input.span5,
+  textarea.span5,
+  .uneditable-input.span5 {
+    width: 276px;
+  }
+  input.span4,
+  textarea.span4,
+  .uneditable-input.span4 {
+    width: 214px;
+  }
+  input.span3,
+  textarea.span3,
+  .uneditable-input.span3 {
+    width: 152px;
+  }
+  input.span2,
+  textarea.span2,
+  .uneditable-input.span2 {
+    width: 90px;
+  }
+  input.span1,
+  textarea.span1,
+  .uneditable-input.span1 {
+    width: 28px;
+  }
+}
+@media (max-width: 767px) {
+  body {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .navbar-fixed-top,
+  .navbar-fixed-bottom,
+  .navbar-static-top {
+    margin-left: -20px;
+    margin-right: -20px;
+  }
+  .container-fluid {
+    padding: 0;
+  }
+  .dl-horizontal dt {
+    float: none;
+    clear: none;
+    width: auto;
+    text-align: left;
+  }
+  .dl-horizontal dd {
+    margin-left: 0;
+  }
+  .container {
+    width: auto;
+  }
+  .row-fluid {
+    width: 100%;
+  }
+  .row,
+  .thumbnails {
+    margin-left: 0;
+  }
+  .thumbnails > li {
+    float: none;
+    margin-left: 0;
+  }
+  [class*="span"],
+  .uneditable-input[class*="span"],
+  .row-fluid [class*="span"] {
+    float: none;
+    display: block;
+    width: 100%;
+    margin-left: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+  .span12,
+  .row-fluid .span12 {
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+  .row-fluid [class*="offset"]:first-child {
+    margin-left: 0;
+  }
+  .input-large,
+  .input-xlarge,
+  .input-xxlarge,
+  input[class*="span"],
+  select[class*="span"],
+  textarea[class*="span"],
+  .uneditable-input {
+    display: block;
+    width: 100%;
+    min-height: 32px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+  .input-prepend input,
+  .input-append input,
+  .input-prepend input[class*="span"],
+  .input-append input[class*="span"] {
+    display: inline-block;
+    width: auto;
+  }
+  .controls-row [class*="span"] + [class*="span"] {
+    margin-left: 0;
+  }
+  .modal {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    width: auto;
+    margin: 0;
+  }
+  .modal.fade {
+    top: -100px;
+  }
+  .modal.fade.in {
+    top: 20px;
+  }
+}
+@media (max-width: 480px) {
+  .nav-collapse {
+    -webkit-transform: translate3d(0, 0, 0);
+  }
+  .page-header h1 small {
+    display: block;
+    line-height: 22px;
+  }
+  input[type="checkbox"],
+  input[type="radio"] {
+    border: 1px solid #ccc;
+  }
+  .form-horizontal .control-label {
+    float: none;
+    width: auto;
+    padding-top: 0;
+    text-align: left;
+  }
+  .form-horizontal .controls {
+    margin-left: 0;
+  }
+  .form-horizontal .control-list {
+    padding-top: 0;
+  }
+  .form-horizontal .form-actions {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .media .pull-left,
+  .media .pull-right {
+    float: none;
+    display: block;
+    margin-bottom: 10px;
+  }
+  .media-object {
+    margin-right: 0;
+    margin-left: 0;
+  }
+  .modal {
+    top: 10px;
+    left: 10px;
+    right: 10px;
+  }
+  .modal-header .close {
+    padding: 10px;
+    margin: -10px;
+  }
+  .carousel-caption {
+    position: static;
+  }
+}
+@media (max-width: 768px) {
+  body {
+    padding-top: 0;
+  }
+  .navbar-fixed-top,
+  .navbar-fixed-bottom {
+    position: static;
+  }
+  .navbar-fixed-top {
+    margin-bottom: 22px;
+  }
+  .navbar-fixed-bottom {
+    margin-top: 22px;
+  }
+  .navbar-fixed-top .navbar-inner,
+  .navbar-fixed-bottom .navbar-inner {
+    padding: 5px;
+  }
+  .navbar .container {
+    width: auto;
+    padding: 0;
+  }
+  .navbar .brand {
+    padding-left: 10px;
+    padding-right: 10px;
+    margin: 0 0 0 -5px;
+  }
+  .nav-collapse {
+    clear: both;
+  }
+  .nav-collapse .nav {
+    float: none;
+    margin: 0 0 11px;
+  }
+  .nav-collapse .nav > li {
+    float: none;
+  }
+  .nav-collapse .nav > li > a {
+    margin-bottom: 2px;
+  }
+  .nav-collapse .nav > .divider-vertical {
+    display: none;
+  }
+  .nav-collapse .nav .nav-header {
+    color: #777777;
+    text-shadow: none;
+  }
+  .nav-collapse .nav > li > a,
+  .nav-collapse .dropdown-menu a {
+    padding: 9px 15px;
+    font-weight: bold;
+    color: #869690;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+  }
+  .nav-collapse .btn {
+    padding: 4px 10px 4px;
+    font-weight: normal;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+  }
+  .nav-collapse .dropdown-menu li + li a {
+    margin-bottom: 2px;
+  }
+  .nav-collapse .nav > li > a:hover,
+  .nav-collapse .nav > li > a:focus,
+  .nav-collapse .dropdown-menu a:hover,
+  .nav-collapse .dropdown-menu a:focus {
+    background-color: #ffffff;
+  }
+  .navbar-inverse .nav-collapse .nav > li > a,
+  .navbar-inverse .nav-collapse .dropdown-menu a {
+    color: #999999;
+  }
+  .navbar-inverse .nav-collapse .nav > li > a:hover,
+  .navbar-inverse .nav-collapse .nav > li > a:focus,
+  .navbar-inverse .nav-collapse .dropdown-menu a:hover,
+  .navbar-inverse .nav-collapse .dropdown-menu a:focus {
+    background-color: #111111;
+  }
+  .nav-collapse.in .btn-group {
+    margin-top: 5px;
+    padding: 0;
+  }
+  .nav-collapse .dropdown-menu {
+    position: static;
+    top: auto;
+    left: auto;
+    float: none;
+    display: none;
+    max-width: none;
+    margin: 0 15px;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+  }
+  .nav-collapse .open > .dropdown-menu {
+    display: block;
+  }
+  .nav-collapse .dropdown-menu:before,
+  .nav-collapse .dropdown-menu:after {
+    display: none;
+  }
+  .nav-collapse .dropdown-menu .divider {
+    display: none;
+  }
+  .nav-collapse .nav > li > .dropdown-menu:before,
+  .nav-collapse .nav > li > .dropdown-menu:after {
+    display: none;
+  }
+  .nav-collapse .navbar-form,
+  .nav-collapse .navbar-search {
+    float: none;
+    padding: 11px 15px;
+    margin: 11px 0;
+    border-top: 1px solid #ffffff;
+    border-bottom: 1px solid #ffffff;
+    -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 0 rgba(255,255,255,.1);
+    -moz-box-shadow: i

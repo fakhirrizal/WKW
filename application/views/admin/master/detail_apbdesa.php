@@ -95,12 +95,18 @@ $return_on_click = "return confirm('Anda yakin?')";
                                                         $no = 1;
                                                         $get_pagu = $this->Main_model->getSelectedData('apbdes a', 'a.*',array('md5(a.tahun)'=>$this->uri->segment(3),'a.keterangan'=>'pendapatan'))->result();
                                                         foreach ($get_pagu as $key => $value) {
+                                                            $nominal = 0;
+                                                            if($value->nominal==NULL OR $value->nominal==''){
+                                                                echo'';
+                                                            }else{
+                                                                $nominal = $value->nominal;
+                                                            }
                                                             echo'
                                                             <tr>
                                                                 <td style="text-align: center;"> '.$no++.'. </td>
                                                                 <td style="text-align: center;"> '.$value->kategori.' </td>
                                                                 <td > '.$value->rincian.' </td>
-                                                                <td style="text-align: center;"> Rp '.number_format($value->nominal,2).' </td>
+                                                                <td style="text-align: center;"> Rp '.number_format($nominal,2).' </td>
                                                                 <td style="text-align: center;">
                                                                     <div class="btn-group" style="text-align: center;">
                                                                         <button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Aksi
@@ -145,12 +151,18 @@ $return_on_click = "return confirm('Anda yakin?')";
                                                         $no = 1;
                                                         $get_pagu = $this->Main_model->getSelectedData('apbdes a', 'a.*',array('md5(a.tahun)'=>$this->uri->segment(3),'a.keterangan'=>'pengeluaran'))->result();
                                                         foreach ($get_pagu as $key => $value) {
+                                                            $nominal = 0;
+                                                            if($value->nominal==NULL OR $value->nominal==''){
+                                                                echo'';
+                                                            }else{
+                                                                $nominal = $value->nominal;
+                                                            }
                                                             echo'
                                                             <tr>
                                                                 <td style="text-align: center;"> '.$no++.'. </td>
                                                                 <td style="text-align: center;"> '.$value->kategori.' </td>
                                                                 <td > '.$value->rincian.' </td>
-                                                                <td style="text-align: center;"> Rp '.number_format($value->nominal,2).' </td>
+                                                                <td style="text-align: center;"> Rp '.number_format($nominal,2).' </td>
                                                                 <td style="text-align: center;">
                                                                     <div class="btn-group" style="text-align: center;">
                                                                         <button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Aksi
@@ -195,12 +207,18 @@ $return_on_click = "return confirm('Anda yakin?')";
                                                         $no = 1;
                                                         $get_pagu = $this->Main_model->getSelectedData('apbdes a', 'a.*',array('md5(a.tahun)'=>$this->uri->segment(3),'a.keterangan'=>'surplus / defisit'))->result();
                                                         foreach ($get_pagu as $key => $value) {
+                                                            $nominal = 0;
+                                                            if($value->nominal==NULL OR $value->nominal==''){
+                                                                echo'';
+                                                            }else{
+                                                                $nominal = $value->nominal;
+                                                            }
                                                             echo'
                                                             <tr>
                                                                 <td style="text-align: center;"> '.$no++.'. </td>
                                                                 <td style="text-align: center;"> '.$value->kategori.' </td>
                                                                 <td > '.$value->rincian.' </td>
-                                                                <td style="text-align: center;"> Rp '.number_format($value->nominal,2).' </td>
+                                                                <td style="text-align: center;"> Rp '.number_format($nominal,2).' </td>
                                                                 <td style="text-align: center;">
                                                                     <div class="btn-group" style="text-align: center;">
                                                                         <button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Aksi
@@ -245,12 +263,18 @@ $return_on_click = "return confirm('Anda yakin?')";
                                                         $no = 1;
                                                         $get_pagu = $this->Main_model->getSelectedData('apbdes a', 'a.*',array('md5(a.tahun)'=>$this->uri->segment(3),'a.keterangan'=>'pembiayaan'))->result();
                                                         foreach ($get_pagu as $key => $value) {
+                                                            $nominal = 0;
+                                                            if($value->nominal==NULL OR $value->nominal==''){
+                                                                echo'';
+                                                            }else{
+                                                                $nominal = $value->nominal;
+                                                            }
                                                             echo'
                                                             <tr>
                                                                 <td style="text-align: center;"> '.$no++.'. </td>
                                                                 <td style="text-align: center;"> '.$value->kategori.' </td>
                                                                 <td > '.$value->rincian.' </td>
-                                                                <td style="text-align: center;"> Rp '.number_format($value->nominal,2).' </td>
+                                                                <td style="text-align: center;"> Rp '.number_format($nominal,2).' </td>
                                                                 <td style="text-align: center;">
                                                                     <div class="btn-group" style="text-align: center;">
                                                                         <button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Aksi
@@ -295,12 +319,18 @@ $return_on_click = "return confirm('Anda yakin?')";
                                                         $no = 1;
                                                         $get_pagu = $this->Main_model->getSelectedData('apbdes a', 'a.*',array('md5(a.tahun)'=>$this->uri->segment(3),'a.keterangan'=>'silpa'))->result();
                                                         foreach ($get_pagu as $key => $value) {
+                                                            $nominal = 0;
+                                                            if($value->nominal==NULL OR $value->nominal==''){
+                                                                echo'';
+                                                            }else{
+                                                                $nominal = $value->nominal;
+                                                            }
                                                             echo'
                                                             <tr>
                                                                 <td style="text-align: center;"> '.$no++.'. </td>
                                                                 <td style="text-align: center;"> '.$value->kategori.' </td>
                                                                 <td > '.$value->rincian.' </td>
-                                                                <td style="text-align: center;"> Rp '.number_format($value->nominal,2).' </td>
+                                                                <td style="text-align: center;"> Rp '.number_format($nominal,2).' </td>
                                                                 <td style="text-align: center;">
                                                                     <div class="btn-group" style="text-align: center;">
                                                                         <button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Aksi

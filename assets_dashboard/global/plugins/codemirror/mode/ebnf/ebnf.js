@@ -1,195 +1,352 @@
-// CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
-
-(function(mod) {
-  if (typeof exports == "object" && typeof module == "object") // CommonJS
-    mod(require("../../lib/codemirror"));
-  else if (typeof define == "function" && define.amd) // AMD
-    define(["../../lib/codemirror"], mod);
-  else // Plain browser env
-    mod(CodeMirror);
-})(function(CodeMirror) {
-  "use strict";
-
-  CodeMirror.defineMode("ebnf", function (config) {
-    var commentType = {slash: 0, parenthesis: 1};
-    var stateType = {comment: 0, _string: 1, characterClass: 2};
-    var bracesMode = null;
-
-    if (config.bracesMode)
-      bracesMode = CodeMirror.getMode(config, config.bracesMode);
-
-    return {
-      startState: function () {
-        return {
-          stringType: null,
-          commentType: null,
-          braced: 0,
-          lhs: true,
-          localState: null,
-          stack: [],
-          inDefinition: false
-        };
-      },
-      token: function (stream, state) {
-        if (!stream) return;
-
-        //check for state changes
-        if (state.stack.length === 0) {
-          //strings
-          if ((stream.peek() == '"') || (stream.peek() == "'")) {
-            state.stringType = stream.peek();
-            stream.next(); // Skip quote
-            state.stack.unshift(stateType._string);
-          } else if (stream.match(/^\/\*/)) { //comments starting with /*
-            state.stack.unshift(stateType.comment);
-            state.commentType = commentType.slash;
-          } else if (stream.match(/^\(\*/)) { //comments starting with (*
-            state.stack.unshift(stateType.comment);
-            state.commentType = commentType.parenthesis;
-          }
-        }
-
-        //return state
-        //stack has
-        switch (state.stack[0]) {
-        case stateType._string:
-          while (state.stack[0] === stateType._string && !stream.eol()) {
-            if (stream.peek() === state.stringType) {
-              stream.next(); // Skip quote
-              state.stack.shift(); // Clear flag
-            } else if (stream.peek() === "\\") {
-              stream.next();
-              stream.next();
-            } else {
-              stream.match(/^.[^\\\"\']*/);
-            }
-          }
-          return state.lhs ? "property string" : "string"; // Token style
-
-        case stateType.comment:
-          while (state.stack[0] === stateType.comment && !stream.eol()) {
-            if (state.commentType === commentType.slash && stream.match(/\*\//)) {
-              state.stack.shift(); // Clear flag
-              state.commentType = null;
-            } else if (state.commentType === commentType.parenthesis && stream.match(/\*\)/)) {
-              state.stack.shift(); // Clear flag
-              state.commentType = null;
-            } else {
-              stream.match(/^.[^\*]*/);
-            }
-          }
-          return "comment";
-
-        case stateType.characterClass:
-          while (state.stack[0] === stateType.characterClass && !stream.eol()) {
-            if (!(stream.match(/^[^\]\\]+/) || stream.match(/^\\./))) {
-              state.stack.shift();
-            }
-          }
-          return "operator";
-        }
-
-        var peek = stream.peek();
-
-        if (bracesMode !== null && (state.braced || peek === "{")) {
-          if (state.localState === null)
-            state.localState = bracesMode.startState();
-
-          var token = bracesMode.token(stream, state.localState),
-          text = stream.current();
-
-          if (!token) {
-            for (var i = 0; i < text.length; i++) {
-              if (text[i] === "{") {
-                if (state.braced === 0) {
-                  token = "matchingbracket";
-                }
-                state.braced++;
-              } else if (text[i] === "}") {
-                state.braced--;
-                if (state.braced === 0) {
-                  token = "matchingbracket";
-                }
-              }
-            }
-          }
-          return token;
-        }
-
-        //no stack
-        switch (peek) {
-        case "[":
-          stream.next();
-          state.stack.unshift(stateType.characterClass);
-          return "bracket";
-        case ":":
-        case "|":
-        case ";":
-          stream.next();
-          return "operator";
-        case "%":
-          if (stream.match("%%")) {
-            return "header";
-          } else if (stream.match(/[%][A-Za-z]+/)) {
-            return "keyword";
-          } else if (stream.match(/[%][}]/)) {
-            return "matchingbracket";
-          }
-          break;
-        case "/":
-          if (stream.match(/[\/][A-Za-z]+/)) {
-          return "keyword";
-        }
-        case "\\":
-          if (stream.match(/[\][a-z]+/)) {
-            return "string-2";
-          }
-        case ".":
-          if (stream.match(".")) {
-            return "atom";
-          }
-        case "*":
-        case "-":
-        case "+":
-        case "^":
-          if (stream.match(peek)) {
-            return "atom";
-          }
-        case "$":
-          if (stream.match("$$")) {
-            return "builtin";
-          } else if (stream.match(/[$][0-9]+/)) {
-            return "variable-3";
-          }
-        case "<":
-          if (stream.match(/<<[a-zA-Z_]+>>/)) {
-            return "builtin";
-          }
-        }
-
-        if (stream.match(/^\/\//)) {
-          stream.skipToEnd();
-          return "comment";
-        } else if (stream.match(/return/)) {
-          return "operator";
-        } else if (stream.match(/^[a-zA-Z_][a-zA-Z0-9_]*/)) {
-          if (stream.match(/(?=[\(.])/)) {
-            return "variable";
-          } else if (stream.match(/(?=[\s\n]*[:=])/)) {
-            return "def";
-          }
-          return "variable-2";
-        } else if (["[", "]", "(", ")"].indexOf(stream.peek()) != -1) {
-          stream.next();
-          return "bracket";
-        } else if (!stream.eatSpace()) {
-          stream.next();
-        }
-        return null;
-      }
-    };
-  });
-
-  CodeMirror.defineMIME("text/x-ebnf", "ebnf");
-});
+ 500px;
+  -moz-border-radius: 500px;
+  border-radius: 500px;
+}
+.row {
+  margin-left: -20px;
+  *zoom: 1;
+}
+.row:before,
+.row:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.row:after {
+  clear: both;
+}
+[class*="span"] {
+  float: left;
+  min-height: 1px;
+  margin-left: 20px;
+}
+.container,
+.navbar-static-top .container,
+.navbar-fixed-top .container,
+.navbar-fixed-bottom .container {
+  width: 940px;
+}
+.span12 {
+  width: 940px;
+}
+.span11 {
+  width: 860px;
+}
+.span10 {
+  width: 780px;
+}
+.span9 {
+  width: 700px;
+}
+.span8 {
+  width: 620px;
+}
+.span7 {
+  width: 540px;
+}
+.span6 {
+  width: 460px;
+}
+.span5 {
+  width: 380px;
+}
+.span4 {
+  width: 300px;
+}
+.span3 {
+  width: 220px;
+}
+.span2 {
+  width: 140px;
+}
+.span1 {
+  width: 60px;
+}
+.offset12 {
+  margin-left: 980px;
+}
+.offset11 {
+  margin-left: 900px;
+}
+.offset10 {
+  margin-left: 820px;
+}
+.offset9 {
+  margin-left: 740px;
+}
+.offset8 {
+  margin-left: 660px;
+}
+.offset7 {
+  margin-left: 580px;
+}
+.offset6 {
+  margin-left: 500px;
+}
+.offset5 {
+  margin-left: 420px;
+}
+.offset4 {
+  margin-left: 340px;
+}
+.offset3 {
+  margin-left: 260px;
+}
+.offset2 {
+  margin-left: 180px;
+}
+.offset1 {
+  margin-left: 100px;
+}
+.row-fluid {
+  width: 100%;
+  *zoom: 1;
+}
+.row-fluid:before,
+.row-fluid:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.row-fluid:after {
+  clear: both;
+}
+.row-fluid [class*="span"] {
+  display: block;
+  width: 100%;
+  min-height: 32px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: left;
+  margin-left: 2.127659574468085%;
+  *margin-left: 2.074468085106383%;
+}
+.row-fluid [class*="span"]:first-child {
+  margin-left: 0;
+}
+.row-fluid .controls-row [class*="span"] + [class*="span"] {
+  margin-left: 2.127659574468085%;
+}
+.row-fluid .span12 {
+  width: 100%;
+  *width: 99.94680851063829%;
+}
+.row-fluid .span11 {
+  width: 91.48936170212765%;
+  *width: 91.43617021276594%;
+}
+.row-fluid .span10 {
+  width: 82.97872340425532%;
+  *width: 82.92553191489361%;
+}
+.row-fluid .span9 {
+  width: 74.46808510638297%;
+  *width: 74.41489361702126%;
+}
+.row-fluid .span8 {
+  width: 65.95744680851064%;
+  *width: 65.90425531914893%;
+}
+.row-fluid .span7 {
+  width: 57.44680851063829%;
+  *width: 57.39361702127659%;
+}
+.row-fluid .span6 {
+  width: 48.93617021276595%;
+  *width: 48.88297872340425%;
+}
+.row-fluid .span5 {
+  width: 40.42553191489362%;
+  *width: 40.37234042553192%;
+}
+.row-fluid .span4 {
+  width: 31.914893617021278%;
+  *width: 31.861702127659576%;
+}
+.row-fluid .span3 {
+  width: 23.404255319148934%;
+  *width: 23.351063829787233%;
+}
+.row-fluid .span2 {
+  width: 14.893617021276595%;
+  *width: 14.840425531914894%;
+}
+.row-fluid .span1 {
+  width: 6.382978723404255%;
+  *width: 6.329787234042553%;
+}
+.row-fluid .offset12 {
+  margin-left: 104.25531914893617%;
+  *margin-left: 104.14893617021275%;
+}
+.row-fluid .offset12:first-child {
+  margin-left: 102.12765957446808%;
+  *margin-left: 102.02127659574467%;
+}
+.row-fluid .offset11 {
+  margin-left: 95.74468085106382%;
+  *margin-left: 95.6382978723404%;
+}
+.row-fluid .offset11:first-child {
+  margin-left: 93.61702127659574%;
+  *margin-left: 93.51063829787232%;
+}
+.row-fluid .offset10 {
+  margin-left: 87.23404255319149%;
+  *margin-left: 87.12765957446807%;
+}
+.row-fluid .offset10:first-child {
+  margin-left: 85.1063829787234%;
+  *margin-left: 84.99999999999999%;
+}
+.row-fluid .offset9 {
+  margin-left: 78.72340425531914%;
+  *margin-left: 78.61702127659572%;
+}
+.row-fluid .offset9:first-child {
+  margin-left: 76.59574468085106%;
+  *margin-left: 76.48936170212764%;
+}
+.row-fluid .offset8 {
+  margin-left: 70.2127659574468%;
+  *margin-left: 70.10638297872339%;
+}
+.row-fluid .offset8:first-child {
+  margin-left: 68.08510638297872%;
+  *margin-left: 67.9787234042553%;
+}
+.row-fluid .offset7 {
+  margin-left: 61.70212765957446%;
+  *margin-left: 61.59574468085106%;
+}
+.row-fluid .offset7:first-child {
+  margin-left: 59.574468085106375%;
+  *margin-left: 59.46808510638297%;
+}
+.row-fluid .offset6 {
+  margin-left: 53.191489361702125%;
+  *margin-left: 53.085106382978715%;
+}
+.row-fluid .offset6:first-child {
+  margin-left: 51.063829787234035%;
+  *margin-left: 50.95744680851063%;
+}
+.row-fluid .offset5 {
+  margin-left: 44.68085106382979%;
+  *margin-left: 44.57446808510638%;
+}
+.row-fluid .offset5:first-child {
+  margin-left: 42.5531914893617%;
+  *margin-left: 42.4468085106383%;
+}
+.row-fluid .offset4 {
+  margin-left: 36.170212765957444%;
+  *margin-left: 36.06382978723405%;
+}
+.row-fluid .offset4:first-child {
+  margin-left: 34.04255319148936%;
+  *margin-left: 33.93617021276596%;
+}
+.row-fluid .offset3 {
+  margin-left: 27.659574468085104%;
+  *margin-left: 27.5531914893617%;
+}
+.row-fluid .offset3:first-child {
+  margin-left: 25.53191489361702%;
+  *margin-left: 25.425531914893618%;
+}
+.row-fluid .offset2 {
+  margin-left: 19.148936170212764%;
+  *margin-left: 19.04255319148936%;
+}
+.row-fluid .offset2:first-child {
+  margin-left: 17.02127659574468%;
+  *margin-left: 16.914893617021278%;
+}
+.row-fluid .offset1 {
+  margin-left: 10.638297872340425%;
+  *margin-left: 10.53191489361702%;
+}
+.row-fluid .offset1:first-child {
+  margin-left: 8.51063829787234%;
+  *margin-left: 8.404255319148938%;
+}
+[class*="span"].hide,
+.row-fluid [class*="span"].hide {
+  display: none;
+}
+[class*="span"].pull-right,
+.row-fluid [class*="span"].pull-right {
+  float: right;
+}
+.container {
+  margin-right: auto;
+  margin-left: auto;
+  *zoom: 1;
+}
+.container:before,
+.container:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.container:after {
+  clear: both;
+}
+.container-fluid {
+  padding-right: 20px;
+  padding-left: 20px;
+  *zoom: 1;
+}
+.container-fluid:before,
+.container-fluid:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.container-fluid:after {
+  clear: both;
+}
+p {
+  margin: 0 0 11px;
+  font-weight: 400;
+}
+.lead {
+  margin-bottom: 22px;
+  font-size: 24px;
+  font-weight: 200;
+  line-height: 33px;
+}
+small {
+  font-size: 85%;
+}
+strong {
+  font-weight: bold;
+}
+em {
+  font-style: italic;
+}
+cite {
+  font-style: normal;
+}
+.muted {
+  color: #999999;
+}
+a.muted:hover,
+a.muted:focus {
+  color: #808080;
+}
+.text-warning {
+  color: #c09853;
+}
+a.text-warning:hover,
+a.text-warning:focus {
+  color: #a47e3c;
+}
+.text-error {
+  color: #b94a48;
+}
+a.text-error:hover,
+a.text-error:focus {
+  color: #953b39;

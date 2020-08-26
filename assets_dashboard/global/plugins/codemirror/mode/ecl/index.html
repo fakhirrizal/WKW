@@ -1,47 +1,59 @@
-<!doctype html>
-<title>CodeMirror: ECL mode</title>
-<meta charset="utf-8" />
-<link rel=stylesheet href="../../doc/docs.css">
-<link rel="stylesheet" href="../../lib/codemirror.css">
-<script src="../../lib/codemirror.js"></script>
-<script src="ecl.js"></script>
-<style>
-    .CodeMirror {
-        border: 1px solid black;
-    }
-</style>
-<div id=nav>
-    <a href="http://codemirror.net">
-        <h1>CodeMirror</h1>
-        <img id=logo src="../../doc/logo.png">
-    </a>
-    <ul>
-        <li>
-            <a href="../../index.html">Home</a>
-            <li>
-                <a href="../../doc/manual.html">Manual</a>
-                <li>
-                    <a href="https://github.com/codemirror/codemirror">Code</a>
-    </ul>
-    <ul>
-        <li>
-            <a href="../index.html">Language modes</a>
-            <li>
-                <a class=active href="#">ECL</a>
-    </ul>
-</div>
-<article>
-    <h2>ECL mode</h2>
-    <form>
-        <textarea id="code" name="code"> /* sample useless code to demonstrate ecl syntax highlighting this is a multiline comment! */ // this is a singleline comment! import ut; r := record string22 s1 := '123'; integer4 i1 := 123; end; #option('tmp', true); d := dataset('tmp::qb',
-            r, thor); output(d); </textarea>
-    </form>
-    <script>
-        var editor = CodeMirror.fromTextArea(document.getElementById("code"),
-        {});
-    </script>
-    <p>Based on CodeMirror's clike mode. For more information see
-        <a href="http://hpccsystems.com">HPCC Systems</a> web site.</p>
-    <p>
-        <strong>MIME types defined:</strong> <code>text/x-ecl</code>.</p>
-</article>
+k;
+  width: 14px;
+  height: 14px;
+  *margin-right: .3em;
+  line-height: 14px;
+  vertical-align: text-top;
+  background-image: url("../img/glyphicons-halflings-green.png");
+  background-position: 14px 14px;
+  background-repeat: no-repeat;
+  margin-top: 4px;
+}
+/* White icons with optional class, or on hover/focus/active states of certain elements */
+.icon-white,
+.nav-pills > .active > a > [class^="icon-"],
+.nav-pills > .active > a > [class*=" icon-"],
+.nav-list > .active > a > [class^="icon-"],
+.nav-list > .active > a > [class*=" icon-"],
+.navbar-inverse .nav > .active > a > [class^="icon-"],
+.navbar-inverse .nav > .active > a > [class*=" icon-"],
+.dropdown-menu > li > a:hover > [class^="icon-"],
+.dropdown-menu > li > a:focus > [class^="icon-"],
+.dropdown-menu > li > a:hover > [class*=" icon-"],
+.dropdown-menu > li > a:focus > [class*=" icon-"],
+.dropdown-menu > .active > a > [class^="icon-"],
+.dropdown-menu > .active > a > [class*=" icon-"],
+.dropdown-submenu:hover > a > [class^="icon-"],
+.dropdown-submenu:focus > a > [class^="icon-"],
+.dropdown-submenu:hover > a > [class*=" icon-"],
+.dropdown-submenu:focus > a > [class*=" icon-"] {
+  background-image: url("../img/glyphicons-halflings-white.png");
+}
+.icon-glass {
+  background-position: 0      0;
+}
+.icon-music {
+  background-position: -24px 0;
+}
+.icon-search {
+  background-position: -48px 0;
+}
+.icon-envelope {
+  background-position: -72px 0;
+}
+.icon-heart {
+  background-position: -96px 0;
+}
+.icon-star {
+  background-position: -120px 0;
+}
+.icon-star-empty {
+  background-position: -144px 0;
+}
+.icon-user {
+  background-position: -168px 0;
+}
+.icon-film {
+  background-position: -192px 0;
+}
+.i

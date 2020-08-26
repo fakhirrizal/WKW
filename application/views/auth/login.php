@@ -64,8 +64,8 @@ License: You must have a valid license purchased only from themeforest(the above
                 <?= $this->session->flashdata('error') ?>
                 <p id="getLocation"></p>
                 <div class="form-title">
-                    <span class="form-title">Welcome.</span>
-                    <span class="form-subtitle">Please log in to use the system.</span>
+                    <span class="form-title">Selamat Datang.</span>
+                    <!-- <span class="form-subtitle">Please log in to use the system.</span> -->
                 </div>
                 <div class="alert alert-danger display-hide">
                     <button class="close" data-close="alert"></button>
@@ -73,23 +73,23 @@ License: You must have a valid license purchased only from themeforest(the above
 
                 </div>
                 <div class="form-group">
-                    <label class="control-label visible-ie8 visible-ie9">Username</label>
-                    <input class="form-control form-control-solid placeholder-no-fix" type="text" autocomplete="off" placeholder="Username" name="username" /> </div>
+                    <label class="control-label visible-ie8 visible-ie9">Nama Pengguna</label>
+                    <input class="form-control form-control-solid placeholder-no-fix" type="text" autocomplete="off" placeholder="Nama Pengguna" name="username" /> </div>
                 <div class="form-group">
-                    <label class="control-label visible-ie8 visible-ie9">Password</label>
-                    <input class="form-control form-control-solid placeholder-no-fix" type="password" autocomplete="off" placeholder="Password" name="password" /> </div>
+                    <label class="control-label visible-ie8 visible-ie9">Kata Sandi</label>
+                    <input class="form-control form-control-solid placeholder-no-fix" type="password" autocomplete="off" placeholder="Kata Sandi" name="password" /> </div>
                 <div class="form-actions">
-                    <button type="submit" class="btn red btn-block uppercase">Login</button>
+                    <button type="submit" class="btn red btn-block uppercase">Masuk</button>
                 </div>
                 <div class="form-actions">
                     <div class="pull-left">
                         <label class="rememberme mt-checkbox mt-checkbox-outline">
-                            <input type="checkbox" name="remember" value="1" /> Remember me
+                            <input type="checkbox" name="remember" value="1" /> Ingat saya
                             <span></span>
                         </label>
                     </div>
                     <div class="pull-right forget-password-block">
-                        <a href="javascript:;" id="forget-password" class="forget-password">Forgot Password?</a>
+                        <a href="javascript:;" id="forget-password" class="forget-password">Lupa kata sandi?</a>
                     </div>
                 </div>
             </form>
@@ -110,14 +110,14 @@ License: You must have a valid license purchased only from themeforest(the above
             <!-- BEGIN FORGOT PASSWORD FORM -->
             <form class="forget-form" action="#" method="post">
                 <div class="form-title">
-                    <span class="form-title">Forget Password ?</span>
-                    <span class="form-subtitle">Enter your e-mail to reset it.</span>
+                    <span class="form-title">Lupa kata sandi?</span>
+                    <span class="form-subtitle">Masukkan email Anda.</span>
                 </div>
                 <div class="form-group">
-                    <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Email" name="email" /> </div>
+                    <input class="form-control placeholder-no-fix" type="email" autocomplete="off" placeholder="Email" name="email" /> </div>
                 <div class="form-actions">
-                    <button type="button" id="back-btn" class="btn btn-default">Back</button>
-                    <button type="submit" class="btn btn-primary uppercase pull-right">Submit</button>
+                    <button type="button" id="back-btn" class="btn btn-default">Kembali</button>
+                    <button type="submit" class="btn btn-primary uppercase pull-right">Proses</button>
                 </div>
             </form>
             <!-- END FORGOT PASSWORD FORM -->

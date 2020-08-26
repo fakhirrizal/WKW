@@ -1,59 +1,159 @@
-<!doctype html>
-<title>CodeMirror: Erlang mode</title>
-<meta charset="utf-8" />
-<link rel=stylesheet href="../../doc/docs.css">
-<link rel="stylesheet" href="../../lib/codemirror.css">
-<link rel="stylesheet" href="../../theme/erlang-dark.css">
-<script src="../../lib/codemirror.js"></script>
-<script src="../../addon/edit/matchbrackets.js"></script>
-<script src="erlang.js"></script>
-<style type="text/css">
-    .CodeMirror {
-        border-top: 1px solid black;
-        border-bottom: 1px solid black;
-    }
-</style>
-<div id=nav>
-    <a href="http://codemirror.net">
-        <h1>CodeMirror</h1>
-        <img id=logo src="../../doc/logo.png">
-    </a>
-    <ul>
-        <li>
-            <a href="../../index.html">Home</a>
-            <li>
-                <a href="../../doc/manual.html">Manual</a>
-                <li>
-                    <a href="https://github.com/codemirror/codemirror">Code</a>
-    </ul>
-    <ul>
-        <li>
-            <a href="../index.html">Language modes</a>
-            <li>
-                <a class=active href="#">Erlang</a>
-    </ul>
-</div>
-<article>
-    <h2>Erlang mode</h2>
-    <form>
-        <textarea id="code" name="code"> %% -*- mode: erlang; erlang-indent-level: 2 -*- %%% Created : 7 May 2012 by mats cronqvist
-            <masse@klarna.com> %% @doc %% Demonstrates how to print a record. %% @end -module('ex'). -author('mats cronqvist'). -export([demo/0, rec_info/1]). -record(demo,{a="One",b="Two",c="Three",d="Four"}). rec_info(demo) -> record_info(fields,demo). demo() -> expand_recs(?MODULE,#demo{a="A",b="BB"}).
-                expand_recs(M,List) when is_list(List) -> [expand_recs(M,L)||L
-                <-List]; expand_recs(M,Tup) when is_tuple(Tup) -> case tuple_size(Tup) of L when L
-                    < 1 -> Tup; L -> try Fields = M:rec_info(element(1,Tup)), L = length(Fields)+1, lists:zip(Fields,expand_recs(M,tl(tuple_to_list(Tup)))) catch _:_ -> list_to_tuple(expand_recs(M,tuple_to_list(Tup))) end end; expand_recs(_,Term) -> Term. </textarea>
-    </form>
-    <script>
-        var editor = CodeMirror.fromTextArea(document.getElementById("code"),
-        {
-            lineNumbers: true,
-            matchBrackets: true,
-            extraKeys:
-            {
-                "Tab": "indentAuto"
-            },
-            theme: "erlang-dark"
-        });
-    </script>
-    <p>
-        <strong>MIME types defined:</strong> <code>text/x-erlang</code>.</p>
-</article>
+/* Owl Carousel Bootstrap Custom CSS */
+
+/* Header Navigation */
+#top-nav{
+	border-bottom: 1px solid #e1e6dd;
+	background: #FFF;
+	-webkit-transform: translateZ(0)
+
+}
+#top-nav.navbar{
+	margin-bottom: 0px;
+
+}
+#top-nav.navbar .nav{
+	margin: 8px 0px;
+}
+	
+#top-nav.navbar .nav > li > a {
+	padding: 6px 12px;
+	margin: 0px;
+	text-transform: uppercase;
+	font-weight: 400;
+
+	-webkit-transition: background-color 200ms ease;
+	-moz-transition: background-color 200ms ease;
+	-o-transition: background-color 200ms ease;
+	transition: background-color 200ms ease;
+}
+#top-nav.navbar .nav > li > a.download{
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+#top-nav.navbar .nav > li > a.download-on{
+	background-color: #ff8a3c;
+	color: #ffffff;
+}
+#top-nav.navbar .nav > li > a.download-on:hover{
+	color: #ffffff;
+	background-color: #ff7920;
+}
+.btn-navbar span.icon-bar{
+	margin-top: 0px;
+}
+
+/* Header  */
+
+#header{
+	background: #f1f1f1;
+	padding: 100px 0 100px;
+}
+#header h1{
+	color: #7fc242;
+	margin-bottom: 10px;
+	margin-top: 40px;
+}
+#header h3{
+	margin-bottom: 30px;
+	width: 400px;
+}
+#header .btn-success {
+	padding: 15px 30px;
+	margin-bottom: 5px;
+}
+#header .logo{
+	display: block;
+	margin-top:60px;
+	float: right
+}
+img.arrow-down{
+	margin: 0 auto;
+	display: block;
+}
+h1{
+	margin-top: 80px;
+}
+
+pre.pre-show{
+	margin: 40px 0px;
+
+}
+.tab-content pre.pre-show{
+	margin: 0px 0px 0px 0px;
+}
+.nav-tabs{
+	margin-top: 20px;
+	margin-bottom: 0px;
+	
+}
+.tab-content{
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+	-webkit-border-radius: 0px 0px 4px 4px;
+	-moz-border-radius: 0px 0px 4px 4px;
+	border-radius: 0px 0px 4px 4px;
+	
+}
+/* Content */
+.table th, .table td {
+padding: 8px 12px;
+}
+
+/* Footer */
+
+#footer{
+	padding: 20px 0px;
+	background: #f3f3f3;
+	text-align: center
+}
+.twitter-share-button{
+	top: 4px;
+	position: relative;
+}
+
+/* Demo Slides */
+
+#owl-example .item{
+	padding: 30px 0px;
+	margin: 10px;
+	color: #FFF;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	text-align: center;
+}
+#owl-example .item img{
+	width: auto;
+	margin: 0 auto;
+	display: block;
+}
+#owl-example .item h3{
+	font-size: 28px;
+	font-weight: 300;
+	margin: 25px 0 0;
+}
+#owl-example .item h4{
+	margin: 5px 0 0;
+	font-size: 18px;
+}
+.item h1{
+	margin: inherit;
+}
+
+.orange{
+	background: #ff8a3c;
+}
+.darkCyan{
+	background: #42bdc2;
+}
+.forestGreen{
+	background: #7fc242;
+}
+.yellow {
+	background: #ffd800;
+}
+.dodgerBlue {
+	backgr
