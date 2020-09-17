@@ -1,5 +1,4 @@
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-<!-- <script src="<?=base_url('assets/pages/scripts/components-editors.min.js');?>" type="text/javascript"></script> -->
 <ul class="page-breadcrumb breadcrumb">
 	<li>
 		<span>Master</span>

@@ -7,8 +7,7 @@ require APPPATH . 'libraries/Format.php';
 
 class Surat_pengantar_sim extends REST_Controller {
 
-	function __construct()
-	{
+	function __construct(){
 		parent::__construct();
 
 		$this->methods['users_get']['limit'] = 500; // 500 requests per hour per user/key

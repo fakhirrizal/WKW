@@ -6,8 +6,7 @@ class Map extends CI_Controller {
 		parent::__construct();
 	}
 	/* Provinsi */
-	public function province()
-	{
+	public function province(){
 		$data['parent'] = 'master';
 		$data['child'] = 'map';
 		$data['grand_child'] = 'province';
@@ -65,8 +64,7 @@ class Map extends CI_Controller {
 			"aaData"=>$data_tampil);
 		echo json_encode($results);
 	}
-	public function add_province()
-	{
+	public function add_province(){
 		$data['parent'] = 'master';
 		$data['child'] = 'map';
 		$data['grand_child'] = 'province';
@@ -117,8 +115,7 @@ class Map extends CI_Controller {
 			echo "<script>window.location='".base_url()."admin_side/data_provinsi/'</script>";
 		}
 	}
-	public function edit_province()
-	{
+	public function edit_province(){
 		$data['parent'] = 'master';
 		$data['child'] = 'map';
 		$data['grand_child'] = 'province';
@@ -189,8 +186,7 @@ class Map extends CI_Controller {
 		}
 	}
 	/* Kabupaten/ Kota */
-	public function city()
-	{
+	public function city(){
 		$data['parent'] = 'master';
 		$data['child'] = 'map';
 		$data['grand_child'] = 'city';
@@ -243,8 +239,7 @@ class Map extends CI_Controller {
 			"aaData"=>$data_tampil);
 		echo json_encode($results);
 	}
-	public function add_city()
-	{
+	public function add_city(){
 		$data['parent'] = 'master';
 		$data['child'] = 'map';
 		$data['grand_child'] = 'city';
@@ -296,8 +291,7 @@ class Map extends CI_Controller {
 			echo "<script>window.location='".base_url()."admin_side/data_kabkot/'</script>";
 		}
 	}
-	public function edit_city()
-	{
+	public function edit_city(){
 		$data['parent'] = 'master';
 		$data['child'] = 'map';
 		$data['grand_child'] = 'city';
@@ -369,8 +363,7 @@ class Map extends CI_Controller {
 		}
 	}
 	/* Kecamatan */
-	public function sub_district()
-	{
+	public function sub_district(){
 		$data['parent'] = 'master';
 		$data['child'] = 'map';
 		$data['grand_child'] = 'sub_district';
@@ -441,8 +434,7 @@ class Map extends CI_Controller {
 			"aaData"=>$data_tampil);
 		echo json_encode($results);
 	}
-	public function add_sub_district()
-	{
+	public function add_sub_district(){
 		$data['parent'] = 'master';
 		$data['child'] = 'map';
 		$data['grand_child'] = 'sub_district';
@@ -495,8 +487,7 @@ class Map extends CI_Controller {
 			echo "<script>window.location='".base_url()."admin_side/data_kecamatan/'</script>";
 		}
 	}
-	public function edit_sub_district()
-	{
+	public function edit_sub_district(){
 		$data['parent'] = 'master';
 		$data['child'] = 'map';
 		$data['grand_child'] = 'sub_district';
@@ -573,8 +564,7 @@ class Map extends CI_Controller {
 		}
 	}
 	/* Kelurahan */
-	public function village()
-	{
+	public function village(){
 		$data['parent'] = 'master';
 		$data['child'] = 'map';
 		$data['grand_child'] = 'village';
@@ -618,8 +608,7 @@ class Map extends CI_Controller {
 		$this->datatables->add_column('action', $action, 'md5(id_desa)');
 		echo $this->datatables->generate();
 	}
-	public function add_village()
-	{
+	public function add_village(){
 		$data['parent'] = 'master';
 		$data['child'] = 'map';
 		$data['grand_child'] = 'village';
@@ -659,8 +648,7 @@ class Map extends CI_Controller {
 			echo "<script>window.location='".base_url()."admin_side/data_kelurahan/'</script>";
 		}
 	}
-	public function edit_village()
-	{
+	public function edit_village(){
 		$data['parent'] = 'master';
 		$data['child'] = 'map';
 		$data['grand_child'] = 'village';

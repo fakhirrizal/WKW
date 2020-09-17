@@ -6,8 +6,7 @@ class Master extends CI_Controller {
 		parent::__construct();
 	}
 	/* Administrator */
-	public function administrator_data()
-	{
+	public function administrator_data(){
 		$data['parent'] = 'master';
 		$data['child'] = 'administrator';
 		$data['grand_child'] = '';
@@ -76,8 +75,7 @@ class Master extends CI_Controller {
 			"aaData"=>$data_tampil);
 		echo json_encode($results);
 	}
-	public function add_administrator_data()
-	{
+	public function add_administrator_data(){
 		$data['parent'] = 'master';
 		$data['child'] = 'administrator';
 		$data['grand_child'] = '';
@@ -133,8 +131,7 @@ class Master extends CI_Controller {
 		}
 		
 	}
-	public function detail_administrator_data()
-	{
+	public function detail_administrator_data(){
 		$data['parent'] = 'master';
 		$data['child'] = 'administrator';
 		$data['grand_child'] = '';
@@ -145,8 +142,7 @@ class Master extends CI_Controller {
 		$this->load->view('admin/master/detail_administrator_data',$data);
 		$this->load->view('admin/template/footer');
 	}
-	public function edit_administrator_data()
-	{
+	public function edit_administrator_data(){
 		$data['parent'] = 'master';
 		$data['child'] = 'administrator';
 		$data['grand_child'] = '';
@@ -256,8 +252,7 @@ class Master extends CI_Controller {
 		}
 	}
 	/* Member */
-	public function member_data()
-	{
+	public function member_data(){
 		$data['parent'] = 'master';
 		$data['child'] = 'pengguna';
 		$data['grand_child'] = '';
@@ -325,8 +320,7 @@ class Master extends CI_Controller {
 			"aaData"=>$data_tampil);
 		echo json_encode($results);
 	}
-	public function add_member_data()
-	{
+	public function add_member_data(){
 		$data['parent'] = 'master';
 		$data['child'] = 'pengguna';
 		$data['grand_child'] = '';
@@ -385,8 +379,7 @@ class Master extends CI_Controller {
 		}
 		
 	}
-	public function edit_member_data()
-	{
+	public function edit_member_data(){
 		$data['parent'] = 'master';
 		$data['child'] = 'pengguna';
 		$data['grand_child'] = '';
@@ -1068,8 +1061,7 @@ class Master extends CI_Controller {
         $this->load->view('admin/master/detail_apbdesa',$data);
         $this->load->view('admin/template/footer');
 	}
-	public function detail_anggaran()
-	{
+	public function detail_anggaran(){
 		$data['parent'] = 'tentang_desa';
         $data['child'] = 'apbdesa';
 		$data['grand_child'] = '';
@@ -1435,8 +1427,7 @@ class Master extends CI_Controller {
 			echo "<script>window.location='".base_url()."admin_side/ppid/'</script>";
 		}
 	}
-	public function ubah_ppid()
-	{
+	public function ubah_ppid(){
 		$data['parent'] = 'tentang_desa';
         $data['child'] = 'ppid';
 		$data['grand_child'] = '';
@@ -1546,8 +1537,7 @@ class Master extends CI_Controller {
 			"aaData"=>$data_tampil);
 		echo json_encode($results);
 	}
-	public function detail_lembaga_desa()
-	{
+	public function detail_lembaga_desa(){
 		$data['parent'] = 'tentang_desa';
         $data['child'] = 'lembaga_desa';
 		$data['grand_child'] = '';

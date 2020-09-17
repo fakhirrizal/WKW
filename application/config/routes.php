@@ -53,6 +53,84 @@ $route['default_controller'] = 'Auth/login';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = TRUE;
 
+/* Desktop */
+$route['desktop'] = 'desktop/App';
+$route['beranda'] = 'desktop/App/home';
+$route['log_aktifitas'] = 'desktop/App/log_activity';
+$route['tentang_aplikasi'] = 'desktop/App/about';
+$route['bantuan'] = 'desktop/App/helper';
+
+$route['berita'] = 'desktop/Master/berita';
+$route['detail_berita/(:any)'] = 'desktop/Master/detail_berita/$1';
+$route['perbarui_berita'] = 'desktop/Master/perbarui_berita';
+$route['hapus_berita/(:any)'] = 'desktop/Master/hapus_berita/$1';
+
+$route['potensi_desa'] = 'desktop/Master/potensi_desa';
+$route['tambah_potensi_desa'] = 'desktop/Master/tambah_potensi_desa';
+$route['simpan_potensi_desa'] = 'desktop/Master/simpan_potensi_desa';
+$route['detail_potensi_desa/(:any)'] = 'desktop/Master/detail_potensi_desa/$1';
+$route['perbarui_potensi_desa'] = 'desktop/Master/perbarui_potensi_desa';
+$route['hapus_potensi_desa/(:any)'] = 'desktop/Master/hapus_potensi_desa/$1';
+
+$route['apbdesa'] = 'desktop/Master/apbdesa_desa';
+$route['detail_apbdesa/(:any)'] = 'desktop/Master/detail_apbdesa/$1';
+$route['detail_anggaran/(:any)'] = 'desktop/Master/detail_anggaran/$1';
+$route['simpan_data_rincian_apbdesa'] = 'desktop/Master/simpan_data_rincian_apbdesa';
+$route['perbarui_data_rincian_apbdesa'] = 'desktop/Master/perbarui_data_rincian_apbdesa';
+$route['simpan_detail_anggaran'] = 'desktop/Master/simpan_detail_anggaran';
+$route['perbarui_data_sub_output'] = 'desktop/Master/perbarui_data_sub_output';
+$route['perbarui_data_output'] = 'desktop/Master/perbarui_data_output';
+$route['hapus_item_apbdesa/(:any)'] = 'desktop/Master/hapus_item_apbdesa/$1';
+$route['hapus_sub_output/(:any)'] = 'desktop/Master/hapus_sub_output/$1';
+$route['hapus_output/(:any)'] = 'desktop/Master/hapus_output/$1';
+
+$route['ppid'] = 'desktop/Master/ppid';
+$route['tambah_ppid'] = 'desktop/Master/tambah_ppid';
+$route['simpan_ppid'] = 'desktop/Master/simpan_ppid';
+$route['ubah_ppid/(:any)'] = 'desktop/Master/ubah_ppid/$1';
+$route['perbarui_ppid'] = 'desktop/Master/perbarui_ppid';
+$route['hapus_ppid/(:any)'] = 'desktop/Master/hapus_ppid/$1';
+
+$route['lembaga_desa'] = 'desktop/Master/lembaga_desa';
+$route['detail_lembaga_desa/(:any)'] = 'desktop/Master/detail_lembaga_desa/$1';
+$route['perbarui_data_lembaga_desa'] = 'desktop/Master/perbarui_data_lembaga_desa';
+$route['simpan_data_anggota_lembaga_desa'] = 'desktop/Master/simpan_data_anggota_lembaga_desa';
+$route['perbarui_data_anggota_lembaga_desa'] = 'desktop/Master/perbarui_data_anggota_lembaga_desa';
+$route['hapus_data_anggota_lembaga_desa/(:any)'] = 'desktop/Master/hapus_data_anggota_lembaga_desa/$1';
+
+$route['data_kependudukan'] = 'desktop/Master/kependudukan';
+$route['simpan_data_rincian_kependudukan'] = 'desktop/Master/simpan_data_rincian_kependudukan';
+$route['perbarui_rincian_data_kependudukan'] = 'desktop/Master/perbarui_rincian_data_kependudukan';
+$route['detail_kependudukan/(:any)/(:any)'] = 'desktop/Master/detail_kependudukan/$1/$2';
+$route['hapus_item_data_kependudukan/(:any)'] = 'desktop/Master/hapus_item_data_kependudukan/$1';
+
+$route['permohonan_ktp'] = 'desktop/Report/data_ktp';
+$route['ubah_pengajuan_ktp/(:any)'] = 'desktop/Report/ubah_pengajuan_ktp/$1';
+$route['perbarui_pengajuan_ktp'] = 'desktop/Report/perbarui_pengajuan_ktp';
+$route['permohonan_kk'] = 'desktop/Report/data_kk';
+$route['pengantar_domisili'] = 'desktop/Report/pengantar_domisili';
+$route['detail_surat_keterangan_domisili/(:any)'] = 'desktop/Report/detail_surat_keterangan_domisili/$1';
+$route['ubah_pengajuan_domisili/(:any)'] = 'desktop/Report/ubah_pengajuan_domisili/$1';
+$route['perbarui_pengajuan_domisili'] = 'desktop/Report/perbarui_pengajuan_domisili';
+$route['surat_keterangan_usaha'] = 'desktop/Report/surat_keterangan_usaha';
+$route['detail_surat_keterangan_usaha/(:any)'] = 'desktop/Report/detail_surat_keterangan_usaha/$1';
+$route['ubah_pengajuan_usaha/(:any)'] = 'desktop/Report/ubah_pengajuan_usaha/$1';
+$route['perbarui_pengajuan_usaha'] = 'desktop/Report/perbarui_pengajuan_usaha';
+$route['sktm'] = 'desktop/Report/sktm';
+$route['detail_sktm/(:any)/(:any)'] = 'desktop/Report/detail_sktm/$1/$2';
+$route['ubah_pengajuan_sktm_umum/(:any)'] = 'desktop/Report/ubah_pengajuan_sktm_umum/$1';
+$route['perbarui_pengajuan_sktm_umum'] = 'desktop/Report/perbarui_pengajuan_sktm_umum';
+$route['ubah_pengajuan_sktm_pendidikan/(:any)'] = 'desktop/Report/ubah_pengajuan_sktm_pendidikan/$1';
+$route['perbarui_pengajuan_sktm_pendidikan'] = 'desktop/Report/perbarui_pengajuan_sktm_pendidikan';
+$route['sim'] = 'desktop/Report/sim';
+$route['detail_pengajuan_sim/(:any)'] = 'desktop/Report/detail_pengajuan_sim/$1';
+$route['ubah_pengajuan_sim/(:any)'] = 'desktop/Report/ubah_pengajuan_sim/$1';
+$route['perbarui_pengajuan_sim'] = 'desktop/Report/perbarui_pengajuan_sim';
+$route['skck'] = 'desktop/Report/skck';
+$route['detail_pengajuan_skck/(:any)'] = 'desktop/Report/detail_pengajuan_skck/$1';
+$route['ubah_pengajuan_skck/(:any)'] = 'desktop/Report/ubah_pengajuan_skck/$1';
+$route['perbarui_pengajuan_skck'] = 'desktop/Report/perbarui_pengajuan_skck';
+
 /* Auth */
 $route['login'] = 'Auth/login';
 $route['login_process'] = 'Auth/login_process';
@@ -60,10 +138,8 @@ $route['registrasi'] = 'Auth/registration';
 $route['register_process'] = 'Auth/register_process';
 
 /* Admin */
-$route['admin_side/launcher'] = 'admin/App/launcher';
 $route['admin_side/beranda'] = 'admin/App/home';
-$route['admin_side/menu'] = 'admin/App/menu';
-$route['admin_side/log_activity'] = 'admin/App/log_activity';
+$route['admin_side/log_aktifitas'] = 'admin/App/log_activity';
 $route['admin_side/hapus_aktifitas/(:any)'] = 'admin/App/delete_activity/$1';
 $route['admin_side/cleaning_log'] = 'admin/App/cleaning_log';
 $route['admin_side/tentang_aplikasi'] = 'admin/App/about';
@@ -158,19 +234,6 @@ $route['admin_side/skck'] = 'admin/Report/skck';
 $route['admin_side/detail_pengajuan_skck/(:any)'] = 'admin/Report/detail_pengajuan_skck/$1';
 $route['admin_side/ubah_pengajuan_skck/(:any)'] = 'admin/Report/ubah_pengajuan_skck/$1';
 $route['admin_side/perbarui_pengajuan_skck'] = 'admin/Report/perbarui_pengajuan_skck';
-
-/* Mobile */
-$route['mobile_side/login'] = 'mobile/App/login';
-$route['mobile_side/login_process'] = 'mobile/App/login_process';
-$route['mobile_side/logout'] = 'mobile/App/logout';
-$route['mobile_side/beranda'] = 'mobile/App/home';
-$route['mobile_side/administrasi'] = 'mobile/App/administration';
-$route['mobile_side/kependudukan'] = 'mobile/App/population';
-$route['mobile_side/ekonomi'] = 'mobile/App/economy';
-$route['mobile_side/log_activity'] = 'mobile/App/log_activity';
-$route['mobile_side/cleaning_log'] = 'mobile/App/cleaning_log';
-$route['mobile_side/tentang_aplikasi'] = 'mobile/App/about';
-$route['mobile_side/bantuan'] = 'mobile/App/helper';
 
 /* REST API */
 $route['api'] = 'Rest_server/documentation';

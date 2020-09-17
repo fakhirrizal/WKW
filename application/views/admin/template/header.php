@@ -67,7 +67,7 @@ if(($this->session->userdata('id'))==NULL){
 							</li>
 							<li class="dropdown dropdown-user dropdown-dark">
 								<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-									<img alt="" class="img-circle" src="https://i-love-png.com/images/profile_png_1113533.png">
+									<img alt="" class="img-circle" src="<?=site_url('assets/logo.svg');?>">
 									<span class="username username-hide-mobile">Administrator</span>
 								</a>
 								<ul class="dropdown-menu dropdown-menu-default">
@@ -199,7 +199,7 @@ if(($this->session->userdata('id'))==NULL){
 								</ul>
 							</li>
 							<li class="menu-dropdown classic-menu-dropdown <?php if($parent=='log_activity'){echo 'active';}else{echo '';} ?>">
-								<a href="<?php echo site_url('admin_side/log_activity'); ?>"><i class="fa fa-rss"></i> Log Aktifitas
+								<a href="<?php echo site_url('admin_side/log_aktifitas'); ?>"><i class="fa fa-rss"></i> Log Aktifitas
 								</a>
 							</li>
 							<li class="menu-dropdown classic-menu-dropdown <?php if($parent=='about'){echo 'active';}else{echo '';} ?>">

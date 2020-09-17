@@ -6,13 +6,11 @@ class Dashboard extends CI_Controller {
 		parent::__construct();
 	}
 	/* Map */
-	public function main_map()
-	{
+	public function main_map(){
 		$data['data_marker'] = $this->Main_model->getSelectedData('provinsi a', 'a.*',array('a.wilayah'=>'2'))->result();
 		$this->load->view('user/dashboard/main_map',$data);
 	}
-	public function index()
-	{
+	public function index(){
 		$data['parent'] = 'dashboard';
 		$data['child'] = 'map';
 		$data['grand_child'] = '';
@@ -22,8 +20,7 @@ class Dashboard extends CI_Controller {
 		$this->load->view('admin/dashboard/main',$data);
 		$this->load->view('admin/template/footer');
 	}
-	public function province()
-	{
+	public function province(){
 		$data['parent'] = 'dashboard';
 		$data['child'] = 'map';
 		$data['grand_child'] = '';
@@ -43,8 +40,7 @@ class Dashboard extends CI_Controller {
 		$this->load->view('admin/dashboard/province',$data);
 		$this->load->view('admin/template/footer');
 	}
-	public function city()
-	{
+	public function city(){
 		$data['parent'] = 'dashboard';
 		$data['child'] = 'map';
 		$data['grand_child'] = '';
@@ -64,8 +60,7 @@ class Dashboard extends CI_Controller {
 		$this->load->view('admin/dashboard/city',$data);
 		$this->load->view('admin/template/footer');
 	}
-	public function sub_district()
-	{
+	public function sub_district(){
 		$data['parent'] = 'dashboard';
 		$data['child'] = 'map';
 		$data['grand_child'] = '';

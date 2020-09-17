@@ -9,11 +9,9 @@
 <div class="page-content-inner">
 	<div class="m-heading-1 border-yellow m-bordered" style="background-color:#FAD405;">
 		<h3>Catatan</h3>
-		<!-- <p> Hanya status <b>aktif</b> yang akan tampil di shop display pengguna</p> -->
 	</div>
 	<div class="row">
 		<div class="col-md-12">
-			<!-- BEGIN EXAMPLE TABLE PORTLET-->
 			<div class="portlet light ">
 				<div class="portlet-body">
 					<form action="#" method="post" onsubmit="return deleteConfirm();"/>
@@ -21,24 +19,15 @@
 						<div class="row">
 							<div class="col-md-6">
 								<div class="btn-group">
-									<!-- <button type='submit' id="sample_editable_1_new" class="btn sbold red"> Hapus
-										<i class="fa fa-trash"></i>
-									</button> -->
+									
 								</div>
-									<!-- <span class="separator">|</span> -->
-									<a href="<?=base_url('admin_side/cleaning_log');?>" class="btn red uppercase">Kosongkan Log <i class="fa fa-trash"></i> </a>
+								<a href="<?=base_url('admin_side/cleaning_log');?>" class="btn red uppercase">Kosongkan Log <i class="fa fa-trash"></i> </a>
 							</div>
 						</div>
 					</div>
 					<table class="table table-striped table-bordered table-hover table-checkable order-column" id="sample_1">
 						<thead>
 							<tr>
-								<th width="3%">
-									<label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-										<input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
-										<span></span>
-									</label>
-								</th>
 								<th style="text-align: center;" width="4%"> # </th>
 								<th style="text-align: center;"> Tipe Aktifitas </th>
 								<th style="text-align: center;"> Aktifitas </th>
@@ -54,12 +43,6 @@
 								$pecah_datetime = explode(' ',$value->activity_time);
 							?>
 							<tr class="odd gradeX">
-								<td style="text-align: center;">
-									<label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-										<input type="checkbox" class="checkboxes" name="selected_id[]" value="<?= $value->activity_id; ?>"/>
-										<span></span>
-									</label>
-								</td>
 								<td style="text-align: center;"><?= $no++.'.'; ?></td>
 								<td style="text-align: center;"><?= $value->activity_type; ?></td>
 								<td style="text-align: center;"><?= $value->activity_data; ?></td>

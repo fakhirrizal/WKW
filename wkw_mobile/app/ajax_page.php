@@ -1,9 +1,0 @@
-<?php
-if($_POST['modul']=='beranda'){
-    header("location:beranda.php");
-}elseif($_POST['modul']=='apbdesa'){
-    header("location:apbdesa.php");
-}elseif($_POST['modul']=='layanan'){
-    header("location:layanan.php");
-}
-?>

@@ -3,8 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Auth extends CI_Controller {
 
-	public function login()
-	{
+	public function login(){
 		if(($this->session->userdata('id'))==NULL){
 			$this->load->view('auth/login');
 		}else{
@@ -109,8 +108,7 @@ class Auth extends CI_Controller {
 			echo "<script>window.location='".base_url('login')."'</script>";
 		}
 	}
-	public function registration()
-	{
+	public function registration(){
 		if(($this->session->userdata('id'))==NULL){
 			$this->load->view('auth/register');
 		}else{
