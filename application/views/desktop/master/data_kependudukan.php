@@ -15,14 +15,11 @@
 <div class="page-content-inner">
 	<div class="m-heading-1 border-yellow m-bordered" style="background-color:#FAD405;">
 		<h3>Catatan</h3>
-		<p> 1. Jika akan menambahkan rincian data kependudukan silahkan masuk ke detail data terlebih dahulu.</p>
-		<!-- <p> 2. Data ekspor berupa file excel (<b>.xls</b>)</p> -->
 	</div>
 	<div class="row">
 		<div class="col-md-12">
 			<div class="portlet light ">
 				<div class="portlet-body">
-					<form action="#" method="post" onsubmit="return deleteConfirm();"/>
 					<table class="table table-striped table-bordered table-hover table-checkable order-column" id="tbl">
 						<thead>
 							<tr>
@@ -51,16 +48,6 @@
 							});
 
 						});
-					</script>
-					<script type="text/javascript">
-					function deleteConfirm(){
-						var result = confirm("Yakin akan menghapus data ini?");
-						if(result){
-							return true;
-						}else{
-							return false;
-						}
-					}
 					</script>
 				</div>
 			</div>

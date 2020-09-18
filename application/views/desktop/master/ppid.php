@@ -15,7 +15,6 @@
 <div class="page-content-inner">
 	<div class="m-heading-1 border-yellow m-bordered" style="background-color:#FAD405;">
 		<h3>Catatan</h3>
-        <p>1. <b>Laporan Tahunan PPID</b> tidak dapat dihapus, hanya bisa diubah filenya.</p>
 	</div>
 	<div class="row">
 		<div class="col-md-12">
@@ -26,7 +25,6 @@
 							<div class="col-md-8">
 								<div class="btn-group">
 								</div>
-									<a href="<?=base_url('tambah_ppid');?>" class="btn green uppercase">Tambah Data <i class="fa fa-plus"></i> </a>
 							</div>
 						</div>
 					</div>
@@ -37,7 +35,6 @@
 								<th style="text-align: center;"> Kategori </th>
 								<th style="text-align: center;"> Judul </th>
 								<th style="text-align: center;"> File </th>
-								<th style="text-align: center;" width="1%"> Aksi </th>
 							</tr>
 						</thead>
 					</table>
@@ -53,8 +50,7 @@
 											{ mData: 'no', sClass: "alignCenter" },
 											{ mData: 'judul', sClass: "alignCenter" } ,
 											{ mData: 'isi', sClass: "alignCenter" },
-											{ mData: 'file', sClass: "alignCenter" },
-											{ mData: 'action' }
+											{ mData: 'file', sClass: "alignCenter" }
 										],
 						        "drawCallback": function(data) {
 										$('a.detaildata').click(function(e){
@@ -62,7 +58,7 @@
 										var modul = 'modul_detail_file_ppid';
 										$.ajax({
 											type:"POST",
-											url: "<?php echo site_url(); ?>Master/ajax_function",
+											url: "<?php echo site_url(); ?>desktop/Master/ajax_function",
 											cache: false,
 											data: {id:id,modul:modul},
 											success:function(data){
