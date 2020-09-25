@@ -158,6 +158,12 @@
 												
 											</a>
 										</li>
+										<li class=" <?php if($child=='umkm'){echo 'active';}else{echo '';} ?>">
+											<a href="<?php echo site_url('umkm'); ?>" class="nav-link nav-toggle ">
+												<i class="icon-pin"></i> UMKM
+												
+											</a>
+										</li>
 									</ul>
 								</li>
 								<li class="menu-dropdown classic-menu-dropdown <?php if($parent=='log_activity'){echo 'active';}else{echo '';} ?>">

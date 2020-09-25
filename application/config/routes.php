@@ -91,6 +91,14 @@ $route['ubah_ppid/(:any)'] = 'desktop/Master/ubah_ppid/$1';
 $route['perbarui_ppid'] = 'desktop/Master/perbarui_ppid';
 $route['hapus_ppid/(:any)'] = 'desktop/Master/hapus_ppid/$1';
 
+$route['umkm'] = 'desktop/Master/umkm';
+$route['tambah_umkm'] = 'desktop/Master/tambah_umkm';
+$route['simpan_umkm'] = 'desktop/Master/simpan_umkm';
+$route['detail_umkm/(:any)'] = 'desktop/Master/detail_umkm/$1';
+$route['perbarui_umkm'] = 'desktop/Master/perbarui_umkm';
+$route['hapus_gambar_produk_umkm/(:any)'] = 'desktop/Master/hapus_gambar_produk_umkm/$1';
+$route['hapus_umkm/(:any)'] = 'desktop/Master/hapus_umkm/$1';
+
 $route['lembaga_desa'] = 'desktop/Master/lembaga_desa';
 $route['detail_lembaga_desa/(:any)'] = 'desktop/Master/detail_lembaga_desa/$1';
 $route['perbarui_data_lembaga_desa'] = 'desktop/Master/perbarui_data_lembaga_desa';
@@ -194,6 +202,14 @@ $route['admin_side/simpan_ppid'] = 'admin/Master/simpan_ppid';
 $route['admin_side/ubah_ppid/(:any)'] = 'admin/Master/ubah_ppid/$1';
 $route['admin_side/perbarui_ppid'] = 'admin/Master/perbarui_ppid';
 $route['admin_side/hapus_ppid/(:any)'] = 'admin/Master/hapus_ppid/$1';
+
+$route['admin_side/umkm'] = 'admin/Master/umkm';
+$route['admin_side/tambah_umkm'] = 'admin/Master/tambah_umkm';
+$route['admin_side/simpan_umkm'] = 'admin/Master/simpan_umkm';
+$route['admin_side/detail_umkm/(:any)'] = 'admin/Master/detail_umkm/$1';
+$route['admin_side/perbarui_umkm'] = 'admin/Master/perbarui_umkm';
+$route['admin_side/hapus_gambar_produk_umkm/(:any)'] = 'admin/Master/hapus_gambar_produk_umkm/$1';
+$route['admin_side/hapus_umkm/(:any)'] = 'admin/Master/hapus_umkm/$1';
 
 $route['admin_side/lembaga_desa'] = 'admin/Master/lembaga_desa';
 $route['admin_side/detail_lembaga_desa/(:any)'] = 'admin/Master/detail_lembaga_desa/$1';

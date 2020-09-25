@@ -21,8 +21,7 @@ require APPPATH . 'libraries/Format.php';
  */
 class Welcome extends REST_Controller {
 
-    function __construct()
-    {
+    function __construct(){
         // Construct the parent class
         parent::__construct();
 
@@ -33,8 +32,7 @@ class Welcome extends REST_Controller {
         $this->methods['users_delete']['limit'] = 50; // 50 requests per hour per user/key
     }
 
-    public function index_get()
-    {
+    public function index_get(){
         $users = [
             ['id' => 1, 'name' => 'John', 'email' => 'john@example.com', 'fact' => 'Loves coding'],
             ['id' => 2, 'name' => 'Jim', 'email' => 'jim@example.com', 'fact' => 'Developed on CodeIgniter'],
@@ -91,8 +89,7 @@ class Welcome extends REST_Controller {
         }
     }
 
-    public function index_post()
-    {
+    public function index_post(){
         // $message = [
         //     'id' => 100,
         //     'name' => $this->post('name'),
@@ -105,8 +102,7 @@ class Welcome extends REST_Controller {
         echo $this->post('username');
     }
 
-    public function index_delete()
-    {
+    public function index_delete(){
         $id = (int) $this->get('id');
 
         // Validate the id.

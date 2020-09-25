@@ -33,8 +33,7 @@ class Key extends REST_Controller {
      * @access public
      * @return void
      */
-    public function index_put()
-    {
+    public function index_put(){
         // Build a new key
         $key = $this->_generate_key();
 
@@ -65,8 +64,7 @@ class Key extends REST_Controller {
      * @access public
      * @return void
      */
-    public function index_delete()
-    {
+    public function index_delete(){
         $key = $this->delete('key');
 
         // Does this key exist?
@@ -95,8 +93,7 @@ class Key extends REST_Controller {
      * @access public
      * @return void
      */
-    public function level_post()
-    {
+    public function level_post(){
         $key = $this->post('key');
         $new_level = $this->post('level');
 
@@ -133,8 +130,7 @@ class Key extends REST_Controller {
      * @access public
      * @return void
      */
-    public function suspend_post()
-    {
+    public function suspend_post(){
         $key = $this->post('key');
 
         // Does this key exist?
@@ -170,8 +166,7 @@ class Key extends REST_Controller {
      * @access public
      * @return void
      */
-    public function regenerate_post()
-    {
+    public function regenerate_post(){
         $old_key = $this->post('key');
         $key_details = $this->_get_key($old_key);
 
@@ -210,8 +205,7 @@ class Key extends REST_Controller {
 
     /* Helper Methods */
 
-    private function _generate_key()
-    {
+    private function _generate_key(){
         do
         {
             // Generate a random salt
@@ -232,23 +226,20 @@ class Key extends REST_Controller {
 
     /* Private Data Methods */
 
-    private function _get_key($key)
-    {
+    private function _get_key($key){
         return $this->rest->db
             ->where(config_item('rest_key_column'), $key)
             ->get(config_item('rest_keys_table'))
             ->row();
     }
 
-    private function _key_exists($key)
-    {
+    private function _key_exists($key){
         return $this->rest->db
             ->where(config_item('rest_key_column'), $key)
             ->count_all_results(config_item('rest_keys_table')) > 0;
     }
 
-    private function _insert_key($key, $data)
-    {
+    private function _insert_key($key, $data){
         $data[config_item('rest_key_column')] = $key;
         $data['date_created'] = function_exists('now') ? now() : time();
 
@@ -257,15 +248,13 @@ class Key extends REST_Controller {
             ->insert(config_item('rest_keys_table'));
     }
 
-    private function _update_key($key, $data)
-    {
+    private function _update_key($key, $data){
         return $this->rest->db
             ->where(config_item('rest_key_column'), $key)
             ->update(config_item('rest_keys_table'), $data);
     }
 
-    private function _delete_key($key)
-    {
+    private function _delete_key($key){
         return $this->rest->db
             ->where(config_item('rest_key_column'), $key)
             ->delete(config_item('rest_keys_table'));

@@ -20,14 +20,13 @@ if(($this->session->userdata('id'))==NULL){
 		<meta content="width=device-width, initial-scale=1" name="viewport" />
 		<meta content="Warta Kalipucang Wetan" name="description" />
 		<meta content="Warta Kalipucang Wetan" name="author" />
-		<!-- BEGIN GLOBAL MANDATORY STYLES -->
+
 		<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
 		<link href="<?=base_url('assets_dashboard/global/plugins/font-awesome/css/font-awesome.min.css');?>" rel="stylesheet" type="text/css" />
 		<link href="<?=base_url('assets_dashboard/global/plugins/simple-line-icons/simple-line-icons.min.css');?>" rel="stylesheet" type="text/css" />
 		<link href="<?=base_url('assets_dashboard/global/plugins/bootstrap/css/bootstrap.min.css');?>" rel="stylesheet" type="text/css" />
 		<link href="<?=base_url('assets_dashboard/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css');?>" rel="stylesheet" type="text/css" />
-		<!-- END GLOBAL MANDATORY STYLES -->
-		<!-- BEGIN THEME GLOBAL STYLES -->
+
 		<link href="<?=base_url('assets_dashboard/global/plugins/datatables/datatables.min.css');?>" rel="stylesheet" type="text/css" />
 		<link href="<?=base_url('assets_dashboard/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css');?>" rel="stylesheet" type="text/css" />
 		<link href="<?=base_url('assets_dashboard/global/plugins/select2/css/select2.min.css');?>" rel="stylesheet" type="text/css" />
@@ -35,16 +34,13 @@ if(($this->session->userdata('id'))==NULL){
 		<link href="<?=base_url('assets_dashboard/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css');?>" rel="stylesheet" type="text/css" />
 		<link href="<?=base_url('assets_dashboard/global/plugins/cubeportfolio/css/cubeportfolio.css');?>" rel="stylesheet" type="text/css" />
 		<link href="<?=base_url('assets_dashboard/global/plugins/ladda/ladda-themeless.min.css');?>" rel="stylesheet" type="text/css" />
-		<!-- <link href="<?=base_url('assets_dashboard/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.css');?>" rel="stylesheet" type="text/css" /> -->
 		<link href="<?=base_url('assets_dashboard/global/css/components-md.min.css');?>" rel="stylesheet" id="style_components" type="text/css" />
 		<link href="<?=base_url('assets_dashboard/global/css/plugins-md.min.css');?>" rel="stylesheet" type="text/css" />
-		<!-- <link href="<?=base_url('assets_dashboard/pages/css/blog.min.css');?>" rel="stylesheet" type="text/css" /> -->
-		<!-- END THEME GLOBAL STYLES -->
-		<!-- BEGIN THEME LAYOUT STYLES -->
+
 		<link href="<?=base_url('assets_dashboard/layouts/layout3/css/layout.min.css');?>" rel="stylesheet" type="text/css" />
 		<link href="<?=base_url('assets_dashboard/layouts/layout3/css/themes/default.min.css');?>" rel="stylesheet" type="text/css" id="style_color" />
 		<link href="<?=base_url('assets_dashboard/layouts/layout3/css/custom.min.css');?>" rel="stylesheet" type="text/css" />
-		<!-- END THEME LAYOUT STYLES -->
+
 		<link href="<?=base_url('assets_dashboard/batang.png');?>" rel="icon" type="image/x-icon">
 	</head>
 
@@ -71,21 +67,12 @@ if(($this->session->userdata('id'))==NULL){
 									<span class="username username-hide-mobile">Administrator</span>
 								</a>
 								<ul class="dropdown-menu dropdown-menu-default">
-									<!-- <li>
-										<a href="#!">
-											<i class="icon-user"></i> Profil </a>
-									</li> -->
 									<li>
 										<a href="<?php echo site_url('admin_side/bantuan'); ?>">
 											<i class="icon-rocket"></i> Bantuan
-											<!-- <span class="badge badge-success"> 7 </span> -->
 										</a>
 									</li>
 									<li class="divider"> </li>
-									<!-- <li>
-										<a href="page_user_lock_1.html">
-											<i class="icon-lock"></i> Lock Screen </a>
-									</li> -->
 									<li>
 										<a href="<?php echo site_url('Auth/logout'); ?>">
 											<i class="icon-key"></i> Keluar </a>
@@ -181,19 +168,21 @@ if(($this->session->userdata('id'))==NULL){
 									<li class=" <?php if($child=='data_kependudukan'){echo 'active';}else{echo '';} ?>">
 										<a href="<?php echo site_url('admin_side/data_kependudukan'); ?>" class="nav-link nav-toggle ">
 											<i class="icon-pin"></i> Data Kependudukan
-											
 										</a>
 									</li>
 									<li class=" <?php if($child=='ppid'){echo 'active';}else{echo '';} ?>">
 										<a href="<?php echo site_url('admin_side/ppid'); ?>" class="nav-link nav-toggle ">
 											<i class="icon-pin"></i> PPID
-											
 										</a>
 									</li>
 									<li class=" <?php if($child=='lembaga_desa'){echo 'active';}else{echo '';} ?>">
 										<a href="<?php echo site_url('admin_side/lembaga_desa'); ?>" class="nav-link nav-toggle ">
 											<i class="icon-pin"></i> Lembaga Desa
-											
+										</a>
+									</li>
+									<li class=" <?php if($child=='umkm'){echo 'active';}else{echo '';} ?>">
+										<a href="<?php echo site_url('admin_side/umkm'); ?>" class="nav-link nav-toggle ">
+											<i class="icon-pin"></i> UMKM
 										</a>
 									</li>
 								</ul>
@@ -208,46 +197,27 @@ if(($this->session->userdata('id'))==NULL){
 							</li>
 						</ul>
 					</div>
-					<!-- END MEGA MENU -->
 				</div>
 			</div>
-			<!-- END HEADER MENU -->
 		</div>
-		<!-- END HEADER -->
-		<!-- BEGIN CONTAINER -->
 		<div class="page-container">
-			<!-- BEGIN CONTENT -->
 			<div class="page-content-wrapper">
-				<!-- BEGIN CONTENT BODY -->
-				<!-- BEGIN PAGE HEAD-->
 				<div class="page-head">
 					<div class="container">
-						<!-- BEGIN PAGE TITLE -->
 						<div class="page-title">
 							<h1>Dashboard
 								<small>Sistem Informasi</small>
 							</h1>
 						</div>
-						<!-- END PAGE TITLE -->
-						<!-- BEGIN PAGE TOOLBAR -->
 						<div class="page-toolbar">
-							<!-- BEGIN THEME PANEL -->
 							<div class="btn-group btn-theme-panel">
-								<!-- <a href="javascript:void(0)" title="Setting Informasi Aplikasi" class="btn dropdown-toggle" >
-									<i class="icon-settings"></i>
-								</a> -->
 								<script type="text/javascript">function startTime(){var today=new Date(),curr_hour=today.getHours(),curr_min=today.getMinutes(),curr_sec=today.getSeconds();curr_hour=checkTime(curr_hour);curr_min=checkTime(curr_min);curr_sec=checkTime(curr_sec);document.getElementById('clock').innerHTML=curr_hour+":"+curr_min+":"+curr_sec;}function checkTime(i){if(i<10){i="0"+i;}return i;}setInterval(startTime,500);</script>
 								<span class="tanggalwaktu">
 								<?= $this->Main_model->convert_hari(date('Y-m-d')).', '.$this->Main_model->convert_tanggal(date('Y-m-d')) ?>  -  Pukul  <span id="clock">13:53:45</span>
 								</span>
 							</div>
 						</div>
-						<!-- END PAGE TOOLBAR -->
 					</div>
 				</div>
-				<!-- END PAGE HEAD-->
-				<!-- BEGIN PAGE CONTENT BODY -->
 				<div class="page-content">
 					<div class="container">
-						<!-- BEGIN PAGE BREADCRUMBS -->
-<?php // }} ?>
