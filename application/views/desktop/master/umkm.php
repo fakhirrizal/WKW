@@ -26,7 +26,7 @@
 							<div class="col-md-8">
 								<div class="btn-group">
 								</div>
-								<!-- <a href="<?=base_url('admin_side/tambah_umkm');?>" class="btn green uppercase">Tambah Data <i class="fa fa-plus"></i> </a> -->
+								<!-- <a href="<?=base_url('tambah_umkm');?>" class="btn green uppercase">Tambah Data <i class="fa fa-plus"></i> </a> -->
 							</div>
 						</div>
 					</div>

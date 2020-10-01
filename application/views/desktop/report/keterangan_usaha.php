@@ -23,7 +23,7 @@
 					<div class="table-toolbar">
 						<div class="row">
 							<div class="col-md-8">
-								<!-- <a href="<?=base_url('admin_side/tambah_data_ktp');?>" class="btn green uppercase">Tambah Data <i class="fa fa-plus"></i> </a> -->
+								<!-- <a href="<?=base_url('tambah_data_ktp');?>" class="btn green uppercase">Tambah Data <i class="fa fa-plus"></i> </a> -->
 							</div>
 						</div>
 					</div>
@@ -46,7 +46,7 @@
 								"order": [[ 0, "asc" ]],
 								"bProcessing": true,
 								"ajax" : {
-									url:"<?= site_url('admin/Report/json_surat_keterangan_usaha'); ?>"
+									url:"<?= site_url('desktop/Report/json_surat_keterangan_usaha'); ?>"
 								},
 								"aoColumns": [
 											{ mData: 'no', sClass: "alignCenter" },

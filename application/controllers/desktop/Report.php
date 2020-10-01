@@ -117,14 +117,14 @@ class Report extends CI_Controller {
     /* Data KTP */
     public function data_ktp(){
         $data['parent'] = 'laporan_masyarakat';
-        $data['child'] = 'data_ktp';
+        $data['child'] = 'permohonan_ktp';
         $data['grand_child'] = '';
         $this->load->view('desktop/template/header',$data);
         $this->load->view('desktop/report/data_ktp',$data);
         $this->load->view('desktop/template/footer');
     }
     public function json_ktp(){
-		$get_data1 = $this->Main_model->getSelectedData('permohonan_ktp a', 'a.*')->result();
+		$get_data1 = $this->Main_model->getSelectedData('permohonan_ktp a', 'a.*', array('a.created_at'=>'2'))->result();
         $data_tampil = array();
         $no = 1;
 		foreach ($get_data1 as $key => $value) {
@@ -144,6 +144,42 @@ class Report extends CI_Controller {
 			"iTotalDisplayRecords" => count($data_tampil),
 			"aaData"=>$data_tampil);
 		echo json_encode($results);
+    }
+    public function tambah_permohonan_ktp(){
+        $data['parent'] = 'laporan_masyarakat';
+        $data['child'] = 'permohonan_ktp';
+        $data['grand_child'] = '';
+        $this->load->view('desktop/template/header',$data);
+        $this->load->view('desktop/report/tambah_permohonan_ktp',$data);
+        $this->load->view('desktop/template/footer');
+    }
+    public function simpan_permohonan_ktp(){
+        $this->db->trans_start();
+        $namafile = '';
+        $data_insert = array(
+            'nama' => $this->input->post('nama'),
+            'permohonan_ktp' => $this->input->post('tipe'),
+            'nik' => $this->input->post('nik'),
+            'kk' => $this->input->post('kk'),
+            'rt' => $this->input->post('rt'),
+            'rw' => $this->input->post('rw'),
+            'alamat' => $this->input->post('alamat'),
+            'kode_pos' => $this->input->post('pos'),
+            'file' => $namafile,
+            'created_by' => '2',
+            'created_at' => date('Y-m-d H:i:s')
+        );
+        $this->Main_model->insertData('permohonan_ktp',$data_insert);
+        // print_r($data_insert);
+        $this->db->trans_complete();
+        if($this->db->trans_status() === false){
+            $this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal disimpan.<br /></div>' );
+            echo "<script>window.location='".base_url()."permohonan_ktp/'</script>";
+        }
+        else{
+            $this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil disimpan.<br /></div>' );
+            echo "<script>window.location='".base_url()."permohonan_ktp/'</script>";
+        }
     }
     public function perbarui_data_antrean_ktp(){
         $this->db->trans_start();
@@ -196,7 +232,7 @@ class Report extends CI_Controller {
     }
     public function ubah_pengajuan_ktp(){
         $data['parent'] = 'laporan_masyarakat';
-        $data['child'] = 'data_ktp';
+        $data['child'] = 'permohonan_ktp';
         $data['grand_child'] = '';
         $data['data_utama'] = $this->Main_model->getSelectedData('permohonan_ktp a', 'a.*', array('md5(a.id_permohonan_ktp)'=>$this->uri->segment(2)))->row();
         $this->load->view('desktop/template/header',$data);
@@ -253,7 +289,7 @@ class Report extends CI_Controller {
         $this->load->view('desktop/template/footer');
     }
     public function json_domisili(){
-		$get_data = $this->Main_model->getSelectedData('surat_keterangan_domisili a', 'a.*')->result();
+		$get_data = $this->Main_model->getSelectedData('surat_keterangan_domisili a', 'a.*', array('a.created_at'=>'2'))->result();
         $data_tampil = array();
         $no = 1;
 		foreach ($get_data as $key => $value) {
@@ -349,7 +385,7 @@ class Report extends CI_Controller {
         $this->load->view('desktop/template/footer');
     }
     public function json_surat_keterangan_usaha(){
-		$get_data = $this->Main_model->getSelectedData('surat_keterangan_usaha a', 'a.*')->result();
+		$get_data = $this->Main_model->getSelectedData('surat_keterangan_usaha a', 'a.*', array('a.created_at'=>'2'))->result();
         $data_tampil = array();
         $no = 1;
 		foreach ($get_data as $key => $value) {
@@ -443,7 +479,7 @@ class Report extends CI_Controller {
         $this->load->view('desktop/template/footer');
     }
     public function json_sktm_umum(){
-		$get_data = $this->Main_model->getSelectedData('sktm a', 'a.*')->result();
+		$get_data = $this->Main_model->getSelectedData('sktm a', 'a.*', array('a.created_at'=>'2'))->result();
         $data_tampil = array();
         $no = 1;
 		foreach ($get_data as $key => $value) {
@@ -466,7 +502,7 @@ class Report extends CI_Controller {
 		echo json_encode($results);
     }
     public function json_sktm_pelajar(){
-		$get_data = $this->Main_model->getSelectedData('sktm_pendidikan a', 'a.*')->result();
+		$get_data = $this->Main_model->getSelectedData('sktm_pendidikan a', 'a.*', array('a.created_at'=>'2'))->result();
         $data_tampil = array();
         $no = 1;
 		foreach ($get_data as $key => $value) {
@@ -622,7 +658,7 @@ class Report extends CI_Controller {
         $this->load->view('desktop/template/footer');
     }
     public function json_sim(){
-		$get_data = $this->Main_model->getSelectedData('surat_pengantar_sim a', 'a.*')->result();
+		$get_data = $this->Main_model->getSelectedData('surat_pengantar_sim a', 'a.*', array('a.created_at'=>'2'))->result();
         $data_tampil = array();
         $no = 1;
 		foreach ($get_data as $key => $value) {
@@ -714,7 +750,7 @@ class Report extends CI_Controller {
         $this->load->view('desktop/template/footer');
     }
     public function json_skck(){
-		$get_data = $this->Main_model->getSelectedData('surat_pengantar_skck a', 'a.*')->result();
+		$get_data = $this->Main_model->getSelectedData('surat_pengantar_skck a', 'a.*', array('a.created_at'=>'2'))->result();
         $data_tampil = array();
         $no = 1;
 		foreach ($get_data as $key => $value) {
@@ -797,6 +833,21 @@ class Report extends CI_Controller {
         }
     }
     /* Other Function */
+    public function form_test(){
+        $data = array(
+            'baru' => 'X',
+            'perpanjangan' => '',
+            'penggantian' => '',
+            'nama' => 'X',
+            'alamat' => 'X',
+            'rt' => 'X',
+            'rw' => 'X',
+            'kode_pos' => 'X',
+            'nik' => 'X',
+            'kk' => 'X'
+        );
+        $this->load->view('admin/form_pdf/permohonan_ktp',$data);
+    }
 	public function ajax_function(){
 		if($this->input->post('modul')=='modul_ubah_data_status_antrean_ktp'){
             $get_data1 = $this->Main_model->getSelectedData('data_ktp a', 'a.*', array('md5(a.id_data_ktp)'=>$this->input->post('id')))->row();

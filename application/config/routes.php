@@ -113,27 +113,35 @@ $route['detail_kependudukan/(:any)/(:any)'] = 'desktop/Master/detail_kependuduka
 $route['hapus_item_data_kependudukan/(:any)'] = 'desktop/Master/hapus_item_data_kependudukan/$1';
 
 $route['permohonan_ktp'] = 'desktop/Report/data_ktp';
+$route['tambah_permohonan_ktp'] = 'desktop/Report/tambah_permohonan_ktp';
+$route['simpan_permohonan_ktp'] = 'desktop/Report/simpan_permohonan_ktp';
 $route['ubah_pengajuan_ktp/(:any)'] = 'desktop/Report/ubah_pengajuan_ktp/$1';
 $route['perbarui_pengajuan_ktp'] = 'desktop/Report/perbarui_pengajuan_ktp';
+
 $route['permohonan_kk'] = 'desktop/Report/data_kk';
+
 $route['pengantar_domisili'] = 'desktop/Report/pengantar_domisili';
 $route['detail_surat_keterangan_domisili/(:any)'] = 'desktop/Report/detail_surat_keterangan_domisili/$1';
 $route['ubah_pengajuan_domisili/(:any)'] = 'desktop/Report/ubah_pengajuan_domisili/$1';
 $route['perbarui_pengajuan_domisili'] = 'desktop/Report/perbarui_pengajuan_domisili';
+
 $route['surat_keterangan_usaha'] = 'desktop/Report/surat_keterangan_usaha';
 $route['detail_surat_keterangan_usaha/(:any)'] = 'desktop/Report/detail_surat_keterangan_usaha/$1';
 $route['ubah_pengajuan_usaha/(:any)'] = 'desktop/Report/ubah_pengajuan_usaha/$1';
 $route['perbarui_pengajuan_usaha'] = 'desktop/Report/perbarui_pengajuan_usaha';
+
 $route['sktm'] = 'desktop/Report/sktm';
 $route['detail_sktm/(:any)/(:any)'] = 'desktop/Report/detail_sktm/$1/$2';
 $route['ubah_pengajuan_sktm_umum/(:any)'] = 'desktop/Report/ubah_pengajuan_sktm_umum/$1';
 $route['perbarui_pengajuan_sktm_umum'] = 'desktop/Report/perbarui_pengajuan_sktm_umum';
 $route['ubah_pengajuan_sktm_pendidikan/(:any)'] = 'desktop/Report/ubah_pengajuan_sktm_pendidikan/$1';
 $route['perbarui_pengajuan_sktm_pendidikan'] = 'desktop/Report/perbarui_pengajuan_sktm_pendidikan';
+
 $route['sim'] = 'desktop/Report/sim';
 $route['detail_pengajuan_sim/(:any)'] = 'desktop/Report/detail_pengajuan_sim/$1';
 $route['ubah_pengajuan_sim/(:any)'] = 'desktop/Report/ubah_pengajuan_sim/$1';
 $route['perbarui_pengajuan_sim'] = 'desktop/Report/perbarui_pengajuan_sim';
+
 $route['skck'] = 'desktop/Report/skck';
 $route['detail_pengajuan_skck/(:any)'] = 'desktop/Report/detail_pengajuan_skck/$1';
 $route['ubah_pengajuan_skck/(:any)'] = 'desktop/Report/ubah_pengajuan_skck/$1';

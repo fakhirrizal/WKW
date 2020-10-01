@@ -4,7 +4,7 @@
 		<i class="fa fa-circle"></i>
 	</li>
 	<li>
-		<span><a href='<?= site_url('/admin_side/sktm'); ?>'>Pengajuan SKTM</a></span>
+		<span><a href='<?= site_url('/sktm'); ?>'>Pengajuan SKTM</a></span>
 		<i class="fa fa-circle"></i>
 	</li>
 	<li>
@@ -22,7 +22,7 @@
 		<div class="col-md-12">
 			<div class="portlet light ">
 				<div class="portlet-body">
-					<form role="form" class="form-horizontal" action="<?=base_url('admin_side/perbarui_pengajuan_sktm_umum');?>" method="post" enctype='multipart/form-data'>
+					<form role="form" class="form-horizontal" action="<?=base_url('perbarui_pengajuan_sktm_umum');?>" method="post" enctype='multipart/form-data'>
 						<input type="hidden" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>">
 						<input type="hidden" name="id" value="<?= md5($data_utama->id_sktm); ?>">
 						<input type="hidden" name="user" value="<?= md5($data_utama->created_by); ?>">

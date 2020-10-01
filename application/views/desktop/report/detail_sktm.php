@@ -7,7 +7,7 @@
 		<i class="fa fa-circle"></i>
 	</li>
 	<li>
-		<span><a href='<?= site_url('/admin_side/sktm'); ?>'>Pengajuan SKTM</a></span>
+		<span><a href='<?= site_url('/sktm'); ?>'>Pengajuan SKTM</a></span>
 		<i class="fa fa-circle"></i>
 	</li>
 	<li>
@@ -24,7 +24,7 @@
 		<div class="col-md-12">
 			<div class="portlet light ">
 				<div class="portlet-body">
-					<a href="<?php echo base_url()."admin_side/ubah_pengajuan_sktm_umum/".md5($data_utama->id_sktm); ?>" class="btn btn-success" role="button"><i class="icon-pencil"></i> Ubah Data</a><br><br>
+					<a href="<?php echo base_url()."ubah_pengajuan_sktm_umum/".md5($data_utama->id_sktm); ?>" class="btn btn-success" role="button"><i class="icon-pencil"></i> Ubah Data</a><br><br>
 					<div class='row'>
 						<div class="col-md-6">
 							<table class="table">
@@ -94,7 +94,7 @@
 							</table>
 						</div>
 						<div class="col-md-12" >
-						<hr><a href="<?php echo base_url()."admin_side/sktm"; ?>" class="btn btn-info" role="button"><i class="fa fa-angle-double-left"></i> Kembali</a></div>
+						<hr><a href="<?php echo base_url()."sktm"; ?>" class="btn btn-info" role="button"><i class="fa fa-angle-double-left"></i> Kembali</a></div>
 					</div>
 				</div>
 			</div>

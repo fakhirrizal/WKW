@@ -132,7 +132,7 @@
                         </div>
                         </div>
 						<div class="col-md-12" >
-						<hr><a href="<?php echo base_url()."admin_side/riwayat_pengajuan_kk"; ?>" class="btn btn-info" role="button"><i class="fa fa-angle-double-left"></i> Kembali</a></div>
+						<hr><a href="<?php echo base_url()."riwayat_pengajuan_kk"; ?>" class="btn btn-info" role="button"><i class="fa fa-angle-double-left"></i> Kembali</a></div>
                     </div>
                     
 				</div>
@@ -149,7 +149,7 @@
 			</div>
 			<div class="modal-body">
 				<div class="box box-primary">
-                    <form role="form" class="form-horizontal" action="<?=base_url('admin_side/perbarui_permohonan_kk');?>" method="post" enctype='multipart/form-data'>
+                    <form role="form" class="form-horizontal" action="<?=base_url('perbarui_permohonan_kk');?>" method="post" enctype='multipart/form-data'>
 						<input type="hidden" name="id" value="<?=$this->uri->segment(2);?>">
 						<div class="form-body">
                             <div class="form-group form-md-line-input has-danger">
