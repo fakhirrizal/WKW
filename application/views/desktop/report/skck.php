@@ -23,7 +23,7 @@
 					<div class="table-toolbar">
 						<div class="row">
 							<div class="col-md-8">
-								<!-- <a href="<?=base_url('tambah_data_ktp');?>" class="btn green uppercase">Tambah Data <i class="fa fa-plus"></i> </a> -->
+								<a href="<?=base_url('tambah_data_skck');?>" class="btn green uppercase">Tambah Data <i class="fa fa-plus"></i> </a>
 							</div>
 						</div>
 					</div>

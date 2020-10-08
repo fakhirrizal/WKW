@@ -98,8 +98,8 @@
 												<i class="icon-pin"></i> Permohonan KTP
 											</a>
 										</li>
-										<li class=" <?php if($child=='permohonan_kk'){echo 'active';}else{echo '';} ?>">
-											<a href="#" class="nav-link nav-toggle ">
+										<li class=" <?php if($child=='data_kk'){echo 'active';}else{echo '';} ?>">
+											<a href="<?php echo site_url('permohonan_kk'); ?>" class="nav-link nav-toggle ">
 												<i class="icon-pin"></i> Permohonan KK
 											</a>
 										</li>

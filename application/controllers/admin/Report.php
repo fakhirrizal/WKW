@@ -927,7 +927,7 @@ class Report extends CI_Controller {
         }
         elseif($this->input->post('modul')=='modul_file_permohonan_ktp'){
             $get_data = $this->Main_model->getSelectedData('permohonan_ktp a', 'a.*', array('md5(a.id_permohonan_ktp)'=>$this->input->post('id')))->row();
-            echo'<iframe height="600" width="1075" src="'.$get_data->file.'"></iframe>';
+            echo'<iframe height="600" width="100%" src="'.$get_data->file.'"></iframe>';
 		}
 	}
 }

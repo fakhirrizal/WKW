@@ -4,7 +4,7 @@
 		<i class="fa fa-circle"></i>
 	</li>
 	<li>
-		<span>Pengajuan Cetak KTP</span>
+		<span><a href='<?= site_url('/permohonan_ktp'); ?>'>Pengajuan Cetak KTP</a></span>
 		<i class="fa fa-circle"></i>
 	</li>
 	<li>
@@ -16,6 +16,7 @@
 <div class="page-content-inner">
 	<div class="m-heading-1 border-yellow m-bordered" style="background-color:#FAD405;">
 		<h3>Catatan</h3>
+		<p> 1. Kolom isian dengan tanda bintang (<font color='red'>*</font>) adalah wajib untuk di isi.</p>
 	</div>
 	<div class="row">
 		<div class="col-md-12">
@@ -98,7 +99,7 @@
                                 </div>
                                 <div class="col-md-4">
 									<div class="input-icon">
-										<input type="text" class="form-control" name="pos" placeholder="Kode Pos" required>
+										<input type="number" class="form-control" name="pos" placeholder="Kode Pos" minlength="5" maxlength="5" required>
 										<div class="form-control-focus"> </div>
 										<span class="help-block">Some help goes here...</span>
 										<i class="icon-pin"></i>

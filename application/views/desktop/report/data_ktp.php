@@ -68,7 +68,7 @@
 									var nilai_token = '<?php echo $this->security->get_csrf_hash();?>';
 									$.ajax({
 										type:"POST",
-										url: "<?php echo site_url(); ?>admin/Report/ajax_function",
+										url: "<?php echo site_url(); ?>desktop/Report/ajax_function",
 										cache: false,
 										data: {id:id,modul:modul,<?php echo $this->security->get_csrf_token_name();?>:nilai_token},
 										success:function(data){

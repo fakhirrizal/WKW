@@ -32,27 +32,57 @@ class Permohonan_ktp extends REST_Controller {
         }else{
             $this->db->trans_start();
 			$get_last = $this->Main_model->getLastID('permohonan_ktp','id_permohonan_ktp');
-
+			$baru = '';
+			$perpanjangan = '';
+			$penggantian = '';
+			if($this->post('permohonan_ktp')=='Baru'){
+				$baru = 'X';
+			}elseif($this->post('permohonan_ktp')=='Perpanjangan'){
+				$perpanjangan = 'X';
+			}elseif($this->post('permohonan_ktp')=='Penggantian'){
+				$penggantian = 'X';
+			}else{
+				echo'';
+			}
 			$data_insert = array(
 				'id_permohonan_ktp' => $get_last['id_permohonan_ktp']+1,
 				'nama' => $cek->nama,
 				'permohonan_ktp' => $this->post('permohonan_ktp'),
 				'kk' => $this->post('kk'),
+				'kode_pos' => $this->post('kode_pos'),
 				'nik' => $cek->nik,
 				'rt' => $cek->rt,
                 'rw' => $cek->rw,
+                'alamat' => $cek->alamat,
 				'file' => base_url().'data_upload/dokumen/'.($get_last['id_permohonan_ktp']+1).'_permohonan_ktp.pdf',
 				'created_by' => $this->post('user_id'),
 				'created_at' => date('Y-m-d H:i:s')
 			);
 			$this->Main_model->insertData('permohonan_ktp',$data_insert);
-            // print_r($data_insert);
+			// print_r($data_insert);
+			$data_insert_pdf = array(
+				'id_permohonan_ktp' => $get_last['id_permohonan_ktp']+1,
+				'nama' => $cek->nama,
+				'baru' => $baru,
+				'perpanjangan' => $perpanjangan,
+				'penggantian' => $penggantian,
+				'kk' => $this->post('kk'),
+				'nik' => $cek->nik,
+				'rt' => $cek->rt,
+                'rw' => $cek->rw,
+				'alamat' => $cek->alamat,
+				'kode_pos' => $this->post('kode_pos'),
+				'file' => base_url().'data_upload/dokumen/'.($get_last['id_permohonan_ktp']+1).'_permohonan_ktp.pdf',
+				'created_by' => $this->post('user_id'),
+				'created_at' => date('Y-m-d H:i:s')
+			);
+            // print_r($data_insert_pdf);
             // Composer Autoloader
             require FCPATH . 'vendor/autoload.php';
 
             require_once BASEPATH.'core/CodeIgniter.php';
             $mpdf = new \Mpdf\Mpdf();
-            $data = $this->load->view('admin/form_pdf/keterangan', $data_insert, TRUE);
+            $data = $this->load->view('admin/form_pdf/permohonan_ktp', $data_insert_pdf, TRUE);
             $mpdf->WriteHTML($data);
             if (ob_get_contents()) ob_end_clean();
             $pathh = 'data_upload/dokumen/'.($get_last['id_permohonan_ktp']+1).'_permohonan_ktp.pdf';
