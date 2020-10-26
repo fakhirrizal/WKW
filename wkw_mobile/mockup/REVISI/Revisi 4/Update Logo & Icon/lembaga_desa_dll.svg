@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 45 45">
+  <g id="Group_42" data-name="Group 42" transform="translate(-188 -592)">
+    <g id="Layer_x0020_1" transform="translate(188 592)">
+      <g id="_2855412008640">
+        <rect id="Rectangle_18" data-name="Rectangle 18" width="17.879" height="2.013" transform="translate(11.496 26.855)" fill="#219536"/>
+        <rect id="Rectangle_19" data-name="Rectangle 19" width="17.879" height="2.013" transform="translate(11.496 23.373)" fill="#219536"/>
+        <rect id="Rectangle_20" data-name="Rectangle 20" width="17.879" height="2.013" transform="translate(11.496 19.981)" fill="#219536"/>
+        <rect id="Rectangle_21" data-name="Rectangle 21" width="17.879" height="2.013" transform="translate(11.496 30.43)" fill="#219536"/>
+        <path id="Path_201" data-name="Path 201" d="M22.5,0A22.5,22.5,0,1,0,45,22.5,22.524,22.524,0,0,0,22.5,0Zm7.778,31.852v2.685A2.728,2.728,0,0,1,27.5,37.315H12.87a2.728,2.728,0,0,1-2.778-2.778V14.352a2.709,2.709,0,0,1,2.778-2.685H27.5a2.709,2.709,0,0,1,2.778,2.685v17.5ZM33.8,28.333v2.685A2.808,2.808,0,0,1,31.852,33.7V14.352A4.328,4.328,0,0,0,27.5,10.093H13.7A2.781,2.781,0,0,1,16.3,8.148H31.019A2.709,2.709,0,0,1,33.8,10.833v2.778h0Z" fill="#219536" fill-rule="evenodd"/>
+        <rect id="Rectangle_22" data-name="Rectangle 22" width="17.879" height="2.013" transform="translate(11.496 16.59)" fill="#219536"/>
+      </g>
+    </g>
+  </g>
+</svg>
