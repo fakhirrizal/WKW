@@ -1,2 +1,9 @@
 Penambahan Fitur UMKM
 dan user dapat terhubung langsung melalui kontak, lebih bagus jika itu masuk ke nomor WA nya,
+
+
+# Grid Menu Profil 
+  - Sejarah Desa
+  - Visi-misi
+  - dan seterusnya
+    dibuat padding seperti contoh jangan terlalu mepet tepi dan atas
