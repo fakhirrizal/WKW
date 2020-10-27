@@ -1,0 +1,2 @@
+Penambahan Fitur UMKM
+dan user dapat terhubung langsung melalui kontak, lebih bagus jika itu masuk ke nomor WA nya,
