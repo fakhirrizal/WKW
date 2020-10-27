@@ -1,0 +1,13 @@
+# Revisi
+  - Tanda panah back semua menu jika ada berwarna hitam
+  - Slide 1 : Akun 
+    -- Penambahan fitur Riwayat surat yang pernah dibuat dan ketika dibuka menampikan kolom isian yang dulu pernah diisi guna input ulang atau revisi surat
+  - Slide 2 : About
+    -- Keterangan PCOM 2020 dihapus, Logo WKW berubah
+
+# Fitur Baru
+  - Pemberitahuan
+    -- Warta / Berita baru muncul dalam daftar notifikasi sehingga terekap, untuk mencatat history pemberitahuan apa saja yang sudah dipush oleh desa
+       --- Ketika History Warta diklik maka akan diarahkan ke menu warta yang bersangkutan
+    -- Pemberitahuan Berupa Notifikasi, misal Jadwal Posyandu, ketika riwayat pemberitahuan di klik maka akan muncul MODAL seperti di beranda (Konten berupa gambar dan Text) koordinasi dengan rizal terkait menu ini.
+
