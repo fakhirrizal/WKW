@@ -41,6 +41,7 @@ class Surat_pengantar extends REST_Controller {
 				'nik' => $cek->nik,
 				'pekerjaan' => $this->post('pekerjaan'),
 				'agama' => $this->post('agama'),
+				'nomor_surat' => '',
 				'rt' => $cek->rt,
                 'rw' => $cek->rw,
                 'keperluan' => $this->post('keperluan'),

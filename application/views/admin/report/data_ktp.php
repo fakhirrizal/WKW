@@ -28,7 +28,6 @@
 					<div class="table-toolbar">
 						<div class="row">
 							<div class="col-md-8">
-								<!-- <a href="<?=base_url('admin_side/tambah_data_ktp');?>" class="btn green uppercase">Tambah Data <i class="fa fa-plus"></i> </a> -->
 							</div>
 						</div>
 					</div>
@@ -37,6 +36,7 @@
 							<tr>
 								<th style="text-align: center;" width="4%"> # </th>
 								<th style="text-align: center;"> Nama </th>
+								<th style="text-align: center;"> Nomor Surat </th>
 								<th style="text-align: center;"> Jenis Permohonan </th>
 								<th style="text-align: center;"> NIK </th>
 								<th style="text-align: center;"> RT/ RW </th>
@@ -56,6 +56,7 @@
 								"aoColumns": [
 											{ mData: 'no', sClass: "alignCenter" },
 											{ mData: 'nama', sClass: "alignCenter" } ,
+											{ mData: 'nomor_surat', sClass: "alignCenter" },
 											{ mData: 'jenis', sClass: "alignCenter" },
 											{ mData: 'nik', sClass: "alignCenter" },
 											{ mData: 'rtrw', sClass: "alignCenter" },

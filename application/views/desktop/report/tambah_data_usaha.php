@@ -55,17 +55,6 @@
                                 </div>
                             </div>
                             <div class="form-group form-md-line-input has-danger">
-								<label class="col-md-2 control-label" for="form_control_1">Kebangsaan <span class="required"> * </span></label>
-								<div class="col-md-10">
-									<div class="input-icon">
-										<input type="text" class="form-control" name="kebangsaan" placeholder="Kebangsaan" required>
-										<div class="form-control-focus"> </div>
-										<span class="help-block">Some help goes here...</span>
-										<i class="icon-pin"></i>
-									</div>
-								</div>
-                            </div>
-                            <div class="form-group form-md-line-input has-danger">
 								<label class="col-md-2 control-label" for="form_control_1">Pekerjaan <span class="required"> * </span></label>
 								<div class="col-md-10">
 									<div class="input-icon">
@@ -124,21 +113,21 @@
                                 </div>
                             </div>
                             <div class="form-group form-md-line-input has-danger">
-								<label class="col-md-2 control-label" for="form_control_1">Keperluan <span class="required"> * </span></label>
+								<label class="col-md-2 control-label" for="form_control_1">Nama Usaha <span class="required"> * </span></label>
 								<div class="col-md-10">
 									<div class="input-icon">
-										<input type="text" class="form-control" name="keperluan" placeholder="Keperluan" required>
+										<input type="text" class="form-control" name="nama_usaha" placeholder="Keterangan" required>
 										<div class="form-control-focus"> </div>
 										<span class="help-block">Some help goes here...</span>
 										<i class="icon-pin"></i>
 									</div>
                                 </div>
-                            </div>
-                            <div class="form-group form-md-line-input has-danger">
-								<label class="col-md-2 control-label" for="form_control_1">Keterangan </label>
+							</div>
+							<div class="form-group form-md-line-input has-danger">
+								<label class="col-md-2 control-label" for="form_control_1">Jenis Usaha <span class="required"> * </span></label>
 								<div class="col-md-10">
 									<div class="input-icon">
-										<input type="text" class="form-control" name="keterangan" placeholder="Keterangan" >
+										<input type="text" class="form-control" name="jenis_usaha" placeholder="Keterangan" required>
 										<div class="form-control-focus"> </div>
 										<span class="help-block">Some help goes here...</span>
 										<i class="icon-pin"></i>

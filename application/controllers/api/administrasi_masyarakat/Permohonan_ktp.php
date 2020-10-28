@@ -64,6 +64,7 @@ class Permohonan_ktp extends REST_Controller {
 				'id_permohonan_ktp' => $get_last['id_permohonan_ktp']+1,
 				'nama' => $cek->nama,
 				'baru' => $baru,
+				'nomor_surat' => '',
 				'perpanjangan' => $perpanjangan,
 				'penggantian' => $penggantian,
 				'kk' => $this->post('kk'),

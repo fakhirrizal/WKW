@@ -53,7 +53,7 @@
   </tr>
   <tr>
     <td width="100%" style="border-style: none; border-width: medium" align="center" height="1">
-    <p style="line-height: 150%"><font face="Arial">Nomor : 401/........ / II / 2020</font>
+    <p style="line-height: 150%"><font face="Arial">Nomor : <?= $nomor_surat; ?></font>
     </td>
   </tr>
   <tr>

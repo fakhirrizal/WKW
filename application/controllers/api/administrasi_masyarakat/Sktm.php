@@ -43,6 +43,7 @@ class Sktm extends REST_Controller {
 				'pekerjaan' => $this->post('pekerjaan'),
 				'agama' => $this->post('agama'),
 				'rt' => $cek->rt,
+				'nomor_surat' => '',
 				'rw' => $cek->rw,
 				'file' => base_url().'data_upload/dokumen/'.($get_last['id_sktm']+1).'_sktm.pdf',
 				'created_by' => $this->post('user_id'),

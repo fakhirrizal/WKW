@@ -67,6 +67,17 @@
 									</div>
 								</div>
 							</div>
+							<div class="form-group form-md-line-input has-danger">
+								<label class="col-md-2 control-label" for="form_control_1">Nomor Surat <span class="required"> * </span></label>
+								<div class="col-md-10">
+									<div class="input-icon">
+										<input type="text" class="form-control" name="nomor_surat" placeholder="Type something" value='<?= $data_utama->nomor_surat; ?>' required>
+										<div class="form-control-focus"> </div>
+										<span class="help-block">Some help goes here...</span>
+										<i class="icon-pin"></i>
+									</div>
+								</div>
+							</div>
                             <div class="form-group form-md-line-input has-danger">
 								<label class="col-md-2 control-label" for="form_control_1">NIK <span class="required"> * </span></label>
 								<div class="col-md-10">

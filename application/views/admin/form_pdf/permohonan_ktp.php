@@ -11,7 +11,7 @@
       <td width="76%">&nbsp;</td>
       <td width="24%" style="border-style: solid; border-width: 1" bordercolor="#000000">
         <p align="center">
-          <font face="Arial">F-05/DAFDUK/2003</font>
+          <font face="Arial"><?= $nomor_surat; ?></font>
       </td>
     </tr>
   </table>

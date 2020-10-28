@@ -44,6 +44,7 @@ class Surat_keterangan_usaha extends REST_Controller {
 				'rw' => $cek->rw,
 				'jenis_usaha' => $this->post('jenis_usaha'),
 				'nama_usaha' => $this->post('nama_usaha'),
+				'nomor_surat' => '',
 				'file' => base_url().'data_upload/dokumen/'.($get_last['id_surat_keterangan_usaha']+1).'_surat_keterangan_usaha.pdf',
 				'created_by' => $this->post('user_id'),
 				'created_at' => date('Y-m-d H:i:s')

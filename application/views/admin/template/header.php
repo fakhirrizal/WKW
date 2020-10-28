@@ -111,6 +111,11 @@ if(($this->session->userdata('id'))==NULL){
 											<i class="icon-pin"></i> Potensi Desa
 										</a>
 									</li>
+									<li class=" <?php if($child=='slider'){echo 'active';}else{echo '';} ?>">
+										<a href="<?php echo site_url('admin_side/slider'); ?>" class="nav-link nav-toggle ">
+											<i class="icon-pin"></i> Slider
+										</a>
+									</li>
 								</ul>
 							</li>
 							<li class="menu-dropdown classic-menu-dropdown <?php if($parent=='laporan_masyarakat'){echo 'active';}else{echo '';} ?>">
@@ -124,7 +129,7 @@ if(($this->session->userdata('id'))==NULL){
 										</a>
 									</li>
 									<li class=" <?php if($child=='permohonan_kk'){echo 'active';}else{echo '';} ?>">
-										<a href="#" class="nav-link nav-toggle ">
+										<a href="<?php echo site_url('admin_side/permohonan_kk'); ?>" class="nav-link nav-toggle ">
 											<i class="icon-pin"></i> Permohonan KK
 										</a>
 									</li>
@@ -183,6 +188,11 @@ if(($this->session->userdata('id'))==NULL){
 									<li class=" <?php if($child=='umkm'){echo 'active';}else{echo '';} ?>">
 										<a href="<?php echo site_url('admin_side/umkm'); ?>" class="nav-link nav-toggle ">
 											<i class="icon-pin"></i> UMKM
+										</a>
+									</li>
+									<li class=" <?php if($child=='pemberitahuan'){echo 'active';}else{echo '';} ?>">
+										<a href="<?php echo site_url('admin_side/pemberitahuan'); ?>" class="nav-link nav-toggle ">
+											<i class="icon-pin"></i> Pemberitahuan
 										</a>
 									</li>
 								</ul>
