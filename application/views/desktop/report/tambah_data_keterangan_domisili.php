@@ -4,7 +4,7 @@
 		<i class="fa fa-circle"></i>
 	</li>
 	<li>
-		<span>Pengajuan Surat Keterangan Domisili</span>
+		<span><a href='<?= site_url('/pengantar_domisili'); ?>'>Pengajuan Surat Keterangan Domisili</a></span>
 		<i class="fa fa-circle"></i>
 	</li>
 	<li>

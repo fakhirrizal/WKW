@@ -232,6 +232,20 @@ $route['admin_side/perbarui_umkm'] = 'admin/Master/perbarui_umkm';
 $route['admin_side/hapus_gambar_produk_umkm/(:any)'] = 'admin/Master/hapus_gambar_produk_umkm/$1';
 $route['admin_side/hapus_umkm/(:any)'] = 'admin/Master/hapus_umkm/$1';
 
+$route['admin_side/slider'] = 'admin/Master/slider';
+$route['admin_side/tambah_slider'] = 'admin/Master/tambah_slider';
+$route['admin_side/simpan_slider'] = 'admin/Master/simpan_slider';
+$route['admin_side/detail_slider/(:any)'] = 'admin/Master/detail_slider/$1';
+$route['admin_side/perbarui_slider'] = 'admin/Master/perbarui_slider';
+$route['admin_side/hapus_slider/(:any)'] = 'admin/Master/hapus_slider/$1';
+
+$route['admin_side/pemberitahuan'] = 'admin/Report/pemberitahuan';
+$route['admin_side/tambah_pemberitahuan'] = 'admin/Report/tambah_pemberitahuan';
+$route['admin_side/simpan_pemberitahuan'] = 'admin/Report/simpan_pemberitahuan';
+$route['admin_side/detail_pemberitahuan/(:any)'] = 'admin/Report/detail_pemberitahuan/$1';
+$route['admin_side/perbarui_pemberitahuan'] = 'admin/Report/perbarui_pemberitahuan';
+$route['admin_side/hapus_pemberitahuan/(:any)'] = 'admin/Report/hapus_pemberitahuan/$1';
+
 $route['admin_side/lembaga_desa'] = 'admin/Master/lembaga_desa';
 $route['admin_side/detail_lembaga_desa/(:any)'] = 'admin/Master/detail_lembaga_desa/$1';
 $route['admin_side/perbarui_data_lembaga_desa'] = 'admin/Master/perbarui_data_lembaga_desa';
@@ -249,6 +263,9 @@ $route['admin_side/permohonan_ktp'] = 'admin/Report/data_ktp';
 $route['admin_side/ubah_pengajuan_ktp/(:any)'] = 'admin/Report/ubah_pengajuan_ktp/$1';
 $route['admin_side/perbarui_pengajuan_ktp'] = 'admin/Report/perbarui_pengajuan_ktp';
 $route['admin_side/permohonan_kk'] = 'admin/Report/data_kk';
+$route['admin_side/detil_data_pengajuan_kk/(:any)'] = 'admin/Report/detil_data_pengajuan_kk/$1';
+$route['admin_side/ubah_pengajuan_kk/(:any)'] = 'admin/Report/ubah_pengajuan_kk/$1';
+$route['admin_side/perbarui_pengajuan_kk'] = 'admin/Report/perbarui_pengajuan_kk';
 $route['admin_side/pengantar_domisili'] = 'admin/Report/pengantar_domisili';
 $route['admin_side/detail_surat_keterangan_domisili/(:any)'] = 'admin/Report/detail_surat_keterangan_domisili/$1';
 $route['admin_side/ubah_pengajuan_domisili/(:any)'] = 'admin/Report/ubah_pengajuan_domisili/$1';

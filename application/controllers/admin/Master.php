@@ -517,6 +517,171 @@ class Master extends CI_Controller {
 			echo "<script>window.location='".base_url()."admin_side/data_anggota/'</script>";
 		}
 	}
+	/* Master Slider */
+	public function slider(){
+		$data['parent'] = 'master';
+        $data['child'] = 'slider';
+		$data['grand_child'] = '';
+		$data['slider'] = $this->Main_model->getSelectedData('slider a', 'a.*')->result();
+        $this->load->view('admin/template/header',$data);
+        $this->load->view('admin/master/slider',$data);
+        $this->load->view('admin/template/footer');
+	}
+	public function json_slider(){
+		$get_data = $this->Main_model->getSelectedData('slider a', 'a.*')->result();
+        $data_tampil = array();
+        $no = 1;
+		foreach ($get_data as $key => $value) {
+			$isi['no'] = $no++.'.';
+			$isi['judul'] = $value->judul;
+			$isi['gambar'] = '<img src="'.base_url().'data_upload/slider/'.$value->gambar.'" width="50px">';
+			$isi['deskripsi'] = $value->deskripsi;
+			$return_on_click = "return confirm('Anda yakin?')";
+			$isi['action'] =	'
+								<div class="btn-group" style="text-align: center;">
+									<button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Aksi
+										<i class="fa fa-angle-down"></i>
+									</button>
+									<ul class="dropdown-menu" role="menu">
+										<li>
+											<a href="'.site_url('admin_side/detail_slider/'.md5($value->id_slider)).'">
+												<i class="icon-action-redo"></i> Detail Data </a>
+										</li>
+										<li>
+											<a onclick="'.$return_on_click.'" href="'.site_url('admin_side/hapus_slider/'.md5($value->id_slider)).'">
+												<i class="icon-trash"></i> Hapus Data </a>
+										</li>
+									</ul>
+								</div>
+								';
+			$data_tampil[] = $isi;
+		}
+		$results = array(
+			"sEcho" => 1,
+			"iTotalRecords" => count($data_tampil),
+			"iTotalDisplayRecords" => count($data_tampil),
+			"aaData"=>$data_tampil);
+		echo json_encode($results);
+	}
+	public function tambah_slider(){
+		$data['parent'] = 'master';
+        $data['child'] = 'slider';
+		$data['grand_child'] = '';
+        $this->load->view('admin/template/header',$data);
+        $this->load->view('admin/master/tambah_slider',$data);
+        $this->load->view('admin/template/footer');
+	}
+	public function simpan_slider(){
+		$this->db->trans_start();
+		$get_last_id = $this->Main_model->getLastID('slider','id_slider');
+		$nmfile = "file_".time(); // nama file saya beri nama langsung dan diikuti fungsi time
+		$config['upload_path'] = dirname($_SERVER["SCRIPT_FILENAME"]).'/data_upload/slider/'; // path folder
+		$config['allowed_types'] = 'jpg|jpeg|png|bmp'; // type yang dapat diakses bisa anda sesuaikan
+		$config['max_size'] = '3072'; // maksimum besar file 3M
+		$config['file_name'] = $nmfile; // nama yang terupload nantinya
+
+		$this->upload->initialize($config);
+		if(isset($_FILES['file']['name']))
+		{
+			if(!$this->upload->do_upload('file'))
+			{
+				echo'';
+			}
+			else
+			{
+				$gbr = $this->upload->data();
+				$namefile = $gbr['file_name'];
+				$data_insert_ = array(
+					'id_slider' => $get_last_id['id_slider']+1,
+					'judul' => $this->input->post('judul'),
+					'gambar' => $gbr['file_name'],
+					'deskripsi' => $this->input->post('isi')
+				);
+				$this->Main_model->insertData("slider",$data_insert_);
+			}
+		}else{echo'';}
+
+		$this->Main_model->log_activity($this->session->userdata('id'),'Adding data',"Menambahkan data slider",$this->session->userdata('location'));
+		$this->db->trans_complete();
+		if($this->db->trans_status() === false){
+			$this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal disimpan.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/slider'</script>";
+		}
+		else{
+			$this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil disimpan.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/slider/'</script>";
+		}
+	}
+	public function detail_slider(){
+		$data['parent'] = 'master';
+        $data['child'] = 'slider';
+		$data['grand_child'] = '';
+		$data['data_utama'] = $this->Main_model->getSelectedData('slider a', 'a.*',array('md5(a.id_slider)'=>$this->uri->segment(3)))->row();
+        $this->load->view('admin/template/header',$data);
+        $this->load->view('admin/master/ubah_slider',$data);
+        $this->load->view('admin/template/footer');
+	}
+	public function perbarui_slider(){
+		$this->db->trans_start();
+		$nmfile = "file_".time(); // nama file saya beri nama langsung dan diikuti fungsi time
+		$config['upload_path'] = dirname($_SERVER["SCRIPT_FILENAME"]).'/data_upload/slider/'; // path folder
+		$config['allowed_types'] = 'jpg|jpeg|png|bmp'; // type yang dapat diakses bisa anda sesuaikan
+		$config['max_size'] = '3072'; // maksimum besar file 3M
+		$config['file_name'] = $nmfile; // nama yang terupload nantinya
+
+		$this->upload->initialize($config);
+		if(isset($_FILES['file']['name']))
+		{
+			if(!$this->upload->do_upload('file'))
+			{
+				echo'';
+			}
+			else
+			{
+				$gbr = $this->upload->data();
+				$data_insert_1 = array(
+					'gambar' => $gbr['file_name']
+				);
+				$this->Main_model->updateData('slider',$data_insert_1,array('md5(id_slider)'=>$this->input->post('id')));
+			}
+		}else{echo'';}
+		$data_insert_2 = array(
+			'judul' => $this->input->post('judul'),
+			'deskripsi' => $this->input->post('isi')
+		);
+		$this->Main_model->updateData('slider',$data_insert_2,array('md5(id_slider)'=>$this->input->post('id')));
+		$this->Main_model->log_activity($this->session->userdata('id'),'Updating data',"Memperbarui data slider (".$this->input->post('judul').")",$this->session->userdata('location'));
+		$this->db->trans_complete();
+		if($this->db->trans_status() === false){
+			$this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal disimpan.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/slider'</script>";
+		}
+		else{
+			$this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil disimpan.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/slider/'</script>";
+		}
+	}
+	public function hapus_slider(){
+		$this->db->trans_start();
+		$id = '';
+		$nama = '';
+		$get_data = $this->Main_model->getSelectedData('slider a', 'a.*',array('md5(a.id_slider)'=>$this->uri->segment(3)))->row();
+		$id = $get_data->id_slider;
+		$nama = $get_data->judul;
+
+		$this->Main_model->deleteData('slider',array('id_slider'=>$id));
+
+		$this->Main_model->log_activity($this->session->userdata('id'),"Deleting data","Menghapus data slider (".$nama.")",$this->session->userdata('location'));
+		$this->db->trans_complete();
+		if($this->db->trans_status() === false){
+			$this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal dihapus.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/slider/'</script>";
+		}
+		else{
+			$this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil dihapus.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/slider/'</script>";
+		}
+	}
 	/* Master Berita */
 	public function berita(){
 		$data['parent'] = 'master';
@@ -1610,6 +1775,7 @@ class Master extends CI_Controller {
 			'jenis' => $this->input->post('jenis'),
 			'no_hp' => $this->input->post('no_hp'),
 			'alamat' => $this->input->post('alamat'),
+			'nama_pemilik' => $this->input->post('nama_pemilik'),
 			'pemilik' => $namafile_foto
 		);
 		$this->Main_model->insertData('umkm',$data_insert1);
@@ -1691,6 +1857,7 @@ class Master extends CI_Controller {
 			'jenis' => $this->input->post('jenis'),
 			'no_hp' => $this->input->post('no_hp'),
 			'alamat' => $this->input->post('alamat'),
+			'nama_pemilik' => $this->input->post('nama_pemilik'),
 			'pemilik' => $namafile_foto
 		);
 		$this->Main_model->updateData('umkm',$data_insert1,array('md5(id_umkm)'=>$this->input->post('id')));

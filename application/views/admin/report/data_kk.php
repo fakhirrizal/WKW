@@ -28,7 +28,6 @@
 					<div class="table-toolbar">
 						<div class="row">
 							<div class="col-md-8">
-								<!-- <a href="<?=base_url('admin_side/tambah_data_kk');?>" class="btn green uppercase">Tambah Data <i class="fa fa-plus"></i> </a> -->
 							</div>
 						</div>
 					</div>
@@ -36,9 +35,10 @@
 						<thead>
 							<tr>
 								<th style="text-align: center;" width="4%"> # </th>
+								<th style="text-align: center;"> Nomor Surat </th>
 								<th style="text-align: center;"> Pemohon </th>
-								<th style="text-align: center;"> Jenis Permohonan </th>
-								<th style="text-align: center;"> Status </th>
+								<th style="text-align: center;"> No. KK </th>
+								<th style="text-align: center;"> Alamat </th>
 								<th style="text-align: center;"> Waktu Pengajuan </th>
 								<th style="text-align: center;" width="7%"> Aksi </th>
 							</tr>
@@ -54,9 +54,10 @@
 								},
 								"aoColumns": [
 											{ mData: 'no', sClass: "alignCenter" },
+											{ mData: 'nomor_surat', sClass: "alignCenter" },
 											{ mData: 'nama', sClass: "alignCenter" },
-											{ mData: 'keterangan', sClass: "alignCenter" },
-											{ mData: 'status', sClass: "alignCenter" },
+											{ mData: 'kk', sClass: "alignCenter" },
+											{ mData: 'alamat', sClass: "alignCenter" },
 											{ mData: 'pengajuan', sClass: "alignCenter" }
 											,{ mData: 'action' }
 										]

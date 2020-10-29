@@ -5,18 +5,161 @@ class Report extends CI_Controller {
     function __construct() {
         parent::__construct();
     }
+    /* Pemberitahuan */
+    public function pemberitahuan(){
+		$data['parent'] = 'master';
+        $data['child'] = 'pemberitahuan';
+		$data['grand_child'] = '';
+        $this->load->view('admin/template/header',$data);
+        $this->load->view('admin/report/pemberitahuan',$data);
+        $this->load->view('admin/template/footer');
+	}
+	public function json_pemberitahuan(){
+		$get_data = $this->Main_model->getSelectedData('pemberitahuan a', 'a.*')->result();
+        $data_tampil = array();
+        $no = 1;
+		foreach ($get_data as $key => $value) {
+			$isi['no'] = $no++.'.';
+			$isi['judul'] = $value->judul;
+			$isi['deskripsi'] = $value->deskripsi;
+			$return_on_click = "return confirm('Anda yakin?')";
+			$isi['action'] =	'
+								<div class="btn-group" style="text-align: center;">
+									<button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Aksi
+										<i class="fa fa-angle-down"></i>
+									</button>
+									<ul class="dropdown-menu" role="menu">
+										<li>
+											<a href="'.site_url('admin_side/detail_pemberitahuan/'.md5($value->id_pemberitahuan)).'">
+												<i class="icon-action-redo"></i> Detail Data </a>
+										</li>
+										<li>
+											<a onclick="'.$return_on_click.'" href="'.site_url('admin_side/hapus_pemberitahuan/'.md5($value->id_pemberitahuan)).'">
+												<i class="icon-trash"></i> Hapus Data </a>
+										</li>
+									</ul>
+								</div>
+								';
+			$data_tampil[] = $isi;
+		}
+		$results = array(
+			"sEcho" => 1,
+			"iTotalRecords" => count($data_tampil),
+			"iTotalDisplayRecords" => count($data_tampil),
+			"aaData"=>$data_tampil);
+		echo json_encode($results);
+	}
+	public function tambah_pemberitahuan(){
+		$data['parent'] = 'master';
+        $data['child'] = 'pemberitahuan';
+		$data['grand_child'] = '';
+        $this->load->view('admin/template/header',$data);
+        $this->load->view('admin/report/tambah_pemberitahuan',$data);
+        $this->load->view('admin/template/footer');
+	}
+	public function simpan_pemberitahuan(){
+		$this->db->trans_start();
+		$get_last_id = $this->Main_model->getLastID('pemberitahuan','id_pemberitahuan');
+		
+        $data_insert_ = array(
+            'id_pemberitahuan' => $get_last_id['id_pemberitahuan']+1,
+            'judul' => $this->input->post('judul'),
+            'deskripsi' => $this->input->post('isi')
+        );
+        $this->Main_model->insertData("pemberitahuan",$data_insert_);
+
+        $body = array(
+			"title" => "Pemberitahuan Terbaru",
+			"body" => $this->input->post('judul')
+		);
+		$res = array(
+			"click_action" => "FLUTTER_NOTIFICATION_CLICK",
+			"id" => $get_last_id['id_pemberitahuan']+1,
+			"route" => "/pemberitahuan",
+			"icon" => "images/icon_wkw.png"
+		);
+		$get_user = $this->db->query("SELECT a.* FROM user a WHERE a.verification_token != ''")->result();
+		foreach ($get_user as $key => $value) {
+			$fields = array(
+				'to' => $value->verification_token,
+				'notification' => $body,
+				"priority"=> "high",
+				'data' => $res
+			);
+			$this->Main_model->sendPushNotificationn($fields);
+		}
+
+		$this->Main_model->log_activity($this->session->userdata('id'),'Adding data',"Menambahkan data pemberitahuan",$this->session->userdata('location'));
+		$this->db->trans_complete();
+		if($this->db->trans_status() === false){
+			$this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal disimpan.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/pemberitahuan'</script>";
+		}
+		else{
+			$this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil disimpan.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/pemberitahuan/'</script>";
+		}
+	}
+	public function detail_pemberitahuan(){
+		$data['parent'] = 'master';
+        $data['child'] = 'pemberitahuan';
+		$data['grand_child'] = '';
+		$data['data_utama'] = $this->Main_model->getSelectedData('pemberitahuan a', 'a.*',array('md5(a.id_pemberitahuan)'=>$this->uri->segment(3)))->row();
+        $this->load->view('admin/template/header',$data);
+        $this->load->view('admin/report/ubah_pemberitahuan',$data);
+        $this->load->view('admin/template/footer');
+	}
+	public function perbarui_pemberitahuan(){
+		$this->db->trans_start();
+		$data_insert_2 = array(
+			'judul' => $this->input->post('judul'),
+			'deskripsi' => $this->input->post('isi')
+		);
+		$this->Main_model->updateData('pemberitahuan',$data_insert_2,array('md5(id_pemberitahuan)'=>$this->input->post('id')));
+		$this->Main_model->log_activity($this->session->userdata('id'),'Updating data',"Memperbarui data pemberitahuan (".$this->input->post('judul').")",$this->session->userdata('location'));
+		$this->db->trans_complete();
+		if($this->db->trans_status() === false){
+			$this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal disimpan.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/pemberitahuan'</script>";
+		}
+		else{
+			$this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil disimpan.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/pemberitahuan/'</script>";
+		}
+	}
+	public function hapus_pemberitahuan(){
+		$this->db->trans_start();
+		$id = '';
+		$nama = '';
+		$get_data = $this->Main_model->getSelectedData('pemberitahuan a', 'a.*',array('md5(a.id_pemberitahuan)'=>$this->uri->segment(3)))->row();
+		$id = $get_data->id_pemberitahuan;
+		$nama = $get_data->judul;
+
+		$this->Main_model->deleteData('pemberitahuan',array('id_pemberitahuan'=>$id));
+
+		$this->Main_model->log_activity($this->session->userdata('id'),"Deleting data","Menghapus data pemberitahuan (".$nama.")",$this->session->userdata('location'));
+		$this->db->trans_complete();
+		if($this->db->trans_status() === false){
+			$this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal dihapus.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/pemberitahuan/'</script>";
+		}
+		else{
+			$this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil dihapus.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/pemberitahuan/'</script>";
+		}
+	}
     /* Data KK */
     public function data_kk(){
         $data['parent'] = 'laporan_masyarakat';
-        $data['child'] = 'data_kk';
+        $data['child'] = 'permohonan_kk';
         $data['grand_child'] = '';
         $this->load->view('admin/template/header',$data);
         $this->load->view('admin/report/data_kk',$data);
         $this->load->view('admin/template/footer');
     }
     public function json_kk(){
-		$get_data = $this->Main_model->getSelectedData('data_kk a', 'a.*,b.fullname', '', 'a.id_data_kk DESC', '', '', '', array(
-            'table' => 'user_profile b',
+		$get_data = $this->Main_model->getSelectedData('data_kk a', 'a.*', '', 'a.id_data_kk DESC', '', '', '', array(
+            'table' => 'masyarakat b',
             'on' => 'a.created_by=b.user_id',
             'pos' => 'LEFT'
         ))->result();
@@ -24,27 +167,12 @@ class Report extends CI_Controller {
         $no = 1;
 		foreach ($get_data as $key => $value) {
             $isi['no'] = $no++.'.';
-            $isi['nama'] = $value->fullname;
-            $jenis_permohonan = '';
-            if($value->sub_jenis_permohonan==NULL){
-                $jenis_permohonan = $value->jenis_permohonan;
-            }else{
-                $jenis_permohonan = $value->jenis_permohonan.' - '.$value->sub_jenis_permohonan;
-            }
-            $isi['keterangan'] = $jenis_permohonan;
-            $isi['status'] = '';
-            if($value->status=='Proses'){
-                $isi['status'] = '<span class="label label-warning"> Proses </span>';
-            }elseif($value->status=='Selesai'){
-                $isi['status'] = '<span class="label label-success"> Selesai </span>';
-            }elseif($value->status=='Ditolak'){
-                $isi['status'] = '<span class="label label-danger"> Ditolak </span>';
-            }else{
-                echo'';
-            }
-            $pecah_tanggal = explode(' ',$value->created_date);
+            $isi['nama'] = $value->nama;
+            $isi['kk'] = $value->kk;
+            $isi['alamat'] = $value->alamat;
+            $isi['nomor_surat'] = $value->nomor_surat;
+            $pecah_tanggal = explode(' ',$value->created_at);
             $isi['pengajuan'] = $this->Main_model->convert_tanggal($pecah_tanggal[0]).' '.substr($pecah_tanggal[1],0,5);
-            $return_on_click = "return confirm('Anda yakin?')";
             $isi['action'] =	'
                             <div class="btn-group" style="text-align: center;">
                                 <button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Aksi
@@ -52,16 +180,8 @@ class Report extends CI_Controller {
                                 </button>
                                 <ul class="dropdown-menu" role="menu">
                                     <li>
-											<a href="https://api.whatsapp.com/send?phone='.$value->wa.'&text=pesan_kamu">
-												<i class="icon-bubble"></i> Chat WA </a>
-										</li>
-                                    <li>
                                         <a href="'.site_url('admin_side/detil_data_pengajuan_kk/'.md5($value->id_data_kk)).'">
                                             <i class="icon-action-redo"></i> Detail Data </a>
-                                    </li>
-                                    <li>
-                                        <a onclick="'.$return_on_click.'" href="'.site_url('admin_side/hapus_data_pengajuan_kk/'.md5($value->id_data_kk)).'">
-                                            <i class="icon-trash"></i> Hapus Data </a>
                                     </li>
                                 </ul>
                             </div>';
@@ -76,17 +196,65 @@ class Report extends CI_Controller {
     }
     public function detil_data_pengajuan_kk(){
 		$data['parent'] = 'laporan_masyarakat';
-        $data['child'] = 'data_kk';
+        $data['child'] = 'permohonan_kk';
         $data['grand_child'] = '';
-        $data['data_utama'] = $this->Main_model->getSelectedData('data_kk a', 'a.*,b.fullname', array('md5(a.id_data_kk)'=>$this->uri->segment(3)), 'a.id_data_kk DESC', '', '', '', array(
-            'table' => 'user_profile b',
-            'on' => 'a.created_by=b.user_id',
+        $data['data_utama'] = $this->Main_model->getSelectedData('data_kk a', 'a.*', array('md5(a.id_data_kk)'=>$this->uri->segment(3)), 'a.id_data_kk DESC', '', '', '', array(
+            'table' => 'user b',
+            'on' => 'a.created_by=b.id',
             'pos' => 'LEFT'
-        ))->result();
-        $data['data_detail'] = $this->Main_model->getSelectedData('detail_data_kk a', 'a.*', array('md5(a.id_data_kk)'=>$this->uri->segment(3)))->result();
+        ))->row();
         $this->load->view('admin/template/header',$data);
         $this->load->view('admin/report/detil_data_pengajuan_kk',$data);
         $this->load->view('admin/template/footer');
+    }
+    public function ubah_pengajuan_kk(){
+        $data['parent'] = 'laporan_masyarakat';
+        $data['child'] = 'permohonan_kk';
+        $data['grand_child'] = '';
+        $data['data_utama'] = $this->Main_model->getSelectedData('data_kk a', 'a.*', array('md5(a.id_data_kk)'=>$this->uri->segment(3)))->row();
+        $this->load->view('admin/template/header',$data);
+        $this->load->view('admin/report/ubah_pengajuan_kk',$data);
+        $this->load->view('admin/template/footer');
+    }
+    public function perbarui_pengajuan_kk(){
+        $this->db->trans_start();
+        $cur_date = date('YmdHis');
+        $nama_file = base_url().'data_upload/dokumen/'.$this->input->post('id').'KK'.$cur_date.'.pdf';
+
+        $data_insert = array(
+            'nama' => $this->input->post('nama'),
+            'kk' => $this->input->post('kk'),
+            'dusun' => $this->input->post('dusun'),
+            'alamat' => $this->input->post('alamat'),
+            'rt' => $this->input->post('rt'),
+            'rw' => $this->input->post('rw'),
+            'nomor_surat' => $this->input->post('nomor_surat'),
+            'file' => $nama_file
+        );
+        $this->Main_model->updateData('data_kk',$data_insert,array('md5(id_data_kk)'=>$this->input->post('id')));
+        require FCPATH . 'vendor/autoload.php';
+
+        require_once BASEPATH.'core/CodeIgniter.php';
+        $mpdf = new \Mpdf\Mpdf();
+        $mpdf->AddPage('L'); // margin footer
+        $data = $this->load->view('admin/form_pdf/permohonan_kk', $data_insert, TRUE);
+        $mpdf->WriteHTML($data);
+        if (ob_get_contents()) ob_end_clean();
+        $pathh = 'data_upload/dokumen/'.$this->input->post('id').'KK'.$cur_date.'.pdf';
+        $mpdf->Output($pathh, \Mpdf\Output\Destination::FILE);
+
+        $this->Main_model->updateData('riwayat_administrasi',array('file'=>$nama_file),array('file'=>$this->input->post('file_lama'),'md5(created_by)'=>$this->input->post('user')));
+
+        $this->Main_model->log_activity('2',"Updating data","Mengubah data pengajuan KK (".$this->input->post('nama').")");
+        $this->db->trans_complete();
+        if($this->db->trans_status() === false){
+            $this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal diubah.<br /></div>' );
+            echo "<script>window.location='".base_url()."admin_side/ubah_pengajuan_kk/".$this->input->post('id')."'</script>";
+        }
+        else{
+            $this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil diubah.<br /></div>' );
+            echo "<script>window.location='".base_url()."admin_side/detil_data_pengajuan_kk/".$this->input->post('id')."'</script>";
+        }
     }
     public function hapus_data_pengajuan_kk(){
 		$this->db->trans_start();
@@ -117,7 +285,7 @@ class Report extends CI_Controller {
     /* Data KTP */
     public function data_ktp(){
         $data['parent'] = 'laporan_masyarakat';
-        $data['child'] = 'data_ktp';
+        $data['child'] = 'permohonan_ktp';
         $data['grand_child'] = '';
         $this->load->view('admin/template/header',$data);
         $this->load->view('admin/report/data_ktp',$data);
@@ -129,7 +297,8 @@ class Report extends CI_Controller {
         $no = 1;
 		foreach ($get_data1 as $key => $value) {
 			$isi['no'] = $no++.'.';
-			$isi['nik'] = $value->nik;
+            $isi['nik'] = $value->nik;
+            $isi['nomor_surat'] = $value->nomor_surat;
 			$isi['nama'] = $value->nama;
             $isi['jenis'] = $value->permohonan_ktp;
             $isi['rtrw'] = $value->rt.'/ '.$value->rw;
@@ -196,7 +365,7 @@ class Report extends CI_Controller {
     }
     public function ubah_pengajuan_ktp(){
         $data['parent'] = 'laporan_masyarakat';
-        $data['child'] = 'data_ktp';
+        $data['child'] = 'permohonan_ktp';
         $data['grand_child'] = '';
         $data['data_utama'] = $this->Main_model->getSelectedData('permohonan_ktp a', 'a.*', array('md5(a.id_permohonan_ktp)'=>$this->uri->segment(3)))->row();
         $this->load->view('admin/template/header',$data);
@@ -213,6 +382,7 @@ class Report extends CI_Controller {
             'permohonan_ktp' => $this->input->post('permohonan_ktp'),
             'kk' => $this->input->post('kk'),
             'nik' => $this->input->post('nik'),
+            'nomor_surat' => $this->input->post('nomor_surat'),
             'rt' => $this->input->post('rt'),
             'rw' => $this->input->post('rw'),
             'file' => $nama_file
@@ -259,6 +429,7 @@ class Report extends CI_Controller {
 		foreach ($get_data as $key => $value) {
             $isi['no'] = $no++.'.';
             $isi['nama'] = $value->nama;
+            $isi['nomor_surat'] = $value->nomor_surat;
             $isi['alamat'] = $value->alamat;
             $isi['rtrw'] = $value->rt.'/ '.$value->rw;
             $isi['ttl'] = $value->tempat_lahir.', '.$this->Main_model->convert_tanggal($value->tanggal_lahir);
@@ -302,6 +473,7 @@ class Report extends CI_Controller {
         $data_insert = array(
             'nama' => $this->input->post('nama'),
             'tempat_lahir' => $this->input->post('tempat_lahir'),
+            'nomor_surat' => $this->input->post('nomor_surat'),
             'tanggal_lahir' => $this->input->post('tanggal_lahir'),
             'kebangsaan' => $this->input->post('kebangsaan'),
             'pekerjaan' => $this->input->post('pekerjaan'),
@@ -355,6 +527,7 @@ class Report extends CI_Controller {
 		foreach ($get_data as $key => $value) {
             $isi['no'] = $no++.'.';
             $isi['nama'] = $value->nama;
+            $isi['nomor_surat'] = $value->nomor_surat;
             $isi['usaha'] = $value->nama_usaha;
             $isi['rtrw'] = $value->rt.'/ '.$value->rw;
             $isi['ttl'] = $value->tempat_lahir.', '.$this->Main_model->convert_tanggal($value->tanggal_lahir);
@@ -397,6 +570,7 @@ class Report extends CI_Controller {
 
         $data_insert = array(
             'nama' => $this->input->post('nama'),
+            'nomor_surat' => $this->input->post('nomor_surat'),
             'tempat_lahir' => $this->input->post('tempat_lahir'),
             'tanggal_lahir' => $this->input->post('tanggal_lahir'),
             'pekerjaan' => $this->input->post('pekerjaan'),
@@ -448,6 +622,7 @@ class Report extends CI_Controller {
         $no = 1;
 		foreach ($get_data as $key => $value) {
             $isi['no'] = $no++.'.';
+            $isi['nomor_surat'] = $value->nomor_surat;
             $isi['nama'] = $value->nama;
             $isi['nik'] = $value->nik;
             $isi['ttl'] = $value->tempat_lahir.', '.$this->Main_model->convert_tanggal($value->tanggal_lahir);
@@ -471,6 +646,7 @@ class Report extends CI_Controller {
         $no = 1;
 		foreach ($get_data as $key => $value) {
             $isi['no'] = $no++.'.';
+            $isi['nomor_surat'] = $value->nomor_surat;
             $isi['nama'] = $value->nama;
             $isi['nik'] = $value->nik;
             $isi['ttl'] = $value->tempat_lahir.', '.$this->Main_model->convert_tanggal($value->tanggal_lahir);
@@ -522,6 +698,7 @@ class Report extends CI_Controller {
 
         $data_insert = array(
             'nama' => $this->input->post('nama'),
+            'nomor_surat' => $this->input->post('nomor_surat'),
             'tempat_lahir' => $this->input->post('tempat_lahir'),
             'tanggal_lahir' => $this->input->post('tanggal_lahir'),
             'nik' => $this->input->post('nik'),
@@ -574,6 +751,7 @@ class Report extends CI_Controller {
 
         $data_insert = array(
             'nama' => $this->input->post('nama'),
+            'nomor_surat' => $this->input->post('nomor_surat'),
             'tempat_lahir' => $this->input->post('tempat_lahir'),
             'tanggal_lahir' => $this->input->post('tanggal_lahir'),
             'nik' => $this->input->post('nik'),
@@ -628,6 +806,7 @@ class Report extends CI_Controller {
 		foreach ($get_data as $key => $value) {
             $isi['no'] = $no++.'.';
             $isi['nama'] = $value->nama;
+            $isi['nomor_surat'] = $value->nomor_surat;
             $isi['rtrw'] = $value->rt.'/ '.$value->rw;
             $isi['ttl'] = $value->tempat_lahir.', '.$this->Main_model->convert_tanggal($value->tanggal_lahir);
             $pecah_tanggal = explode(' ',$value->created_at);
@@ -669,6 +848,7 @@ class Report extends CI_Controller {
 
         $data_insert = array(
             'nama' => $this->input->post('nama'),
+            'nomor_surat' => $this->input->post('nomor_surat'),
             'tempat_lahir' => $this->input->post('tempat_lahir'),
             'tanggal_lahir' => $this->input->post('tanggal_lahir'),
             'nik' => $this->input->post('nik'),
@@ -720,6 +900,7 @@ class Report extends CI_Controller {
 		foreach ($get_data as $key => $value) {
             $isi['no'] = $no++.'.';
             $isi['nama'] = $value->nama;
+            $isi['nomor_surat'] = $value->nomor_surat;
             $isi['rtrw'] = $value->rt.'/ '.$value->rw;
             $isi['ttl'] = $value->tempat_lahir.', '.$this->Main_model->convert_tanggal($value->tanggal_lahir);
             $pecah_tanggal = explode(' ',$value->created_at);
@@ -761,6 +942,7 @@ class Report extends CI_Controller {
 
         $data_insert = array(
             'nama' => $this->input->post('nama'),
+            'nomor_surat' => $this->input->post('nomor_surat'),
             'tempat_lahir' => $this->input->post('tempat_lahir'),
             'tanggal_lahir' => $this->input->post('tanggal_lahir'),
             'nik' => $this->input->post('nik'),

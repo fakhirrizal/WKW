@@ -41,6 +41,7 @@ class Surat_pengantar_skck extends REST_Controller {
 				'nik' => $cek->nik,
 				'pekerjaan' => $this->post('pekerjaan'),
 				'agama' => $this->post('agama'),
+				'nomor_surat' => '',
 				'rt' => $cek->rt,
 				'rw' => $cek->rw,
 				'file' => base_url().'data_upload/dokumen/'.($get_last['id_surat_pengantar_skck']+1).'_surat_pengantar_skck.pdf',

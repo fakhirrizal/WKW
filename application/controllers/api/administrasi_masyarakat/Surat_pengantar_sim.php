@@ -43,6 +43,7 @@ class Surat_pengantar_sim extends REST_Controller {
 				'agama' => $this->post('agama'),
 				'rt' => $cek->rt,
 				'rw' => $cek->rw,
+				'nomor_surat' => '',
 				'file' => base_url().'data_upload/dokumen/'.($get_last['id_surat_pengantar_sim']+1).'_surat_pengantar_sim.pdf',
 				'created_by' => $this->post('user_id'),
 				'created_at' => date('Y-m-d H:i:s')

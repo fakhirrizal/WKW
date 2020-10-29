@@ -46,6 +46,7 @@ class Surat_keterangan_domisili extends REST_Controller {
 				'rw' => $cek->rw,
 				'keperluan' => $this->post('keperluan'),
 				'keterangan' => $this->post('keterangan'),
+				'nomor_surat' => '',
 				'file' => base_url().'data_upload/dokumen/'.($get_last['id_surat_keterangan_domisili']+1).'_surat_keterangan_domisili.pdf',
 				'created_by' => $this->post('user_id'),
 				'created_at' => date('Y-m-d H:i:s')
