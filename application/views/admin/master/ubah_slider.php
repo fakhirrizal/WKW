@@ -1,4 +1,6 @@
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 <ul class="page-breadcrumb breadcrumb">
 	<li>
 		<span>Master</span>
@@ -44,12 +46,12 @@
 							<div class="form-group form-md-line-input has-danger">
 								<label class="col-md-2 control-label" for="form_control_1">Deskripsi <span class="required"> * </span></label>
 								<div class="col-md-10">
-									<div class="input-icon">
-										<textarea class="form-control" name="isi" rows='6' placeholder="Type something" required><?= $data_utama->deskripsi; ?></textarea>
-										<div class="form-control-focus"> </div>
-										<span class="help-block">Some help goes here...</span>
-										<i class="icon-pin"></i>
-									</div>
+									<textarea id="summernote" name="isi" required><?= $data_utama->deskripsi; ?></textarea>
+									<script>
+										$(document).ready(function() {
+											$('#summernote').summernote();
+										});
+									</script>
 								</div>
 							</div>
                             <div class="form-group form-md-line-input has-danger">

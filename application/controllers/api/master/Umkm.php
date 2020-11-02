@@ -32,8 +32,8 @@ class Umkm extends REST_Controller {
 				$isi['no_hp'] = $hasil->no_hp;
 				$isi['alamat'] = $hasil->alamat;
 				$isi['pemilik'] = $hasil->nama_pemilik;
-				$isi['foto_pemilik'] = $hasil->pemilik;
-				$isi['foto_produk'] = $get_foto->file;
+				$isi['foto_pemilik'] = base_url().'data_upload/umkm/'.$hasil->pemilik;
+				$isi['foto_produk'] = base_url().'data_upload/umkm/'.$get_foto->file;
 				$this->response($isi, 200);
 			}
 		}else{
@@ -55,8 +55,8 @@ class Umkm extends REST_Controller {
 					$isi['no_hp'] = $value->no_hp;
 					$isi['alamat'] = $value->alamat;
 					$isi['pemilik'] = $value->nama_pemilik;
-					$isi['foto_pemilik'] = $value->pemilik;
-					$isi['foto_produk'] = $get_foto->file;
+					$isi['foto_pemilik'] = base_url().'data_upload/umkm/'.$value->pemilik;
+					$isi['foto_produk'] = base_url().'data_upload/umkm/'.$get_foto->file;
 					$data_tampil[] = $isi;
 				}
 				$jumlah = $this->get('jumlah')+10;
