@@ -98,7 +98,7 @@
                             <div class="form-group form-md-line-input has-danger">
 								<label class="col-md-2 control-label" for="form_control_1"></label>
 								<div class="col-md-10">
-									<img src='<?= $data_utama->pemilik; ?>' >
+									<img src='<?= base_url().'data_upload/umkm/'.$data_utama->pemilik; ?>' >
 								</div>
 							</div>
 							<div class="form-group form-md-line-input has-danger">
@@ -180,7 +180,7 @@
                                 echo'<a onclick="'.$return_on_click.'" href="'.site_url('admin_side/hapus_gambar_produk_umkm/'.md5($value->id_foto_produk_umkm)).'">
                                 <i class="icon-trash"></i> Hapus Gambar </a><br>';
                                 ?>
-                                <img src='<?= $value->file; ?>' />
+                                <img src='<?= base_url().'data_upload/umkm/'.$value->file; ?>' />
                             </div>
                         <?php
                             }else{
@@ -190,7 +190,7 @@
                                 echo'<a onclick="'.$return_on_click.'" href="'.site_url('admin_side/hapus_gambar_produk_umkm/'.md5($value->id_foto_produk_umkm)).'">
                                 <i class="icon-trash"></i> Hapus Gambar </a><br>';
                                 ?>
-                                <img src='<?= $value->file; ?>' />
+                                <img src='<?= base_url().'data_upload/umkm/'.$value->file; ?>' />
                             </div>
                         <?php
                             }

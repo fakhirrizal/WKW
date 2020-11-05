@@ -1719,8 +1719,6 @@ class Master extends CI_Controller {
 		$this->db->trans_start();
 		$get_last_id = $this->Main_model->getLastID('umkm','id_umkm');
 		$id = $get_last_id['id_umkm']+1;
-		
-		$namafile = '';
 		$nmfile = "file_".time().random_string('alnum', 6); // nama file saya beri nama langsung dan diikuti fungsi time
 		$config['upload_path'] = dirname($_SERVER["SCRIPT_FILENAME"]).'/data_upload/umkm/'; // path folder
 		$config['allowed_types'] = 'bmp|png|jpg|jpeg'; // type yang dapat diakses bisa anda sesuaikan
@@ -1736,15 +1734,21 @@ class Master extends CI_Controller {
 			else
 			{
 				$gbr = $this->upload->data();
-				$url_file = dirname($_SERVER["SCRIPT_FILENAME"]).'/data_upload/umkm/'.$gbr['file_name'];
-				$imageData = base64_encode(file_get_contents($url_file));
-				$namafile = 'data:'.mime_content_type($url_file).';base64,'.$imageData;
 				$data_insert2 = array(
 					'id_umkm' => $id,
-					'file' => $namafile
+					'file' => $gbr['file_name']
 				);
 				$this->Main_model->insertData('foto_produk_umkm',$data_insert2);
-				unlink($url_file);
+				/* Kodingan Lama */
+				// $url_file = dirname($_SERVER["SCRIPT_FILENAME"]).'/data_upload/umkm/'.$gbr['file_name'];
+				// $imageData = base64_encode(file_get_contents($url_file));
+				// $namafile = 'data:'.mime_content_type($url_file).';base64,'.$imageData;
+				// $data_insert2 = array(
+				// 	'id_umkm' => $id,
+				// 	'file' => $namafile
+				// );
+				// $this->Main_model->insertData('foto_produk_umkm',$data_insert2);
+				// unlink($url_file);
 			}
 		}else{echo'';}
 		$namafile_foto = '';
@@ -1763,10 +1767,12 @@ class Master extends CI_Controller {
 			else
 			{
 				$gbr_foto = $this->upload->data();
-				$url_file_foto = dirname($_SERVER["SCRIPT_FILENAME"]).'/data_upload/umkm/'.$gbr_foto['file_name'];
-				$imageData_foto = base64_encode(file_get_contents($url_file_foto));
-				$namafile_foto = 'data:'.mime_content_type($url_file_foto).';base64,'.$imageData_foto;
-				unlink($url_file_foto);
+				$namafile_foto = $gbr_foto['file_name'];
+				/* Kodingan Lama */
+				// $url_file_foto = dirname($_SERVER["SCRIPT_FILENAME"]).'/data_upload/umkm/'.$gbr_foto['file_name'];
+				// $imageData_foto = base64_encode(file_get_contents($url_file_foto));
+				// $namafile_foto = 'data:'.mime_content_type($url_file_foto).';base64,'.$imageData_foto;
+				// unlink($url_file_foto);
 			}
 		}else{echo'';}
 		$data_insert1 = array(
@@ -1803,7 +1809,6 @@ class Master extends CI_Controller {
 	public function perbarui_umkm(){
 		$this->db->trans_start();
 		$data_utama =  $this->Main_model->getSelectedData('umkm a', 'a.*', array('md5(a.id_umkm)'=>$this->input->post('id')))->row();
-		$namafile = '';
 		$nmfile = "file_".time().random_string('alnum', 6); // nama file saya beri nama langsung dan diikuti fungsi time
 		$config['upload_path'] = dirname($_SERVER["SCRIPT_FILENAME"]).'/data_upload/umkm/'; // path folder
 		$config['allowed_types'] = 'bmp|png|jpg|jpeg'; // type yang dapat diakses bisa anda sesuaikan
@@ -1819,15 +1824,21 @@ class Master extends CI_Controller {
 			else
 			{
 				$gbr = $this->upload->data();
-				$url_file = dirname($_SERVER["SCRIPT_FILENAME"]).'/data_upload/umkm/'.$gbr['file_name'];
-				$imageData = base64_encode(file_get_contents($url_file));
-				$namafile = 'data:'.mime_content_type($url_file).';base64,'.$imageData;
 				$data_insert2 = array(
 					'id_umkm' => $data_utama->id_umkm,
-					'file' => $namafile
+					'file' => $gbr['file_name']
 				);
 				$this->Main_model->insertData('foto_produk_umkm',$data_insert2);
-				unlink($url_file);
+				/* Kodingan Lama */
+				// $url_file = dirname($_SERVER["SCRIPT_FILENAME"]).'/data_upload/umkm/'.$gbr['file_name'];
+				// $imageData = base64_encode(file_get_contents($url_file));
+				// $namafile = 'data:'.mime_content_type($url_file).';base64,'.$imageData;
+				// $data_insert2 = array(
+				// 	'id_umkm' => $data_utama->id_umkm,
+				// 	'file' => $namafile
+				// );
+				// $this->Main_model->insertData('foto_produk_umkm',$data_insert2);
+				// unlink($url_file);
 			}
 		}else{echo'';}
 		$namafile_foto = $data_utama->pemilik;
@@ -1846,10 +1857,12 @@ class Master extends CI_Controller {
 			else
 			{
 				$gbr_foto = $this->upload->data();
-				$url_file_foto = dirname($_SERVER["SCRIPT_FILENAME"]).'/data_upload/umkm/'.$gbr_foto['file_name'];
-				$imageData_foto = base64_encode(file_get_contents($url_file_foto));
-				$namafile_foto = 'data:'.mime_content_type($url_file_foto).';base64,'.$imageData_foto;
-				unlink($url_file_foto);
+				$namafile_foto = $gbr_foto['file_name'];
+				/* Kodingan Lama */
+				// $url_file_foto = dirname($_SERVER["SCRIPT_FILENAME"]).'/data_upload/umkm/'.$gbr_foto['file_name'];
+				// $imageData_foto = base64_encode(file_get_contents($url_file_foto));
+				// $namafile_foto = 'data:'.mime_content_type($url_file_foto).';base64,'.$imageData_foto;
+				// unlink($url_file_foto);
 			}
 		}else{echo'';}
 		$data_insert1 = array(
