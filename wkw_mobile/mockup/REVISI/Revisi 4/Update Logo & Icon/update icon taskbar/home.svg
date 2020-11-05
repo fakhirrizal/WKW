@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <g id="Group_248" data-name="Group 248" transform="translate(-542 -755)">
+    <rect id="Rectangle_30" data-name="Rectangle 30" width="32" height="32" transform="translate(542 755)" fill="none"/>
+    <g id="_007-house" data-name="007-house" transform="translate(545.999 758.932)">
+      <g id="Group_199" data-name="Group 199" transform="translate(0.001 0.068)">
+        <g id="Group_198" data-name="Group 198" transform="translate(0 0)">
+          <path id="Path_530" data-name="Path 530" d="M24.459,10.648a2.136,2.136,0,0,0-.745-1.468L21.6,7.367V2.212a.717.717,0,0,0-.717-.717H18.015a.709.709,0,0,0-.707.717V3.681L13.68.589a2.139,2.139,0,0,0-2.8,0L.752,9.18A2.149,2.149,0,0,0,.52,12.213a2.172,2.172,0,0,0,2.358.626V23.81a.709.709,0,0,0,.707.717h17.3a.717.717,0,0,0,.717-.717V12.84a2.15,2.15,0,0,0,2.861-2.192ZM18.731,2.929h1.443V6.138L18.731,4.909ZM15.157,23.093H9.319V17.35h5.839Zm5.017,0H16.581v-6.45a.717.717,0,0,0-.717-.717H8.6a.709.709,0,0,0-.707.717v6.45H4.3V11.809l7.977-6.767,7.9,6.76V23.093Zm2.685-11.814a.717.717,0,0,1-1.011.078l-9.1-7.8a.717.717,0,0,0-.93,0l-9.2,7.8a.717.717,0,0,1-.936-1.086L11.814,1.678a.713.713,0,0,1,.933,0l10.034,8.591A.718.718,0,0,1,22.859,11.279Z" transform="translate(-0.001 -0.068)" fill="#b2adad"/>
+        </g>
+      </g>
+      <g id="Group_201" data-name="Group 201" transform="translate(9.328 8.663)">
+        <g id="Group_200" data-name="Group 200">
+          <path id="Path_531" data-name="Path 531" d="M200.31,179.938h-4.4a.709.709,0,0,0-.707.717v4.3a.709.709,0,0,0,.707.717h4.4a.717.717,0,0,0,.717-.717v-4.3A.717.717,0,0,0,200.31,179.938Zm-.707,4.3h-2.972v-2.867H199.6Z" transform="translate(-195.207 -179.938)" fill="#b2adad"/>
+        </g>
+      </g>
+      <g id="Group_203" data-name="Group 203" transform="translate(12.281 18.793)">
+        <g id="Group_202" data-name="Group 202">
+          <circle id="Ellipse_18" data-name="Ellipse 18" cx="0.717" cy="0.717" r="0.717" fill="#b2adad"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
