@@ -1,0 +1,20 @@
+JDIH dibagi menjadi 4
+
+Peraturan Pusat
+Peraturan Provinsi
+Peraturan Kabupaten
+Peraturan Desa
+
+Setiap menu berisi data peraturan-peraturan
+misalkan Peraturan Desa seperti pada Mockup
+menampilkan peraturan yang diterbitkan oleh desa
+dengan kolom
+
+Contoh :
+1. Jenis Produk Hukum	: Peraturan Desa
+2. Nomor		: 01
+3. Tahun		: 2020
+4. Tentang		: Penjabaran Laporan Realisasi APBDesa Tahun 2019
+
+- Daftar sortir tampilan yang diinput terakhir paling atas
+- kemudian jika diklik tiap peraturan masuk ke tampilan pdf yang dapat diunduh
