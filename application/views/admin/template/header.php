@@ -116,6 +116,11 @@ if(($this->session->userdata('id'))==NULL){
 											<i class="icon-pin"></i> Slider
 										</a>
 									</li>
+									<li class=" <?php if($child=='ttd'){echo 'active';}else{echo '';} ?>">
+										<a href="<?php echo site_url('admin_side/ttd'); ?>" class="nav-link nav-toggle ">
+											<i class="icon-pin"></i> TTD
+										</a>
+									</li>
 								</ul>
 							</li>
 							<li class="menu-dropdown classic-menu-dropdown <?php if($parent=='laporan_masyarakat'){echo 'active';}else{echo '';} ?>">
@@ -143,6 +148,11 @@ if(($this->session->userdata('id'))==NULL){
 											<i class="icon-pin"></i> Keterangan Usaha
 										</a>
 									</li>
+									<li class=" <?php if($child=='kematian'){echo 'active';}else{echo '';} ?>">
+										<a href="<?php echo site_url('admin_side/kematian'); ?>" class="nav-link nav-toggle ">
+											<i class="icon-pin"></i> Surat Kematian
+										</a>
+									</li>
 									<li class=" <?php if($child=='sktm'){echo 'active';}else{echo '';} ?>">
 										<a href="<?php echo site_url('admin_side/sktm'); ?>" class="nav-link nav-toggle ">
 											<i class="icon-pin"></i> SKTM
@@ -156,6 +166,11 @@ if(($this->session->userdata('id'))==NULL){
 									<li class=" <?php if($child=='skck'){echo 'active';}else{echo '';} ?>">
 										<a href="<?php echo site_url('admin_side/skck'); ?>" class="nav-link nav-toggle ">
 											<i class="icon-pin"></i> Pengantar SKCK
+										</a>
+									</li>
+									<li class=" <?php if($child=='permohonan_informasi'){echo 'active';}else{echo '';} ?>">
+										<a href="<?php echo site_url('admin_side/permohonan_informasi'); ?>" class="nav-link nav-toggle ">
+											<i class="icon-pin"></i> Permohonan Informasi
 										</a>
 									</li>
 								</ul>
@@ -178,6 +193,11 @@ if(($this->session->userdata('id'))==NULL){
 									<li class=" <?php if($child=='ppid'){echo 'active';}else{echo '';} ?>">
 										<a href="<?php echo site_url('admin_side/ppid'); ?>" class="nav-link nav-toggle ">
 											<i class="icon-pin"></i> PPID
+										</a>
+									</li>
+									<li class=" <?php if($child=='jdih'){echo 'active';}else{echo '';} ?>">
+										<a href="<?php echo site_url('admin_side/jdih'); ?>" class="nav-link nav-toggle ">
+											<i class="icon-pin"></i> JDIH
 										</a>
 									</li>
 									<li class=" <?php if($child=='lembaga_desa'){echo 'active';}else{echo '';} ?>">

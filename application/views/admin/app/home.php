@@ -6,7 +6,7 @@
     <div class="panel-body">
                     <div class="alert alert-info">
                 <!-- <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button> -->
-                <strong><i class="ti-info-alt"></i> Informasi lebih lanjut mengenai PENDAFTARAN DARING dapat menghubungi Sdr. Thanos 085712356904 (Tidak melayani konsultasi KK dan KTP)</strong>
+                <strong><i class="ti-info-alt"></i> Sistem Informasi Desa Kalipucang Wetan Batang</strong>
             </div>
                                 <div class="row" id="dvKelengkapanData" style="display: none">
             <div class="col-lg-12">

@@ -66,7 +66,7 @@
 														{ mData: 'nama' },
 														{ mData: 'ttl', sClass: "alignCenter" },
 														{ mData: 'waktu', sClass: "alignCenter" },
-														{ mData: 'action', sClass: "alignCenter" }
+														{ mData: 'action'}
 													]
 										});
 
@@ -102,7 +102,7 @@
 														{ mData: 'nama' },
 														{ mData: 'ttl', sClass: "alignCenter" },
 														{ mData: 'waktu', sClass: "alignCenter" },
-														{ mData: 'action', sClass: "alignCenter" }
+														{ mData: 'action'}
 													]
 										});
 									});

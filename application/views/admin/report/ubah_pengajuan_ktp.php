@@ -40,6 +40,28 @@
 									</div>
 								</div>
 							</div>
+							<div class="form-group form-md-line-input has-danger">
+								<label class="col-md-2 control-label" for="form_control_1">Alamat <span class="required"> * </span></label>
+								<div class="col-md-10">
+									<div class="input-icon">
+										<input type="text" class="form-control" name="alamat" placeholder="Type something" value='<?= $data_utama->alamat; ?>' required>
+										<div class="form-control-focus"> </div>
+										<span class="help-block">Some help goes here...</span>
+										<i class="icon-pin"></i>
+									</div>
+								</div>
+							</div>
+							<div class="form-group form-md-line-input has-danger">
+								<label class="col-md-2 control-label" for="form_control_1">Kode Pos <span class="required"> * </span></label>
+								<div class="col-md-10">
+									<div class="input-icon">
+										<input type="number" class="form-control" name="kode_pos" placeholder="Type something" value='<?= $data_utama->kode_pos; ?>' minlength="5" maxlength="5" required>
+										<div class="form-control-focus"> </div>
+										<span class="help-block">Some help goes here...</span>
+										<i class="icon-pin"></i>
+									</div>
+								</div>
+							</div>
                             <div class="form-group form-md-line-input has-danger">
 								<label class="col-md-2 control-label" for="form_control_1">Permohonan KTP <span class="required"> * </span></label>
 								<div class="col-md-10">

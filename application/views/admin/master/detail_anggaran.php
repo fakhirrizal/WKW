@@ -143,44 +143,7 @@ $return_on_click = "return confirm('Anda yakin?')";
                                                             <th style="text-align: center;" width="1%"> Aksi </th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody>
-                                                        <?php
-                                                        // $no = 1;
-                                                        // $get_pagu_output = $this->Main_model->getSelectedData('output a', 'a.*,b.sub_output', array('md5(a.id_apbdes)'=>$this->uri->segment(3)), 'a.id_sub_output ASC', '', '', '', array(
-                                                        //     'table' => 'sub_output b',
-                                                        //     'on' => 'a.id_sub_output=b.id_sub_output',
-                                                        //     'pos' => 'LEFT'
-                                                        // ))->result();
-                                                        // // print_r($get_pagu_output);
-                                                        // foreach ($get_pagu_output as $key => $value) {
-                                                        //     echo'
-                                                        //     <tr>
-                                                        //         <td style="text-align: center;"> '.$no++.'. </td>
-                                                        //         <td style="text-align: center;"> '.$value->sub_output.' </td>
-                                                        //         <td > '.$value->output.' </td>
-                                                        //         <td style="text-align: center;"> Rp '.number_format($value->nominal,2).' </td>
-                                                        //         <td >
-                                                        //             <div class="btn-group" style="text-align: center;">
-                                                        //                 <button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Aksi
-                                                        //                     <i class="fa fa-angle-down"></i>
-                                                        //                 </button>
-                                                        //                 <ul class="dropdown-menu" role="menu">
-                                                        //                     <li>
-                                                        //                         <a class="ubahdata2" id="'.md5($value->id_output).'">
-                                                        //                             <i class="icon-note"></i> Ubah Data </a>
-                                                        //                     </li>
-                                                        //                     <li>
-                                                        //                         <a onclick="'.$return_on_click.'" href="'.site_url('admin_side/hapus_output/'.md5($value->id_output)).'">
-                                                        //                             <i class="icon-trash"></i> Hapus Data </a>
-                                                        //                     </li>
-                                                        //                 </ul>
-                                                        //             </div>
-                                                        //         </td>
-                                                        //     </tr>
-                                                        //     ';
-                                                        // }
-                                                        ?>
-                                                    </tbody>
+                                                    
                                                 </table> -->
                                                 <table class="table table-striped table-bordered table-hover" id="tbl">
                                                     <thead>
@@ -192,8 +155,45 @@ $return_on_click = "return confirm('Anda yakin?')";
                                                             <th style="text-align: center;" width="1%"> Aksi </th>
                                                         </tr>
                                                     </thead>
+                                                    <tbody>
+                                                        <?php
+                                                        $no = 1;
+                                                        $get_pagu_output = $this->Main_model->getSelectedData('output a', 'a.*,b.sub_output', array('md5(a.id_apbdes)'=>$this->uri->segment(3)), 'a.id_sub_output ASC', '', '', '', array(
+                                                            'table' => 'sub_output b',
+                                                            'on' => 'a.id_sub_output=b.id_sub_output',
+                                                            'pos' => 'LEFT'
+                                                        ))->result();
+                                                        foreach ($get_pagu_output as $key => $value) {
+                                                            echo'
+                                                            <tr>
+                                                                <td style="text-align: center;"> '.$no++.'. </td>
+                                                                <td > '.$value->sub_output.' </td>
+                                                                <td > '.$value->output.' </td>
+                                                                <td style="text-align: center;"> Rp '.number_format($value->nominal,2).' </td>
+                                                                <td >
+                                                                    <div class="btn-group" style="text-align: center;">
+                                                                        <button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Aksi
+                                                                            <i class="fa fa-angle-down"></i>
+                                                                        </button>
+                                                                        <ul class="dropdown-menu" role="menu">
+                                                                            <li>
+                                                                                <a class="ubahdata2" id="'.md5($value->id_output).'">
+                                                                                    <i class="icon-note"></i> Ubah Data </a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a onclick="'.$return_on_click.'" href="'.site_url('admin_side/hapus_output/'.md5($value->id_output)).'">
+                                                                                    <i class="icon-trash"></i> Hapus Data </a>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            ';
+                                                        }
+                                                        ?>
+                                                    </tbody>
                                                 </table>
-                                                <script type="text/javascript" language="javascript" >
+                                                <!-- <script type="text/javascript" language="javascript" >
                                                     $(document).ready(function(){
                                                         $('#tbl').dataTable({
                                                             "order": [[ 0, "asc" ]],
@@ -212,7 +212,7 @@ $return_on_click = "return confirm('Anda yakin?')";
                                                                     ]
                                                         });
                                                     });
-                                                </script>
+                                                </script> -->
                                             </div>
                                         </div>
                                     </div>

@@ -32,7 +32,26 @@ class Surat_pengantar_skck extends REST_Controller {
         }else{
             $this->db->trans_start();
 			$get_last = $this->Main_model->getLastID('surat_pengantar_skck','id_surat_pengantar_skck');
-
+			$image_name_qr_code = '';
+			$config_qr_code['cacheable']	= true; // boolean, the default is true
+			$config_qr_code['cachedir']		= './data_upload/dokumen_qr/'; // string, the default is application/cache/
+			$config_qr_code['errorlog']		= './data_upload/dokumen_qr/'; // string, the default is application/logs/
+			$config_qr_code['imagedir']		= './data_upload/dokumen_qr/'; // direktori penyimpanan qr code
+			$config_qr_code['quality']		= true; // boolean, the default is true
+			$config_qr_code['size']			= '3024'; // interger, the default is 1024
+			$config_qr_code['black']		= array(224,255,255); // array, default is array(255,255,255)
+			$config_qr_code['white']		= array(70,130,180); // array, default is array(0,0,0)
+			$this->ciqrcode->initialize($config_qr_code);
+	
+			$image_name_qr_code = "qr_code_skck_".time().'.png';
+			
+			$isi_qr = base_url().'scan_surat/skck~'.md5($get_last['id_surat_pengantar_skck']+1);
+	
+			$params['data'] = $isi_qr; // data yang akan di jadikan QR CODE
+			$params['level'] = 'H'; // H=High
+			$params['size'] = 10;
+			$params['savename'] = FCPATH.$config_qr_code['imagedir'].$image_name_qr_code; // simpan image QR CODE ke folder assets/images/
+			$this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
 			$data_insert = array(
 				'id_surat_pengantar_skck' => $get_last['id_surat_pengantar_skck']+1,
 				'nama' => $cek->nama,
@@ -52,7 +71,7 @@ class Surat_pengantar_skck extends REST_Controller {
             // print_r($data_insert);
             // Composer Autoloader
             require FCPATH . 'vendor/autoload.php';
-
+			$data_insert['gambar_qr'] = '<img src="'.base_url().'data_upload/dokumen_qr/'.$image_name_qr_code.'" width="10%"/>';
             require_once BASEPATH.'core/CodeIgniter.php';
             $mpdf = new \Mpdf\Mpdf();
             $data = $this->load->view('admin/form_pdf/keterangan_skck', $data_insert, TRUE);

@@ -3,7 +3,7 @@
 </style>
 <ul class="page-breadcrumb breadcrumb">
 	<li>
-		<span>Master</span>
+		<span>Laporan</span>
 		<i class="fa fa-circle"></i>
 	</li>
 	<li>

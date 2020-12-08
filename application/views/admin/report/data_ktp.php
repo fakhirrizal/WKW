@@ -42,6 +42,7 @@
 								<th style="text-align: center;"> RT/ RW </th>
 								<th style="text-align: center;"> File </th>
 								<th style="text-align: center;"> Waktu </th>
+								<th style="text-align: center;"> Aksi </th>
 							</tr>
 						</thead>
 					</table>
@@ -61,7 +62,8 @@
 											{ mData: 'nik', sClass: "alignCenter" },
 											{ mData: 'rtrw', sClass: "alignCenter" },
 											{ mData: 'file', sClass: "alignCenter" },
-											{ mData: 'waktu', sClass: "alignCenter" }
+											{ mData: 'waktu', sClass: "alignCenter" },
+											{ mData: 'aksi' }
 										],
 								"drawCallback": function(data) {
 									$('.detaildata').click(function(){

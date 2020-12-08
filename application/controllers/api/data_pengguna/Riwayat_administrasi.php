@@ -16,15 +16,15 @@ class Riwayat_administrasi extends REST_Controller {
 	}
 	function index_get() {
 		if($this->get('user_id')!=NULL){
-			$hasil = $this->Main_model->getSelectedData('masyarakat a', 'a.*', array('a.user_id'=>$this->get('user_id')))->row();
+			$hasil = $this->Main_model->getSelectedData('masyarakat a', 'a.*', array('a.user_id'=>$this->get('user_id')), '')->row();
 			if($hasil==NULL){
 				$balikan['status'] = 0;
 				$balikan['message'] = 'User ID tidak dikenali sistem.';
 				$balikan['list'] = '';
 				$this->response($balikan, 200);
 			}else{
-                $get_riwayat_total = $this->Main_model->getSelectedData('riwayat_administrasi a', 'a.*', array('a.created_by'=>$this->get('user_id')))->result();
-                $get_riwayat = $this->Main_model->getSelectedData('riwayat_administrasi a', 'a.*', array('a.created_by'=>$this->get('user_id')), '', '10', $this->get('jumlah'))->result();
+                $get_riwayat_total = $this->Main_model->getSelectedData('riwayat_administrasi a', 'a.*', array('a.created_by'=>$this->get('user_id')), 'a.created_at DESC')->result();
+                $get_riwayat = $this->Main_model->getSelectedData('riwayat_administrasi a', 'a.*', array('a.created_by'=>$this->get('user_id')), 'a.created_at DESC', '10', $this->get('jumlah'), '')->result();
 				if($get_riwayat_total==NULL){
                     $balikan['status'] = 1;
                     $balikan['message'] = 'Data kosong.';

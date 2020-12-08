@@ -55,7 +55,7 @@
 											{ mData: 'ttl', sClass: "alignCenter" },
 											{ mData: 'rtrw', sClass: "alignCenter" },
 											{ mData: 'waktu', sClass: "alignCenter" },
-											{ mData: 'aksi', sClass: "alignCenter" }
+											{ mData: 'aksi' }
 										]
 							});
 						});

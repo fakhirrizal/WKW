@@ -30,7 +30,7 @@
 						<input type="hidden" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>">
 						<input type="hidden" name="id" value="<?=md5($data_utama->id_ppid);?>">
 						<div class="form-body">
-						<div class="form-group form-md-line-input has-danger">
+							<div class="form-group form-md-line-input has-danger">
 								<label class="col-md-2 control-label" for="form_control_1">Judul <span class="required"> * </span></label>
 								<div class="col-md-10">
 									<div class="input-icon">

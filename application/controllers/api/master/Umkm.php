@@ -24,7 +24,7 @@ class Umkm extends REST_Controller {
 				$balikan['total'] = 0;
 				$this->response($balikan, 200);
 			}else{
-				$get_foto = $this->Main_model->getSelectedData('foto_produk_umkm a', 'a.*', array('a.id_umkm'=>$this->get('id_umkm')), '', '1')->row();
+				$get_foto = $this->Main_model->getSelectedData('foto_produk_umkm a', 'a.*', array('a.id_umkm'=>$this->get('id_umkm')), '', '')->result();
 				$isi['status'] = '1';
 				$isi['id_umkm'] = $hasil->id_umkm;
 				$isi['nama_usaha'] = $hasil->nama;
@@ -33,7 +33,12 @@ class Umkm extends REST_Controller {
 				$isi['alamat'] = $hasil->alamat;
 				$isi['pemilik'] = $hasil->nama_pemilik;
 				$isi['foto_pemilik'] = base_url().'data_upload/umkm/'.$hasil->pemilik;
-				$isi['foto_produk'] = base_url().'data_upload/umkm/'.$get_foto->file;
+				$foto = array();
+				foreach ($get_foto as $key => $value) {
+					$isi_foto['link'] = base_url().'data_upload/umkm/'.$value->file;
+					$foto[] = $isi_foto;
+				}
+				$isi['foto_produk'] = $foto;
 				$this->response($isi, 200);
 			}
 		}else{
@@ -48,7 +53,7 @@ class Umkm extends REST_Controller {
 			}else{
 				$data_tampil = array();
 				foreach ($hasil as $key => $value) {
-					$get_foto = $this->Main_model->getSelectedData('foto_produk_umkm a', 'a.*', array('a.id_umkm'=>$value->id_umkm), '', '1')->row();
+					$get_foto = $this->Main_model->getSelectedData('foto_produk_umkm a', 'a.*', array('a.id_umkm'=>$value->id_umkm), '', '')->result();
 					$isi['id_umkm'] = $value->id_umkm;
 					$isi['nama_usaha'] = $value->nama;
 					$isi['jenis_usaha'] = $value->jenis;
@@ -56,7 +61,12 @@ class Umkm extends REST_Controller {
 					$isi['alamat'] = $value->alamat;
 					$isi['pemilik'] = $value->nama_pemilik;
 					$isi['foto_pemilik'] = base_url().'data_upload/umkm/'.$value->pemilik;
-					$isi['foto_produk'] = base_url().'data_upload/umkm/'.$get_foto->file;
+					$foto = array();
+					foreach ($get_foto as $key => $value) {
+						$isi_foto['link'] = base_url().'data_upload/umkm/'.$value->file;
+						$foto[] = $isi_foto;
+					}
+					$isi['foto_produk'] = $foto;
 					$data_tampil[] = $isi;
 				}
 				$jumlah = $this->get('jumlah')+10;

@@ -495,10 +495,10 @@
 
   <table border="0" cellspacing="0" width="100%" cellpadding="0">
     <tr>
-      <td width="46%">&nbsp;</td>
+      <td width="46%"><?= $gambar_qr; ?></td>
       <td width="54%">
         <p align="center">
-          <font face="Arial">Mengetahui<br>Kepala Desa Kalipucang Wetan</font>
+          <font face="Arial">Mengetahui<br><?= $this->Main_model->get_jabatan_ttd();  ?> Kalipucang Wetan</font>
         </p>
         <p align="center">
           <font face="Arial">
@@ -506,7 +506,7 @@
             <br>
             <br>
             <br>
-            <b>( BAMBANG EDY SUDARMANTO )</b></font>
+            <b>( <?= $this->Main_model->get_nama_ttd();  ?> )</b></font>
           </font>
       </td>
     </tr>

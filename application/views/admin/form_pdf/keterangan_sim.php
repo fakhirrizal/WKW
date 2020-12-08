@@ -107,7 +107,7 @@
 			</td>
 			<td width="63%" style="border-style: none; border-width: medium" height="19">
 				<p style="line-height: 150%">
-					<span lang="IN" style="font-family: Arial,sans-serif">BAMBANG EDY SUDARMANTO</span>
+					<span lang="IN" style="font-family: Arial,sans-serif"><?= $this->Main_model->get_nama_ttd();  ?></span>
 			</td>
 		</tr>
 		<tr>
@@ -128,7 +128,7 @@
 			</td>
 			<td width="63%" style="border-style: none; border-width: medium" height="21">
 				<p style="line-height: 150%">
-					<font face="Arial,sans-serif">Sekretaris Desa</font>
+					<font face="Arial,sans-serif"><?= $this->Main_model->get_jabatan_ttd();  ?></font>
 			</td>
 		</tr>
 		<tr>
@@ -369,7 +369,7 @@
 			</td>
 			<td width="50%" style="border-style: none; border-width: medium" align="center">
 				<p style="line-height: 150%">
-					<font face="Arial">a.n KEPALA DESA</font>
+					<font face="Arial"><?= $this->Main_model->get_jabatan_ttd();  ?></font>
 			</td>
 		</tr>
 		<tr>
@@ -391,7 +391,7 @@
 		</tr>
 		<tr>
 			<td width="50%" style="border-style: none; border-width: medium">
-				<p style="line-height: 150%">&nbsp;
+				<p style="line-height: 150%">&nbsp;<?= $gambar_qr; ?>
 			</td>
 			<td width="50%" style="border-style: none; border-width: medium" align="center">
 				<p style="line-height: 150%">&nbsp;
@@ -411,7 +411,7 @@
 			</td>
 			<td width="50%" style="border-style: none; border-width: medium" align="center">
 				<p style="line-height: 150%"><span lang="IN" style="font-family: Arial">
-						BAMBANG EDY SUDARMANTO</span>
+						<?= $this->Main_model->get_nama_ttd();  ?></span>
 			</td>
 		</tr>
 	</table>

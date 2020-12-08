@@ -51,8 +51,8 @@
 								},
 								"aoColumns": [
 											{ mData: 'no', sClass: "alignCenter" },
-											{ mData: 'judul', sClass: "alignCenter" } ,
-											{ mData: 'jenis', sClass: "alignCenter" },
+											{ mData: 'judul' } ,
+											{ mData: 'jenis' },
 											{ mData: 'hp', sClass: "alignCenter" },
 											{ mData: 'action' }
 										]

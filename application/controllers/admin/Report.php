@@ -5,6 +5,29 @@ class Report extends CI_Controller {
     function __construct() {
         parent::__construct();
     }
+    public function qr()
+	{
+        $image_name_qr_code = '';
+		$config_qr_code['cacheable']	= true; // boolean, the default is true
+		$config_qr_code['cachedir']		= './data_upload/'; // string, the default is application/cache/
+		$config_qr_code['errorlog']		= './data_upload/'; // string, the default is application/logs/
+		$config_qr_code['imagedir']		= './data_upload/photo_profile/'; // direktori penyimpanan qr code
+		$config_qr_code['quality']		= true; // boolean, the default is true
+		$config_qr_code['size']			= '3024'; // interger, the default is 1024
+		$config_qr_code['black']		= array(224,255,255); // array, default is array(255,255,255)
+		$config_qr_code['white']		= array(70,130,180); // array, default is array(0,0,0)
+		$this->ciqrcode->initialize($config_qr_code);
+
+		$image_name_qr_code="qr_code_".time().'.png';
+		
+		$isi_qr = 2;
+
+		$params['data'] = $isi_qr; // data yang akan di jadikan QR CODE
+		$params['level'] = 'H'; // H=High
+		$params['size'] = 10;
+		$params['savename'] = FCPATH.$config_qr_code['imagedir'].$image_name_qr_code; // simpan image QR CODE ke folder assets/images/
+		$this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
+    }
     /* Pemberitahuan */
     public function pemberitahuan(){
 		$data['parent'] = 'master';
@@ -15,7 +38,7 @@ class Report extends CI_Controller {
         $this->load->view('admin/template/footer');
 	}
 	public function json_pemberitahuan(){
-		$get_data = $this->Main_model->getSelectedData('pemberitahuan a', 'a.*')->result();
+		$get_data = $this->Main_model->getSelectedData('pemberitahuan a', 'a.*', '', 'a.id_pemberitahuan DESC')->result();
         $data_tampil = array();
         $no = 1;
 		foreach ($get_data as $key => $value) {
@@ -58,16 +81,32 @@ class Report extends CI_Controller {
         $this->load->view('admin/template/footer');
 	}
 	public function simpan_pemberitahuan(){
-		$this->db->trans_start();
-		$get_last_id = $this->Main_model->getLastID('pemberitahuan','id_pemberitahuan');
-		
-        $data_insert_ = array(
-            'id_pemberitahuan' => $get_last_id['id_pemberitahuan']+1,
-            'judul' => $this->input->post('judul'),
-            'deskripsi' => $this->input->post('isi')
-        );
-        $this->Main_model->insertData("pemberitahuan",$data_insert_);
-
+        $this->db->trans_start();
+        $get_last_id = $this->Main_model->getLastID('pemberitahuan','id_pemberitahuan');
+		$nmfile = "pemberitahuan_file_".time(); // nama file saya beri nama langsung dan diikuti fungsi time
+		$config['upload_path'] = dirname($_SERVER["SCRIPT_FILENAME"]).'/data_upload/berita/'; // path folder
+		$config['allowed_types'] = 'jpg|jpeg|png|bmp'; // type yang dapat diakses bisa anda sesuaikan
+		$config['max_size'] = '3072'; // maksimum besar file 3M
+		$config['file_name'] = $nmfile; // nama yang terupload nantinya
+		$this->upload->initialize($config);
+		if(isset($_FILES['file']['name']))
+		{
+			if(!$this->upload->do_upload('file'))
+			{
+				echo'';
+			}
+			else
+			{
+				$gbr = $this->upload->data();
+				$data_insert_ = array(
+                    'id_pemberitahuan' => $get_last_id['id_pemberitahuan']+1,
+                    'judul' => $this->input->post('judul'),
+                    'deskripsi' => $this->input->post('isi'),
+                    'gambar' => $gbr['file_name']
+                );
+                $this->Main_model->insertData("pemberitahuan",$data_insert_);
+			}
+		}else{echo'';}
         $body = array(
 			"title" => "Pemberitahuan Terbaru",
 			"body" => $this->input->post('judul')
@@ -110,7 +149,29 @@ class Report extends CI_Controller {
         $this->load->view('admin/template/footer');
 	}
 	public function perbarui_pemberitahuan(){
-		$this->db->trans_start();
+        $this->db->trans_start();
+        $nmfile = "pemberitahuan_file_".time(); // nama file saya beri nama langsung dan diikuti fungsi time
+		$config['upload_path'] = dirname($_SERVER["SCRIPT_FILENAME"]).'/data_upload/berita/'; // path folder
+		$config['allowed_types'] = 'jpg|jpeg|png|bmp'; // type yang dapat diakses bisa anda sesuaikan
+		$config['max_size'] = '3072'; // maksimum besar file 3M
+		$config['file_name'] = $nmfile; // nama yang terupload nantinya
+
+		$this->upload->initialize($config);
+		if(isset($_FILES['file']['name']))
+		{
+			if(!$this->upload->do_upload('file'))
+			{
+				echo'';
+			}
+			else
+			{
+				$gbr = $this->upload->data();
+				$data_insert_1 = array(
+					'gambar' => $gbr['file_name']
+				);
+				$this->Main_model->updateData('pemberitahuan',$data_insert_1,array('md5(id_pemberitahuan)'=>$this->input->post('id')));
+			}
+		}else{echo'';}
 		$data_insert_2 = array(
 			'judul' => $this->input->post('judul'),
 			'deskripsi' => $this->input->post('isi')
@@ -173,6 +234,7 @@ class Report extends CI_Controller {
             $isi['nomor_surat'] = $value->nomor_surat;
             $pecah_tanggal = explode(' ',$value->created_at);
             $isi['pengajuan'] = $this->Main_model->convert_tanggal($pecah_tanggal[0]).' '.substr($pecah_tanggal[1],0,5);
+            $return_on_click = "return confirm('Anda yakin?')";
             $isi['action'] =	'
                             <div class="btn-group" style="text-align: center;">
                                 <button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Aksi
@@ -182,6 +244,10 @@ class Report extends CI_Controller {
                                     <li>
                                         <a href="'.site_url('admin_side/detil_data_pengajuan_kk/'.md5($value->id_data_kk)).'">
                                             <i class="icon-action-redo"></i> Detail Data </a>
+                                    </li>
+                                    <li>
+                                        <a onclick="'.$return_on_click.'" href="'.site_url('admin_side/hapus_data_pengajuan_kk/'.md5($value->id_data_kk)).'">
+                                            <i class="icon-trash"></i> Hapus Data </a>
                                     </li>
                                 </ul>
                             </div>';
@@ -219,6 +285,27 @@ class Report extends CI_Controller {
     public function perbarui_pengajuan_kk(){
         $this->db->trans_start();
         $cur_date = date('YmdHis');
+        $image_name_qr_code = '';
+		$config_qr_code['cacheable']	= true; // boolean, the default is true
+		$config_qr_code['cachedir']		= './data_upload/dokumen_qr/'; // string, the default is application/cache/
+		$config_qr_code['errorlog']		= './data_upload/dokumen_qr/'; // string, the default is application/logs/
+		$config_qr_code['imagedir']		= './data_upload/dokumen_qr/'; // direktori penyimpanan qr code
+		$config_qr_code['quality']		= true; // boolean, the default is true
+		$config_qr_code['size']			= '3024'; // interger, the default is 1024
+		$config_qr_code['black']		= array(224,255,255); // array, default is array(255,255,255)
+		$config_qr_code['white']		= array(70,130,180); // array, default is array(0,0,0)
+		$this->ciqrcode->initialize($config_qr_code);
+
+		$image_name_qr_code = "qr_code_kk_".time().'.png';
+		
+		$isi_qr = 'kk~'.$this->input->post('id');
+
+		$params['data'] = $isi_qr; // data yang akan di jadikan QR CODE
+		$params['level'] = 'H'; // H=High
+		$params['size'] = 10;
+		$params['savename'] = FCPATH.$config_qr_code['imagedir'].$image_name_qr_code; // simpan image QR CODE ke folder assets/images/
+        $this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
+        
         $nama_file = base_url().'data_upload/dokumen/'.$this->input->post('id').'KK'.$cur_date.'.pdf';
 
         $data_insert = array(
@@ -232,6 +319,7 @@ class Report extends CI_Controller {
             'file' => $nama_file
         );
         $this->Main_model->updateData('data_kk',$data_insert,array('md5(id_data_kk)'=>$this->input->post('id')));
+        $data_insert['gambar_qr'] = '<img src="'.base_url().'data_upload/dokumen_qr/'.$image_name_qr_code.'" width="10%"/>';
         require FCPATH . 'vendor/autoload.php';
 
         require_once BASEPATH.'core/CodeIgniter.php';
@@ -262,24 +350,96 @@ class Report extends CI_Controller {
 		$keterangan = '';
 		$get_data = $this->Main_model->getSelectedData('data_kk a', 'a.*',array('md5(a.id_data_kk)'=>$this->uri->segment(3)))->row();
 		$id = $get_data->id_data_kk;
-		if($get_data->sub_jenis_permohonan==NULL){
-            $keterangan = $get_data->jenis_permohonan;
-        }else{
-            $keterangan = $get_data->jenis_permohonan.' - '.$get_data->sub_jenis_permohonan;
-        }
+		$keterangan = $get_data->nomor_surat;
 
 		$this->Main_model->deleteData('data_kk',array('id_data_kk'=>$id));
-		$this->Main_model->deleteData('detail_data_kk',array('id_data_kk'=>$id));
 
 		$this->Main_model->log_activity($this->session->userdata('id'),"Deleting data","Menghapus data permohonan KK (".$keterangan.")",$this->session->userdata('location'));
 		$this->db->trans_complete();
 		if($this->db->trans_status() === false){
 			$this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal dihapus.<br /></div>' );
-			echo "<script>window.location='".base_url()."admin_side/data_kk/'</script>";
+			echo "<script>window.location='".base_url()."admin_side/permohonan_kk/'</script>";
 		}
 		else{
 			$this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil dihapus.<br /></div>' );
-			echo "<script>window.location='".base_url()."admin_side/data_kk/'</script>";
+			echo "<script>window.location='".base_url()."admin_side/permohonan_kk/'</script>";
+		}
+    }
+    /* Permohonan Informasi */
+    public function permohonan_informasi(){
+        $data['parent'] = 'laporan_masyarakat';
+        $data['child'] = 'permohonan_informasi';
+        $data['grand_child'] = '';
+        $this->load->view('admin/template/header',$data);
+        $this->load->view('admin/report/permohonan_informasi',$data);
+        $this->load->view('admin/template/footer');
+    }
+    public function json_permohonan_informasi(){
+		$get_data1 = $this->Main_model->getSelectedData('permohonan_informasi a', 'a.*', '', 'a.created_at DESC')->result();
+        $data_tampil = array();
+        $no = 1;
+		foreach ($get_data1 as $key => $value) {
+			$isi['no'] = $no++.'.';
+            $isi['kategori'] = $value->kategori;
+            $isi['alamat'] = $value->alamat;
+			$isi['nama'] = $value->nama;
+            $isi['tujuan'] = $value->tujuan;
+            $pecah_tanggal = explode(' ',$value->created_at);
+            $isi['waktu'] = $this->Main_model->convert_tanggal($pecah_tanggal[0]).' '.substr($pecah_tanggal[1],0,5);
+            $return_on_click = "return confirm('Anda yakin?')";
+            $isi['aksi'] =	'
+                            <div class="btn-group" style="text-align: center;">
+                                <button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Aksi
+                                    <i class="fa fa-angle-down"></i>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        <a href="'.site_url('admin_side/detail_permohonan_informasi/'.md5($value->id_permohonan_informasi)).'">
+                                            <i class="icon-action-redo"></i> Detail Data </a>
+                                    </li>
+                                    <li>
+                                        <a onclick="'.$return_on_click.'" href="'.site_url('admin_side/hapus_permohonan_informasi/'.md5($value->id_permohonan_informasi)).'">
+                                            <i class="icon-trash"></i> Hapus Data </a>
+                                    </li>
+                                </ul>
+                            </div>';
+			$data_tampil[] = $isi;
+		}
+		$results = array(
+			"sEcho" => 1,
+			"iTotalRecords" => count($data_tampil),
+			"iTotalDisplayRecords" => count($data_tampil),
+			"aaData"=>$data_tampil);
+		echo json_encode($results);
+    }
+    public function detail_permohonan_informasi(){
+        $data['parent'] = 'laporan_masyarakat';
+        $data['child'] = 'pengantar_domisili';
+        $data['grand_child'] = '';
+        $data['data_utama'] = $this->Main_model->getSelectedData('permohonan_informasi a', 'a.*', array('md5(a.id_permohonan_informasi)'=>$this->uri->segment(3)))->row();
+        $this->load->view('admin/template/header',$data);
+        $this->load->view('admin/report/detail_permohonan_informasi',$data);
+        $this->load->view('admin/template/footer');
+    }
+    public function hapus_permohonan_informasi(){
+		$this->db->trans_start();
+		$id = '';
+		$keterangan = '';
+		$get_data = $this->Main_model->getSelectedData('permohonan_informasi a', 'a.*',array('md5(a.id_permohonan_informasi)'=>$this->uri->segment(3)))->row();
+		$id = $get_data->id_permohonan_informasi;
+		$keterangan = $get_data->nama;
+
+		$this->Main_model->deleteData('permohonan_informasi',array('id_permohonan_informasi'=>$id));
+
+		$this->Main_model->log_activity($this->session->userdata('id'),"Deleting data","Menghapus data permohonan informasi yang diajukan oleh ".$keterangan,$this->session->userdata('location'));
+		$this->db->trans_complete();
+		if($this->db->trans_status() === false){
+			$this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal dihapus.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/permohonan_informasi/'</script>";
+		}
+		else{
+			$this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil dihapus.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/permohonan_informasi/'</script>";
 		}
     }
     /* Data KTP */
@@ -292,7 +452,7 @@ class Report extends CI_Controller {
         $this->load->view('admin/template/footer');
     }
     public function json_ktp(){
-		$get_data1 = $this->Main_model->getSelectedData('permohonan_ktp a', 'a.*')->result();
+		$get_data1 = $this->Main_model->getSelectedData('permohonan_ktp a', 'a.*', '', 'a.created_at DESC')->result();
         $data_tampil = array();
         $no = 1;
 		foreach ($get_data1 as $key => $value) {
@@ -305,6 +465,23 @@ class Report extends CI_Controller {
             $isi['file'] = '<a class="detaildata" id="'.md5($value->id_permohonan_ktp).'">Lihat File</a>';
             $pecah_tanggal = explode(' ',$value->created_at);
             $isi['waktu'] = $this->Main_model->convert_tanggal($pecah_tanggal[0]).' '.substr($pecah_tanggal[1],0,5);
+            $return_on_click = "return confirm('Anda yakin?')";
+            $isi['aksi'] =	'
+                            <div class="btn-group" style="text-align: center;">
+                                <button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Aksi
+                                    <i class="fa fa-angle-down"></i>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        <a href="'.site_url('admin_side/ubah_pengajuan_ktp/'.md5($value->id_permohonan_ktp)).'">
+                                            <i class="icon-action-redo"></i> Detail Data </a>
+                                    </li>
+                                    <li>
+                                        <a onclick="'.$return_on_click.'" href="'.site_url('admin_side/hapus_data_pengajuan_ktp/'.md5($value->id_permohonan_ktp)).'">
+                                            <i class="icon-trash"></i> Hapus Data </a>
+                                    </li>
+                                </ul>
+                            </div>';
 			$data_tampil[] = $isi;
 		}
 		$results = array(
@@ -375,6 +552,26 @@ class Report extends CI_Controller {
     public function perbarui_pengajuan_ktp(){
         $this->db->trans_start();
         $cur_date = date('YmdHis');
+        $image_name_qr_code = '';
+		$config_qr_code['cacheable']	= true; // boolean, the default is true
+		$config_qr_code['cachedir']		= './data_upload/dokumen_qr/'; // string, the default is application/cache/
+		$config_qr_code['errorlog']		= './data_upload/dokumen_qr/'; // string, the default is application/logs/
+		$config_qr_code['imagedir']		= './data_upload/dokumen_qr/'; // direktori penyimpanan qr code
+		$config_qr_code['quality']		= true; // boolean, the default is true
+		$config_qr_code['size']			= '3024'; // interger, the default is 1024
+		$config_qr_code['black']		= array(224,255,255); // array, default is array(255,255,255)
+		$config_qr_code['white']		= array(70,130,180); // array, default is array(0,0,0)
+		$this->ciqrcode->initialize($config_qr_code);
+
+		$image_name_qr_code = "qr_code_ktp_".time().'.png';
+		
+		$isi_qr = base_url().'scan_surat/ktp~'.$this->input->post('id');
+
+		$params['data'] = $isi_qr; // data yang akan di jadikan QR CODE
+		$params['level'] = 'H'; // H=High
+		$params['size'] = 10;
+		$params['savename'] = FCPATH.$config_qr_code['imagedir'].$image_name_qr_code; // simpan image QR CODE ke folder assets/images/
+        $this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
         $nama_file = base_url().'data_upload/dokumen/'.$this->input->post('id').'ktp'.$cur_date.'.pdf';
 
         $data_insert = array(
@@ -383,6 +580,8 @@ class Report extends CI_Controller {
             'kk' => $this->input->post('kk'),
             'nik' => $this->input->post('nik'),
             'nomor_surat' => $this->input->post('nomor_surat'),
+            'kode_pos' => $this->input->post('kode_pos'),
+            'alamat' => $this->input->post('alamat'),
             'rt' => $this->input->post('rt'),
             'rw' => $this->input->post('rw'),
             'file' => $nama_file
@@ -391,10 +590,25 @@ class Report extends CI_Controller {
         // print_r($data_insert);
         // Composer Autoloader
         require FCPATH . 'vendor/autoload.php';
-
+        $baru = '';
+        $perpanjangan = '';
+        $penggantian = '';
+        if($this->input->post('permohonan_ktp')=='Baru'){
+            $baru = 'X';
+        }elseif($this->input->post('permohonan_ktp')=='Perpanjangan'){
+            $perpanjangan = 'X';
+        }elseif($this->input->post('permohonan_ktp')=='Penggantian'){
+            $penggantian = 'X';
+        }else{
+            echo'';
+        }
+        $data_insert['baru'] = $baru;
+        $data_insert['perpanjangan'] = $perpanjangan;
+        $data_insert['penggantian'] = $penggantian;
+        $data_insert['gambar_qr'] = '<img src="'.base_url().'data_upload/dokumen_qr/'.$image_name_qr_code.'" width="10%"/>';
         require_once BASEPATH.'core/CodeIgniter.php';
         $mpdf = new \Mpdf\Mpdf();
-        $data = $this->load->view('admin/form_pdf/keterangan', $data_insert, TRUE);
+        $data = $this->load->view('admin/form_pdf/permohonan_ktp', $data_insert, TRUE);
         $mpdf->WriteHTML($data);
         if (ob_get_contents()) ob_end_clean();
         $pathh = 'data_upload/dokumen/'.$this->input->post('id').'ktp'.$cur_date.'.pdf';
@@ -410,8 +624,29 @@ class Report extends CI_Controller {
         }
         else{
             $this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil diubah.<br /></div>' );
-            echo "<script>window.location='".base_url()."admin_side/detail_pengajuan_ktp/".$this->input->post('id')."'</script>";
+            echo "<script>window.location='".base_url()."admin_side/permohonan_ktp/'</script>";
         }
+    }
+    public function hapus_data_pengajuan_ktp(){
+		$this->db->trans_start();
+		$id = '';
+		$keterangan = '';
+		$get_data = $this->Main_model->getSelectedData('permohonan_ktp a', 'a.*',array('md5(a.id_permohonan_ktp)'=>$this->uri->segment(3)))->row();
+		$id = $get_data->id_permohonan_ktp;
+		$keterangan = $get_data->nomor_surat;
+
+		$this->Main_model->deleteData('permohonan_ktp',array('id_permohonan_ktp'=>$id));
+
+		$this->Main_model->log_activity($this->session->userdata('id'),"Deleting data","Menghapus data permohonan KTP (".$keterangan.")",$this->session->userdata('location'));
+		$this->db->trans_complete();
+		if($this->db->trans_status() === false){
+			$this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal dihapus.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/permohonan_ktp/'</script>";
+		}
+		else{
+			$this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil dihapus.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/permohonan_ktp/'</script>";
+		}
     }
     /* Keterangan Domisili */
     public function pengantar_domisili(){
@@ -423,7 +658,7 @@ class Report extends CI_Controller {
         $this->load->view('admin/template/footer');
     }
     public function json_domisili(){
-		$get_data = $this->Main_model->getSelectedData('surat_keterangan_domisili a', 'a.*')->result();
+		$get_data = $this->Main_model->getSelectedData('surat_keterangan_domisili a', 'a.*', '', 'a.created_at DESC')->result();
         $data_tampil = array();
         $no = 1;
 		foreach ($get_data as $key => $value) {
@@ -434,10 +669,25 @@ class Report extends CI_Controller {
             $isi['rtrw'] = $value->rt.'/ '.$value->rw;
             $isi['ttl'] = $value->tempat_lahir.', '.$this->Main_model->convert_tanggal($value->tanggal_lahir);
             $pecah_tanggal = explode(' ',$value->created_at);
+            $return_on_click = "return confirm('Anda yakin?')";
             $isi['waktu'] = $this->Main_model->convert_tanggal($pecah_tanggal[0]).' '.substr($pecah_tanggal[1],0,5);
             $isi['aksi'] =	'
-            <a class="btn btn-xs green" type="button" href="'.base_url().'admin_side/detail_surat_keterangan_domisili/'.md5($value->id_surat_keterangan_domisili).'"> Detail Data
-            </a>';
+            <div class="btn-group" >
+				<button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Aksi
+					<i class="fa fa-angle-down"></i>
+				</button>
+				<ul class="dropdown-menu" role="menu">
+                    <li>
+                        <a  href="'.site_url('admin_side/detail_surat_keterangan_domisili/'.md5($value->id_surat_keterangan_domisili)).'">
+                            <i class="icon-action-redo"></i> Detail Data </a>
+                    </li>
+					<li>
+						<a onclick="'.$return_on_click.'" href="'.site_url('admin_side/hapus_data_pengajuan_domisili/'.md5($value->id_surat_keterangan_domisili)).'">
+							<i class="icon-trash"></i> Hapus Data </a>
+					</li>
+				</ul>
+			</div>
+            ';
 			$data_tampil[] = $isi;
 		}
 		$results = array(
@@ -468,6 +718,26 @@ class Report extends CI_Controller {
     public function perbarui_pengajuan_domisili(){
         $this->db->trans_start();
         $cur_date = date('YmdHis');
+        $image_name_qr_code = '';
+		$config_qr_code['cacheable']	= true; // boolean, the default is true
+		$config_qr_code['cachedir']		= './data_upload/dokumen_qr/'; // string, the default is application/cache/
+		$config_qr_code['errorlog']		= './data_upload/dokumen_qr/'; // string, the default is application/logs/
+		$config_qr_code['imagedir']		= './data_upload/dokumen_qr/'; // direktori penyimpanan qr code
+		$config_qr_code['quality']		= true; // boolean, the default is true
+		$config_qr_code['size']			= '3024'; // interger, the default is 1024
+		$config_qr_code['black']		= array(224,255,255); // array, default is array(255,255,255)
+		$config_qr_code['white']		= array(70,130,180); // array, default is array(0,0,0)
+		$this->ciqrcode->initialize($config_qr_code);
+
+		$image_name_qr_code = "qr_code_domisili_".time().'.png';
+		
+		$isi_qr = base_url().'scan_surat/domisili~'.$this->input->post('id');
+
+		$params['data'] = $isi_qr; // data yang akan di jadikan QR CODE
+		$params['level'] = 'H'; // H=High
+		$params['size'] = 10;
+		$params['savename'] = FCPATH.$config_qr_code['imagedir'].$image_name_qr_code; // simpan image QR CODE ke folder assets/images/
+        $this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
         $nama_file = base_url().'data_upload/dokumen/'.$this->input->post('id').'domisili'.$cur_date.'.pdf';
 
         $data_insert = array(
@@ -492,6 +762,7 @@ class Report extends CI_Controller {
 
         require_once BASEPATH.'core/CodeIgniter.php';
         $mpdf = new \Mpdf\Mpdf();
+        $data_insert['gambar_qr'] = '<img src="'.base_url().'data_upload/dokumen_qr/'.$image_name_qr_code.'" width="10%"/>';
         $data = $this->load->view('admin/form_pdf/keterangan_domisili', $data_insert, TRUE);
         $mpdf->WriteHTML($data);
         if (ob_get_contents()) ob_end_clean();
@@ -511,6 +782,27 @@ class Report extends CI_Controller {
             echo "<script>window.location='".base_url()."admin_side/detail_surat_keterangan_domisili/".$this->input->post('id')."'</script>";
         }
     }
+    public function hapus_data_pengajuan_domisili(){
+		$this->db->trans_start();
+		$id = '';
+		$keterangan = '';
+		$get_data = $this->Main_model->getSelectedData('surat_keterangan_domisili a', 'a.*',array('md5(a.id_surat_keterangan_domisili)'=>$this->uri->segment(3)))->row();
+		$id = $get_data->id_surat_keterangan_domisili;
+		$keterangan = $get_data->nomor_surat;
+
+		$this->Main_model->deleteData('surat_keterangan_domisili',array('id_surat_keterangan_domisili'=>$id));
+
+		$this->Main_model->log_activity($this->session->userdata('id'),"Deleting data","Menghapus data permohonan domisili (".$keterangan.")",$this->session->userdata('location'));
+		$this->db->trans_complete();
+		if($this->db->trans_status() === false){
+			$this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal dihapus.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/pengantar_domisili/'</script>";
+		}
+		else{
+			$this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil dihapus.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/pengantar_domisili/'</script>";
+		}
+    }
     /* Keterangan Usaha */
     public function surat_keterangan_usaha(){
         $data['parent'] = 'laporan_masyarakat';
@@ -521,7 +813,7 @@ class Report extends CI_Controller {
         $this->load->view('admin/template/footer');
     }
     public function json_surat_keterangan_usaha(){
-		$get_data = $this->Main_model->getSelectedData('surat_keterangan_usaha a', 'a.*')->result();
+		$get_data = $this->Main_model->getSelectedData('surat_keterangan_usaha a', 'a.*', '', 'a.created_at DESC')->result();
         $data_tampil = array();
         $no = 1;
 		foreach ($get_data as $key => $value) {
@@ -533,9 +825,24 @@ class Report extends CI_Controller {
             $isi['ttl'] = $value->tempat_lahir.', '.$this->Main_model->convert_tanggal($value->tanggal_lahir);
             $pecah_tanggal = explode(' ',$value->created_at);
             $isi['waktu'] = $this->Main_model->convert_tanggal($pecah_tanggal[0]).' '.substr($pecah_tanggal[1],0,5);
+            $return_on_click = "return confirm('Anda yakin?')";
             $isi['aksi'] =	'
-            <a class="btn btn-xs green" type="button" href="'.base_url().'admin_side/detail_surat_keterangan_usaha/'.md5($value->id_surat_keterangan_usaha).'"> Detail Data
-            </a>';
+            <div class="btn-group" >
+				<button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Aksi
+					<i class="fa fa-angle-down"></i>
+				</button>
+				<ul class="dropdown-menu" role="menu">
+                    <li>
+                        <a  href="'.site_url('admin_side/detail_surat_keterangan_usaha/'.md5($value->id_surat_keterangan_usaha)).'">
+                            <i class="icon-action-redo"></i> Detail Data </a>
+                    </li>
+					<li>
+						<a onclick="'.$return_on_click.'" href="'.site_url('admin_side/hapus_data_pengajuan_usaha/'.md5($value->id_surat_keterangan_usaha)).'">
+							<i class="icon-trash"></i> Hapus Data </a>
+					</li>
+				</ul>
+			</div>
+            ';
 			$data_tampil[] = $isi;
 		}
 		$results = array(
@@ -566,6 +873,26 @@ class Report extends CI_Controller {
     public function perbarui_pengajuan_usaha(){
         $this->db->trans_start();
         $cur_date = date('YmdHis');
+        $image_name_qr_code = '';
+		$config_qr_code['cacheable']	= true; // boolean, the default is true
+		$config_qr_code['cachedir']		= './data_upload/dokumen_qr/'; // string, the default is application/cache/
+		$config_qr_code['errorlog']		= './data_upload/dokumen_qr/'; // string, the default is application/logs/
+		$config_qr_code['imagedir']		= './data_upload/dokumen_qr/'; // direktori penyimpanan qr code
+		$config_qr_code['quality']		= true; // boolean, the default is true
+		$config_qr_code['size']			= '3024'; // interger, the default is 1024
+		$config_qr_code['black']		= array(224,255,255); // array, default is array(255,255,255)
+		$config_qr_code['white']		= array(70,130,180); // array, default is array(0,0,0)
+		$this->ciqrcode->initialize($config_qr_code);
+
+		$image_name_qr_code = "qr_code_pengajuan_usaha_".time().'.png';
+		
+		$isi_qr =  base_url().'scan_surat/usaha~'.$this->input->post('id');
+
+		$params['data'] = $isi_qr; // data yang akan di jadikan QR CODE
+		$params['level'] = 'H'; // H=High
+		$params['size'] = 10;
+		$params['savename'] = FCPATH.$config_qr_code['imagedir'].$image_name_qr_code; // simpan image QR CODE ke folder assets/images/
+        $this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
         $nama_file = base_url().'data_upload/dokumen/'.$this->input->post('id').'usaha'.$cur_date.'.pdf';
 
         $data_insert = array(
@@ -585,7 +912,7 @@ class Report extends CI_Controller {
         // print_r($data_insert);
         // Composer Autoloader
         require FCPATH . 'vendor/autoload.php';
-
+        $data_insert['gambar_qr'] = '<img src="'.base_url().'data_upload/dokumen_qr/'.$image_name_qr_code.'" width="10%"/>';
         require_once BASEPATH.'core/CodeIgniter.php';
         $mpdf = new \Mpdf\Mpdf();
         $data = $this->load->view('admin/form_pdf/keterangan_usaha', $data_insert, TRUE);
@@ -607,6 +934,27 @@ class Report extends CI_Controller {
             echo "<script>window.location='".base_url()."admin_side/detail_surat_keterangan_usaha/".$this->input->post('id')."'</script>";
         }
     }
+    public function hapus_data_pengajuan_usaha(){
+		$this->db->trans_start();
+		$id = '';
+		$keterangan = '';
+		$get_data = $this->Main_model->getSelectedData('surat_keterangan_usaha a', 'a.*',array('md5(a.id_surat_keterangan_usaha)'=>$this->uri->segment(3)))->row();
+		$id = $get_data->id_surat_keterangan_usaha;
+		$keterangan = $get_data->nomor_surat;
+
+		$this->Main_model->deleteData('surat_keterangan_usaha',array('id_surat_keterangan_usaha'=>$id));
+
+		$this->Main_model->log_activity($this->session->userdata('id'),"Deleting data","Menghapus data permohonan usaha (".$keterangan.")",$this->session->userdata('location'));
+		$this->db->trans_complete();
+		if($this->db->trans_status() === false){
+			$this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal dihapus.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/surat_keterangan_usaha/'</script>";
+		}
+		else{
+			$this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil dihapus.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/surat_keterangan_usaha/'</script>";
+		}
+    }
     /* SKTM */
     public function sktm(){
         $data['parent'] = 'laporan_masyarakat';
@@ -617,7 +965,7 @@ class Report extends CI_Controller {
         $this->load->view('admin/template/footer');
     }
     public function json_sktm_umum(){
-		$get_data = $this->Main_model->getSelectedData('sktm a', 'a.*')->result();
+		$get_data = $this->Main_model->getSelectedData('sktm a', 'a.*', '', 'a.created_at DESC')->result();
         $data_tampil = array();
         $no = 1;
 		foreach ($get_data as $key => $value) {
@@ -628,9 +976,24 @@ class Report extends CI_Controller {
             $isi['ttl'] = $value->tempat_lahir.', '.$this->Main_model->convert_tanggal($value->tanggal_lahir);
             $pecah_tanggal = explode(' ',$value->created_at);
             $isi['waktu'] = $this->Main_model->convert_tanggal($pecah_tanggal[0]).' '.substr($pecah_tanggal[1],0,5);
+            $return_on_click = "return confirm('Anda yakin?')";
             $isi['action'] =	'
-            <a class="btn btn-xs green" type="button" href="'.base_url().'admin_side/detail_sktm/'.md5($value->id_sktm).'/1"> Detail Data
-            </a>';
+            <div class="btn-group" >
+				<button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Aksi
+					<i class="fa fa-angle-down"></i>
+				</button>
+				<ul class="dropdown-menu" role="menu">
+                    <li>
+                        <a  href="'.site_url('admin_side/detail_sktm/'.md5($value->id_sktm)).'/1">
+                            <i class="icon-action-redo"></i> Detail Data </a>
+                    </li>
+					<li>
+						<a onclick="'.$return_on_click.'" href="'.site_url('admin_side/hapus_data_pengajuan_sktm_umum/'.md5($value->id_sktm)).'">
+							<i class="icon-trash"></i> Hapus Data </a>
+					</li>
+				</ul>
+			</div>
+            ';
 			$data_tampil[] = $isi;
 		}
 		$results = array(
@@ -641,7 +1004,7 @@ class Report extends CI_Controller {
 		echo json_encode($results);
     }
     public function json_sktm_pelajar(){
-		$get_data = $this->Main_model->getSelectedData('sktm_pendidikan a', 'a.*')->result();
+		$get_data = $this->Main_model->getSelectedData('sktm_pendidikan a', 'a.*', '', 'a.created_at DESC')->result();
         $data_tampil = array();
         $no = 1;
 		foreach ($get_data as $key => $value) {
@@ -652,9 +1015,24 @@ class Report extends CI_Controller {
             $isi['ttl'] = $value->tempat_lahir.', '.$this->Main_model->convert_tanggal($value->tanggal_lahir);
             $pecah_tanggal = explode(' ',$value->created_at);
             $isi['waktu'] = $this->Main_model->convert_tanggal($pecah_tanggal[0]).' '.substr($pecah_tanggal[1],0,5);
+            $return_on_click = "return confirm('Anda yakin?')";
             $isi['action'] =	'
-            <a class="btn btn-xs green" type="button" href="'.base_url().'admin_side/detail_sktm/'.md5($value->id_sktm_pendidikan).'/2"> Detail Data
-            </a>';
+            <div class="btn-group" >
+				<button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Aksi
+					<i class="fa fa-angle-down"></i>
+				</button>
+				<ul class="dropdown-menu" role="menu">
+                    <li>
+                        <a  href="'.site_url('admin_side/detail_sktm/'.md5($value->id_sktm_pendidikan)).'/2">
+                            <i class="icon-action-redo"></i> Detail Data </a>
+                    </li>
+					<li>
+						<a onclick="'.$return_on_click.'" href="'.site_url('admin_side/hapus_data_pengajuan_sktm_pendidikan/'.md5($value->id_sktm_pendidikan)).'">
+							<i class="icon-trash"></i> Hapus Data </a>
+					</li>
+				</ul>
+			</div>
+            ';
 			$data_tampil[] = $isi;
 		}
 		$results = array(
@@ -694,6 +1072,26 @@ class Report extends CI_Controller {
     public function perbarui_pengajuan_sktm_umum(){
         $this->db->trans_start();
         $cur_date = date('YmdHis');
+        $image_name_qr_code = '';
+		$config_qr_code['cacheable']	= true; // boolean, the default is true
+		$config_qr_code['cachedir']		= './data_upload/dokumen_qr/'; // string, the default is application/cache/
+		$config_qr_code['errorlog']		= './data_upload/dokumen_qr/'; // string, the default is application/logs/
+		$config_qr_code['imagedir']		= './data_upload/dokumen_qr/'; // direktori penyimpanan qr code
+		$config_qr_code['quality']		= true; // boolean, the default is true
+		$config_qr_code['size']			= '3024'; // interger, the default is 1024
+		$config_qr_code['black']		= array(224,255,255); // array, default is array(255,255,255)
+		$config_qr_code['white']		= array(70,130,180); // array, default is array(0,0,0)
+		$this->ciqrcode->initialize($config_qr_code);
+
+		$image_name_qr_code = "qr_code_sktm_umum_".time().'.png';
+		
+		$isi_qr =  base_url().'scan_surat/sktm_umum~'.$this->input->post('id');
+
+		$params['data'] = $isi_qr; // data yang akan di jadikan QR CODE
+		$params['level'] = 'H'; // H=High
+		$params['size'] = 10;
+		$params['savename'] = FCPATH.$config_qr_code['imagedir'].$image_name_qr_code; // simpan image QR CODE ke folder assets/images/
+        $this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
         $nama_file = base_url().'data_upload/dokumen/'.$this->input->post('id').'sktm_umum'.$cur_date.'.pdf';
 
         $data_insert = array(
@@ -713,7 +1111,7 @@ class Report extends CI_Controller {
         // print_r($data_insert);
         // Composer Autoloader
         require FCPATH . 'vendor/autoload.php';
-
+        $data_insert['gambar_qr'] = '<img src="'.base_url().'data_upload/dokumen_qr/'.$image_name_qr_code.'" width="10%"/>';
         require_once BASEPATH.'core/CodeIgniter.php';
         $mpdf = new \Mpdf\Mpdf();
         $data = $this->load->view('admin/form_pdf/sktm', $data_insert, TRUE);
@@ -747,6 +1145,26 @@ class Report extends CI_Controller {
     public function perbarui_pengajuan_sktm_pendidikan(){
         $this->db->trans_start();
         $cur_date = date('YmdHis');
+        $image_name_qr_code = '';
+		$config_qr_code['cacheable']	= true; // boolean, the default is true
+		$config_qr_code['cachedir']		= './data_upload/dokumen_qr/'; // string, the default is application/cache/
+		$config_qr_code['errorlog']		= './data_upload/dokumen_qr/'; // string, the default is application/logs/
+		$config_qr_code['imagedir']		= './data_upload/dokumen_qr/'; // direktori penyimpanan qr code
+		$config_qr_code['quality']		= true; // boolean, the default is true
+		$config_qr_code['size']			= '3024'; // interger, the default is 1024
+		$config_qr_code['black']		= array(224,255,255); // array, default is array(255,255,255)
+		$config_qr_code['white']		= array(70,130,180); // array, default is array(0,0,0)
+		$this->ciqrcode->initialize($config_qr_code);
+
+		$image_name_qr_code = "qr_code_sktm_pendidikan_".time().'.png';
+		
+		$isi_qr = base_url().'scan_surat/sktm_pendidikan~'.$this->input->post('id');
+
+		$params['data'] = $isi_qr; // data yang akan di jadikan QR CODE
+		$params['level'] = 'H'; // H=High
+		$params['size'] = 10;
+		$params['savename'] = FCPATH.$config_qr_code['imagedir'].$image_name_qr_code; // simpan image QR CODE ke folder assets/images/
+        $this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
         $nama_file = base_url().'data_upload/dokumen/'.$this->input->post('id').'sktm_pendidikan'.$cur_date.'.pdf';
 
         $data_insert = array(
@@ -768,7 +1186,7 @@ class Report extends CI_Controller {
         // print_r($data_insert);
         // Composer Autoloader
         require FCPATH . 'vendor/autoload.php';
-
+        $data_insert['gambar_qr'] = '<img src="'.base_url().'data_upload/dokumen_qr/'.$image_name_qr_code.'" width="10%"/>';
         require_once BASEPATH.'core/CodeIgniter.php';
         $mpdf = new \Mpdf\Mpdf();
         $data = $this->load->view('admin/form_pdf/sktm_sekolah', $data_insert, TRUE);
@@ -790,6 +1208,48 @@ class Report extends CI_Controller {
             echo "<script>window.location='".base_url()."admin_side/detail_sktm/".$this->input->post('id')."/2'</script>";
         }
     }
+    public function hapus_data_pengajuan_sktm_umum(){
+		$this->db->trans_start();
+		$id = '';
+		$keterangan = '';
+		$get_data = $this->Main_model->getSelectedData('sktm a', 'a.*',array('md5(a.id_sktm)'=>$this->uri->segment(3)))->row();
+		$id = $get_data->id_sktm;
+		$keterangan = $get_data->nomor_surat;
+
+		$this->Main_model->deleteData('sktm',array('id_sktm'=>$id));
+
+		$this->Main_model->log_activity($this->session->userdata('id'),"Deleting data","Menghapus data permohonan SKTM (".$keterangan.")",$this->session->userdata('location'));
+		$this->db->trans_complete();
+		if($this->db->trans_status() === false){
+			$this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal dihapus.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/sktm/'</script>";
+		}
+		else{
+			$this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil dihapus.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/sktm/'</script>";
+		}
+    }
+    public function hapus_data_pengajuan_sktm_pendidikan(){
+		$this->db->trans_start();
+		$id = '';
+		$keterangan = '';
+		$get_data = $this->Main_model->getSelectedData('sktm_pendidikan a', 'a.*',array('md5(a.id_sktm_pendidikan)'=>$this->uri->segment(3)))->row();
+		$id = $get_data->id_sktm_pendidikan;
+		$keterangan = $get_data->nomor_surat;
+
+		$this->Main_model->deleteData('sktm_pendidikan',array('id_sktm_pendidikan'=>$id));
+
+		$this->Main_model->log_activity($this->session->userdata('id'),"Deleting data","Menghapus data permohonan SKTM (".$keterangan.")",$this->session->userdata('location'));
+		$this->db->trans_complete();
+		if($this->db->trans_status() === false){
+			$this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal dihapus.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/sktm/'</script>";
+		}
+		else{
+			$this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil dihapus.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/sktm/'</script>";
+		}
+    }
     /* SIM */
     public function sim(){
         $data['parent'] = 'laporan_masyarakat';
@@ -800,7 +1260,7 @@ class Report extends CI_Controller {
         $this->load->view('admin/template/footer');
     }
     public function json_sim(){
-		$get_data = $this->Main_model->getSelectedData('surat_pengantar_sim a', 'a.*')->result();
+		$get_data = $this->Main_model->getSelectedData('surat_pengantar_sim a', 'a.*', '', 'a.created_at DESC')->result();
         $data_tampil = array();
         $no = 1;
 		foreach ($get_data as $key => $value) {
@@ -811,9 +1271,24 @@ class Report extends CI_Controller {
             $isi['ttl'] = $value->tempat_lahir.', '.$this->Main_model->convert_tanggal($value->tanggal_lahir);
             $pecah_tanggal = explode(' ',$value->created_at);
             $isi['waktu'] = $this->Main_model->convert_tanggal($pecah_tanggal[0]).' '.substr($pecah_tanggal[1],0,5);
+            $return_on_click = "return confirm('Anda yakin?')";
             $isi['aksi'] =	'
-            <a class="btn btn-xs green" type="button" href="'.base_url().'admin_side/detail_pengajuan_sim/'.md5($value->id_surat_pengantar_sim).'"> Detail Data
-            </a>';
+            <div class="btn-group" >
+				<button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Aksi
+					<i class="fa fa-angle-down"></i>
+				</button>
+				<ul class="dropdown-menu" role="menu">
+                    <li>
+                        <a  href="'.site_url('admin_side/detail_pengajuan_sim/'.md5($value->id_surat_pengantar_sim)).'/">
+                            <i class="icon-action-redo"></i> Detail Data </a>
+                    </li>
+					<li>
+						<a onclick="'.$return_on_click.'" href="'.site_url('admin_side/hapus_data_pengajuan_sim/'.md5($value->id_surat_pengantar_sim)).'">
+							<i class="icon-trash"></i> Hapus Data </a>
+					</li>
+				</ul>
+			</div>
+            ';
 			$data_tampil[] = $isi;
 		}
 		$results = array(
@@ -844,6 +1319,26 @@ class Report extends CI_Controller {
     public function perbarui_pengajuan_sim(){
         $this->db->trans_start();
         $cur_date = date('YmdHis');
+        $image_name_qr_code = '';
+		$config_qr_code['cacheable']	= true; // boolean, the default is true
+		$config_qr_code['cachedir']		= './data_upload/dokumen_qr/'; // string, the default is application/cache/
+		$config_qr_code['errorlog']		= './data_upload/dokumen_qr/'; // string, the default is application/logs/
+		$config_qr_code['imagedir']		= './data_upload/dokumen_qr/'; // direktori penyimpanan qr code
+		$config_qr_code['quality']		= true; // boolean, the default is true
+		$config_qr_code['size']			= '3024'; // interger, the default is 1024
+		$config_qr_code['black']		= array(224,255,255); // array, default is array(255,255,255)
+		$config_qr_code['white']		= array(70,130,180); // array, default is array(0,0,0)
+		$this->ciqrcode->initialize($config_qr_code);
+
+		$image_name_qr_code = "qr_code_sim_".time().'.png';
+		
+		$isi_qr = base_url().'scan_surat/sim~'.$this->input->post('id');
+
+		$params['data'] = $isi_qr; // data yang akan di jadikan QR CODE
+		$params['level'] = 'H'; // H=High
+		$params['size'] = 10;
+		$params['savename'] = FCPATH.$config_qr_code['imagedir'].$image_name_qr_code; // simpan image QR CODE ke folder assets/images/
+        $this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
         $nama_file = base_url().'data_upload/dokumen/'.$this->input->post('id').'sim'.$cur_date.'.pdf';
 
         $data_insert = array(
@@ -862,7 +1357,7 @@ class Report extends CI_Controller {
         // print_r($data_insert);
         // Composer Autoloader
         require FCPATH . 'vendor/autoload.php';
-
+        $data_insert['gambar_qr'] = '<img src="'.base_url().'data_upload/dokumen_qr/'.$image_name_qr_code.'" width="10%"/>';
         require_once BASEPATH.'core/CodeIgniter.php';
         $mpdf = new \Mpdf\Mpdf();
         $data = $this->load->view('admin/form_pdf/keterangan_sim', $data_insert, TRUE);
@@ -884,6 +1379,27 @@ class Report extends CI_Controller {
             echo "<script>window.location='".base_url()."admin_side/detail_pengajuan_sim/".$this->input->post('id')."'</script>";
         }
     }
+    public function hapus_data_pengajuan_sim(){
+		$this->db->trans_start();
+		$id = '';
+		$keterangan = '';
+		$get_data = $this->Main_model->getSelectedData('surat_pengantar_sim a', 'a.*',array('md5(a.id_surat_pengantar_sim)'=>$this->uri->segment(3)))->row();
+		$id = $get_data->id_surat_pengantar_sim;
+		$keterangan = $get_data->nomor_surat;
+
+		$this->Main_model->deleteData('surat_pengantar_sim',array('id_surat_pengantar_sim'=>$id));
+
+		$this->Main_model->log_activity($this->session->userdata('id'),"Deleting data","Menghapus data permohonan SIM (".$keterangan.")",$this->session->userdata('location'));
+		$this->db->trans_complete();
+		if($this->db->trans_status() === false){
+			$this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal dihapus.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/sim/'</script>";
+		}
+		else{
+			$this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil dihapus.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/sim/'</script>";
+		}
+    }
     /* SKCK */
     public function skck(){
         $data['parent'] = 'laporan_masyarakat';
@@ -894,7 +1410,7 @@ class Report extends CI_Controller {
         $this->load->view('admin/template/footer');
     }
     public function json_skck(){
-		$get_data = $this->Main_model->getSelectedData('surat_pengantar_skck a', 'a.*')->result();
+		$get_data = $this->Main_model->getSelectedData('surat_pengantar_skck a', 'a.*', '', 'a.created_at DESC')->result();
         $data_tampil = array();
         $no = 1;
 		foreach ($get_data as $key => $value) {
@@ -905,9 +1421,24 @@ class Report extends CI_Controller {
             $isi['ttl'] = $value->tempat_lahir.', '.$this->Main_model->convert_tanggal($value->tanggal_lahir);
             $pecah_tanggal = explode(' ',$value->created_at);
             $isi['waktu'] = $this->Main_model->convert_tanggal($pecah_tanggal[0]).' '.substr($pecah_tanggal[1],0,5);
+            $return_on_click = "return confirm('Anda yakin?')";
             $isi['aksi'] =	'
-            <a class="btn btn-xs green" type="button" href="'.base_url().'admin_side/detail_pengajuan_skck/'.md5($value->id_surat_pengantar_skck).'"> Detail Data
-            </a>';
+            <div class="btn-group" >
+				<button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Aksi
+					<i class="fa fa-angle-down"></i>
+				</button>
+				<ul class="dropdown-menu" role="menu">
+                    <li>
+                        <a  href="'.site_url('admin_side/detail_pengajuan_skck/'.md5($value->id_surat_pengantar_skck)).'/">
+                            <i class="icon-action-redo"></i> Detail Data </a>
+                    </li>
+					<li>
+						<a onclick="'.$return_on_click.'" href="'.site_url('admin_side/hapus_data_pengajuan_skck/'.md5($value->id_surat_pengantar_skck)).'">
+							<i class="icon-trash"></i> Hapus Data </a>
+					</li>
+				</ul>
+			</div>
+            ';
 			$data_tampil[] = $isi;
 		}
 		$results = array(
@@ -938,6 +1469,26 @@ class Report extends CI_Controller {
     public function perbarui_pengajuan_skck(){
         $this->db->trans_start();
         $cur_date = date('YmdHis');
+        $image_name_qr_code = '';
+		$config_qr_code['cacheable']	= true; // boolean, the default is true
+		$config_qr_code['cachedir']		= './data_upload/dokumen_qr/'; // string, the default is application/cache/
+		$config_qr_code['errorlog']		= './data_upload/dokumen_qr/'; // string, the default is application/logs/
+		$config_qr_code['imagedir']		= './data_upload/dokumen_qr/'; // direktori penyimpanan qr code
+		$config_qr_code['quality']		= true; // boolean, the default is true
+		$config_qr_code['size']			= '3024'; // interger, the default is 1024
+		$config_qr_code['black']		= array(224,255,255); // array, default is array(255,255,255)
+		$config_qr_code['white']		= array(70,130,180); // array, default is array(0,0,0)
+		$this->ciqrcode->initialize($config_qr_code);
+
+		$image_name_qr_code = "qr_code_skck_".time().'.png';
+		
+		$isi_qr = base_url().'scan_surat/skck~'.$this->input->post('id');
+
+		$params['data'] = $isi_qr; // data yang akan di jadikan QR CODE
+		$params['level'] = 'H'; // H=High
+		$params['size'] = 10;
+		$params['savename'] = FCPATH.$config_qr_code['imagedir'].$image_name_qr_code; // simpan image QR CODE ke folder assets/images/
+        $this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
         $nama_file = base_url().'data_upload/dokumen/'.$this->input->post('id').'skck'.$cur_date.'.pdf';
 
         $data_insert = array(
@@ -956,7 +1507,7 @@ class Report extends CI_Controller {
         // print_r($data_insert);
         // Composer Autoloader
         require FCPATH . 'vendor/autoload.php';
-
+        $data_insert['gambar_qr'] = '<img src="'.base_url().'data_upload/dokumen_qr/'.$image_name_qr_code.'" width="10%"/>';
         require_once BASEPATH.'core/CodeIgniter.php';
         $mpdf = new \Mpdf\Mpdf();
         $data = $this->load->view('admin/form_pdf/keterangan_skck', $data_insert, TRUE);
@@ -977,6 +1528,185 @@ class Report extends CI_Controller {
             $this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil diubah.<br /></div>' );
             echo "<script>window.location='".base_url()."admin_side/detail_pengajuan_skck/".$this->input->post('id')."'</script>";
         }
+    }
+    public function hapus_data_pengajuan_skck(){
+		$this->db->trans_start();
+		$id = '';
+		$keterangan = '';
+		$get_data = $this->Main_model->getSelectedData('surat_pengantar_skck a', 'a.*',array('md5(a.id_surat_pengantar_skck)'=>$this->uri->segment(3)))->row();
+		$id = $get_data->id_surat_pengantar_skck;
+		$keterangan = $get_data->nomor_surat;
+
+		$this->Main_model->deleteData('surat_pengantar_skck',array('id_surat_pengantar_skck'=>$id));
+
+		$this->Main_model->log_activity($this->session->userdata('id'),"Deleting data","Menghapus data permohonan SKCK (".$keterangan.")",$this->session->userdata('location'));
+		$this->db->trans_complete();
+		if($this->db->trans_status() === false){
+			$this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal dihapus.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/skck/'</script>";
+		}
+		else{
+			$this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil dihapus.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/skck/'</script>";
+		}
+    }
+    /* Surat Kematian */
+    public function kematian(){
+        $data['parent'] = 'laporan_masyarakat';
+        $data['child'] = 'kematian';
+        $data['grand_child'] = '';
+        $this->load->view('admin/template/header',$data);
+        $this->load->view('admin/report/kematian',$data);
+        $this->load->view('admin/template/footer');
+    }
+    public function json_kematian(){
+		$get_data = $this->Main_model->getSelectedData('surat_pengantar_kematian a', 'a.*', '', 'a.created_at DESC')->result();
+        $data_tampil = array();
+        $no = 1;
+		foreach ($get_data as $key => $value) {
+            $isi['no'] = $no++.'.';
+            $isi['nama'] = $value->nama;
+            $isi['nomor_surat'] = $value->nomor_surat;
+            $isi['rtrw'] = $value->rt.'/ '.$value->rw;
+            $isi['ttl'] = $value->tempat_lahir.', '.$this->Main_model->convert_tanggal($value->tanggal_lahir);
+            $isi['waktu'] = $this->Main_model->convert_tanggal($value->tanggal_meninggal);
+            $return_on_click = "return confirm('Anda yakin?')";
+            $isi['aksi'] =	'
+            <div class="btn-group" >
+				<button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Aksi
+					<i class="fa fa-angle-down"></i>
+				</button>
+				<ul class="dropdown-menu" role="menu">
+                    <li>
+                        <a  href="'.site_url('admin_side/detail_pengajuan_kematian/'.md5($value->id_surat_pengantar_kematian)).'/">
+                            <i class="icon-action-redo"></i> Detail Data </a>
+                    </li>
+					<li>
+						<a onclick="'.$return_on_click.'" href="'.site_url('admin_side/hapus_data_pengajuan_surat_keterangan_kematian/'.md5($value->id_surat_pengantar_kematian)).'">
+							<i class="icon-trash"></i> Hapus Data </a>
+					</li>
+				</ul>
+			</div>
+            ';
+			$data_tampil[] = $isi;
+		}
+		$results = array(
+			"sEcho" => 1,
+			"iTotalRecords" => count($data_tampil),
+			"iTotalDisplayRecords" => count($data_tampil),
+			"aaData"=>$data_tampil);
+		echo json_encode($results);
+    }
+    public function detail_pengajuan_kematian(){
+        $data['parent'] = 'laporan_masyarakat';
+        $data['child'] = 'kematian';
+        $data['grand_child'] = '';
+        $data['data_utama'] = $this->Main_model->getSelectedData('surat_pengantar_kematian a', 'a.*', array('md5(a.id_surat_pengantar_kematian)'=>$this->uri->segment(3)))->row();
+        $this->load->view('admin/template/header',$data);
+        $this->load->view('admin/report/detail_pengajuan_kematian',$data);
+        $this->load->view('admin/template/footer');
+    }
+    public function ubah_pengajuan_kematian(){
+        $data['parent'] = 'laporan_masyarakat';
+        $data['child'] = 'kematian';
+        $data['grand_child'] = '';
+        $data['data_utama'] = $this->Main_model->getSelectedData('surat_pengantar_kematian a', 'a.*', array('md5(a.id_surat_pengantar_kematian)'=>$this->uri->segment(3)))->row();
+        $data['provinsi'] = $this->Main_model->getSelectedData('provinsi a', 'a.*')->result();
+        $this->load->view('admin/template/header',$data);
+        $this->load->view('admin/report/ubah_pengajuan_kematian',$data);
+        $this->load->view('admin/template/footer');
+    }
+    public function perbarui_pengajuan_kematian(){
+        $this->db->trans_start();
+        $cur_date = date('YmdHis');
+        $image_name_qr_code = '';
+		$config_qr_code['cacheable']	= true; // boolean, the default is true
+		$config_qr_code['cachedir']		= './data_upload/dokumen_qr/'; // string, the default is application/cache/
+		$config_qr_code['errorlog']		= './data_upload/dokumen_qr/'; // string, the default is application/logs/
+		$config_qr_code['imagedir']		= './data_upload/dokumen_qr/'; // direktori penyimpanan qr code
+		$config_qr_code['quality']		= true; // boolean, the default is true
+		$config_qr_code['size']			= '3024'; // interger, the default is 1024
+		$config_qr_code['black']		= array(224,255,255); // array, default is array(255,255,255)
+		$config_qr_code['white']		= array(70,130,180); // array, default is array(0,0,0)
+		$this->ciqrcode->initialize($config_qr_code);
+
+		$image_name_qr_code = "qr_code_kematian_".time().'.png';
+		
+		$isi_qr = base_url().'scan_surat/kematian~'.$this->input->post('id');
+
+		$params['data'] = $isi_qr; // data yang akan di jadikan QR CODE
+		$params['level'] = 'H'; // H=High
+		$params['size'] = 10;
+		$params['savename'] = FCPATH.$config_qr_code['imagedir'].$image_name_qr_code; // simpan image QR CODE ke folder assets/images/
+        $this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
+        $nama_file = base_url().'data_upload/dokumen/'.$this->input->post('id').'kematian'.$cur_date.'.pdf';
+
+        $data_insert = array(
+            'nama' => $this->input->post('nama'),
+            'nomor_surat' => $this->input->post('nomor_surat'),
+            'tempat_lahir' => $this->input->post('tempat_lahir'),
+            'tanggal_lahir' => $this->input->post('tanggal_lahir'),
+            'jenis_kelamin' => $this->input->post('jenis_kelamin'),
+            'tempat_meninggal' => $this->input->post('tempat_meninggal'),
+            'tanggal_meninggal' => $this->input->post('tanggal_meninggal'),
+            'rt' => $this->input->post('rt'),
+            'rw' => $this->input->post('rw'),
+            'sebab_kematian' => $this->input->post('sebab_kematian'),
+            'pelapor' => $this->input->post('pelapor'),
+            'hubungan_pelapor' => $this->input->post('hubungan_pelapor'),
+            'rt_pelapor' => $this->input->post('rt_pelapor'),
+            'rw_pelapor' => $this->input->post('rw_pelapor'),
+            'desa_pelapor' => $this->input->post('desa_pelapor'),
+            'kecamatan_pelapor' => $this->input->post('kecamatan_pelapor'),
+            'kabupaten_pelapor' => $this->input->post('kabupaten_pelapor'),
+            'file' => $nama_file
+        );
+        $this->Main_model->updateData('surat_pengantar_kematian',$data_insert,array('md5(id_surat_pengantar_kematian)'=>$this->input->post('id')));
+        // print_r($data_insert);
+        // Composer Autoloader
+        require FCPATH . 'vendor/autoload.php';
+        $data_insert['gambar_qr'] = '<img src="'.base_url().'data_upload/dokumen_qr/'.$image_name_qr_code.'" width="10%"/>';
+        require_once BASEPATH.'core/CodeIgniter.php';
+        $mpdf = new \Mpdf\Mpdf();
+        $data = $this->load->view('admin/form_pdf/kematian', $data_insert, TRUE);
+        $mpdf->WriteHTML($data);
+        if (ob_get_contents()) ob_end_clean();
+        $pathh = 'data_upload/dokumen/'.$this->input->post('id').'kematian'.$cur_date.'.pdf';
+        $mpdf->Output($pathh, \Mpdf\Output\Destination::FILE);
+
+        $this->Main_model->updateData('riwayat_administrasi',array('file'=>$nama_file),array('file'=>$this->input->post('file_lama'),'md5(created_by)'=>$this->input->post('user')));
+
+        $this->Main_model->log_activity($this->session->userdata('id'),"Updating data","Mengubah surat keterangan kematian (".$this->input->post('pelapor').")",$this->session->userdata('location'));
+        $this->db->trans_complete();
+        if($this->db->trans_status() === false){
+            $this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal diubah.<br /></div>' );
+            echo "<script>window.location='".base_url()."admin_side/ubah_pengajuan_kematian/".$this->input->post('id')."'</script>";
+        }
+        else{
+            $this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil diubah.<br /></div>' );
+            echo "<script>window.location='".base_url()."admin_side/detail_pengajuan_kematian/".$this->input->post('id')."'</script>";
+        }
+    }
+    public function hapus_data_pengajuan_surat_keterangan_kematian(){
+		$this->db->trans_start();
+		$id = '';
+		$keterangan = '';
+		$get_data = $this->Main_model->getSelectedData('surat_pengantar_kematian a', 'a.*',array('md5(a.id_surat_pengantar_kematian)'=>$this->uri->segment(3)))->row();
+		$id = $get_data->id_surat_pengantar_kematian;
+		$keterangan = $get_data->nomor_surat;
+
+		$this->Main_model->deleteData('surat_pengantar_kematian',array('id_surat_pengantar_kematian'=>$id));
+
+		$this->Main_model->log_activity($this->session->userdata('id'),"Deleting data","Menghapus data surat pengantar kematian (".$keterangan.")",$this->session->userdata('location'));
+		$this->db->trans_complete();
+		if($this->db->trans_status() === false){
+			$this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal dihapus.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/kematian/'</script>";
+		}
+		else{
+			$this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil dihapus.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/kematian/'</script>";
+		}
     }
     /* Other Function */
 	public function ajax_function(){

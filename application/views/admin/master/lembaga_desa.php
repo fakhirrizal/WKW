@@ -41,7 +41,7 @@
 								},
 								"aoColumns": [
 											{ mData: 'no', sClass: "alignCenter" },
-											{ mData: 'judul', sClass: "alignCenter" } ,
+											{ mData: 'judul' } ,
 											{ mData: 'isi', sClass: "alignCenter" },
 											{ mData: 'action' }
 										]

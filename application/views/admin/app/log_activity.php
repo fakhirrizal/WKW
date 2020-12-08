@@ -25,7 +25,7 @@
 							</div>
 						</div>
 					</div>
-					<table class="table table-striped table-bordered table-hover table-checkable order-column" id="sample_1">
+					<table class="table table-striped table-bordered table-hover table-checkable order-column" id="tbl">
 						<thead>
 							<tr>
 								<th style="text-align: center;" width="4%"> # </th>
@@ -45,7 +45,7 @@
 							<tr class="odd gradeX">
 								<td style="text-align: center;"><?= $no++.'.'; ?></td>
 								<td style="text-align: center;"><?= $value->activity_type; ?></td>
-								<td style="text-align: center;"><?= $value->activity_data; ?></td>
+								<td style="text-align: left;"><?= $value->activity_data; ?></td>
 								<td style="text-align: center;"><?= $value->fullname; ?></td>
 								<td style="text-align: center;"><?= $this->Main_model->convert_tanggal($pecah_datetime[0]).' '.$pecah_datetime[1]; ?></td>
 								<td>
@@ -72,6 +72,15 @@
 						</tbody>
 					</table>
 					</form>
+					<script type="text/javascript" language="javascript" >
+						$(document).ready(function(){
+							$('#tbl').dataTable({
+								"order": [[ 0, "asc" ]],
+								"bProcessing": true
+							});
+
+						});
+					</script>
 					<script type="text/javascript">
 					function deleteConfirm(){
 						var result = confirm("Yakin akan menghapus data ini?");

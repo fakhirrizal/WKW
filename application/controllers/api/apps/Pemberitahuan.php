@@ -16,7 +16,7 @@ class Pemberitahuan extends REST_Controller {
 	}
 	function index_get() {
 		if($this->get('id_pemberitahuan')!=NULL){
-			$hasil = $this->Main_model->getSelectedData('pemberitahuan a', 'a.*', array('a.id_pemberitahuan'=>$this->get('id_pemberitahuan')), '', '10', $this->get('jumlah'))->row();
+			$hasil = $this->Main_model->getSelectedData('pemberitahuan a', 'a.*', array('a.id_pemberitahuan'=>$this->get('id_pemberitahuan')), 'a.created_at DESC')->row();
 			if($hasil==NULL){
 				$balikan['status'] = 0;
 				$balikan['message'] = 'Data kosong.';
@@ -27,12 +27,15 @@ class Pemberitahuan extends REST_Controller {
 				$isi['status'] = '1';
 				$isi['id_pemberitahuan'] = $hasil->id_pemberitahuan;
 				$isi['judul'] = $hasil->judul;
+				$isi['tanggal'] = $hasil->tanggal;
 				$isi['deskripsi'] = $hasil->deskripsi;
+				$isi['gambar'] = base_url().'data_upload/berita/'.$hasil->gambar;
+				$isi['tanggal_buat'] = $hasil->created_at;
 				$this->response($isi, 200);
 			}
 		}else{
 			$hasil_total = $this->Main_model->getSelectedData('pemberitahuan a', 'a.*', '', '')->result();
-			$hasil = $this->Main_model->getSelectedData('pemberitahuan a', 'a.*', '', '', '10', $this->get('jumlah'))->result();
+			$hasil = $this->Main_model->getSelectedData('pemberitahuan a', 'a.*', '', 'a.created_at DESC', '10', $this->get('jumlah'))->result();
 			if($hasil==NULL){
 				$balikan['status'] = 0;
 				$balikan['message'] = 'Data kosong.';
@@ -44,7 +47,10 @@ class Pemberitahuan extends REST_Controller {
 				foreach ($hasil as $key => $value) {
 					$isi['id_pemberitahuan'] = $value->id_pemberitahuan;
 					$isi['judul'] = $value->judul;
+					$isi['tanggal'] = $value->tanggal;
 					$isi['deskripsi'] = $value->deskripsi;
+					$isi['gambar'] = base_url().'data_upload/berita/'.$value->gambar;
+					$isi['tanggal_buat'] = $value->created_at;
 					$data_tampil[] = $isi;
 				}
 				$jumlah = $this->get('jumlah')+10;

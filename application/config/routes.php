@@ -84,6 +84,11 @@ $route['hapus_item_apbdesa/(:any)'] = 'desktop/Master/hapus_item_apbdesa/$1';
 $route['hapus_sub_output/(:any)'] = 'desktop/Master/hapus_sub_output/$1';
 $route['hapus_output/(:any)'] = 'desktop/Master/hapus_output/$1';
 
+$route['pengantar_kematian'] = 'desktop/Report/pengantar_kematian';
+$route['tambah_pengantar_kematian'] = 'desktop/Report/tambah_pengantar_kematian';
+$route['simpan_kematian'] = 'desktop/Report/simpan_kematian';
+$route['detail_pengajuan_kematian/(:any)'] = 'desktop/Report/detail_pengajuan_kematian/$1';
+
 $route['ppid'] = 'desktop/Master/ppid';
 $route['tambah_ppid'] = 'desktop/Master/tambah_ppid';
 $route['simpan_ppid'] = 'desktop/Master/simpan_ppid';
@@ -111,6 +116,8 @@ $route['simpan_data_rincian_kependudukan'] = 'desktop/Master/simpan_data_rincian
 $route['perbarui_rincian_data_kependudukan'] = 'desktop/Master/perbarui_rincian_data_kependudukan';
 $route['detail_kependudukan/(:any)/(:any)'] = 'desktop/Master/detail_kependudukan/$1/$2';
 $route['hapus_item_data_kependudukan/(:any)'] = 'desktop/Master/hapus_item_data_kependudukan/$1';
+
+$route['scan_surat/(:any)'] = 'desktop/Report/scan_surat/$1';
 
 $route['permohonan_ktp'] = 'desktop/Report/data_ktp';
 $route['tambah_permohonan_ktp'] = 'desktop/Report/tambah_permohonan_ktp';
@@ -224,6 +231,13 @@ $route['admin_side/ubah_ppid/(:any)'] = 'admin/Master/ubah_ppid/$1';
 $route['admin_side/perbarui_ppid'] = 'admin/Master/perbarui_ppid';
 $route['admin_side/hapus_ppid/(:any)'] = 'admin/Master/hapus_ppid/$1';
 
+$route['admin_side/jdih'] = 'admin/Master/jdih';
+$route['admin_side/tambah_jdih'] = 'admin/Master/tambah_jdih';
+$route['admin_side/simpan_jdih'] = 'admin/Master/simpan_jdih';
+$route['admin_side/ubah_jdih/(:any)'] = 'admin/Master/ubah_jdih/$1';
+$route['admin_side/perbarui_jdih'] = 'admin/Master/perbarui_jdih';
+$route['admin_side/hapus_jdih/(:any)'] = 'admin/Master/hapus_jdih/$1';
+
 $route['admin_side/umkm'] = 'admin/Master/umkm';
 $route['admin_side/tambah_umkm'] = 'admin/Master/tambah_umkm';
 $route['admin_side/simpan_umkm'] = 'admin/Master/simpan_umkm';
@@ -259,35 +273,54 @@ $route['admin_side/perbarui_rincian_data_kependudukan'] = 'admin/Master/perbarui
 $route['admin_side/detail_kependudukan/(:any)/(:any)'] = 'admin/Master/detail_kependudukan/$1/$2';
 $route['admin_side/hapus_item_data_kependudukan/(:any)'] = 'admin/Master/hapus_item_data_kependudukan/$1';
 
+$route['admin_side/ttd'] = 'admin/Master/ttd';
+$route['admin_side/perbarui_ttd'] = 'admin/Master/perbarui_ttd';
+
 $route['admin_side/permohonan_ktp'] = 'admin/Report/data_ktp';
 $route['admin_side/ubah_pengajuan_ktp/(:any)'] = 'admin/Report/ubah_pengajuan_ktp/$1';
 $route['admin_side/perbarui_pengajuan_ktp'] = 'admin/Report/perbarui_pengajuan_ktp';
+$route['admin_side/hapus_data_pengajuan_ktp/(:any)'] = 'admin/Report/hapus_data_pengajuan_ktp/$1';
 $route['admin_side/permohonan_kk'] = 'admin/Report/data_kk';
 $route['admin_side/detil_data_pengajuan_kk/(:any)'] = 'admin/Report/detil_data_pengajuan_kk/$1';
 $route['admin_side/ubah_pengajuan_kk/(:any)'] = 'admin/Report/ubah_pengajuan_kk/$1';
 $route['admin_side/perbarui_pengajuan_kk'] = 'admin/Report/perbarui_pengajuan_kk';
+$route['admin_side/hapus_data_pengajuan_kk/(:any)'] = 'admin/Report/hapus_data_pengajuan_kk/$1';
 $route['admin_side/pengantar_domisili'] = 'admin/Report/pengantar_domisili';
 $route['admin_side/detail_surat_keterangan_domisili/(:any)'] = 'admin/Report/detail_surat_keterangan_domisili/$1';
 $route['admin_side/ubah_pengajuan_domisili/(:any)'] = 'admin/Report/ubah_pengajuan_domisili/$1';
 $route['admin_side/perbarui_pengajuan_domisili'] = 'admin/Report/perbarui_pengajuan_domisili';
+$route['admin_side/hapus_data_pengajuan_domisili/(:any)'] = 'admin/Report/hapus_data_pengajuan_domisili/$1';
 $route['admin_side/surat_keterangan_usaha'] = 'admin/Report/surat_keterangan_usaha';
 $route['admin_side/detail_surat_keterangan_usaha/(:any)'] = 'admin/Report/detail_surat_keterangan_usaha/$1';
 $route['admin_side/ubah_pengajuan_usaha/(:any)'] = 'admin/Report/ubah_pengajuan_usaha/$1';
 $route['admin_side/perbarui_pengajuan_usaha'] = 'admin/Report/perbarui_pengajuan_usaha';
+$route['admin_side/hapus_data_pengajuan_usaha/(:any)'] = 'admin/Report/hapus_data_pengajuan_usaha/$1';
+$route['admin_side/kematian'] = 'admin/Report/kematian';
+$route['admin_side/detail_pengajuan_kematian/(:any)'] = 'admin/Report/detail_pengajuan_kematian/$1';
+$route['admin_side/ubah_pengajuan_kematian/(:any)'] = 'admin/Report/ubah_pengajuan_kematian/$1';
+$route['admin_side/perbarui_pengajuan_kematian'] = 'admin/Report/perbarui_pengajuan_kematian';
+$route['admin_side/hapus_data_pengajuan_surat_keterangan_kematian/(:any)'] = 'admin/Report/hapus_data_pengajuan_surat_keterangan_kematian/$1';
 $route['admin_side/sktm'] = 'admin/Report/sktm';
 $route['admin_side/detail_sktm/(:any)/(:any)'] = 'admin/Report/detail_sktm/$1/$2';
 $route['admin_side/ubah_pengajuan_sktm_umum/(:any)'] = 'admin/Report/ubah_pengajuan_sktm_umum/$1';
 $route['admin_side/perbarui_pengajuan_sktm_umum'] = 'admin/Report/perbarui_pengajuan_sktm_umum';
 $route['admin_side/ubah_pengajuan_sktm_pendidikan/(:any)'] = 'admin/Report/ubah_pengajuan_sktm_pendidikan/$1';
 $route['admin_side/perbarui_pengajuan_sktm_pendidikan'] = 'admin/Report/perbarui_pengajuan_sktm_pendidikan';
+$route['admin_side/hapus_data_pengajuan_sktm_umum/(:any)'] = 'admin/Report/hapus_data_pengajuan_sktm_umum/$1';
+$route['admin_side/hapus_data_pengajuan_sktm_pendidikan/(:any)'] = 'admin/Report/hapus_data_pengajuan_sktm_pendidikan/$1';
 $route['admin_side/sim'] = 'admin/Report/sim';
 $route['admin_side/detail_pengajuan_sim/(:any)'] = 'admin/Report/detail_pengajuan_sim/$1';
 $route['admin_side/ubah_pengajuan_sim/(:any)'] = 'admin/Report/ubah_pengajuan_sim/$1';
 $route['admin_side/perbarui_pengajuan_sim'] = 'admin/Report/perbarui_pengajuan_sim';
+$route['admin_side/hapus_data_pengajuan_sim/(:any)'] = 'admin/Report/hapus_data_pengajuan_sim/$1';
 $route['admin_side/skck'] = 'admin/Report/skck';
 $route['admin_side/detail_pengajuan_skck/(:any)'] = 'admin/Report/detail_pengajuan_skck/$1';
 $route['admin_side/ubah_pengajuan_skck/(:any)'] = 'admin/Report/ubah_pengajuan_skck/$1';
 $route['admin_side/perbarui_pengajuan_skck'] = 'admin/Report/perbarui_pengajuan_skck';
+$route['admin_side/hapus_data_pengajuan_skck/(:any)'] = 'admin/Report/hapus_data_pengajuan_skck/$1';
+$route['admin_side/permohonan_informasi'] = 'admin/Report/permohonan_informasi';
+$route['admin_side/detail_permohonan_informasi/(:any)'] = 'admin/Report/detail_permohonan_informasi/$1';
+$route['admin_side/hapus_permohonan_informasi/(:any)'] = 'admin/Report/hapus_permohonan_informasi/$1';
 
 /* REST API */
 $route['api'] = 'Rest_server/documentation';

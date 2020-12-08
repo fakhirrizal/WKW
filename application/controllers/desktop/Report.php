@@ -5,6 +5,138 @@ class Report extends CI_Controller {
     function __construct() {
         parent::__construct();
     }
+    /* Pengantar Kematian */
+    public function pengantar_kematian(){
+        $data['parent'] = 'laporan_masyarakat';
+        $data['child'] = 'pengantar_kematian';
+        $data['grand_child'] = '';
+        $this->load->view('desktop/template/header',$data);
+        $this->load->view('desktop/report/pengantar_kematian',$data);
+        $this->load->view('desktop/template/footer');
+    }
+    public function json_kematian(){
+		$get_data = $this->Main_model->getSelectedData('surat_pengantar_kematian a', 'a.*', array('a.created_by'=>'2'), 'a.created_at DESC')->result();
+        $data_tampil = array();
+        $no = 1;
+		foreach ($get_data as $key => $value) {
+            $isi['no'] = $no++.'.';
+            $isi['nama'] = $value->nama;
+            $isi['nomor_surat'] = $value->nomor_surat;
+            $isi['rtrw'] = $value->rt.'/ '.$value->rw;
+            $isi['ttl'] = $value->tempat_lahir.', '.$this->Main_model->convert_tanggal($value->tanggal_lahir);
+            $isi['waktu'] = $this->Main_model->convert_tanggal($value->tanggal_meninggal);
+            $isi['aksi'] =	'
+            <a class="btn btn-xs green" type="button" href="'.base_url().'detail_pengajuan_kematian/'.md5($value->id_surat_pengantar_kematian).'"> Detail Data
+            </a>';
+			$data_tampil[] = $isi;
+		}
+		$results = array(
+			"sEcho" => 1,
+			"iTotalRecords" => count($data_tampil),
+			"iTotalDisplayRecords" => count($data_tampil),
+			"aaData"=>$data_tampil);
+		echo json_encode($results);
+    }
+    public function detail_pengajuan_kematian(){
+        $data['parent'] = 'laporan_masyarakat';
+        $data['child'] = 'pengantar_kematian';
+        $data['grand_child'] = '';
+        $data['data_utama'] = $this->Main_model->getSelectedData('surat_pengantar_kematian a', 'a.*', array('md5(a.id_surat_pengantar_kematian)'=>$this->uri->segment(2)))->row();
+        $this->load->view('desktop/template/header',$data);
+        $this->load->view('desktop/report/detail_pengajuan_kematian',$data);
+        $this->load->view('desktop/template/footer');
+    }
+    public function tambah_pengantar_kematian(){
+        $data['parent'] = 'laporan_masyarakat';
+        $data['child'] = 'pengantar_kematian';
+        $data['grand_child'] = '';
+        $this->load->view('desktop/template/header',$data);
+        $this->load->view('desktop/report/tambah_pengantar_kematian',$data);
+        $this->load->view('desktop/template/footer');
+    }
+    public function simpan_kematian(){
+        $this->db->trans_start();
+        $get_last = $this->Main_model->getLastID('data_kk','id_data_kk');
+        $newid = $get_last['id_data_kk']+1;
+        $cur_date = date('YmdHis');
+        $image_name_qr_code = '';
+		$config_qr_code['cacheable']	= true; // boolean, the default is true
+		$config_qr_code['cachedir']		= './data_upload/dokumen_qr/'; // string, the default is application/cache/
+		$config_qr_code['errorlog']		= './data_upload/dokumen_qr/'; // string, the default is application/logs/
+		$config_qr_code['imagedir']		= './data_upload/dokumen_qr/'; // direktori penyimpanan qr code
+		$config_qr_code['quality']		= true; // boolean, the default is true
+		$config_qr_code['size']			= '3024'; // interger, the default is 1024
+		$config_qr_code['black']		= array(224,255,255); // array, default is array(255,255,255)
+		$config_qr_code['white']		= array(70,130,180); // array, default is array(0,0,0)
+		$this->ciqrcode->initialize($config_qr_code);
+
+		$image_name_qr_code = "qr_code_kematian_".time().'.png';
+		
+		$isi_qr = base_url().'scan_surat/kematian~'.md5($newid);
+
+		$params['data'] = $isi_qr; // data yang akan di jadikan QR CODE
+		$params['level'] = 'H'; // H=High
+		$params['size'] = 10;
+		$params['savename'] = FCPATH.$config_qr_code['imagedir'].$image_name_qr_code; // simpan image QR CODE ke folder assets/images/
+        $this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
+        $nama_file = base_url().'data_upload/dokumen/'.$newid.'kematian'.$cur_date.'.pdf';
+
+        $data_insert = array(
+            'id_surat_pengantar_kematian' => $newid,
+            'nama' => $this->input->post('nama'),
+            'nomor_surat' => $this->input->post('nomor_surat'),
+            'tempat_lahir' => $this->input->post('tempat_lahir'),
+            'tanggal_lahir' => $this->input->post('tanggal_lahir'),
+            'jenis_kelamin' => $this->input->post('jenis_kelamin'),
+            'tempat_meninggal' => $this->input->post('tempat_meninggal'),
+            'tanggal_meninggal' => $this->input->post('tanggal_meninggal'),
+            'rt' => $this->input->post('rt'),
+            'rw' => $this->input->post('rw'),
+            'sebab_kematian' => $this->input->post('sebab_kematian'),
+            'pelapor' => $this->input->post('pelapor'),
+            'hubungan_pelapor' => $this->input->post('hubungan_pelapor'),
+            'rt_pelapor' => $this->input->post('rt_pelapor'),
+            'rw_pelapor' => $this->input->post('rw_pelapor'),
+            'desa_pelapor' => $this->input->post('desa_pelapor'),
+            'kecamatan_pelapor' => $this->input->post('kecamatan_pelapor'),
+            'kabupaten_pelapor' => $this->input->post('kabupaten_pelapor'),
+            'file' => $nama_file,
+            'created_by' => '2',
+            'created_at' => date('Y-m-d H:i:s')
+        );
+        $this->Main_model->insertData('surat_pengantar_kematian',$data_insert);
+        // print_r($data_insert);
+        // Composer Autoloader
+        require FCPATH . 'vendor/autoload.php';
+        $data_insert['gambar_qr'] = '<img src="'.base_url().'data_upload/dokumen_qr/'.$image_name_qr_code.'" width="10%"/>';
+        require_once BASEPATH.'core/CodeIgniter.php';
+        $mpdf = new \Mpdf\Mpdf();
+        $data = $this->load->view('admin/form_pdf/kematian', $data_insert, TRUE);
+        $mpdf->WriteHTML($data);
+        if (ob_get_contents()) ob_end_clean();
+        $pathh = 'data_upload/dokumen/'.$newid.'kematian'.$cur_date.'.pdf';
+        $mpdf->Output($pathh, \Mpdf\Output\Destination::FILE);
+
+        $datainsert = array(
+            'form' => 'Surat Pengantar Kematian',
+            'file' => base_url().'data_upload/dokumen/'.$newid.'kematian'.$cur_date.'.pdf',
+            'created_by' => '2',
+            'created_at' => date('Y-m-d H:i:s')
+        );
+        $this->Main_model->insertData('riwayat_administrasi',$datainsert);
+        // print_r($datainsert);
+
+        $this->Main_model->log_activity('2','Adding data',"Membuat surat keterangan kematian (".$this->input->post('pelapor').")");
+        $this->db->trans_complete();
+        if($this->db->trans_status() === false){
+            $this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal ditambahkan.<br /></div>' );
+            echo "<script>window.location='".base_url()."tambah_pengantar_kematian'</script>";
+        }
+        else{
+            $this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil ditambahkan.<br /></div>' );
+            echo "<script>window.location='".base_url()."detail_pengajuan_kematian/".md5($newid)."'</script>";
+        }
+    }
     /* Data KK */
     public function data_kk(){
         $data['parent'] = 'laporan_masyarakat';
@@ -207,7 +339,7 @@ class Report extends CI_Controller {
         $this->load->view('desktop/template/footer');
     }
     public function json_ktp(){
-		$get_data1 = $this->Main_model->getSelectedData('permohonan_ktp a', 'a.*', array('a.created_by'=>'2'))->result();
+		$get_data1 = $this->Main_model->getSelectedData('permohonan_ktp a', 'a.*', array('a.created_by'=>'2'), 'a.created_at DESC')->result();
         $data_tampil = array();
         $no = 1;
 		foreach ($get_data1 as $key => $value) {
@@ -425,7 +557,7 @@ class Report extends CI_Controller {
         $this->load->view('desktop/template/footer');
     }
     public function json_domisili(){
-		$get_data = $this->Main_model->getSelectedData('surat_keterangan_domisili a', 'a.*', array('a.created_by'=>'2'))->result();
+		$get_data = $this->Main_model->getSelectedData('surat_keterangan_domisili a', 'a.*', array('a.created_by'=>'2'), 'a.created_at DESC')->result();
         $data_tampil = array();
         $no = 1;
 		foreach ($get_data as $key => $value) {
@@ -583,7 +715,7 @@ class Report extends CI_Controller {
         $this->load->view('desktop/template/footer');
     }
     public function json_surat_keterangan_usaha(){
-		$get_data = $this->Main_model->getSelectedData('surat_keterangan_usaha a', 'a.*', array('a.created_by'=>'2'))->result();
+		$get_data = $this->Main_model->getSelectedData('surat_keterangan_usaha a', 'a.*', array('a.created_by'=>'2'), 'a.created_at DESC')->result();
         $data_tampil = array();
         $no = 1;
 		foreach ($get_data as $key => $value) {
@@ -737,7 +869,7 @@ class Report extends CI_Controller {
         $this->load->view('desktop/template/footer');
     }
     public function json_sktm_umum(){
-		$get_data = $this->Main_model->getSelectedData('sktm a', 'a.*', array('a.created_by'=>'2'))->result();
+		$get_data = $this->Main_model->getSelectedData('sktm a', 'a.*', array('a.created_by'=>'2'), 'a.created_at DESC')->result();
         $data_tampil = array();
         $no = 1;
 		foreach ($get_data as $key => $value) {
@@ -760,7 +892,7 @@ class Report extends CI_Controller {
 		echo json_encode($results);
     }
     public function json_sktm_pelajar(){
-		$get_data = $this->Main_model->getSelectedData('sktm_pendidikan a', 'a.*', array('a.created_by'=>'2'))->result();
+		$get_data = $this->Main_model->getSelectedData('sktm_pendidikan a', 'a.*', array('a.created_by'=>'2'), 'a.created_at DESC')->result();
         $data_tampil = array();
         $no = 1;
 		foreach ($get_data as $key => $value) {
@@ -916,7 +1048,7 @@ class Report extends CI_Controller {
         $this->load->view('desktop/template/footer');
     }
     public function json_sim(){
-		$get_data = $this->Main_model->getSelectedData('surat_pengantar_sim a', 'a.*', array('a.created_by'=>'2'))->result();
+		$get_data = $this->Main_model->getSelectedData('surat_pengantar_sim a', 'a.*', array('a.created_by'=>'2'), 'a.created_at DESC')->result();
         $data_tampil = array();
         $no = 1;
 		foreach ($get_data as $key => $value) {
@@ -1067,7 +1199,7 @@ class Report extends CI_Controller {
         $this->load->view('desktop/template/footer');
     }
     public function json_skck(){
-		$get_data = $this->Main_model->getSelectedData('surat_pengantar_skck a', 'a.*', array('a.created_by'=>'2'))->result();
+		$get_data = $this->Main_model->getSelectedData('surat_pengantar_skck a', 'a.*', array('a.created_by'=>'2'), 'a.created_at DESC')->result();
         $data_tampil = array();
         $no = 1;
 		foreach ($get_data as $key => $value) {
@@ -1209,6 +1341,40 @@ class Report extends CI_Controller {
         }
     }
     /* Other Function */
+    public function scan_surat(){
+        $pecah_string = explode('~',$this->uri->segment(2));
+        if($pecah_string[0]=='sim'){
+            $data['judul'] = 'Surat Pengantar SIM';
+            $data['data_utama'] = $this->Main_model->getSelectedData('surat_pengantar_sim a', 'a.*', array('md5(a.id_surat_pengantar_sim)'=>$pecah_string[1]))->row();
+        }elseif($pecah_string[0]=='kk'){
+            $data['judul'] = 'Surat Pengantar KK';
+            $data['data_utama'] = $this->Main_model->getSelectedData('data_kk a', 'a.*', array('md5(a.id_data_kk)'=>$pecah_string[1]))->row();
+        }elseif($pecah_string[0]=='ktp'){
+            $data['judul'] = 'Surat Pengantar KTP';
+            $data['data_utama'] = $this->Main_model->getSelectedData('permohonan_ktp a', 'a.*', array('md5(a.id_permohonan_ktp)'=>$pecah_string[1]))->row();
+        }elseif($pecah_string[0]=='domisili'){
+            $data['judul'] = 'Surat Keterangan Domisili';
+            $data['data_utama'] = $this->Main_model->getSelectedData('surat_keterangan_domisili a', 'a.*', array('md5(a.id_surat_keterangan_domisili)'=>$pecah_string[1]))->row();
+        }elseif($pecah_string[0]=='usaha'){
+            $data['judul'] = 'Surat Keterangan Usaha';
+            $data['data_utama'] = $this->Main_model->getSelectedData('surat_keterangan_usaha a', 'a.*', array('md5(a.id_surat_keterangan_usaha)'=>$pecah_string[1]))->row();
+        }elseif($pecah_string[0]=='sktm_umum'){
+            $data['judul'] = 'Surat Pengantar SKTM';
+            $data['data_utama'] = $this->Main_model->getSelectedData('sktm a', 'a.*', array('md5(a.id_sktm)'=>$pecah_string[1]))->row();
+        }elseif($pecah_string[0]=='sktm_pendidikan'){
+            $data['judul'] = 'Surat Pengantar SKTM Pendidikan';
+            $data['data_utama'] = $this->Main_model->getSelectedData('sktm_pendidikan a', 'a.*', array('md5(a.id_sktm_pendidikan)'=>$pecah_string[1]))->row();
+        }elseif($pecah_string[0]=='skck'){
+            $data['judul'] = 'Surat Pengantar SKCK';
+            $data['data_utama'] = $this->Main_model->getSelectedData('surat_pengantar_skck a', 'a.*', array('md5(a.id_surat_pengantar_skck)'=>$pecah_string[1]))->row();
+        }elseif($pecah_string[0]=='kematian'){
+            $data['judul'] = 'Surat Pengantar Kematian';
+            $data['data_utama'] = $this->Main_model->getSelectedData('surat_pengantar_kematian a', 'a.*', array('md5(a.id_surat_pengantar_kematian)'=>$pecah_string[1]))->row();
+        }else{
+            echo'';
+        }
+        $this->load->view('desktop/report/scan_surat',$data);
+    }
     public function form_test(){
         $data = array(
             'nama' => 'hX',
@@ -1218,7 +1384,7 @@ class Report extends CI_Controller {
             'dusun' => 'Xv',
             'kk' => 'mX'
         );
-        $this->load->view('admin/form_pdf/permohonan_kk',$data);
+        $this->load->view('admin/form_pdf/nikah',$data);
     }
 	public function ajax_function(){
 		if($this->input->post('modul')=='modul_ubah_data_status_antrean_ktp'){

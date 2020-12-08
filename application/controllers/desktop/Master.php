@@ -267,7 +267,7 @@ class Master extends CI_Controller {
         $this->load->view('desktop/template/footer');
 	}
 	public function json_berita(){
-		$get_data = $this->Main_model->getSelectedData('berita a', 'a.*')->result();
+		$get_data = $this->Main_model->getSelectedData('berita a', 'a.*', '', 'a.created_at DESC')->result();
         $data_tampil = array();
         $no = 1;
 		foreach ($get_data as $key => $value) {

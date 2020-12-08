@@ -30,8 +30,30 @@ class Permohonan_ktp extends REST_Controller {
             $hasil['message'] = 'Anda bukan warga Kalipucang Wetan.';
             $this->response($hasil, 200);
         }else{
-            $this->db->trans_start();
+			$this->db->trans_start();		
 			$get_last = $this->Main_model->getLastID('permohonan_ktp','id_permohonan_ktp');
+
+			$image_name_qr_code = '';
+			$config_qr_code['cacheable']	= true; // boolean, the default is true
+			$config_qr_code['cachedir']		= './data_upload/dokumen_qr/'; // string, the default is application/cache/
+			$config_qr_code['errorlog']		= './data_upload/dokumen_qr/'; // string, the default is application/logs/
+			$config_qr_code['imagedir']		= './data_upload/dokumen_qr/'; // direktori penyimpanan qr code
+			$config_qr_code['quality']		= true; // boolean, the default is true
+			$config_qr_code['size']			= '3024'; // interger, the default is 1024
+			$config_qr_code['black']		= array(224,255,255); // array, default is array(255,255,255)
+			$config_qr_code['white']		= array(70,130,180); // array, default is array(0,0,0)
+			$this->ciqrcode->initialize($config_qr_code);
+
+			$image_name_qr_code = "qr_code_ktp_".time().'.png';
+			
+			$isi_qr = base_url().'scan_surat/ktp~'.md5($get_last['id_permohonan_ktp']+1);
+
+			$params['data'] = $isi_qr; // data yang akan di jadikan QR CODE
+			$params['level'] = 'H'; // H=High
+			$params['size'] = 10;
+			$params['savename'] = FCPATH.$config_qr_code['imagedir'].$image_name_qr_code; // simpan image QR CODE ke folder assets/images/
+			$this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
+
 			$baru = '';
 			$perpanjangan = '';
 			$penggantian = '';
@@ -74,6 +96,7 @@ class Permohonan_ktp extends REST_Controller {
 				'alamat' => $cek->alamat,
 				'kode_pos' => $this->post('kode_pos'),
 				'file' => base_url().'data_upload/dokumen/'.($get_last['id_permohonan_ktp']+1).'_permohonan_ktp.pdf',
+				'gambar_qr' => '<img src="'.base_url().'data_upload/dokumen_qr/'.$image_name_qr_code.'" width="10%"/>',
 				'created_by' => $this->post('user_id'),
 				'created_at' => date('Y-m-d H:i:s')
 			);

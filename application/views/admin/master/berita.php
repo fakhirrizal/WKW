@@ -63,7 +63,7 @@
 							<tr>
 								<th style="text-align: center;" width="1%"> # </th>
 								<th style="text-align: center;"> Judul Berita </th>
-								<th style="text-align: center;"> Isi Berita </th>
+								<!-- <th style="text-align: center;"> Isi Berita </th> -->
 								<th style="text-align: center;" width="1%"> Aksi </th>
 							</tr>
 						</thead>
@@ -79,8 +79,7 @@
 								},
 								"aoColumns": [
 											{ mData: 'no', sClass: "alignCenter" },
-											{ mData: 'judul', sClass: "alignCenter" } ,
-											{ mData: 'isi' },
+											{ mData: 'judul' } ,
 											{ mData: 'action' }
 										]
 							});

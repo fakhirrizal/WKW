@@ -687,7 +687,7 @@
     </tr>
     <tr>
       <td width="33%" align="center">
-        <font face="Arial">Kepala Desa Kalipucang
+        <font face="Arial"><?= $this->Main_model->get_jabatan_ttd();  ?> Kalipucang
           Wetan</font>
       </td>
       <td width="33%" align="center">
@@ -730,6 +730,10 @@
           <font face="Arial" style="text-transform: uppercase;">(
             <?= $nama; ?> )</font>
         </b></td>
+    </tr>
+    <tr>
+      <td colspan="3" align="center"><br><?= $gambar_qr; ?>
+      </td>
     </tr>
   </table>
 

@@ -1786,6 +1786,95 @@
 													</div>
 												</div>
 											</div>
+                                            <!-- Akhir -->
+                                            <!-- Awal -->
+											<div class="portlet-body">
+												<div class="panel-group accordion" id="accordion3">
+													<div class="panel panel-default">
+														<div class="panel-heading">
+															<h4 class="panel-title">
+																<a class="accordion-toggle accordion-toggle-styled collapsed" data-toggle="collapse" data-parent="#accordion3" href="#collapse_3_55" aria-expanded="false"> <span class="label label-primary"> POST </span>&nbsp;&nbsp;{URL}/api/administrasi_masyarakat/Surat_pengantar_kematian</a>
+															</h4>
+														</div>
+														<div id="collapse_3_55" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+															<div class="row">
+																<div class="col-md-12">
+																	<div class="portlet light ">
+																		<div class="portlet-title">
+																			<b>URL</b> : https://kalipucangwetan.id/api/administrasi_masyarakat/Surat_pengantar_kematian<br>
+																			<b>Method</b> : POST<br>
+																			<b>Deskripsi</b> : Untuk mendapatkan surat keterangan kematian seseorang.<br><br>
+																		</div>
+																		<div class="portlet-body">
+																			Berikut parameter yang harus diisi,<br><br>
+																			<textarea class='form-control' rows='19' readonly>
+																				{
+																						"user_id": string,
+																						"nama": string,
+																						"tempat_lahir": string,
+																						"tanggal_lahir": YYYY-mm-dd,
+																						"jenis_kelamin": Laki-laki/ Perempuan,
+																						"tempat_meninggal": string,
+																						"tanggal_meninggal": YYYY-mm-dd,
+																						"rt": string,
+																						"rw": string,
+																						"sebab_kematian": string,
+																						"pelapor": string,
+																						"hubungan_pelapor": string,
+																						"rt_pelapor": string,
+																						"rw_pelapor": string,
+																						"desa_pelapor": string,
+																						"kecamatan_pelapor": string,
+																						"kabupaten_pelapor": string
+																				}
+																			</textarea><br>
+                                                                            <b>Keterangan</b><br>
+                                                                            User ID merupakan pengguna yang melaporkan via aplikasi
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+                                            <!-- Akhir -->
+                                            <!-- Awal -->
+											<div class="portlet-body">
+												<div class="panel-group accordion" id="accordion3">
+													<div class="panel panel-default">
+														<div class="panel-heading">
+															<h4 class="panel-title">
+																<a class="accordion-toggle accordion-toggle-styled collapsed" data-toggle="collapse" data-parent="#accordion3" href="#collapse_3_56" aria-expanded="false"> <span class="label label-primary"> POST </span>&nbsp;&nbsp;{URL}/api/administrasi_masyarakat/Permohonan_ktp</a>
+															</h4>
+														</div>
+														<div id="collapse_3_56" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+															<div class="row">
+																<div class="col-md-12">
+																	<div class="portlet light ">
+																		<div class="portlet-title">
+																			<b>URL</b> : https://kalipucangwetan.id/api/administrasi_masyarakat/Permohonan_ktp<br>
+																			<b>Method</b> : POST<br>
+																			<b>Deskripsi</b> : Untuk mendapatkan surat permohonan pembuatan KTP.<br><br>
+																		</div>
+																		<div class="portlet-body">
+																			Berikut parameter yang harus diisi,<br><br>
+																			<textarea class='form-control' rows='6' readonly>
+																				{
+																						"user_id": string,
+																						"permohonan_ktp": Baru/ Perpanjangan/ Penggantian,
+																						"kk": string,
+																						"kode_pos": string
+																				}
+																			</textarea>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
 											<!-- Akhir -->
                                         </div>
                                         <div class="tab-pane" id="portlet_tab2_4">
@@ -1840,7 +1929,7 @@
 																		<div class="portlet-title">
 																			<b>URL</b> : https://kalipucangwetan.id/api/apps/Permohonan_informasi<br>
 																			<b>Method</b> : POST<br>
-																			<b>Deskripsi</b> : Untuk mengetahui status user apakah terdaftar di sistem atau tidak.<br><br>
+																			<b>Deskripsi</b> : Sebagai jalur untuk meminta informasi dari desa.<br><br>
 																		</div>
 																		<div class="portlet-body">
 																			Berikut parameter yang harus diisi,<br><br>

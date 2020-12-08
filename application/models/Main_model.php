@@ -171,4 +171,12 @@ class Main_model extends CI_Model{
 
 		return $result;
 	}
+	function get_nama_ttd(){
+		$get_data = $this->getSelectedData('ttd a', 'a.*', array('a.id'=>'1'), '', '', '', '')->row();
+		return $get_data->nama;
+	}
+	function get_jabatan_ttd(){
+		$get_data = $this->getSelectedData('ttd a', 'a.*', array('a.id'=>'1'), '', '', '', '')->row();
+		return $get_data->jabatan;
+	}
 }

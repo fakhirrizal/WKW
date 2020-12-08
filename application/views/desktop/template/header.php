@@ -71,7 +71,7 @@
 									<a href="<?php echo site_url('beranda'); ?>"><i class="icon-home"></i> Beranda
 									</a>
 								</li>
-								<li class="menu-dropdown classic-menu-dropdown <?php if($parent=='master'){echo 'active';}else{echo '';} ?>">
+								<!-- <li class="menu-dropdown classic-menu-dropdown <?php if($parent=='master'){echo 'active';}else{echo '';} ?>">
 									<a href="javascript:;"><i class="icon-drawer"></i> Master
 										<span class="arrow <?php if($parent=='master'){echo 'open';}else{echo '';} ?>"></span>
 									</a>
@@ -87,7 +87,7 @@
 											</a>
 										</li>
 									</ul>
-								</li>
+								</li> -->
 								<li class="menu-dropdown classic-menu-dropdown <?php if($parent=='laporan_masyarakat'){echo 'active';}else{echo '';} ?>">
 									<a href="javascript:;"><i class="icon-layers"></i> Layanan Masyarakat
 										<span class="arrow <?php if($parent=='laporan_masyarakat'){echo 'open';}else{echo '';} ?>"></span>
@@ -106,6 +106,11 @@
 										<li class=" <?php if($child=='pengantar_domisili'){echo 'active';}else{echo '';} ?>">
 											<a href="<?php echo site_url('pengantar_domisili'); ?>" class="nav-link nav-toggle ">
 												<i class="icon-pin"></i> Pengantar Domisili
+											</a>
+										</li>
+										<li class=" <?php if($child=='pengantar_kematian'){echo 'active';}else{echo '';} ?>">
+											<a href="<?php echo site_url('pengantar_kematian'); ?>" class="nav-link nav-toggle ">
+												<i class="icon-pin"></i> Surat Pengantar Kematian
 											</a>
 										</li>
 										<li class=" <?php if($child=='surat_keterangan_usaha'){echo 'active';}else{echo '';} ?>">
@@ -130,7 +135,7 @@
 										</li>
 									</ul>
 								</li>
-								<li class="menu-dropdown classic-menu-dropdown <?php if($parent=='tentang_desa'){echo 'active';}else{echo '';} ?>">
+								<!-- <li class="menu-dropdown classic-menu-dropdown <?php if($parent=='tentang_desa'){echo 'active';}else{echo '';} ?>">
 									<a href="javascript:;"><i class="icon-map"></i> Tentang Desa
 										<span class="arrow <?php if($parent=='tentang_desa'){echo 'open';}else{echo '';} ?>"></span>
 									</a>
@@ -165,11 +170,11 @@
 											</a>
 										</li>
 									</ul>
-								</li>
-								<li class="menu-dropdown classic-menu-dropdown <?php if($parent=='log_activity'){echo 'active';}else{echo '';} ?>">
+								</li> -->
+								<!-- <li class="menu-dropdown classic-menu-dropdown <?php if($parent=='log_activity'){echo 'active';}else{echo '';} ?>">
 									<a href="<?php echo site_url('log_activity'); ?>"><i class="fa fa-rss"></i> Log Aktifitas
 									</a>
-								</li>
+								</li> -->
 								<li class="menu-dropdown classic-menu-dropdown <?php if($parent=='about'){echo 'active';}else{echo '';} ?>">
 									<a href="<?php echo site_url('tentang_aplikasi'); ?>"><i class="icon-bulb"></i> Tentang Aplikasi
 									</a>
