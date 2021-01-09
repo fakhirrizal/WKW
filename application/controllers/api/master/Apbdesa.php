@@ -66,8 +66,13 @@ class Apbdesa extends REST_Controller {
 				$balikan['status'] = '0';
 				$balikan['message'] = 'Data kosong.';
 				$balikan['list'] = array(
+					'id_apbdes' => '-',
+					'tahun' => $this->get('tahun'),
 					'keterangan' => '-',
-					'nominal' => 0
+					'kategori' => '-',
+					'rincian' => '-',
+					'nominal' => 0,
+					'warna' => '-',
 				);
 				$balikan['total'] = 0;
 				$this->response($balikan, 200);
