@@ -24,7 +24,7 @@ class Report extends CI_Controller {
 
 		$params['data'] = $isi_qr; // data yang akan di jadikan QR CODE
 		$params['level'] = 'H'; // H=High
-		$params['size'] = 10;
+		$params['size'] = 15;
 		$params['savename'] = FCPATH.$config_qr_code['imagedir'].$image_name_qr_code; // simpan image QR CODE ke folder assets/images/
 		$this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
     }
@@ -302,7 +302,7 @@ class Report extends CI_Controller {
 
 		$params['data'] = $isi_qr; // data yang akan di jadikan QR CODE
 		$params['level'] = 'H'; // H=High
-		$params['size'] = 10;
+		$params['size'] = 15;
 		$params['savename'] = FCPATH.$config_qr_code['imagedir'].$image_name_qr_code; // simpan image QR CODE ke folder assets/images/
         $this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
         
@@ -569,7 +569,7 @@ class Report extends CI_Controller {
 
 		$params['data'] = $isi_qr; // data yang akan di jadikan QR CODE
 		$params['level'] = 'H'; // H=High
-		$params['size'] = 10;
+		$params['size'] = 15;
 		$params['savename'] = FCPATH.$config_qr_code['imagedir'].$image_name_qr_code; // simpan image QR CODE ke folder assets/images/
         $this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
         $nama_file = base_url().'data_upload/dokumen/'.$this->input->post('id').'ktp'.$cur_date.'.pdf';
@@ -735,7 +735,7 @@ class Report extends CI_Controller {
 
 		$params['data'] = $isi_qr; // data yang akan di jadikan QR CODE
 		$params['level'] = 'H'; // H=High
-		$params['size'] = 10;
+		$params['size'] = 15;
 		$params['savename'] = FCPATH.$config_qr_code['imagedir'].$image_name_qr_code; // simpan image QR CODE ke folder assets/images/
         $this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
         $nama_file = base_url().'data_upload/dokumen/'.$this->input->post('id').'domisili'.$cur_date.'.pdf';
@@ -890,7 +890,7 @@ class Report extends CI_Controller {
 
 		$params['data'] = $isi_qr; // data yang akan di jadikan QR CODE
 		$params['level'] = 'H'; // H=High
-		$params['size'] = 10;
+		$params['size'] = 15;
 		$params['savename'] = FCPATH.$config_qr_code['imagedir'].$image_name_qr_code; // simpan image QR CODE ke folder assets/images/
         $this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
         $nama_file = base_url().'data_upload/dokumen/'.$this->input->post('id').'usaha'.$cur_date.'.pdf';
@@ -1089,7 +1089,7 @@ class Report extends CI_Controller {
 
 		$params['data'] = $isi_qr; // data yang akan di jadikan QR CODE
 		$params['level'] = 'H'; // H=High
-		$params['size'] = 10;
+		$params['size'] = 15;
 		$params['savename'] = FCPATH.$config_qr_code['imagedir'].$image_name_qr_code; // simpan image QR CODE ke folder assets/images/
         $this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
         $nama_file = base_url().'data_upload/dokumen/'.$this->input->post('id').'sktm_umum'.$cur_date.'.pdf';
@@ -1162,7 +1162,7 @@ class Report extends CI_Controller {
 
 		$params['data'] = $isi_qr; // data yang akan di jadikan QR CODE
 		$params['level'] = 'H'; // H=High
-		$params['size'] = 10;
+		$params['size'] = 15;
 		$params['savename'] = FCPATH.$config_qr_code['imagedir'].$image_name_qr_code; // simpan image QR CODE ke folder assets/images/
         $this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
         $nama_file = base_url().'data_upload/dokumen/'.$this->input->post('id').'sktm_pendidikan'.$cur_date.'.pdf';
@@ -1336,7 +1336,7 @@ class Report extends CI_Controller {
 
 		$params['data'] = $isi_qr; // data yang akan di jadikan QR CODE
 		$params['level'] = 'H'; // H=High
-		$params['size'] = 10;
+		$params['size'] = 15;
 		$params['savename'] = FCPATH.$config_qr_code['imagedir'].$image_name_qr_code; // simpan image QR CODE ke folder assets/images/
         $this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
         $nama_file = base_url().'data_upload/dokumen/'.$this->input->post('id').'sim'.$cur_date.'.pdf';
@@ -1486,7 +1486,7 @@ class Report extends CI_Controller {
 
 		$params['data'] = $isi_qr; // data yang akan di jadikan QR CODE
 		$params['level'] = 'H'; // H=High
-		$params['size'] = 10;
+		$params['size'] = 15;
 		$params['savename'] = FCPATH.$config_qr_code['imagedir'].$image_name_qr_code; // simpan image QR CODE ke folder assets/images/
         $this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
         $nama_file = base_url().'data_upload/dokumen/'.$this->input->post('id').'skck'.$cur_date.'.pdf';
@@ -1636,7 +1636,7 @@ class Report extends CI_Controller {
 
 		$params['data'] = $isi_qr; // data yang akan di jadikan QR CODE
 		$params['level'] = 'H'; // H=High
-		$params['size'] = 10;
+		$params['size'] = 15;
 		$params['savename'] = FCPATH.$config_qr_code['imagedir'].$image_name_qr_code; // simpan image QR CODE ke folder assets/images/
         $this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
         $nama_file = base_url().'data_upload/dokumen/'.$this->input->post('id').'kematian'.$cur_date.'.pdf';
@@ -1667,7 +1667,11 @@ class Report extends CI_Controller {
         require FCPATH . 'vendor/autoload.php';
         $data_insert['gambar_qr'] = '<img src="'.base_url().'data_upload/dokumen_qr/'.$image_name_qr_code.'" width="10%"/>';
         require_once BASEPATH.'core/CodeIgniter.php';
-        $mpdf = new \Mpdf\Mpdf();
+        $mpdf = new \Mpdf\Mpdf([
+            'mode' => 'utf-8',
+            'format' => 'A4-L',
+            'orientation' => 'L'
+        ]);
         $data = $this->load->view('admin/form_pdf/kematian', $data_insert, TRUE);
         $mpdf->WriteHTML($data);
         if (ob_get_contents()) ob_end_clean();

@@ -54,7 +54,17 @@
             <div class="row">
                 <div class="col-md-6">
                     <form>
+                        
                         <?php
+                        if($data_utama->nomor_surat==''){
+                            echo'
+                            <div class="alert alert-danger" role="alert">
+                                Surat tidak valid harap hubungi pihak desa
+                            </div>';
+                        }else{
+                            echo'
+                            ';
+                        }
                         if($judul=='Surat Pengantar SIM'){
                             echo'
                                 <div class="form-group">
