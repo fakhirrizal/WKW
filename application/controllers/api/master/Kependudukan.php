@@ -36,8 +36,11 @@ class Kependudukan extends REST_Controller {
                 $balikan['status'] = 0;
                 $balikan['message'] = 'Data kosong.';
                 $balikan['list'] = array(
+					'id' => '-',
+					'kategori' => '-',
 					'keterangan' => '-',
-					'jumlah' => 0
+					'jumlah' => 0,
+					'tahun' => $this->get('tahun')
 				);
 				$balikan['total'] = 0;
                 $this->response($balikan, 200);
