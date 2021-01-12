@@ -50,7 +50,7 @@ class Permohonan_ktp extends REST_Controller {
 
 			$params['data'] = $isi_qr; // data yang akan di jadikan QR CODE
 			$params['level'] = 'H'; // H=High
-			$params['size'] = 10;
+			$params['size'] = 15;
 			$params['savename'] = FCPATH.$config_qr_code['imagedir'].$image_name_qr_code; // simpan image QR CODE ke folder assets/images/
 			$this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
 
@@ -71,7 +71,7 @@ class Permohonan_ktp extends REST_Controller {
 				'nama' => $cek->nama,
 				'permohonan_ktp' => $this->post('permohonan_ktp'),
 				'kk' => $this->post('kk'),
-				'kode_pos' => $this->post('kode_pos'),
+				'kode_pos' => 51216,
 				'nik' => $cek->nik,
 				'rt' => $cek->rt,
                 'rw' => $cek->rw,

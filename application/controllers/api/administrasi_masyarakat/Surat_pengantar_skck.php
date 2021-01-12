@@ -49,7 +49,7 @@ class Surat_pengantar_skck extends REST_Controller {
 	
 			$params['data'] = $isi_qr; // data yang akan di jadikan QR CODE
 			$params['level'] = 'H'; // H=High
-			$params['size'] = 10;
+			$params['size'] = 15;
 			$params['savename'] = FCPATH.$config_qr_code['imagedir'].$image_name_qr_code; // simpan image QR CODE ke folder assets/images/
 			$this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
 			$data_insert = array(

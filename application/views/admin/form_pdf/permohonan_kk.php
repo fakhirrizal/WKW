@@ -61,7 +61,7 @@
         <font face="Arial">:</font>
       </td>
       <td width="74%" height="28" colspan="3">
-        <font face="Arial">............
+        <font face="Arial"><?= $nama; ?>
         </font>
       </td>
     </tr>
@@ -720,7 +720,7 @@
     <tr>
       <td width="33%" align="center"><b>
           <font face="Arial">(
-            .......................................... )</font>
+            <?= $this->Main_model->get_nama_ttd();  ?> )</font>
         </b></td>
       <td width="33%" align="center"><b>
           <font face="Arial">(
