@@ -16,7 +16,7 @@ class Umkm extends REST_Controller {
 	}
 	function index_get() {
 		if($this->get('id_umkm')!=NULL){
-			$hasil = $this->Main_model->getSelectedData('umkm a', 'a.*', array('a.id_umkm'=>$this->get('id_umkm')), '', '10', $this->get('jumlah'))->row();
+			$hasil = $this->Main_model->getSelectedData('umkm a', 'a.*', array('a.id_umkm'=>$this->get('id_umkm')), 'RAND()', '10', $this->get('jumlah'))->row();
 			if($hasil==NULL){
 				$balikan['status'] = 0;
 				$balikan['message'] = 'Data kosong.';
@@ -24,7 +24,7 @@ class Umkm extends REST_Controller {
 				$balikan['total'] = 0;
 				$this->response($balikan, 200);
 			}else{
-				$get_foto = $this->Main_model->getSelectedData('foto_produk_umkm a', 'a.*', array('a.id_umkm'=>$this->get('id_umkm')), '', '')->result();
+				$get_foto = $this->Main_model->getSelectedData('foto_produk_umkm a', 'a.*', array('a.id_umkm'=>$this->get('id_umkm')), 'RAND()', '')->result();
 				$isi['status'] = '1';
 				$isi['id_umkm'] = $hasil->id_umkm;
 				$isi['nama_usaha'] = $hasil->nama;
@@ -42,8 +42,8 @@ class Umkm extends REST_Controller {
 				$this->response($isi, 200);
 			}
 		}else{
-			$hasil_total = $this->Main_model->getSelectedData('umkm a', 'a.*', '', '')->result();
-			$hasil = $this->Main_model->getSelectedData('umkm a', 'a.*', '', '', '10', $this->get('jumlah'))->result();
+			$hasil_total = $this->Main_model->getSelectedData('umkm a', 'a.*', '', 'RAND()')->result();
+			$hasil = $this->Main_model->getSelectedData('umkm a', 'a.*', '', 'RAND()', '10', $this->get('jumlah'))->result();
 			if($hasil==NULL){
 				$balikan['status'] = 0;
 				$balikan['message'] = 'Data kosong.';
@@ -53,7 +53,7 @@ class Umkm extends REST_Controller {
 			}else{
 				$data_tampil = array();
 				foreach ($hasil as $key => $value) {
-					$get_foto = $this->Main_model->getSelectedData('foto_produk_umkm a', 'a.*', array('a.id_umkm'=>$value->id_umkm), '', '')->result();
+					$get_foto = $this->Main_model->getSelectedData('foto_produk_umkm a', 'a.*', array('a.id_umkm'=>$value->id_umkm), 'RAND()', '')->result();
 					$isi['id_umkm'] = $value->id_umkm;
 					$isi['nama_usaha'] = $value->nama;
 					$isi['jenis_usaha'] = $value->jenis;
