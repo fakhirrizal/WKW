@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 require APPPATH . 'libraries/REST_Controller.php';
 require APPPATH . 'libraries/Format.php';
 
-class Surat_pengantar extends REST_Controller {
+class Surat_keterangan_pindah extends REST_Controller {
 
 	function __construct(){
 		parent::__construct();
@@ -31,7 +31,7 @@ class Surat_pengantar extends REST_Controller {
             $this->response($hasil, 200);
         }else{
 			$this->db->trans_start();
-			$get_last = $this->Main_model->getLastID('surat_pengantar','id_surat_pengantar');
+			$get_last = $this->Main_model->getLastID('surat_keterangan_pindah','id_surat_keterangan_pindah');
 			$image_name_qr_code = '';
 			$config_qr_code['cacheable']	= true; // boolean, the default is true
 			$config_qr_code['cachedir']		= './data_upload/dokumen_qr/'; // string, the default is application/cache/
@@ -43,9 +43,9 @@ class Surat_pengantar extends REST_Controller {
 			$config_qr_code['white']		= array(70,130,180); // array, default is array(0,0,0)
 			$this->ciqrcode->initialize($config_qr_code);
 
-			$image_name_qr_code = "qr_code_surat_pengantar_".time().'.png';
+			$image_name_qr_code = "qr_code_surat_keterangan_pindah_".time().'.png';
 			
-			$isi_qr = base_url().'scan_surat/skck~'.md5($get_last['id_surat_pengantar']+1);
+			$isi_qr = base_url().'scan_surat/skck~'.md5($get_last['id_surat_keterangan_pindah']+1);
 
 			$params['data'] = $isi_qr; // data yang akan di jadikan QR CODE
 			$params['level'] = 'H'; // H=High
@@ -55,44 +55,52 @@ class Surat_pengantar extends REST_Controller {
 			
 
 			$data_insert = array(
-				'id_surat_pengantar' => $get_last['id_surat_pengantar']+1,
-				'nama' => $cek->nama,
+				'id_surat_keterangan_pindah' => $get_last['id_surat_keterangan_pindah']+1,
+				'nama' => $this->post('nama'),
 				'tempat_lahir' => $this->post('tempat_lahir'),
 				'tanggal_lahir' => $this->post('tanggal_lahir'),
-				'nik' => $cek->nik,
+				'pendidikan' => $this->post('pendidikan'),
+				'nik' => $this->post('nik'),
 				'pekerjaan' => $this->post('pekerjaan'),
 				'agama' => $this->post('agama'),
+				'status_perkawinan' => $this->post('status_perkawinan'),
+				'jenis_kelamin' => $this->post('jenis_kelamin'),
 				'nomor_surat' => '',
 				'rt' => $cek->rt,
                 'rw' => $cek->rw,
-                'keperluan' => $this->post('keperluan'),
-				'file' => base_url().'data_upload/dokumen/'.($get_last['id_surat_pengantar']+1).'_surat_pengantar.pdf',
+                'desa_pindah' => $this->post('desa_pindah'),
+                'kecamatan_pindah' => $this->post('kecamatan_pindah'),
+                'kabkota_pindah' => $this->post('kabkota_pindah'),
+                'provinsi_pindah' => $this->post('provinsi_pindah'),
+                'tanggal_pindah' => $this->post('tanggal_pindah'),
+                'alasan_pindah' => $this->post('alasan_pindah'),
+				'file' => base_url().'data_upload/dokumen/'.($get_last['id_surat_keterangan_pindah']+1).'_surat_keterangan_pindah.pdf',
 				'created_by' => $this->post('user_id'),
 				'created_at' => date('Y-m-d H:i:s')
 			);
-			$this->Main_model->insertData('surat_pengantar',$data_insert);
+			$this->Main_model->insertData('surat_keterangan_pindah',$data_insert);
             // print_r($data_insert);
             // Composer Autoloader
             require FCPATH . 'vendor/autoload.php';
 			$data_insert['gambar_qr'] = '<img src="'.base_url().'data_upload/dokumen_qr/'.$image_name_qr_code.'" width="10%"/>';
             require_once BASEPATH.'core/CodeIgniter.php';
             $mpdf = new \Mpdf\Mpdf();
-            $data = $this->load->view('admin/form_pdf/surat_pengantar', $data_insert, TRUE);
+            $data = $this->load->view('admin/form_pdf/surat_keterangan_pindah', $data_insert, TRUE);
             $mpdf->WriteHTML($data);
             if (ob_get_contents()) ob_end_clean();
-            $pathh = 'data_upload/dokumen/'.($get_last['id_surat_pengantar']+1).'_surat_pengantar.pdf';
+            $pathh = 'data_upload/dokumen/'.($get_last['id_surat_keterangan_pindah']+1).'_surat_keterangan_pindah.pdf';
             $mpdf->Output($pathh, \Mpdf\Output\Destination::FILE);
 
             $datainsert = array(
-				'form' => 'Surat Pengantar',
-				'file' => base_url().'data_upload/dokumen/'.($get_last['id_surat_pengantar']+1).'_surat_pengantar.pdf',
+				'form' => 'Surat Keterangan Pindah',
+				'file' => base_url().'data_upload/dokumen/'.($get_last['id_surat_keterangan_pindah']+1).'_surat_keterangan_pindah.pdf',
 				'created_by' => $this->post('user_id'),
 				'created_at' => date('Y-m-d H:i:s')
 			);
 			$this->Main_model->insertData('riwayat_administrasi',$datainsert);
             // print_r($datainsert);
 
-			$this->Main_model->log_activity($this->post('user_id'),'Adding data',"Membuat surat pengantar");
+			$this->Main_model->log_activity($this->post('user_id'),'Adding data',"Membuat surat keterangan pindah");
 			$this->db->trans_complete();
 			if($this->db->trans_status() === false){
 				$hasil['status'] = '0';
@@ -102,7 +110,7 @@ class Surat_pengantar extends REST_Controller {
 			else{
 				$hasil['status'] = '1';
                 $hasil['message'] = 'Sukses menyimpan data.';
-                $hasil['link'] = base_url().'data_upload/dokumen/'.($get_last['id_surat_pengantar']+1).'_surat_pengantar.pdf';
+                $hasil['link'] = base_url().'data_upload/dokumen/'.($get_last['id_surat_keterangan_pindah']+1).'_surat_keterangan_pindah.pdf';
                 $this->response($hasil, 200);
 			}
 		}

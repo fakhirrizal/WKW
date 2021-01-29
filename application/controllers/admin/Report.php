@@ -209,6 +209,328 @@ class Report extends CI_Controller {
 			echo "<script>window.location='".base_url()."admin_side/pemberitahuan/'</script>";
 		}
 	}
+    /* Surat Keterangan/ Pengantar */
+    public function surat_pengantar(){
+        $data['parent'] = 'laporan_masyarakat';
+        $data['child'] = 'surat_pengantar';
+        $data['grand_child'] = '';
+        $this->load->view('admin/template/header',$data);
+        $this->load->view('admin/report/surat_pengantar',$data);
+        $this->load->view('admin/template/footer');
+    }
+    public function json_surat_pengantar(){
+		$get_data = $this->Main_model->getSelectedData('surat_pengantar a', 'a.*', '', 'a.created_at DESC')->result();
+        $data_tampil = array();
+        $no = 1;
+		foreach ($get_data as $key => $value) {
+            $isi['no'] = $no++.'.';
+            $isi['nama'] = $value->nama;
+            $isi['nomor_surat'] = $value->nomor_surat;
+            $isi['rtrw'] = $value->rt.'/ '.$value->rw;
+            $isi['ttl'] = $value->tempat_lahir.', '.$this->Main_model->convert_tanggal($value->tanggal_lahir);
+            $pecah_tanggal = explode(' ',$value->created_at);
+            $isi['waktu'] = $this->Main_model->convert_tanggal($pecah_tanggal[0]).' '.substr($pecah_tanggal[1],0,5);
+            $return_on_click = "return confirm('Anda yakin?')";
+            $isi['aksi'] =	'
+            <div class="btn-group" >
+				<button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Aksi
+					<i class="fa fa-angle-down"></i>
+				</button>
+				<ul class="dropdown-menu" role="menu">
+                    <li>
+                        <a  href="'.site_url('admin_side/detail_surat_pengantar/'.md5($value->id_surat_pengantar)).'/">
+                            <i class="icon-action-redo"></i> Detail Data </a>
+                    </li>
+					<li>
+						<a onclick="'.$return_on_click.'" href="'.site_url('admin_side/hapus_surat_pengantar/'.md5($value->id_surat_pengantar)).'">
+							<i class="icon-trash"></i> Hapus Data </a>
+					</li>
+				</ul>
+			</div>
+            ';
+			$data_tampil[] = $isi;
+		}
+		$results = array(
+			"sEcho" => 1,
+			"iTotalRecords" => count($data_tampil),
+			"iTotalDisplayRecords" => count($data_tampil),
+			"aaData"=>$data_tampil);
+		echo json_encode($results);
+    }
+    public function detail_surat_pengantar(){
+		$data['parent'] = 'laporan_masyarakat';
+        $data['child'] = 'surat_pengantar';
+        $data['grand_child'] = '';
+        $data['data_utama'] = $this->Main_model->getSelectedData('surat_pengantar a', 'a.*', array('md5(a.id_surat_pengantar)'=>$this->uri->segment(3)), 'a.id_surat_pengantar DESC', '', '', '', array(
+            'table' => 'user b',
+            'on' => 'a.created_by=b.id',
+            'pos' => 'LEFT'
+        ))->row();
+        $this->load->view('admin/template/header',$data);
+        $this->load->view('admin/report/detail_surat_pengantar',$data);
+        $this->load->view('admin/template/footer');
+    }
+    public function ubah_surat_pengantar(){
+        $data['parent'] = 'laporan_masyarakat';
+        $data['child'] = 'surat_pengantar';
+        $data['grand_child'] = '';
+        $data['data_utama'] = $this->Main_model->getSelectedData('surat_pengantar a', 'a.*', array('md5(a.id_surat_pengantar)'=>$this->uri->segment(3)))->row();
+        $this->load->view('admin/template/header',$data);
+        $this->load->view('admin/report/ubah_surat_pengantar',$data);
+        $this->load->view('admin/template/footer');
+    }
+    public function perbarui_surat_pengantar(){
+        $this->db->trans_start();
+        $cur_date = date('YmdHis');
+        $image_name_qr_code = '';
+		$config_qr_code['cacheable']	= true; // boolean, the default is true
+		$config_qr_code['cachedir']		= './data_upload/dokumen_qr/'; // string, the default is application/cache/
+		$config_qr_code['errorlog']		= './data_upload/dokumen_qr/'; // string, the default is application/logs/
+		$config_qr_code['imagedir']		= './data_upload/dokumen_qr/'; // direktori penyimpanan qr code
+		$config_qr_code['quality']		= true; // boolean, the default is true
+		$config_qr_code['size']			= '3024'; // interger, the default is 1024
+		$config_qr_code['black']		= array(224,255,255); // array, default is array(255,255,255)
+		$config_qr_code['white']		= array(70,130,180); // array, default is array(0,0,0)
+		$this->ciqrcode->initialize($config_qr_code);
+
+		$image_name_qr_code = "qr_code_surat_pengantar_".time().'.png';
+		
+		$isi_qr = 'surat_pengantar~'.$this->input->post('id');
+
+		$params['data'] = $isi_qr; // data yang akan di jadikan QR CODE
+		$params['level'] = 'H'; // H=High
+		$params['size'] = 15;
+		$params['savename'] = FCPATH.$config_qr_code['imagedir'].$image_name_qr_code; // simpan image QR CODE ke folder assets/images/
+        $this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
+        
+        $nama_file = base_url().'data_upload/dokumen/'.$this->input->post('id').'surat_pengantar'.$cur_date.'.pdf';
+
+        $data_insert = array(
+            'nama' => $this->input->post('nama'),
+            'nik' => $this->input->post('nik'),
+            'pekerjaan' => $this->input->post('pekerjaan'),
+            'keperluan' => $this->input->post('keperluan'),
+            'rt' => $this->input->post('rt'),
+            'rw' => $this->input->post('rw'),
+            'tempat_lahir' => $this->input->post('tempat_lahir'),
+            'tanggal_lahir' => $this->input->post('tanggal_lahir'),
+            'agama' => $this->input->post('agama'),
+            'nomor_surat' => $this->input->post('nomor_surat'),
+            'file' => $nama_file
+        );
+        $this->Main_model->updateData('surat_pengantar',$data_insert,array('md5(id_surat_pengantar)'=>$this->input->post('id')));
+        $data_insert['gambar_qr'] = '<img src="'.base_url().'data_upload/dokumen_qr/'.$image_name_qr_code.'" width="10%"/>';
+        require FCPATH . 'vendor/autoload.php';
+
+        require_once BASEPATH.'core/CodeIgniter.php';
+        $mpdf = new \Mpdf\Mpdf();
+        $mpdf->AddPage('L'); // margin footer
+        $data = $this->load->view('admin/form_pdf/surat_pengantar', $data_insert, TRUE);
+        $mpdf->WriteHTML($data);
+        if (ob_get_contents()) ob_end_clean();
+        $pathh = 'data_upload/dokumen/'.$this->input->post('id').'surat_pengantar'.$cur_date.'.pdf';
+        $mpdf->Output($pathh, \Mpdf\Output\Destination::FILE);
+
+        $this->Main_model->updateData('riwayat_administrasi',array('file'=>$nama_file),array('file'=>$this->input->post('file_lama'),'md5(created_by)'=>$this->input->post('user')));
+
+        $this->Main_model->log_activity('2',"Updating data","Mengubah data pengajuan surat pengantar/ keterangan (".$this->input->post('nama').")");
+        $this->db->trans_complete();
+        if($this->db->trans_status() === false){
+            $this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal diubah.<br /></div>' );
+            echo "<script>window.location='".base_url()."admin_side/ubah_surat_pengantar/".$this->input->post('id')."'</script>";
+        }
+        else{
+            $this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil diubah.<br /></div>' );
+            echo "<script>window.location='".base_url()."admin_side/detail_surat_pengantar/".$this->input->post('id')."'</script>";
+        }
+    }
+    public function hapus_surat_pengantar(){
+		$this->db->trans_start();
+		$id = '';
+		$keterangan = '';
+		$get_data = $this->Main_model->getSelectedData('surat_pengantar a', 'a.*',array('md5(a.id_surat_pengantar)'=>$this->uri->segment(3)))->row();
+		$id = $get_data->id_surat_pengantar;
+		$keterangan = $get_data->nomor_surat;
+
+		$this->Main_model->deleteData('surat_pengantar',array('id_surat_pengantar'=>$id));
+
+		$this->Main_model->log_activity($this->session->userdata('id'),"Deleting data","Menghapus data surat keterangan pindah (".$keterangan.")",$this->session->userdata('location'));
+		$this->db->trans_complete();
+		if($this->db->trans_status() === false){
+			$this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal dihapus.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/surat_pengantar/'</script>";
+		}
+		else{
+			$this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil dihapus.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/surat_pengantar/'</script>";
+		}
+    }
+    /* Surat Keterangan Pindah */
+    public function surat_keterangan_pindah(){
+        $data['parent'] = 'laporan_masyarakat';
+        $data['child'] = 'surat_keterangan_pindah';
+        $data['grand_child'] = '';
+        $this->load->view('admin/template/header',$data);
+        $this->load->view('admin/report/surat_keterangan_pindah',$data);
+        $this->load->view('admin/template/footer');
+    }
+    public function json_surat_keterangan_pindah(){
+		$get_data = $this->Main_model->getSelectedData('surat_keterangan_pindah a', 'a.*', '', 'a.created_at DESC')->result();
+        $data_tampil = array();
+        $no = 1;
+		foreach ($get_data as $key => $value) {
+            $isi['no'] = $no++.'.';
+            $pisah_nama = explode(';',$value->nama);
+            $isi['nama'] = $pisah_nama[0];
+            $isi['nomor_surat'] = $value->nomor_surat;
+            $isi['rtrw'] = $value->rt.'/ '.$value->rw;
+            $pisah_tanggal_lahir = explode(';',$value->tanggal_lahir);
+            $isi['ttl'] = $value->tempat_lahir.', '.$this->Main_model->convert_tanggal($pisah_tanggal_lahir[0]);
+            $pecah_tanggal = explode(' ',$value->created_at);
+            $isi['waktu'] = $this->Main_model->convert_tanggal($pecah_tanggal[0]).' '.substr($pecah_tanggal[1],0,5);
+            $return_on_click = "return confirm('Anda yakin?')";
+            $isi['aksi'] =	'
+            <div class="btn-group" >
+				<button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Aksi
+					<i class="fa fa-angle-down"></i>
+				</button>
+				<ul class="dropdown-menu" role="menu">
+                    <li>
+                        <a  href="'.site_url('admin_side/detail_surat_keterangan_pindah/'.md5($value->id_surat_keterangan_pindah)).'/">
+                            <i class="icon-action-redo"></i> Detail Data </a>
+                    </li>
+					<li>
+						<a onclick="'.$return_on_click.'" href="'.site_url('admin_side/hapus_surat_keterangan_pindah/'.md5($value->id_surat_keterangan_pindah)).'">
+							<i class="icon-trash"></i> Hapus Data </a>
+					</li>
+				</ul>
+			</div>
+            ';
+			$data_tampil[] = $isi;
+		}
+		$results = array(
+			"sEcho" => 1,
+			"iTotalRecords" => count($data_tampil),
+			"iTotalDisplayRecords" => count($data_tampil),
+			"aaData"=>$data_tampil);
+		echo json_encode($results);
+    }
+    public function detail_surat_keterangan_pindah(){
+		$data['parent'] = 'laporan_masyarakat';
+        $data['child'] = 'surat_keterangan_pindah';
+        $data['grand_child'] = '';
+        $data['data_utama'] = $this->Main_model->getSelectedData('surat_keterangan_pindah a', 'a.*', array('md5(a.id_surat_keterangan_pindah)'=>$this->uri->segment(3)), 'a.id_surat_keterangan_pindah DESC', '', '', '', array(
+            'table' => 'user b',
+            'on' => 'a.created_by=b.id',
+            'pos' => 'LEFT'
+        ))->row();
+        $this->load->view('admin/template/header',$data);
+        $this->load->view('admin/report/detail_surat_keterangan_pindah',$data);
+        $this->load->view('admin/template/footer');
+    }
+    public function ubah_surat_keterangan_pindah(){
+        $data['parent'] = 'laporan_masyarakat';
+        $data['child'] = 'surat_keterangan_pindah';
+        $data['grand_child'] = '';
+        $data['data_utama'] = $this->Main_model->getSelectedData('surat_keterangan_pindah a', 'a.*', array('md5(a.id_surat_keterangan_pindah)'=>$this->uri->segment(3)))->row();
+        $this->load->view('admin/template/header',$data);
+        $this->load->view('admin/report/ubah_surat_keterangan_pindah',$data);
+        $this->load->view('admin/template/footer');
+    }
+    public function perbarui_surat_keterangan_pindah(){
+        $this->db->trans_start();
+        $cur_date = date('YmdHis');
+        $image_name_qr_code = '';
+		$config_qr_code['cacheable']	= true; // boolean, the default is true
+		$config_qr_code['cachedir']		= './data_upload/dokumen_qr/'; // string, the default is application/cache/
+		$config_qr_code['errorlog']		= './data_upload/dokumen_qr/'; // string, the default is application/logs/
+		$config_qr_code['imagedir']		= './data_upload/dokumen_qr/'; // direktori penyimpanan qr code
+		$config_qr_code['quality']		= true; // boolean, the default is true
+		$config_qr_code['size']			= '3024'; // interger, the default is 1024
+		$config_qr_code['black']		= array(224,255,255); // array, default is array(255,255,255)
+		$config_qr_code['white']		= array(70,130,180); // array, default is array(0,0,0)
+		$this->ciqrcode->initialize($config_qr_code);
+
+		$image_name_qr_code = "qr_code_surat_keterangan_pindah_".time().'.png';
+		
+		$isi_qr = 'surat_keterangan_pindah~'.$this->input->post('id');
+
+		$params['data'] = $isi_qr; // data yang akan di jadikan QR CODE
+		$params['level'] = 'H'; // H=High
+		$params['size'] = 15;
+		$params['savename'] = FCPATH.$config_qr_code['imagedir'].$image_name_qr_code; // simpan image QR CODE ke folder assets/images/
+        $this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
+        
+        $nama_file = base_url().'data_upload/dokumen/'.$this->input->post('id').'surat_keterangan_pindah'.$cur_date.'.pdf';
+
+        $data_insert = array(
+            'nama' => $this->input->post('nama'),
+            'nik' => $this->input->post('nik'),
+            'pekerjaan' => $this->input->post('pekerjaan'),
+            'pendidikan' => $this->input->post('pendidikan'),
+            'rt' => $this->input->post('rt'),
+            'rw' => $this->input->post('rw'),
+            'tempat_lahir' => $this->input->post('tempat_lahir'),
+            'tanggal_lahir' => $this->input->post('tanggal_lahir'),
+            'agama' => $this->input->post('agama'),
+            'status_perkawinan' => $this->input->post('status_perkawinan'),
+            'jenis_kelamin' => $this->input->post('jenis_kelamin'),
+            'desa_pindah' => $this->input->post('desa_pindah'),
+            'kecamatan_pindah' => $this->input->post('kecamatan_pindah'),
+            'kabkota_pindah' => $this->input->post('kabkota_pindah'),
+            'provinsi_pindah' => $this->input->post('provinsi_pindah'),
+            'tanggal_pindah' => $this->input->post('tanggal_pindah'),
+            'alasan_pindah' => $this->input->post('alasan_pindah'),
+            'nomor_surat' => $this->input->post('nomor_surat'),
+            'file' => $nama_file
+        );
+        $this->Main_model->updateData('surat_keterangan_pindah',$data_insert,array('md5(id_surat_keterangan_pindah)'=>$this->input->post('id')));
+        $data_insert['gambar_qr'] = '<img src="'.base_url().'data_upload/dokumen_qr/'.$image_name_qr_code.'" width="10%"/>';
+        require FCPATH . 'vendor/autoload.php';
+
+        require_once BASEPATH.'core/CodeIgniter.php';
+        $mpdf = new \Mpdf\Mpdf();
+        $mpdf->AddPage('L'); // margin footer
+        $data = $this->load->view('admin/form_pdf/surat_keterangan_pindah', $data_insert, TRUE);
+        $mpdf->WriteHTML($data);
+        if (ob_get_contents()) ob_end_clean();
+        $pathh = 'data_upload/dokumen/'.$this->input->post('id').'surat_keterangan_pindah'.$cur_date.'.pdf';
+        $mpdf->Output($pathh, \Mpdf\Output\Destination::FILE);
+
+        $this->Main_model->updateData('riwayat_administrasi',array('file'=>$nama_file),array('file'=>$this->input->post('file_lama'),'md5(created_by)'=>$this->input->post('user')));
+
+        $this->Main_model->log_activity('2',"Updating data","Mengubah data pengajuan surat keterangan pindah (".$this->input->post('nama').")");
+        $this->db->trans_complete();
+        if($this->db->trans_status() === false){
+            $this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal diubah.<br /></div>' );
+            echo "<script>window.location='".base_url()."admin_side/ubah_surat_keterangan_pindah/".$this->input->post('id')."'</script>";
+        }
+        else{
+            $this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil diubah.<br /></div>' );
+            echo "<script>window.location='".base_url()."admin_side/detail_surat_keterangan_pindah/".$this->input->post('id')."'</script>";
+        }
+    }
+    public function hapus_surat_keterangan_pindah(){
+		$this->db->trans_start();
+		$id = '';
+		$keterangan = '';
+		$get_data = $this->Main_model->getSelectedData('surat_keterangan_pindah a', 'a.*',array('md5(a.id_surat_keterangan_pindah)'=>$this->uri->segment(3)))->row();
+		$id = $get_data->id_surat_keterangan_pindah;
+		$keterangan = $get_data->nomor_surat;
+
+		$this->Main_model->deleteData('surat_keterangan_pindah',array('id_surat_keterangan_pindah'=>$id));
+
+		$this->Main_model->log_activity($this->session->userdata('id'),"Deleting data","Menghapus data surat keterangan pindah (".$keterangan.")",$this->session->userdata('location'));
+		$this->db->trans_complete();
+		if($this->db->trans_status() === false){
+			$this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal dihapus.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/surat_keterangan_pindah/'</script>";
+		}
+		else{
+			$this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil dihapus.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/surat_keterangan_pindah/'</script>";
+		}
+    }
     /* Data KK */
     public function data_kk(){
         $data['parent'] = 'laporan_masyarakat';

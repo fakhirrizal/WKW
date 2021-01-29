@@ -321,6 +321,16 @@ $route['admin_side/hapus_data_pengajuan_skck/(:any)'] = 'admin/Report/hapus_data
 $route['admin_side/permohonan_informasi'] = 'admin/Report/permohonan_informasi';
 $route['admin_side/detail_permohonan_informasi/(:any)'] = 'admin/Report/detail_permohonan_informasi/$1';
 $route['admin_side/hapus_permohonan_informasi/(:any)'] = 'admin/Report/hapus_permohonan_informasi/$1';
+$route['admin_side/surat_keterangan_pindah'] = 'admin/Report/surat_keterangan_pindah';
+$route['admin_side/detail_surat_keterangan_pindah/(:any)'] = 'admin/Report/detail_surat_keterangan_pindah/$1';
+$route['admin_side/ubah_surat_keterangan_pindah/(:any)'] = 'admin/Report/ubah_surat_keterangan_pindah/$1';
+$route['admin_side/perbarui_surat_keterangan_pindah'] = 'admin/Report/perbarui_surat_keterangan_pindah';
+$route['admin_side/hapus_surat_keterangan_pindah/(:any)'] = 'admin/Report/hapus_surat_keterangan_pindah/$1';
+$route['admin_side/surat_pengantar'] = 'admin/Report/surat_pengantar';
+$route['admin_side/detail_surat_pengantar/(:any)'] = 'admin/Report/detail_surat_pengantar/$1';
+$route['admin_side/ubah_surat_pengantar/(:any)'] = 'admin/Report/ubah_surat_pengantar/$1';
+$route['admin_side/perbarui_surat_pengantar'] = 'admin/Report/perbarui_surat_pengantar';
+$route['admin_side/hapus_surat_pengantar/(:any)'] = 'admin/Report/hapus_surat_pengantar/$1';
 
 /* REST API */
 $route['api'] = 'Rest_server/documentation';

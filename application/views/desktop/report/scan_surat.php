@@ -224,6 +224,60 @@
                                     <label for="">Tanggal Pengajuan: '.$this->Main_model->convert_datetime($data_utama->created_at).'</label>
                                 </div>
                             ';
+                        }elseif($judul=='Pengajuan Surat Keterangan Pindah'){
+                            echo'
+                                <div class="form-group">
+                                    <label for="">Nama: '.$data_utama->nama.'</label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">NIK: '.$data_utama->nik.'</label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">TTL: '.$data_utama->tempat_lahir.', '.$this->Main_model->convert_tanggal($data_utama->tanggal_lahir).'</label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Pekerjaan: '.$data_utama->pekerjaan.'</label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Pendidikan: '.$data_utama->pendidikan.'</label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">RT/ RW: '.$data_utama->rt.'/ '.$data_utama->rw.'</label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Agama: '.$data_utama->agama.'</label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Tanggal Pengajuan: '.$this->Main_model->convert_datetime($data_utama->created_at).'</label>
+                                </div>
+                            ';
+                        }elseif($judul=='Pengajuan Surat Keterangan/ Pengantar'){
+                            echo'
+                                <div class="form-group">
+                                    <label for="">Nama: '.$data_utama->nama.'</label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">NIK: '.$data_utama->nik.'</label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">TTL: '.$data_utama->tempat_lahir.', '.$this->Main_model->convert_tanggal($data_utama->tanggal_lahir).'</label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Pekerjaan: '.$data_utama->pekerjaan.'</label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Keperluan: '.$data_utama->keperluan.'</label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">RT/ RW: '.$data_utama->rt.'/ '.$data_utama->rw.'</label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Agama: '.$data_utama->agama.'</label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Tanggal Pengajuan: '.$this->Main_model->convert_datetime($data_utama->created_at).'</label>
+                                </div>
+                            ';
                         }elseif($judul=='Surat Pengantar SKTM Pendidikan'){
                             echo'
                                 <div class="form-group">

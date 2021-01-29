@@ -1875,6 +1875,96 @@
 													</div>
 												</div>
 											</div>
+                                            <!-- Akhir -->
+                                            <!-- Awal -->
+											<div class="portlet-body">
+												<div class="panel-group accordion" id="accordion3">
+													<div class="panel panel-default">
+														<div class="panel-heading">
+															<h4 class="panel-title">
+																<a class="accordion-toggle accordion-toggle-styled collapsed" data-toggle="collapse" data-parent="#accordion3" href="#collapse_3_57" aria-expanded="false"> <span class="label label-primary"> POST </span>&nbsp;&nbsp;{URL}/api/administrasi_masyarakat/Surat_pengantar</a>
+															</h4>
+														</div>
+														<div id="collapse_3_57" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+															<div class="row">
+																<div class="col-md-12">
+																	<div class="portlet light ">
+																		<div class="portlet-title">
+																			<b>URL</b> : https://kalipucangwetan.id/api/administrasi_masyarakat/Surat_pengantar<br>
+																			<b>Method</b> : POST<br>
+																			<b>Deskripsi</b> : Untuk mendapatkan surat keterangan/ pengantar.<br><br>
+																		</div>
+																		<div class="portlet-body">
+																			Berikut parameter yang harus diisi,<br><br>
+																			<textarea class='form-control' rows='8' readonly>
+																				{
+																						"user_id": string,
+																						"tempat_lahir": string,
+																						"tanggal_lahir": YYYY-mm-dd,
+																						"pekerjaan": string,
+																						"agama": string,
+																						"keperluan": string
+																				}
+																			</textarea>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+                                            <!-- Akhir -->
+                                            <!-- Awal -->
+											<div class="portlet-body">
+												<div class="panel-group accordion" id="accordion3">
+													<div class="panel panel-default">
+														<div class="panel-heading">
+															<h4 class="panel-title">
+																<a class="accordion-toggle accordion-toggle-styled collapsed" data-toggle="collapse" data-parent="#accordion3" href="#collapse_3_58" aria-expanded="false"> <span class="label label-primary"> POST </span>&nbsp;&nbsp;{URL}/api/administrasi_masyarakat/Surat_keterangan_pindah</a>
+															</h4>
+														</div>
+														<div id="collapse_3_58" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+															<div class="row">
+																<div class="col-md-12">
+																	<div class="portlet light ">
+																		<div class="portlet-title">
+																			<b>URL</b> : https://kalipucangwetan.id/api/administrasi_masyarakat/Surat_keterangan_pindah<br>
+																			<b>Method</b> : POST<br>
+																			<b>Deskripsi</b> : Untuk mendapatkan surat keterangan pindah.<br><br>
+																		</div>
+																		<div class="portlet-body">
+																			Berikut parameter yang harus diisi,<br><br>
+																			<textarea class='form-control' rows='18' readonly>
+                                                                    {
+                                                                            "user_id": string,
+                                                                            "nama": string,
+                                                                            "nik": string,
+                                                                            "tempat_lahir": string,
+                                                                            "tanggal_lahir": YYYY-mm-dd,
+                                                                            "pekerjaan": string,
+                                                                            "agama": string,
+                                                                            "pendidikan": string,
+                                                                            "status_perkawinan": Menikah/ Belum Menikah/ Pisah/ Pasangan Meninggal,
+                                                                            "jenis_kelamin": Laki-laki/ Perempuan,
+                                                                            "desa_pindah": string,
+                                                                            "kecamatan_pindah": string,
+                                                                            "kabkota_pindah": string,
+                                                                            "provinsi_pindah": string,
+                                                                            "tanggal_pindah": string,
+                                                                            "alasan_pindah": string
+                                                                    }
+																			</textarea><br>
+                                                                            <b>Keterangan</b><br>
+                                                                            Index <b>nama</b>, <b>jenis_kelamin</b>, <b>tanggal_lahir</b>, <b>status_perkawinan</b>, <b>pendidikan</b>, dan <b>nik</b> bisa multi value dengan pemisah titik koma (<b>;</b>) 
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
 											<!-- Akhir -->
                                         </div>
                                         <div class="tab-pane" id="portlet_tab2_4">

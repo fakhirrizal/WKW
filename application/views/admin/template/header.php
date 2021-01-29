@@ -153,6 +153,16 @@ if(($this->session->userdata('id'))==NULL){
 											<i class="icon-pin"></i> Surat Kematian
 										</a>
 									</li>
+									<li class=" <?php if($child=='surat_keterangan_pindah'){echo 'active';}else{echo '';} ?>">
+										<a href="<?php echo site_url('admin_side/surat_keterangan_pindah'); ?>" class="nav-link nav-toggle ">
+											<i class="icon-pin"></i> Surat Keterangan Pindah
+										</a>
+									</li>
+									<li class=" <?php if($child=='surat_pengantar'){echo 'active';}else{echo '';} ?>">
+										<a href="<?php echo site_url('admin_side/surat_pengantar'); ?>" class="nav-link nav-toggle ">
+											<i class="icon-pin"></i> Surat Keterangan/ Pengantar
+										</a>
+									</li>
 									<li class=" <?php if($child=='sktm'){echo 'active';}else{echo '';} ?>">
 										<a href="<?php echo site_url('admin_side/sktm'); ?>" class="nav-link nav-toggle ">
 											<i class="icon-pin"></i> SKTM

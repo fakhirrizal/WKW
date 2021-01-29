@@ -1370,6 +1370,12 @@ class Report extends CI_Controller {
         }elseif($pecah_string[0]=='kematian'){
             $data['judul'] = 'Surat Pengantar Kematian';
             $data['data_utama'] = $this->Main_model->getSelectedData('surat_pengantar_kematian a', 'a.*', array('md5(a.id_surat_pengantar_kematian)'=>$pecah_string[1]))->row();
+        }elseif($pecah_string[0]=='surat_keterangan_pindah'){
+            $data['judul'] = 'Pengajuan Surat Keterangan Pindah';
+            $data['data_utama'] = $this->Main_model->getSelectedData('surat_keterangan_pindah a', 'a.*', array('md5(a.id_surat_keterangan_pindah)'=>$pecah_string[1]))->row();
+        }elseif($pecah_string[0]=='surat_pengantar'){
+            $data['judul'] = 'Pengajuan Surat Keterangan/ Pengantar';
+            $data['data_utama'] = $this->Main_model->getSelectedData('surat_pengantar a', 'a.*', array('md5(a.id_surat_pengantar)'=>$pecah_string[1]))->row();
         }else{
             echo'';
         }
