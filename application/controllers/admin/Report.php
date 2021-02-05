@@ -476,6 +476,7 @@ class Report extends CI_Controller {
             'status_perkawinan' => $this->input->post('status_perkawinan'),
             'jenis_kelamin' => $this->input->post('jenis_kelamin'),
             'desa_pindah' => $this->input->post('desa_pindah'),
+            'keterangan' => $this->input->post('keterangan'),
             'kecamatan_pindah' => $this->input->post('kecamatan_pindah'),
             'kabkota_pindah' => $this->input->post('kabkota_pindah'),
             'provinsi_pindah' => $this->input->post('provinsi_pindah'),

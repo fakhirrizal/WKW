@@ -23,6 +23,7 @@
     $pisah_status_perkawinan = explode(';',$status_perkawinan);
     $pisah_pendidikan = explode(';',$pendidikan);
     $pisah_nik = explode(';',$nik); 
+    $pisah_keterangan = explode(';',$keterangan); 
     ?>
     <table border="0" cellspacing="0" width="100%" cellpadding="0">
         <tr>
@@ -390,6 +391,10 @@
         <?php
         $no = 1;
         for ($i=0; $i < count($pisah_nama); $i++) {
+            if($i==0){
+                echo'';
+            }
+            else{
         ?>
         <tr>
             <td width="4%" style="padding-top: 3; padding-bottom: 3" align="center">
@@ -424,10 +429,10 @@
                 <font face="Arial"><?= $pisah_nik[$i]; ?></font>
             </td>
             <td width="7%" style="padding-top: 3; padding-bottom: 3" align="center">
-                <font face="Arial">-</font>
+                <font face="Arial"><?= $pisah_keterangan[$i]; ?></font>
             </td>
         </tr>
-        <?php } ?>
+        <?php }} ?>
         <!-- <tr>
             <td width="4%" style="padding-top: 3; padding-bottom: 3" align="center">
                 <font face="Arial">2</font>

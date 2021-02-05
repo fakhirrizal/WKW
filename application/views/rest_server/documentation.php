@@ -1935,7 +1935,7 @@
 																		</div>
 																		<div class="portlet-body">
 																			Berikut parameter yang harus diisi,<br><br>
-																			<textarea class='form-control' rows='18' readonly>
+																			<textarea class='form-control' rows='19' readonly>
                                                                     {
                                                                             "user_id": string,
                                                                             "nama": string,
@@ -1952,11 +1952,12 @@
                                                                             "kabkota_pindah": string,
                                                                             "provinsi_pindah": string,
                                                                             "tanggal_pindah": string,
-                                                                            "alasan_pindah": string
+                                                                            "alasan_pindah": string,
+                                                                            "keterangan": Orang Tua/ Suami/ Istri/ Anak/ Saudara
                                                                     }
 																			</textarea><br>
                                                                             <b>Keterangan</b><br>
-                                                                            Index <b>nama</b>, <b>jenis_kelamin</b>, <b>tanggal_lahir</b>, <b>status_perkawinan</b>, <b>pendidikan</b>, dan <b>nik</b> bisa multi value dengan pemisah titik koma (<b>;</b>) 
+                                                                            Index <b>nama</b>, <b>jenis_kelamin</b>, <b>tanggal_lahir</b>, <b>keterangan</b>, <b>status_perkawinan</b>, <b>pendidikan</b>, dan <b>nik</b> bisa multi value dengan pemisah titik koma (<b>;</b>) 
 																		</div>
 																	</div>
 																</div>

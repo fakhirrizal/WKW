@@ -18,7 +18,7 @@
 	<div class="m-heading-1 border-yellow m-bordered" style="background-color:#FAD405;">
 		<h3>Catatan</h3>
 		<p> 1. Kolom isian dengan tanda bintang (<font color='red'>*</font>) adalah wajib untuk di isi.</p>
-		<p> 2. Isian <b>Nama</b>, <b>NIK</b>, <b>Tanggal Lahir</b>, <b>Pendidikan</b>, <b>Jenis Kelamin</b>, dan <b>Status Perkawinan</b> bisa multi value dengan pemisah titik koma (<b>;</b>)</p>
+		<p> 2. Isian <b>Nama</b>, <b>NIK</b>, <b>Tanggal Lahir</b>, <b>Pendidikan</b>, <b>Keterangan</b>,<b>Jenis Kelamin</b>, dan <b>Status Perkawinan</b> bisa multi value dengan pemisah titik koma (<b>;</b>)</p>
 		<p> 3. Format isian <b>Tanggal Lahir</b> adalah YYYY-mm-dd</p>
 		<p> 4. Pilihan isian dari <b>Jenis Kelamin</b> adalah <b>Laki-laki</b> atau <b>Perempuan</b></p>
 	</div>
@@ -242,6 +242,17 @@
 								<div class="col-md-10">
 									<div class="input-icon">
 										<input type="text" class="form-control" name="alasan_pindah" placeholder="Type something" value='<?= $data_utama->alasan_pindah; ?>' required>
+										<div class="form-control-focus"> </div>
+										<span class="help-block">Some help goes here...</span>
+										<i class="icon-pin"></i>
+									</div>
+								</div>
+							</div>
+							<div class="form-group form-md-line-input has-danger">
+								<label class="col-md-2 control-label" for="form_control_1">Keterangan <span class="required"> * </span></label>
+								<div class="col-md-10">
+									<div class="input-icon">
+										<input type="text" class="form-control" name="keterangan" placeholder="Type something" value='<?= $data_utama->keterangan; ?>' required>
 										<div class="form-control-focus"> </div>
 										<span class="help-block">Some help goes here...</span>
 										<i class="icon-pin"></i>

@@ -74,6 +74,7 @@ class Surat_keterangan_pindah extends REST_Controller {
                 'provinsi_pindah' => $this->post('provinsi_pindah'),
                 'tanggal_pindah' => $this->post('tanggal_pindah'),
                 'alasan_pindah' => $this->post('alasan_pindah'),
+                'keterangan' => $this->post('keterangan'),
 				'file' => base_url().'data_upload/dokumen/'.($get_last['id_surat_keterangan_pindah']+1).'_surat_keterangan_pindah.pdf',
 				'created_by' => $this->post('user_id'),
 				'created_at' => date('Y-m-d H:i:s')
