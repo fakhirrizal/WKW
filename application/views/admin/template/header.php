@@ -178,6 +178,11 @@ if(($this->session->userdata('id'))==NULL){
 											<i class="icon-pin"></i> Pengantar SKCK
 										</a>
 									</li>
+									<li class=" <?php if($child=='surat_nikah'){echo 'active';}else{echo '';} ?>">
+										<a href="<?php echo site_url('admin_side/surat_nikah'); ?>" class="nav-link nav-toggle ">
+											<i class="icon-pin"></i> Surat Nikah
+										</a>
+									</li>
 									<li class=" <?php if($child=='permohonan_informasi'){echo 'active';}else{echo '';} ?>">
 										<a href="<?php echo site_url('admin_side/permohonan_informasi'); ?>" class="nav-link nav-toggle ">
 											<i class="icon-pin"></i> Permohonan Informasi

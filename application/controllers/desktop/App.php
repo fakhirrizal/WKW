@@ -13,9 +13,10 @@ class App extends CI_Controller {
 		$data['parent'] = 'home';
 		$data['child'] = '';
 		$data['grand_child'] = '';
-		$this->load->view('desktop/template/header',$data);
-		$this->load->view('desktop/app/home',$data);
-		$this->load->view('desktop/template/footer');
+		// $this->load->view('desktop/template/header',$data);
+		$this->load->view('desktop/app/beranda',$data);
+		// $this->load->view('desktop/app/home',$data);
+		// $this->load->view('desktop/template/footer');
 	}
 	public function log_activity(){
 		$data['parent'] = 'log_activity';

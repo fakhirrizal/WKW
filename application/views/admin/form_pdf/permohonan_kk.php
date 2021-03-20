@@ -5,7 +5,24 @@
 </head>
 
 <body>
-
+<?php
+  $pisah_nama = explode(';',$nama);
+  $pisah_jenis_kelamin = explode(';',$jenis_kelamin);
+  $pisah_tanggal_lahir = explode(';',$tanggal_lahir);
+  $pisah_status_perkawinan = explode(';',$status_perkawinan);
+  $pisah_tempat_lahir = explode(';',$tempat_lahir);
+  $pisah_nik = explode(';',$nik); 
+  $pisah_provinsi = explode(';',$provinsi); 
+  $pisah_akta_kelahiran = explode(';',$akta_kelahiran); 
+  $pisah_golongan_darah = explode(';',$golongan_darah); 
+  $pisah_agama = explode(';',$agama); 
+  $pisah_tanggal_perkawinan = explode(';',$tanggal_perkawinan); 
+  $pisah_status_hubungan_dalam_keluarga = explode(';',$status_hubungan_dalam_keluarga); 
+  $pisah_nomor_paspor = explode(';',$nomor_paspor); 
+  $pisah_no_kitap = explode(';',$prno_kitapovinsi); 
+  $pisah_ayah = explode(';',$ayah); 
+  $pisah_ibu = explode(';',$ibu); 
+?>
   <table border="0" cellspacing="0" width="100%" cellpadding="0">
     <tr>
       <td width="100%">
@@ -61,7 +78,7 @@
         <font face="Arial">:</font>
       </td>
       <td width="74%" height="28" colspan="3">
-        <font face="Arial"><?= $nama; ?>
+        <font face="Arial"><?= $pisah_nama[0]; ?>
         </font>
       </td>
     </tr>
@@ -73,7 +90,7 @@
         <font face="Arial">:</font>
       </td>
       <td width="74%" height="28" colspan="3">
-        <font face="Arial"><div style="text-transform: uppercase;"><?= $nama; ?></div>
+        <font face="Arial"><div style="text-transform: uppercase;"><?= $pisah_nama[0]; ?></div>
         </font>
       </td>
     </tr>
@@ -170,31 +187,36 @@
           <font face="Arial">Agama</font>
         </b></td>
     </tr>
+    <?php
+    $no = 1;
+    for ($i=0; $i < count($pisah_nama); $i++) {
+    ?>
     <tr>
       <td width="4%" height="1" align="center"
         style="border: 1px solid #000000; padding-left: 4; padding-right: 4; padding-top: 3; padding-bottom: 3">
-        <font face="Arial">1</font>
+        <font face="Arial"><?= $no++; ?></font>
       </td>
       <td width="16%" height="1"
-        style="border: 1px solid #000000; padding-left: 4; padding-right: 4; padding-top: 3; padding-bottom: 3"></td>
+        style="border: 1px solid #000000; padding-left: 4; padding-right: 4; padding-top: 3; padding-bottom: 3"><?= $pisah_nama[$i]; ?></td>
       <td width="15%" height="1"
-        style="border: 1px solid #000000; padding-left: 4; padding-right: 4; padding-top: 3; padding-bottom: 3"></td>
+        style="border: 1px solid #000000; padding-left: 4; padding-right: 4; padding-top: 3; padding-bottom: 3"><?= $pisah_nik[$i]; ?></td>
       <td width="8%" height="1"
-        style="border: 1px solid #000000; padding-left: 4; padding-right: 4; padding-top: 3; padding-bottom: 3"></td>
+        style="border: 1px solid #000000; padding-left: 4; padding-right: 4; padding-top: 3; padding-bottom: 3"><?= $pisah_jenis_kelamin[$i]; ?></td>
       <td width="9%" height="1"
-        style="border: 1px solid #000000; padding-left: 4; padding-right: 4; padding-top: 3; padding-bottom: 3"></td>
+        style="border: 1px solid #000000; padding-left: 4; padding-right: 4; padding-top: 3; padding-bottom: 3"><?= $pisah_tempat_lahir[$i]; ?></td>
       <td width="11%" height="1"
-        style="border: 1px solid #000000; padding-left: 4; padding-right: 4; padding-top: 3; padding-bottom: 3"></td>
+        style="border: 1px solid #000000; padding-left: 4; padding-right: 4; padding-top: 3; padding-bottom: 3"><?= $pisah_provinsi[$i]; ?></td>
       <td width="11%" height="1"
-        style="border: 1px solid #000000; padding-left: 4; padding-right: 4; padding-top: 3; padding-bottom: 3"></td>
+        style="border: 1px solid #000000; padding-left: 4; padding-right: 4; padding-top: 3; padding-bottom: 3"><?= $this->Main_model->convert_tanggal($pisah_tanggal_lahir[$i]); ?></td>
       <td width="10%" height="1"
-        style="border: 1px solid #000000; padding-left: 4; padding-right: 4; padding-top: 3; padding-bottom: 3"></td>
+        style="border: 1px solid #000000; padding-left: 4; padding-right: 4; padding-top: 3; padding-bottom: 3"><?= $pisah_akta_kelahiran[$i]; ?></td>
       <td width="7%" height="1"
-        style="border: 1px solid #000000; padding-left: 4; padding-right: 4; padding-top: 3; padding-bottom: 3"></td>
+        style="border: 1px solid #000000; padding-left: 4; padding-right: 4; padding-top: 3; padding-bottom: 3"><?= $pisah_golongan_darah[$i]; ?></td>
       <td width="9%" height="1"
-        style="border: 1px solid #000000; padding-left: 4; padding-right: 4; padding-top: 3; padding-bottom: 3"></td>
+        style="border: 1px solid #000000; padding-left: 4; padding-right: 4; padding-top: 3; padding-bottom: 3"><?= $pisah_agama[$i]; ?></td>
     </tr>
-    <tr>
+    <?php } ?>
+    <!-- <tr>
       <td width="4%" height="1" align="center"
         style="border: 1px solid #000000; padding-left: 4; padding-right: 4; padding-top: 3; padding-bottom: 3">
         <font face="Arial">2</font>
@@ -361,7 +383,7 @@
         style="border: 1px solid #000000; padding-left: 4; padding-right: 4; padding-top: 3; padding-bottom: 3"></td>
       <td width="9%" height="1"
         style="border: 1px solid #000000; padding-left: 4; padding-right: 4; padding-top: 3; padding-bottom: 3"></td>
-    </tr>
+    </tr> -->
   </table>
 
   <table border="0" cellspacing="0" width="100%" cellpadding="0">
@@ -416,38 +438,43 @@
         <font face="Arial"><b>Nama Ibu</b></font>
       </td>
     </tr>
+    <?php
+    $no = 1;
+    for ($i=0; $i < count($pisah_nama); $i++) {
+    ?>
     <tr>
       <td width="4%" height="19" align="center"
         style="border: 1px solid #000000; padding-left: 4; padding-right: 4; padding-top: 3; padding-bottom: 3"
         dir="ltr">
-        <font face="Arial">1</font>
+        <font face="Arial"><?= $no++; ?></font>
       </td>
       <td width="13%" height="19"
         style="border: 1px solid #000000; padding-left: 4; padding-right: 4; padding-top: 3; padding-bottom: 3"
-        dir="ltr">&nbsp;</td>
+        dir="ltr">&nbsp;<?= $pisah_status_perkawinan[$i]; ?></td>
       <td width="13%" height="19"
         style="border: 1px solid #000000; padding-left: 4; padding-right: 4; padding-top: 3; padding-bottom: 3"
-        dir="ltr">&nbsp;</td>
+        dir="ltr">&nbsp;<?= $this->Main_model->convert_tanggal($pisah_tanggal_perkawinan[$i]); ?></td>
       <td width="9%" height="19"
         style="border: 1px solid #000000; padding-left: 4; padding-right: 4; padding-top: 3; padding-bottom: 3"
-        dir="ltr">&nbsp;</td>
+        dir="ltr">&nbsp;<?= $pisah_status_hubungan_dalam_keluarga[$i]; ?></td>
       <td width="13%" height="19"
         style="border: 1px solid #000000; padding-left: 4; padding-right: 4; padding-top: 3; padding-bottom: 3"
-        dir="ltr">&nbsp;</td>
+        dir="ltr">&nbsp;WNI</td>
       <td width="10%" height="19"
         style="border: 1px solid #000000; padding-left: 4; padding-right: 4; padding-top: 3; padding-bottom: 3"
-        dir="ltr">&nbsp;</td>
+        dir="ltr">&nbsp;<?= $pisah_nomor_paspor[$i]; ?></td>
       <td width="9%" height="19"
         style="border: 1px solid #000000; padding-left: 4; padding-right: 4; padding-top: 3; padding-bottom: 3"
-        dir="ltr">&nbsp;</td>
+        dir="ltr">&nbsp;<?= $pisah_no_kitap[$i]; ?></td>
       <td width="14%" height="19"
         style="border: 1px solid #000000; padding-left: 4; padding-right: 4; padding-top: 3; padding-bottom: 3"
-        dir="ltr">&nbsp;</td>
+        dir="ltr">&nbsp;<?= $pisah_ayah[$i]; ?></td>
       <td width="26%" height="19"
         style="border: 1px solid #000000; padding-left: 4; padding-right: 4; padding-top: 3; padding-bottom: 3"
-        dir="ltr">&nbsp;</td>
+        dir="ltr">&nbsp;<?= $pisah_ibu[$i]; ?></td>
     </tr>
-    <tr>
+    <?php } ?>
+    <!-- <tr>
       <td width="4%" height="19" align="center"
         style="border: 1px solid #000000; padding-left: 4; padding-right: 4; padding-top: 3; padding-bottom: 3"
         dir="ltr">
@@ -663,7 +690,7 @@
       <td width="26%" height="19"
         style="border: 1px solid #000000; padding-left: 4; padding-right: 4; padding-top: 3; padding-bottom: 3"
         dir="ltr">&nbsp;</td>
-    </tr>
+    </tr> -->
   </table>
 
   <table border="0" cellspacing="0" width="100%" cellpadding="0">
@@ -728,7 +755,7 @@
         </b></td>
       <td width="34%" align="center"><b>
           <font face="Arial" style="text-transform: uppercase;">(
-            <?= $nama; ?> )</font>
+            <?= $pisah_nama[0]; ?> )</font>
         </b></td>
     </tr>
     <tr>

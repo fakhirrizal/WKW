@@ -4,19 +4,11 @@
     <title>Pindah Domisili</title>
 </head>
 <style>
-    .table-border,
-    .table-border tr td {
-        border: solid #000000 1px;
-        border-collapse: collapse;
-    }
-
     font {
         font-size: 10pt;
     }
 </style>
-
-<body>
-    <?php
+<?php
     $pisah_nama = explode(';',$nama);
     $pisah_jenis_kelamin = explode(';',$jenis_kelamin);
     $pisah_tanggal_lahir = explode(';',$tanggal_lahir);
@@ -24,13 +16,15 @@
     $pisah_pendidikan = explode(';',$pendidikan);
     $pisah_nik = explode(';',$nik); 
     $pisah_keterangan = explode(';',$keterangan); 
-    ?>
-    <table border="0" cellspacing="0" width="100%" cellpadding="0">
+?>
+<body>
+
+    <table cellspacing="0" cellpadding="0" width="100%" style="border-collapse: collapse">
         <tr>
             <td width="70%" style="padding-top: 1; padding-bottom: 1">
                 <font face="Arial"></font>
             </td>
-            <td class="table-border" width="30%" style="padding-top: 3; padding-bottom: 3;" align="center">
+            <td width="30%" align="center" style="border: 1px solid #000000; padding-top: 3; padding-bottom: 3;">
                 <font face="Arial">LAMPIRAN A. 6</font>
             </td>
         </tr>
@@ -38,12 +32,12 @@
             <td width="70%" style="padding-top: 1; padding-bottom: 1">
                 <font face="Arial"></font>
             </td>
-            <td class="table-border" width="30%" style="padding-top: 3; padding-bottom: 3;" align="center">
+            <td width="30%" align="center" style="border: 1px solid #000000; padding-top: 3; padding-bottom: 3;">
                 <font face="Arial">Lembar I / II / III / IV / V</font>
             </td>
         </tr>
     </table>
-    <table border="0" cellspacing="0" width="100%" cellpadding="0">
+    <table cellspacing="0" cellpadding="0" width="100%" style="border-collapse: collapse">
         <tr>
             <td width="100%" style="padding-top: 1; padding-bottom: 1">
                 <font face="Arial">&nbsp;</font>
@@ -67,7 +61,7 @@
             </td>
         </tr>
     </table>
-    <table border="0" cellspacing="0" width="100%" cellpadding="0">
+    <table cellspacing="0" cellpadding="0" width="100%" style="border-collapse: collapse">
         <tr>
             <td width="3%" style="padding-top: 1; padding-bottom: 1">
                 <font face="Arial">1.</font>
@@ -223,7 +217,7 @@
             </td>
         </tr>
     </table>
-    <table border="0" cellspacing="0" width="100%" cellpadding="0">
+    <table cellspacing="0" cellpadding="0" width="100%" style="border-collapse: collapse">
         <tr>
             <td width="3%" style="padding-top: 1; padding-bottom: 1">
                 <font face="Arial">11.</font>
@@ -345,7 +339,7 @@
             </td>
         </tr>
     </table>
-    <table border="0" cellspacing="0" width="100%" cellpadding="0">
+    <table cellspacing="0" cellpadding="0" width="100%" style="border-collapse: collapse">
         <tr>
             <td width="3%" style="padding-top: 1; padding-bottom: 1">
                 <font face="Arial">12.</font>
@@ -361,30 +355,30 @@
             </td>
         </tr>
     </table>
-    <table cellspacing="0" width="100%" cellpadding="0" class="table-border">
+    <table cellspacing="0" cellpadding="0" width="100%" style="border-collapse: collapse">
         <tr>
-            <td width="4%" style="padding-top: 3; padding-bottom: 3" align="center">
+            <td width="4%" style="border: 1px solid #000000; padding-top: 3; padding-bottom: 3" align="center">
                 <font face="Arial">No</font>
             </td>
-            <td width="30%" style="padding-top: 3; padding-bottom: 3" align="center">
+            <td width="30%" style="border: 1px solid #000000; padding-top: 3; padding-bottom: 3" align="center">
                 <font face="Arial">Nama</font>
             </td>
-            <td width="6%" style="padding-top: 3; padding-bottom: 3" align="center">
+            <td width="6%" style="border: 1px solid #000000; padding-top: 3; padding-bottom: 3" align="center">
                 <font face="Arial">JK</font>
             </td>
-            <td width="6%" style="padding-top: 3; padding-bottom: 3" align="center">
+            <td width="6%" style="border: 1px solid #000000; padding-top: 3; padding-bottom: 3" align="center">
                 <font face="Arial">Umur</font>
             </td>
-            <td width="11%" style="padding-top: 3; padding-bottom: 3" align="center">
+            <td width="11%" style="border: 1px solid #000000; padding-top: 3; padding-bottom: 3" align="center">
                 <font face="Arial">Status Perkawinan</font>
             </td>
-            <td width="11%" style="padding-top: 3; padding-bottom: 3" align="center">
+            <td width="11%" style="border: 1px solid #000000; padding-top: 3; padding-bottom: 3" align="center">
                 <font face="Arial">Pendidikan</font>
             </td>
-            <td width="25%" style="padding-top: 3; padding-bottom: 3" align="center">
+            <td width="25%" style="border: 1px solid #000000; padding-top: 3; padding-bottom: 3" align="center">
                 <font face="Arial">No. KTP</font>
             </td>
-            <td width="7%" style="padding-top: 3; padding-bottom: 3" align="center">
+            <td width="7%" style="border: 1px solid #000000; padding-top: 3; padding-bottom: 3" align="center">
                 <font face="Arial">Ket</font>
             </td>
         </tr>
@@ -397,13 +391,13 @@
             else{
         ?>
         <tr>
-            <td width="4%" style="padding-top: 3; padding-bottom: 3" align="center">
+            <td width="4%" style="border: 1px solid #000000; padding-top: 3; padding-bottom: 3" align="center">
                 <font face="Arial"><?= $no++; ?></font>
             </td>
-            <td width="30%" style="padding-top: 3; padding-bottom: 3; padding-left: 3">
+            <td width="30%" style="border: 1px solid #000000; padding-top: 3; padding-bottom: 3; padding-left: 3">
                 <font face="Arial"><?= $pisah_nama[$i]; ?></font>
             </td>
-            <td width="6%" style="padding-top: 3; padding-bottom: 3" align="center">
+            <td width="6%" style="border: 1px solid #000000; padding-top: 3; padding-bottom: 3" align="center">
                 <font face="Arial"><?= substr($pisah_jenis_kelamin[$i],0,1); ?></font>
             </td>
             <?php
@@ -416,98 +410,98 @@
                 
             $diff = $hari_ini->diff($lahir);
             ?>
-            <td width="6%" style="padding-top: 3; padding-bottom: 3" align="center">
+            <td width="6%" style="border: 1px solid #000000; padding-top: 3; padding-bottom: 3" align="center">
                 <font face="Arial"><?= $diff->y; ?></font>
             </td>
-            <td width="11%" style="padding-top: 3; padding-bottom: 3" align="center">
+            <td width="11%" style="border: 1px solid #000000; padding-top: 3; padding-bottom: 3" align="center">
                 <font face="Arial"><?= $pisah_status_perkawinan[$i]; ?></font>
             </td>
-            <td width="11%" style="padding-top: 3; padding-bottom: 3" align="center">
+            <td width="11%" style="border: 1px solid #000000; padding-top: 3; padding-bottom: 3" align="center">
                 <font face="Arial"><?= $pisah_pendidikan[$i]; ?></font>
             </td>
-            <td width="25%" style="padding-top: 3; padding-bottom: 3" align="center">
+            <td width="25%" style="border: 1px solid #000000; padding-top: 3; padding-bottom: 3" align="center">
                 <font face="Arial"><?= $pisah_nik[$i]; ?></font>
             </td>
-            <td width="7%" style="padding-top: 3; padding-bottom: 3" align="center">
+            <td width="7%" style="border: 1px solid #000000; padding-top: 3; padding-bottom: 3" align="center">
                 <font face="Arial"><?= $pisah_keterangan[$i]; ?></font>
             </td>
         </tr>
         <?php }} ?>
         <!-- <tr>
-            <td width="4%" style="padding-top: 3; padding-bottom: 3" align="center">
+            <td width="4%" style="border: 1px solid #000000; padding-top: 3; padding-bottom: 3" align="center">
                 <font face="Arial">2</font>
             </td>
-            <td width="30%" style="padding-top: 3; padding-bottom: 3; padding-left: 3">
+            <td width="30%" style="border: 1px solid #000000; padding-top: 3; padding-bottom: 3; padding-left: 3">
                 <font face="Arial">Hanif</font>
             </td>
-            <td width="6%" style="padding-top: 3; padding-bottom: 3" align="center">
+            <td width="6%" style="border: 1px solid #000000; padding-top: 3; padding-bottom: 3" align="center">
                 <font face="Arial">L</font>
             </td>
-            <td width="6%" style="padding-top: 3; padding-bottom: 3" align="center">
+            <td width="6%" style="border: 1px solid #000000; padding-top: 3; padding-bottom: 3" align="center">
                 <font face="Arial">23</font>
             </td>
-            <td width="11%" style="padding-top: 3; padding-bottom: 3" align="center">
+            <td width="11%" style="border: 1px solid #000000; padding-top: 3; padding-bottom: 3" align="center">
                 <font face="Arial">Belum Kawin</font>
             </td>
-            <td width="11%" style="padding-top: 3; padding-bottom: 3" align="center">
+            <td width="11%" style="border: 1px solid #000000; padding-top: 3; padding-bottom: 3" align="center">
                 <font face="Arial">SLTA</font>
             </td>
-            <td width="25%" style="padding-top: 3; padding-bottom: 3" align="center">
+            <td width="25%" style="border: 1px solid #000000; padding-top: 3; padding-bottom: 3" align="center">
                 <font face="Arial">3325102304940002</font>
             </td>
-            <td width="7%" style="padding-top: 3; padding-bottom: 3" align="center">
+            <td width="7%" style="border: 1px solid #000000; padding-top: 3; padding-bottom: 3" align="center">
                 <font face="Arial">-</font>
             </td>
         </tr>
         <tr>
-            <td width="4%" style="padding-top: 3; padding-bottom: 3" align="center">
+            <td width="4%" style="border: 1px solid #000000; padding-top: 3; padding-bottom: 3" align="center">
                 <font face="Arial">3</font>
             </td>
-            <td width="30%" style="padding-top: 3; padding-bottom: 3; padding-left: 3">
+            <td width="30%" style="border: 1px solid #000000; padding-top: 3; padding-bottom: 3; padding-left: 3">
                 <font face="Arial">Maskur</font>
             </td>
-            <td width="6%" style="padding-top: 3; padding-bottom: 3" align="center">
+            <td width="6%" style="border: 1px solid #000000; padding-top: 3; padding-bottom: 3" align="center">
                 <font face="Arial">L</font>
             </td>
-            <td width="6%" style="padding-top: 3; padding-bottom: 3" align="center">
+            <td width="6%" style="border: 1px solid #000000; padding-top: 3; padding-bottom: 3" align="center">
                 <font face="Arial">26</font>
             </td>
-            <td width="11%" style="padding-top: 3; padding-bottom: 3" align="center">
+            <td width="11%" style="border: 1px solid #000000; padding-top: 3; padding-bottom: 3" align="center">
                 <font face="Arial">Pernah Kawin</font>
             </td>
-            <td width="11%" style="padding-top: 3; padding-bottom: 3" align="center">
+            <td width="11%" style="border: 1px solid #000000; padding-top: 3; padding-bottom: 3" align="center">
                 <font face="Arial">D3</font>
             </td>
-            <td width="25%" style="padding-top: 3; padding-bottom: 3" align="center">
+            <td width="25%" style="border: 1px solid #000000; padding-top: 3; padding-bottom: 3" align="center">
                 <font face="Arial">3325102304940002</font>
             </td>
-            <td width="7%" style="padding-top: 3; padding-bottom: 3" align="center">
+            <td width="7%" style="border: 1px solid #000000; padding-top: 3; padding-bottom: 3" align="center">
                 <font face="Arial">-</font>
             </td>
         </tr> -->
         <tr>
-            <td width="4%" style="padding-top: 3; padding-bottom: 3" align="center">
+            <td width="4%" style="border: 1px solid #000000; padding-top: 3; padding-bottom: 3" align="center">
                 <font face="Arial">&nbsp;</font>
             </td>
-            <td width="30%" style="padding-top: 3; padding-bottom: 3" ; padding-left: 3>
+            <td width="30%" style="border: 1px solid #000000; padding-top: 3; padding-bottom: 3" ; padding-left: 3>
                 <font face="Arial"></font>
             </td>
-            <td width="6%" style="padding-top: 3; padding-bottom: 3" align="center">
+            <td width="6%" style="border: 1px solid #000000; padding-top: 3; padding-bottom: 3" align="center">
                 <font face="Arial"></font>
             </td>
-            <td width="6%" style="padding-top: 3; padding-bottom: 3" align="center">
+            <td width="6%" style="border: 1px solid #000000; padding-top: 3; padding-bottom: 3" align="center">
                 <font face="Arial"></font>
             </td>
-            <td width="11%" style="padding-top: 3; padding-bottom: 3" align="center">
+            <td width="11%" style="border: 1px solid #000000; padding-top: 3; padding-bottom: 3" align="center">
                 <font face="Arial"></font>
             </td>
-            <td width="11%" style="padding-top: 3; padding-bottom: 3" align="center">
+            <td width="11%" style="border: 1px solid #000000; padding-top: 3; padding-bottom: 3" align="center">
                 <font face="Arial"></font>
             </td>
-            <td width="25%" style="padding-top: 3; padding-bottom: 3" align="center">
+            <td width="25%" style="border: 1px solid #000000; padding-top: 3; padding-bottom: 3" align="center">
                 <font face="Arial"></font>
             </td>
-            <td width="7%" style="padding-top: 3; padding-bottom: 3" align="center">
+            <td width="7%" style="border: 1px solid #000000; padding-top: 3; padding-bottom: 3" align="center">
                 <font face="Arial"></font>
             </td>
         </tr>
@@ -538,14 +532,14 @@
             </td>
         </tr>
     </table>
-    <table border="0" cellspacing="0" width="100%" cellpadding="0">
+    <table cellspacing="0" cellpadding="0" width="100%" style="border-collapse: collapse">
         <tr>
             <td width="100%" style="padding-top: 1; padding-bottom: 1">
                 <font face="Arial">Tembusan :</font>
             </td>
         </tr>
     </table>
-    <table border="0" cellspacing="0" width="100%" cellpadding="0">
+    <table cellspacing="0" cellpadding="0" width="100%" style="border-collapse: collapse">
         <tr>
             <td width="3%" style="padding-top: 1; padding-bottom: 1">
                 <font face="Arial">1.</font>
@@ -598,21 +592,21 @@
             </td>
         </tr>
     </table>
-    <table border="0" cellspacing="0" width="100%" cellpadding="0">
+    <table cellspacing="0" cellpadding="0" width="100%" style="border-collapse: collapse">
         <tr>
             <td width="100%" style="padding-top: 1; padding-bottom: 1">
                 <font face="Arial">&nbsp;</font>
             </td>
         </tr>
     </table>
-    <table border="0" cellspacing="0" width="100%" cellpadding="0">
+    <table cellspacing="0" cellpadding="0" width="100%" style="border-collapse: collapse">
         <tr>
             <td width="100%" style="padding-top: 1; padding-bottom: 1">
                 <font face="Arial">Tembusan :</font>
             </td>
         </tr>
     </table>
-    <table border="0" cellspacing="0" width="100%" cellpadding="0">
+    <table cellspacing="0" cellpadding="0" width="100%" style="border-collapse: collapse">
         <tr>
             <td width="3%" style="padding-top: 1; padding-bottom: 1">
                 <font face="Arial">1.</font>
@@ -684,7 +678,7 @@
             </td>
         </tr>
     </table>
-    <table border="0" cellspacing="0" width="100%" cellpadding="0">
+    <table cellspacing="0" cellpadding="0" width="100%" style="border-collapse: collapse">
         <tr>
             <td width="3%" style="padding-top: 1; padding-bottom: 1">
                 <font face="Arial"></font>
@@ -737,7 +731,7 @@
             </td>
         </tr>
     </table>
-    <table border="0" cellspacing="0" width="100%" cellpadding="0">
+    <table cellspacing="0" cellpadding="0" width="100%" style="border-collapse: collapse">
         <tr>
             <td width="3%" style="padding-top: 1; padding-bottom: 1">
                 <font face="Arial">3.</font>

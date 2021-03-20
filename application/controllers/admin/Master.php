@@ -1158,12 +1158,31 @@ class Master extends CI_Controller {
 	}
 	/* TTD */
 	public function ttd(){
-		$data['parent'] = 'tentang_desa';
+		$data['parent'] = 'master';
         $data['child'] = 'ttd';
         $data['grand_child'] = '';
+		$data['data_utama'] = $this->Main_model->getSelectedData('ttd a', 'a.*',array('a.id'=>'1'), '', '1')->row();
         $this->load->view('admin/template/header',$data);
         $this->load->view('admin/master/ttd',$data);
         $this->load->view('admin/template/footer');
+	}
+	public function perbarui_ttd(){
+		$this->db->trans_start();
+		$data_insert_1 = array(
+			'nama' => $this->input->post('nama'),
+			'jabatan' => $this->input->post('jabatan')
+		);
+		$this->Main_model->updateData('ttd',$data_insert_1,array('md5(id)'=>$this->input->post('id')));
+		$this->Main_model->log_activity($this->session->userdata('id'),'Updating data',"Memperbarui data TTD (".$this->input->post('nama').")",$this->session->userdata('location'));
+		$this->db->trans_complete();
+		if($this->db->trans_status() === false){
+			$this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal disimpan.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/ttd/'</script>";
+		}
+		else{
+			$this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil disimpan.<br /></div>' );
+			echo "<script>window.location='".base_url()."admin_side/ttd/'</script>";
+		}
 	}
 	/* APBDESA */
 	public function apbdesa_desa(){

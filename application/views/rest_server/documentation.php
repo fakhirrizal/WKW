@@ -1967,6 +1967,123 @@
 												</div>
 											</div>
 											<!-- Akhir -->
+                                            <!-- Awal -->
+											<div class="portlet-body">
+												<div class="panel-group accordion" id="accordion3">
+													<div class="panel panel-default">
+														<div class="panel-heading">
+															<h4 class="panel-title">
+																<a class="accordion-toggle accordion-toggle-styled collapsed" data-toggle="collapse" data-parent="#accordion3" href="#collapse_3_59" aria-expanded="false"> <span class="label label-primary"> POST </span>&nbsp;&nbsp;{URL}/api/administrasi_masyarakat/Surat_nikah</a>
+															</h4>
+														</div>
+														<div id="collapse_3_59" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+															<div class="row">
+																<div class="col-md-12">
+																	<div class="portlet light ">
+																		<div class="portlet-title">
+																			<b>URL</b> : https://kalipucangwetan.id/api/administrasi_masyarakat/Surat_nikah<br>
+																			<b>Method</b> : POST<br>
+																			<b>Deskripsi</b> : Untuk mendapatkan surat nikah.<br><br>
+																		</div>
+																		<div class="portlet-body">
+																			Berikut parameter yang harus diisi,<br><br>
+																			<textarea class='form-control' rows='19' readonly>
+                                                                    {
+                                                                            // calon laki-laki
+                                                                            "user_id": string,
+                                                                            "nama": string,
+                                                                            "nik": string,
+                                                                            "tempat_lahir": string,
+                                                                            "tanggal_lahir": YYYY-mm-dd,
+                                                                            "kebangsaan": string,
+                                                                            "pekerjaan": string,
+                                                                            "agama": string,
+                                                                            "bin": nama bapak,
+                                                                            "jenis_kelamin": Laki-laki,
+                                                                            "status": string,
+                                                                            "rt": string,
+                                                                            "rw": string,
+                                                                            // ayah dari calon laki-laki
+                                                                            "ayah_nama": string,
+                                                                            "ayah_nik": string,
+                                                                            "ayah_tempat_lahir": string,
+                                                                            "ayah_tanggal_lahir": YYYY-mm-dd,
+                                                                            "ayah_kebangsaan": string,
+                                                                            "ayah_pekerjaan": string,
+                                                                            "ayah_agama": string,
+                                                                            "ayah_bin": nama bapak,
+                                                                            "ayah_kabupaten": string,
+                                                                            "ayah_kecamatan": string,
+                                                                            "ayah_desa": string,
+                                                                            "ayah_rt": string,
+                                                                            "ayah_rw": string,
+                                                                            // ibu dari calon laki-laki
+                                                                            "ibu_nama": string,
+                                                                            "ibu_nik": string,
+                                                                            "ibu_tempat_lahir": string,
+                                                                            "ibu_tanggal_lahir": YYYY-mm-dd,
+                                                                            "ibu_kebangsaan": string,
+                                                                            "ibu_pekerjaan": string,
+                                                                            "ibu_agama": string,
+                                                                            "ibu_binti": nama bapak,
+                                                                            "ibu_kabupaten": string,
+                                                                            "ibu_kecamatan": string,
+                                                                            "ibu_desa": string,
+                                                                            "ibu_rt": string,
+                                                                            "ibu_rw": string,
+                                                                            // calon perempuan
+                                                                            "nama_pasangan": string,
+                                                                            "nik_pasangan": string,
+                                                                            "tempat_lahir_pasangan": string,
+                                                                            "tanggal_lahir_pasangan": YYYY-mm-dd,
+                                                                            "kebangsaan_pasangan": string,
+                                                                            "pekerjaan_pasangan": string,
+                                                                            "agama_pasangan": string,
+                                                                            "binti": nama bapak,
+                                                                            "kabupaten_pasangan": string,
+                                                                            "kecamatan_pasangan": string,
+                                                                            "desa_pasangan": string,
+                                                                            "rt_pasangan": string,
+                                                                            "rw_pasangan": string,
+                                                                            // ayah dari calon perempuan
+                                                                            "ayah_nama_pasangan": string,
+                                                                            "ayah_nik_pasangan": string,
+                                                                            "ayah_tempat_lahir_pasangan": string,
+                                                                            "ayah_tanggal_lahir_pasangan": YYYY-mm-dd,
+                                                                            "ayah_kebangsaan_pasangan": string,
+                                                                            "ayah_pekerjaan_pasangan": string,
+                                                                            "ayah_agama_pasangan": string,
+                                                                            "ayah_bin_pasangan": nama bapak,
+                                                                            "ayah_kabupaten_pasangan": string,
+                                                                            "ayah_kecamatan_pasangan": string,
+                                                                            "ayah_desa_pasangan": string,
+                                                                            "ayah_rt_pasangan": string,
+                                                                            "ayah_rw_pasangan": string,
+                                                                            // ibu dari calon perempuan
+                                                                            "ibu_nama_pasangan": string,
+                                                                            "ibu_nik_pasangan": string,
+                                                                            "ibu_tempat_lahir_pasangan": string,
+                                                                            "ibu_tanggal_lahir_pasangan": YYYY-mm-dd,
+                                                                            "ibu_kebangsaan_pasangan": string,
+                                                                            "ibu_pekerjaan_pasangan": string,
+                                                                            "ibu_agama_pasangan": string,
+                                                                            "ibu_binti_pasangan": nama bapak,
+                                                                            "ibu_kabupaten_pasangan": string,
+                                                                            "ibu_kecamatan_pasangan": string,
+                                                                            "ibu_desa_pasangan": string,
+                                                                            "ibu_rt_pasangan": string,
+                                                                            "ibu_rw_pasangan": string
+                                                                    }
+																			</textarea>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<!-- Akhir -->
                                         </div>
                                         <div class="tab-pane" id="portlet_tab2_4">
 											<!-- Awal -->

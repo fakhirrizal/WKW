@@ -331,6 +331,10 @@ $route['admin_side/detail_surat_pengantar/(:any)'] = 'admin/Report/detail_surat_
 $route['admin_side/ubah_surat_pengantar/(:any)'] = 'admin/Report/ubah_surat_pengantar/$1';
 $route['admin_side/perbarui_surat_pengantar'] = 'admin/Report/perbarui_surat_pengantar';
 $route['admin_side/hapus_surat_pengantar/(:any)'] = 'admin/Report/hapus_surat_pengantar/$1';
+$route['admin_side/surat_nikah'] = 'admin/Report/surat_nikah';
+$route['admin_side/detail_surat_nikah/(:any)'] = 'admin/Report/detail_surat_nikah/$1';
+$route['admin_side/ubah_surat_nikah/(:any)'] = 'admin/Report/ubah_surat_nikah/$1';
+$route['admin_side/perbarui_surat_nikah'] = 'admin/Report/perbarui_surat_nikah';
 
 /* REST API */
 $route['api'] = 'Rest_server/documentation';

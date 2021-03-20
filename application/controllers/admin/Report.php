@@ -209,6 +209,171 @@ class Report extends CI_Controller {
 			echo "<script>window.location='".base_url()."admin_side/pemberitahuan/'</script>";
 		}
 	}
+    /* Surat Nikah */
+    public function surat_nikah(){
+        $data['parent'] = 'laporan_masyarakat';
+        $data['child'] = 'surat_nikah';
+        $data['grand_child'] = '';
+        $this->load->view('admin/template/header',$data);
+        $this->load->view('admin/report/surat_nikah',$data);
+        $this->load->view('admin/template/footer');
+    }
+    public function json_surat_nikah(){
+		$get_data = $this->Main_model->getSelectedData('surat_nikah a', 'a.*', '', 'a.created_at DESC')->result();
+        $data_tampil = array();
+        $no = 1;
+		foreach ($get_data as $key => $value) {
+            $isi['no'] = $no++.'.';
+            $isi['nama'] = $value->nama;
+            $isi['nomor_surat'] = $value->nomor_surat;
+            $isi['rtrw'] = $value->rt.'/ '.$value->rw;
+            $isi['ttl'] = $value->tempat_lahir.', '.$this->Main_model->convert_tanggal($value->tanggal_lahir);
+            $pecah_tanggal = explode(' ',$value->created_at);
+            $isi['waktu'] = $this->Main_model->convert_tanggal($pecah_tanggal[0]).' '.substr($pecah_tanggal[1],0,5);
+            $return_on_click = "return confirm('Anda yakin?')";
+            $isi['aksi'] =	'
+            <div class="btn-group" >
+				<button class="btn btn-xs green dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> Aksi
+					<i class="fa fa-angle-down"></i>
+				</button>
+				<ul class="dropdown-menu" role="menu">
+                    <li>
+                        <a  href="'.site_url('admin_side/detail_surat_nikah/'.md5($value->id_surat_nikah)).'/">
+                            <i class="icon-action-redo"></i> Detail Data </a>
+                    </li>
+					<li>
+						<a onclick="'.$return_on_click.'" href="'.site_url('admin_side/hapus_surat_nikah/'.md5($value->id_surat_nikah)).'">
+							<i class="icon-trash"></i> Hapus Data </a>
+					</li>
+				</ul>
+			</div>
+            ';
+			$data_tampil[] = $isi;
+		}
+		$results = array(
+			"sEcho" => 1,
+			"iTotalRecords" => count($data_tampil),
+			"iTotalDisplayRecords" => count($data_tampil),
+			"aaData"=>$data_tampil);
+		echo json_encode($results);
+    }
+    public function detail_surat_nikah(){
+		$data['parent'] = 'laporan_masyarakat';
+        $data['child'] = 'surat_nikah';
+        $data['grand_child'] = '';
+        $data['data_utama'] = $this->Main_model->getSelectedData('surat_nikah a', 'a.*', array('md5(a.id_surat_nikah)'=>$this->uri->segment(3)), 'a.id_surat_nikah DESC', '', '', '', array(
+            'table' => 'user b',
+            'on' => 'a.created_by=b.id',
+            'pos' => 'LEFT'
+        ))->row();
+        $this->load->view('admin/template/header',$data);
+        $this->load->view('admin/report/detail_surat_nikah',$data);
+        $this->load->view('admin/template/footer');
+    }
+    public function ubah_surat_nikah(){
+        $data['parent'] = 'laporan_masyarakat';
+        $data['child'] = 'surat_nikah';
+        $data['grand_child'] = '';
+        $data['data_utama'] = $this->Main_model->getSelectedData('surat_nikah a', 'a.*', array('md5(a.id_surat_nikah)'=>$this->uri->segment(3)))->row();
+        $this->load->view('admin/template/header',$data);
+        $this->load->view('admin/report/ubah_surat_nikah',$data);
+        $this->load->view('admin/template/footer');
+    }
+    public function perbarui_surat_nikah(){
+        $this->db->trans_start();
+        $cur_date = date('YmdHis');
+        $image_name_qr_code = '';
+		$config_qr_code['cacheable']	= true; // boolean, the default is true
+		$config_qr_code['cachedir']		= './data_upload/dokumen_qr/'; // string, the default is application/cache/
+		$config_qr_code['errorlog']		= './data_upload/dokumen_qr/'; // string, the default is application/logs/
+		$config_qr_code['imagedir']		= './data_upload/dokumen_qr/'; // direktori penyimpanan qr code
+		$config_qr_code['quality']		= true; // boolean, the default is true
+		$config_qr_code['size']			= '3024'; // interger, the default is 1024
+		$config_qr_code['black']		= array(224,255,255); // array, default is array(255,255,255)
+		$config_qr_code['white']		= array(70,130,180); // array, default is array(0,0,0)
+		$this->ciqrcode->initialize($config_qr_code);
+
+		$image_name_qr_code = "qr_code_surat_nikah_".time().'.png';
+		
+		$isi_qr = 'surat_nikah~'.$this->input->post('id');
+
+		$params['data'] = $isi_qr; // data yang akan di jadikan QR CODE
+		$params['level'] = 'H'; // H=High
+		$params['size'] = 15;
+		$params['savename'] = FCPATH.$config_qr_code['imagedir'].$image_name_qr_code; // simpan image QR CODE ke folder assets/images/
+        $this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
+        
+        $nama_file = base_url().'data_upload/dokumen/'.$this->input->post('id').'surat_nikah'.$cur_date.'.pdf';
+
+        $data_insert = array(
+            'nama' => $this->input->post('nama'),
+            'ayah_nama' => $this->input->post('ayah_nama'),
+            'kebangsaan_pasangan' => $this->input->post('kebangsaan_pasangan'),
+            'kebangsaan' => $this->input->post('kebangsaan'),
+            'ayah_kebangsaan' => $this->input->post('ayah_kebangsaan'),
+            'status' => $this->input->post('status'),
+            'nama_pasangan' => $this->input->post('nama_pasangan'),
+            'rt_pasangan' => $this->input->post('rt_pasangan'),
+            'rt' => $this->input->post('rt'),
+            'ayah_rt' => $this->input->post('ayah_rt'),
+            'rw_pasangan' => $this->input->post('rw_pasangan'),
+            'rw' => $this->input->post('rw'),
+            'ayah_rw' => $this->input->post('ayah_rw'),
+            'tempat_lahir_pasangan' => $this->input->post('tempat_lahir_pasangan'),
+            'tempat_lahir' => $this->input->post('tempat_lahir'),
+            'ayah_tempat_lahir' => $this->input->post('ayah_tempat_lahir'),
+            'tanggal_lahir_pasangan' => $this->input->post('tanggal_lahir_pasangan'),
+            'tanggal_lahir' => $this->input->post('tanggal_lahir'),
+            'ayah_tanggal_lahir' => $this->input->post('ayah_tanggal_lahir'),
+            'agama_pasangan' => $this->input->post('agama_pasangan'),
+            'agama' => $this->input->post('agama'),
+            'ayah_agama' => $this->input->post('ayah_agama'),
+            'bin' => $this->input->post('bin'),
+            'ayah_bin' => $this->input->post('ayah_bin'),
+            'kabupaten_pasangan' => $this->input->post('kabupaten_pasangan'),
+            'ayah_kabupaten' => $this->input->post('ayah_kabupaten'),
+            'ayah_kecamatan' => $this->input->post('ayah_kecamatan'),
+            'ayah_desa' => $this->input->post('ayah_desa'),
+            'kecamatan_pasangan' => $this->input->post('kecamatan_pasangan'),
+            'desa_pasangan' => $this->input->post('desa_pasangan'),
+            'binti' => $this->input->post('binti'),
+            'nik_pasangan' => $this->input->post('nik_pasangan'),
+            'nik' => $this->input->post('nik'),
+            'ayah_nik' => $this->input->post('ayah_nik'),
+            'jenis_kelamin' => $this->input->post('jenis_kelamin'),
+            'jenis_kelamin_pasangan' => $this->input->post('jenis_kelamin_pasangan'),
+            'pekerjaan_pasangan' => $this->input->post('pekerjaan_pasangan'),
+            'pekerjaan' => $this->input->post('pekerjaan'),
+            'ayah_pekerjaan' => $this->input->post('ayah_pekerjaan'),
+            'nomor_surat' => $this->input->post('nomor_surat'),
+            'file' => $nama_file
+        );
+        $this->Main_model->updateData('surat_nikah',$data_insert,array('md5(id_surat_nikah)'=>$this->input->post('id')));
+        $data_insert['gambar_qr'] = '<img src="'.base_url().'data_upload/dokumen_qr/'.$image_name_qr_code.'" width="10%"/>';
+        require FCPATH . 'vendor/autoload.php';
+
+        require_once BASEPATH.'core/CodeIgniter.php';
+        $mpdf = new \Mpdf\Mpdf();
+        $mpdf->AddPage('L'); // margin footer
+        $data = $this->load->view('admin/form_pdf/surat_nikah', $data_insert, TRUE);
+        $mpdf->WriteHTML($data);
+        if (ob_get_contents()) ob_end_clean();
+        $pathh = 'data_upload/dokumen/'.$this->input->post('id').'surat_nikah'.$cur_date.'.pdf';
+        $mpdf->Output($pathh, \Mpdf\Output\Destination::FILE);
+
+        $this->Main_model->updateData('riwayat_administrasi',array('file'=>$nama_file),array('file'=>$this->input->post('file_lama'),'md5(created_by)'=>$this->input->post('user')));
+
+        $this->Main_model->log_activity('2',"Updating data","Mengubah data pengajuan surat nikah (".$this->input->post('nama').")");
+        $this->db->trans_complete();
+        if($this->db->trans_status() === false){
+            $this->session->set_flashdata('gagal','<div class="alert alert-warning"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Oops! </strong>data gagal diubah.<br /></div>' );
+            echo "<script>window.location='".base_url()."admin_side/ubah_surat_nikah/".$this->input->post('id')."'</script>";
+        }
+        else{
+            $this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil diubah.<br /></div>' );
+            echo "<script>window.location='".base_url()."admin_side/detail_surat_nikah/".$this->input->post('id')."'</script>";
+        }
+    }
     /* Surat Keterangan/ Pengantar */
     public function surat_pengantar(){
         $data['parent'] = 'laporan_masyarakat';
@@ -491,7 +656,12 @@ class Report extends CI_Controller {
 
         require_once BASEPATH.'core/CodeIgniter.php';
         $mpdf = new \Mpdf\Mpdf();
-        $mpdf->AddPage('L'); // margin footer
+        // $mpdf = new \Mpdf\Mpdf([
+        //     'mode' => 'utf-8',
+        //     'format' => 'A4-L',
+        //     'orientation' => 'L'
+        // ]);
+        // $mpdf->AddPage('L'); // margin footer
         $data = $this->load->view('admin/form_pdf/surat_keterangan_pindah', $data_insert, TRUE);
         $mpdf->WriteHTML($data);
         if (ob_get_contents()) ob_end_clean();
@@ -638,6 +808,23 @@ class Report extends CI_Controller {
             'alamat' => $this->input->post('alamat'),
             'rt' => $this->input->post('rt'),
             'rw' => $this->input->post('rw'),
+            'nik' => $this->input->post('nik'),
+            'jenis_kelamin' => $this->input->post('jenis_kelamin'),
+            'tempat_lahir' => $this->input->post('tempat_lahir'),
+            'provinsi' => $this->input->post('provinsi'),
+            'tanggal_lahir' => $this->input->post('tanggal_lahir'),
+            'akta_kelahiran' => $this->input->post('akta_kelahiran'),
+            'golongan_darah' => $this->input->post('golongan_darah'),
+            'agama' => $this->input->post('agama'),
+            
+            'status_perkawinan' => $this->input->post('status_perkawinan'),
+            'tanggal_perkawinan' => $this->input->post('tanggal_perkawinan'),
+            'status_hubungan_dalam_keluarga' => $this->input->post('status_hubungan_dalam_keluarga'),
+            
+            'nomor_paspor' => $this->input->post('nomor_paspor'),
+            'no_kitap' => $this->input->post('no_kitap'),
+            'ayah' => $this->input->post('ayah'),
+            'ibu' => $this->input->post('ibu'),
             'nomor_surat' => $this->input->post('nomor_surat'),
             'file' => $nama_file
         );
