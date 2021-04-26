@@ -1,0 +1,419 @@
+<html lang="en">
+
+<head>
+
+    <title>Keterangan atau Pengantar</title>
+    <style>
+        @page { size: auto;  margin: 0mm; }
+    </style>
+</head>
+<style>
+    font {
+        font-size: 12pt;
+    }
+</style>
+
+<body>
+
+    <table cellspacing="1" width="100%" style="border-width:0; ">
+        <tr>
+            <td width="12%" rowspan="6" style="border-style:none; border-width:medium; ">
+                <p align="center">
+                    <font face="Arial">
+                        <img src="<?= base_url() ?>/assets_dashboard/batang.png" width="105" height="128">
+                    </font>
+            </td>
+            <td width="76%" style="border-style: none; border-width: medium">
+                <p align="center">
+                    <b>
+                        <font face="Arial" style="font-size: 13pt;">PEMERINTAH KABUPATEN BATANG</font>
+                        <font face="Arial">
+                        </font>
+                    </b>
+            </td>
+            <td width="12%" style="border-style: none; border-width: medium" rowspan="6">
+                <p align="center">
+                    <font face="Arial">&nbsp; </font>
+            </td>
+        </tr>
+        <tr>
+            <td width="76%" align="center" style="border-style: none; border-width: medium">
+                <b>
+                    <font face="Arial" style="font-size: 13pt;">KECAMATAN BATANG</font>
+                    <font face="Arial">
+                    </font>
+                </b>
+            </td>
+        </tr>
+        <tr>
+            <td width="76%" align="center" style="border-style: none; border-width: medium">
+                <b>
+                    <font face="Arial" style="font-size: 15pt;">DESA KALIPUCANG WETAN</font>
+                    <font face="Arial">
+                    </font>
+                </b>
+            </td>
+        </tr>
+        <tr>
+            <td width="76%" align="center" style="border-style: none; border-width: medium">
+                <font face="Arial">Alamat : Jl. Mataram No. 06 Batang </font>
+            </td>
+        </tr>
+        <tr>
+            <td width="76%" align="center" style="border-style: none; border-width: medium">
+                <font face="Arial">Email : kalipucangwetan5@gmail.com </font>
+            </td>
+        </tr>
+        <tr>
+            <td width="76%" align="center" style="border-style:none; border-width:medium; ">
+                <p style="line-height: 150%">
+                    <font face="Arial">Website : www.kalipucangwetan-batang.desa.id </font>
+            </td>
+        </tr>
+        <tr>
+            <td width="100%" style="border-style:none; border-width:medium; " colspan="3">
+                <hr color="#000000" size="5">
+            </td>
+        </tr>
+    </table>
+    <table cellspacing="0" width="100%" cellpadding="0">
+        <tr>
+            <td width="100%">&nbsp;</td>
+        </tr>
+    </table>
+
+    <table cellspacing="0" width="100%" cellpadding="0">
+        <tr>
+            <td width="100%" style="border-style: none; border-width: medium" align="center" height="1">
+                <p style="line-height: 150%" dir="ltr"><b>
+                        <font face="Arial">
+                            SURAT KETERANGAN / PENGANTAR </font>
+                    </b>
+            </td>
+        </tr>
+        <tr>
+            <td width="100%" style="border-style: none; border-width: medium" align="center" height="1">
+                <p style="line-height: 150%">
+                    <font face="Arial">Nomor : <?= $nomor_surat; ?></font>
+            </td>
+        </tr>
+        <tr>
+            <td width="100%" style="border-style: none; border-width: medium" align="center" height="17">
+                <p style="line-height: 150%">
+                <p style="line-height: 150%">
+                <p style="line-height: 150%">
+            </td>
+        </tr>
+        <tr>
+            <td width="100%" style="border-style: none; border-width: medium" align="center" height="17">
+            </td>
+        </tr>
+        <tr>
+            <td width="100%" style="border-style: none; border-width: medium" align="center" height="17">
+            </td>
+        </tr>
+    </table>
+
+    <table cellspacing="0" width="100%" cellpadding="0">
+        <tr>
+            <td width="3%" style="padding-top: 3; padding-bottom: 3">
+                <font face="Arial">1. </font>
+            </td>
+            <td width="97%" colspan="4" style="padding-top: 3; padding-bottom: 3">
+                <font face="Arial">Yang bertanda tangan dibawah
+                    ini : </font>
+            </td>
+        </tr>
+        <tr>
+            <td width="3%" style="padding-top: 3; padding-bottom: 3">&nbsp;</td>
+            <td width="3%" style="padding-top: 3; padding-bottom: 3">
+                <font face="Arial">a. </font>
+            </td>
+            <td width="25%" style="padding-top: 3; padding-bottom: 3">
+                <font face="Arial">Nama</font>
+            </td>
+            <td width="2%" style="padding-top: 3; padding-bottom: 3" align="center">
+                <font face="Arial">:</font>
+            </td>
+            <td width="67%" style="padding-top: 3; padding-bottom: 3">
+                <font face="Arial"><?= $this->Main_model->get_nama_ttd();  ?></font>
+            </td>
+        </tr>
+        <tr>
+            <td width="3%" style="padding-top: 3; padding-bottom: 3">&nbsp;</td>
+            <td width="3%" style="padding-top: 3; padding-bottom: 3">
+                <font face="Arial">b.</font>
+            </td>
+            <td width="25%" style="padding-top: 3; padding-bottom: 3">
+                <font face="Arial">Jabatan</font>
+            </td>
+            <td width="2%" style="padding-top: 3; padding-bottom: 3" align="center">
+                <font face="Arial">:</font>
+            </td>
+            <td width="67%" style="padding-top: 3; padding-bottom: 3">
+                <font face="Arial"><?= $this->Main_model->get_jabatan_ttd();  ?></font>
+            </td>
+        </tr>
+        <tr>
+            <td width="3%" style="padding-top: 3; padding-bottom: 3">&nbsp;</td>
+            <td width="3%" style="padding-top: 3; padding-bottom: 3">&nbsp;</td>
+            <td width="25%" style="padding-top: 3; padding-bottom: 3">&nbsp;</td>
+            <td width="2%" style="padding-top: 3; padding-bottom: 3" align="center">&nbsp;</td>
+            <td width="67%" style="padding-top: 3; padding-bottom: 3">&nbsp;</td>
+        </tr>
+        <tr>
+            <td width="3%" style="padding-top: 3; padding-bottom: 3">&nbsp;</td>
+            <td width="97%" style="padding-top: 3; padding-bottom: 3" colspan="4">
+                <font face="Arial">Dengan ini menerangkan,
+                    bahwa : </font>
+            </td>
+        </tr>
+        <tr>
+            <td width="3%" style="padding-top: 3; padding-bottom: 3">&nbsp;</td>
+            <td width="3%" style="padding-top: 3; padding-bottom: 3">
+                <font face="Arial">a.</font>
+            </td>
+            <td width="25%" style="padding:0; border-style:none; border-width:medium; " height="21">
+                <p style="line-height: 150%">
+                    <font face="Arial">Nama </font>
+            </td>
+            <td width="2%" style="padding:0; border-style:none; border-width:medium; " height="21" align="center">
+                <p style="line-height: 150%">
+                    <font face="Arial">: </font>
+            </td>
+            <td width="67%" style="padding-top: 3; padding-bottom: 3">
+                <font face="Arial"><?= $nama; ?></font>
+            </td>
+        </tr>
+        <tr>
+            <td width="3%" style="padding-top: 3; padding-bottom: 3">&nbsp;</td>
+            <td width="3%" style="padding-top: 3; padding-bottom: 3">
+                <font face="Arial">b.</font>
+            </td>
+            <td width="25%" style="padding:0; border-style:none; border-width:medium; " height="21">
+                <font face="Arial">NIK</font>
+            </td>
+            <td width="2%" style="padding:0; border-style:none; border-width:medium; " height="21" align="center">
+                <font face="Arial">:</font>
+            </td>
+            <td width="67%" style="padding-top: 3; padding-bottom: 3">
+                <font face="Arial"><?= $nik; ?></font>
+            </td>
+        </tr>
+        <tr>
+            <td width="3%" style="padding-top: 3; padding-bottom: 3">&nbsp;</td>
+            <td width="3%" style="padding-top: 3; padding-bottom: 3">
+                <font face="Arial">c.</font>
+            </td>
+            <td width="25%" style="padding:0; border-style:none; border-width:medium; " height="21">
+                <p style="line-height: 150%">
+                    <font face="Arial">Tempat Tanggal Lahir </font>
+            </td>
+            <td width="2%" style="padding:0; border-style:none; border-width:medium; " height="21" align="center">
+                <p style="line-height: 150%">
+                    <font face="Arial">: </font>
+            </td>
+            <td width="67%" style="padding-top: 3; padding-bottom: 3">
+                <font face="Arial"><?= $tempat_lahir.', '.$this->Main_model->convert_tanggal($tanggal_lahir); ?></font>
+            </td>
+        </tr>
+        <tr>
+            <td width="3%" style="padding-top: 3; padding-bottom: 3">&nbsp;</td>
+            <td width="3%" style="padding-top: 3; padding-bottom: 3">
+                <font face="Arial">d.</font>
+            </td>
+            <td width="25%" style="padding:0; border-style:none; border-width:medium; " height="21">
+                <p style="line-height: 150%">
+                    <font face="Arial">Pekerjaan </font>
+            </td>
+            <td width="2%" style="padding:0; border-style:none; border-width:medium; " height="21" align="center">
+                <p style="line-height: 150%">
+                    <font face="Arial">: </font>
+            </td>
+            <td width="67%" style="padding-top: 3; padding-bottom: 3">
+                <font face="Arial"><?= $pekerjaan; ?></font>
+            </td>
+        </tr>
+        <tr>
+            <td width="3%" style="padding-top: 3; padding-bottom: 3">&nbsp;</td>
+            <td width="3%" style="padding-top: 3; padding-bottom: 3">
+                <font face="Arial">e.</font>
+            </td>
+            <td width="25%" style="padding:0; border-style:none; border-width:medium; " height="12">
+                <p style="line-height: 150%">
+                    <font face="Arial">Agama </font>
+            </td>
+            <td width="2%" style="padding:0; border-style:none; border-width:medium; " height="12" align="center">
+                <p style="line-height: 150%">
+                    <font face="Arial">: </font>
+            </td>
+            <td width="67%" style="padding-top: 3; padding-bottom: 3">
+                <font face="Arial"><?= $agama; ?></font>
+            </td>
+        </tr>
+        <tr>
+            <td width="3%" style="padding-top: 3; padding-bottom: 3">&nbsp;</td>
+            <td width="3%" style="padding-top: 3; padding-bottom: 3">
+                <font face="Arial">f.</font>
+            </td>
+            <td width="25%" style="padding:0; border-style:none; border-width:medium; " height="21">
+                <p style="line-height: 150%">
+                    <font face="Arial">Alamat</font>
+            </td>
+            <td width="2%" style="padding:0; border-style:none; border-width:medium; " height="21" align="center">
+                <p style="line-height: 150%">
+                    <font face="Arial">: </font>
+            </td>
+            <td width="67%" style="padding:0; border-style:none; border-width:medium; " height="21">
+                <p style="line-height: 150%">
+                    <font face="Arial">RT <?= $rt; ?>
+                        RW <?= $rw; ?> Desa Kalipucang Wetan</font>
+            </td>
+        </tr>
+        <tr>
+            <td width="3%" style="padding-top: 3; padding-bottom: 3">&nbsp;</td>
+            <td width="3%" style="padding-top: 3; padding-bottom: 3">&nbsp;</td>
+            <td width="25%" style="padding-top: 3; padding-bottom: 3">&nbsp;</td>
+            <td width="2%" style="padding-top: 3; padding-bottom: 3" align="center">&nbsp;</td>
+            <td width="67%" style="padding:0; border-style:none; border-width:medium; " height="21">
+                <p style="line-height: 150%">
+                    <font face="Arial">Kecamatan
+                        Batang, Kabupaten Batang</font>
+            </td>
+        </tr>
+        <tr>
+            <td width="3%" style="padding-top: 3; padding-bottom: 3">&nbsp;</td>
+            <td width="3%" style="padding-top: 3; padding-bottom: 3">
+                <font face="Arial">g.</font>
+            </td>
+            <td width="25%" style="padding-top: 3; padding-bottom: 3">
+                <font face="Arial">Keperluan</font>
+            </td>
+            <td width="2%" style="padding-top: 3; padding-bottom: 3" align="center">
+                <font face="Arial">:</font>
+            </td>
+            <td width="67%" style="padding-top: 3; padding-bottom: 3">
+                <font face="Arial"><?= $keperluan; ?></font>
+            </td>
+        </tr>
+        <tr>
+            <td width="3%" style="padding-top: 3; padding-bottom: 3">&nbsp;</td>
+            <td width="3%" style="padding-top: 3; padding-bottom: 3">
+                <font face="Arial">h.</font>
+            </td>
+            <td width="25%" style="padding-top: 3; padding-bottom: 3">
+                <font face="Arial">Berlaku Surat</font>
+            </td>
+            <td width="2%" style="padding-top: 3; padding-bottom: 3" align="center">
+                <font face="Arial">:</font>
+            </td>
+            <td width="67%" style="padding:0; border-style:none; border-width:medium; " height="21">
+                <font face="Arial"><?= $this->Main_model->convert_tanggal(date('Y-m-d')); ?> s.d selesai.</font>
+            </td>
+        </tr>
+    </table>
+    <table cellspacing="0" width="100%" cellpadding="0">
+        <tr>
+            <td width="3%" style="padding-top: 3; padding-bottom: 3">&nbsp;</td>
+            <td width="3%" style="padding-top: 3; padding-bottom: 3">
+                &nbsp;</td>
+            <td width="25%" style="padding-top: 3; padding-bottom: 3">
+                &nbsp;</td>
+            <td width="2%" style="padding-top: 3; padding-bottom: 3">
+                &nbsp;</td>
+            <td width="14%" style="padding-top: 3; padding-bottom: 3">
+                &nbsp;</td>
+            <td width="2%" align="center" style="padding-top: 3; padding-bottom: 3">
+                &nbsp;</td>
+            <td width="51%" style="padding-top: 3; padding-bottom: 3">&nbsp;</td>
+        </tr>
+    </table>
+    <table cellspacing="0" width="100%" cellpadding="0">
+        <tr>
+            <td width="3%" style="padding-top: 3; padding-bottom: 3" valign="top">
+                <font face="Arial">2.</font>
+            </td>
+            <td width="97%" style="padding-top: 3; padding-bottom: 3">
+                <font face="Arial">Berhubung dengan maksud yang bersangkutan, diminta
+                    agar instansi/pihak yang terkait dapat memberikan bantuan serta
+                    fasilitas seperlunya.</font>
+            </td>
+        </tr>
+        <tr>
+            <td width="3%" style="padding-top: 3; padding-bottom: 3" valign="top">
+                <font face="Arial">3.</font>
+            </td>
+            <td width="97%" style="padding-top: 3; padding-bottom: 3">
+                <font face="Arial">Demikian surat keterangan ini dibuat untuk
+                    dipergunakan seperlunya.</font>
+            </td>
+        </tr>
+        <tr>
+            <td width="3%" style="padding-top: 3; padding-bottom: 3">&nbsp;</td>
+            <td width="97%" style="padding-top: 3; padding-bottom: 3">&nbsp;</td>
+        </tr>
+        <tr>
+            <td width="3%" style="padding-top: 3; padding-bottom: 3">&nbsp;</td>
+            <td width="97%" style="padding-top: 3; padding-bottom: 3">&nbsp;</td>
+        </tr>
+    </table>
+    <table border="1px solid #000" cellspacing="1" width="100%" style="border-width: 0" height="1">
+        <tr>
+            <td width="50%" style="border-style: none; border-width: medium" height="1" rowspan="7">
+                <font face="Arial"><?= $gambar_qr; ?></font>
+            </td>
+            <td width="50%" style="border-style: none; border-width: medium" align="center" height="21">
+                <p style="line-height: 150%">
+                    <font face="Arial">Batang, <?= $this->Main_model->convert_tanggal(date('Y-m-d')); ?> </font>
+            </td>
+        </tr>
+        <tr>
+            <td width="50%" style="border-style: none; border-width: medium" align="center" height="1">
+                <p style="line-height: 150%">
+                    <font face="Arial"><?= $this->Main_model->get_jabatan_ttd();  ?> </font>
+            </td>
+        </tr>
+        <tr>
+            <td width="50%" style="border-style: none; border-width: medium" align="center" height="1">
+                <p style="line-height: 150%">
+                    <font face="Arial">KALIPUCANG WETAN </font>
+            </td>
+        </tr>
+        <tr>
+            <td width="50%" style="border-style: none; border-width: medium" align="center" height="1">
+                <p style="line-height: 150%">
+                    <font face="Arial">&nbsp; </font>
+            </td>
+        </tr>
+        <tr>
+            <td width="50%" style="border-style: none; border-width: medium" align="center" height="1">
+                <p style="line-height: 150%">
+                    <font face="Arial">&nbsp; </font>
+            </td>
+        </tr>
+        <tr>
+            <td width="50%" style="border-style: none; border-width: medium" align="center" height="1">
+                <p style="line-height: 150%">
+                    <font face="Arial">&nbsp; </font>
+            </td>
+        </tr>
+        <tr>
+            <td width="50%" style="border-style: none; border-width: medium" align="center" height="1">
+                <p style="line-height: 150%">
+                    <b>
+                        <font face="Arial"><?= $this->Main_model->get_nama_ttd();  ?></font>
+                    </b>
+            </td>
+        </tr>
+    </table>
+
+    <p style="line-height: 150%">&nbsp;</p>
+    <p style="line-height: 150%">&nbsp;</p>
+
+
+</body>
+
+</html>
+<script>
+  window.print();
+</script>

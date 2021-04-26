@@ -2084,6 +2084,64 @@
 												</div>
 											</div>
 											<!-- Akhir -->
+                                            <!-- Awal -->
+											<div class="portlet-body">
+												<div class="panel-group accordion" id="accordion3">
+													<div class="panel panel-default">
+														<div class="panel-heading">
+															<h4 class="panel-title">
+																<a class="accordion-toggle accordion-toggle-styled collapsed" data-toggle="collapse" data-parent="#accordion3" href="#collapse_3_60" aria-expanded="false"> <span class="label label-primary"> POST </span>&nbsp;&nbsp;{URL}/api/administrasi_masyarakat/Permohonan_kk</a>
+															</h4>
+														</div>
+														<div id="collapse_3_60" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+															<div class="row">
+																<div class="col-md-12">
+																	<div class="portlet light ">
+																		<div class="portlet-title">
+																			<b>URL</b> : https://kalipucangwetan.id/api/administrasi_masyarakat/Permohonan_kk<br>
+																			<b>Method</b> : POST<br>
+																			<b>Deskripsi</b> : Untuk mendapatkan surat permohonan KK.<br><br>
+																		</div>
+																		<div class="portlet-body">
+																			Berikut parameter yang harus diisi,<br><br>
+																			<textarea class='form-control' rows='19' readonly>
+                                                                    {
+                                                                            "user_id": string,
+                                                                            "nama": string,
+                                                                            "dusun": string,
+                                                                            "tempat_lahir": string,
+                                                                            "tanggal_lahir": YYYY-mm-dd,
+                                                                            "kk": string,
+                                                                            "nik": string,
+                                                                            "agama": string,
+                                                                            "alamat": string,
+                                                                            "jenis_kelamin": Laki-laki/ Perempuan,
+                                                                            "provinsi": string,
+                                                                            "rt": string,
+                                                                            "rw": string,
+                                                                            "akta_kelahiran": Ada/ Tidak,
+                                                                            "golongan_darah": O/ A/ B/ AB,
+                                                                            "status_perkawinan": Kawin/ Belum/ CH/ CM,
+                                                                            "tanggal_perkawinan": YYYY-mm-dd,
+                                                                            "status_hubungan_dalam_keluarga": string,
+                                                                            "nomor_paspor": string,
+                                                                            "no_kitap": string,
+                                                                            "ayah": nama bapak,
+                                                                            "ibu": string
+                                                                    }
+																			</textarea><br>
+                                                                            <b>Keterangan</b><br>
+                                                                            1. Index <b>nama</b>, <b>jenis_kelamin</b>, <b>tanggal_lahir</b>, <b>nik</b>, <b>status_perkawinan</b>, <b>tanggal_perkawinan</b>, <b>akta_kelahiran</b>, <b>golongan_darah</b>, <b>provinsi</b>, <b>agama</b>, <b>status_hubungan_dalam_keluarga</b>, <b>no_kitap</b>, <b>nomor_paspor</b>, <b>ayah</b>, <b>ibu</b>, dan <b>tempat_lahir</b> bisa multi value dengan pemisah titik koma (<b>;</b>)<br>
+                                                                            2. Jika dalam isian multi value kosong, ganti dengan tanda "<b>-</b>"
+                                                                        </div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<!-- Akhir -->
                                         </div>
                                         <div class="tab-pane" id="portlet_tab2_4">
 											<!-- Awal -->

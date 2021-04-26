@@ -55,7 +55,7 @@
             <div class="row">
                 <div class="col-md-3 mb-3 mb-md-0">
                     <div class="card py-4 h-100">
-                        <a href="<?php echo site_url('permohonan_ktp'); ?>">
+                        <a href="<?php echo site_url('tambah_permohonan_ktp'); ?>">
                             <div class="card-body text-center">
                                 <i class="fas fa-file-signature fa-3x"></i>
                                 <hr>
@@ -66,7 +66,7 @@
                 </div>
                 <div class="col-md-3 mb-3 mb-md-0">
                     <div class="card py-4 h-100">
-                        <a href="<?php echo site_url('permohonan_kk'); ?>">
+                        <a href="<?php echo site_url('tambah_data_kk'); ?>">
                             <div class="card-body text-center">
                                 <i class="fas fa-file-signature fa-3x"></i>
                                 <hr>
@@ -88,7 +88,7 @@
                 </div>
                 <div class="col-md-3 mb-3 mb-md-0">
                     <div class="card py-4 h-100">
-                        <a href="<?php echo site_url('pengantar_kematian'); ?>">
+                        <a href="<?php echo site_url('tambah_pengantar_kematian'); ?>">
                             <div class="card-body text-center">
                                 <i class="fas fa-file-signature fa-3x"></i>
                                 <hr>
@@ -104,7 +104,7 @@
             <div class="row">
                 <div class="col-md-3 mb-3 mb-md-0">
                     <div class="card py-4 h-100">
-                        <a href="<?php echo site_url('pengantar_domisili'); ?>">
+                        <a href="<?php echo site_url('tambah_data_keterangan_domisili'); ?>">
                             <div class="card-body text-center">
                                 <i class="fas fa-file-signature fa-3x"></i>
                                 <hr>
@@ -115,7 +115,7 @@
                 </div>
                 <div class="col-md-3 mb-3 mb-md-0">
                     <div class="card py-4 h-100">
-                        <a href="<?php echo site_url('surat_keterangan_usaha'); ?>">
+                        <a href="<?php echo site_url('tambah_data_usaha'); ?>">
                             <div class="card-body text-center">
                                 <i class="fas fa-file-signature fa-3x"></i>
                                 <hr>
@@ -150,7 +150,7 @@
             <div class="row mt-5">
                 <div class="col-md-3 mb-3 mb-md-0">
                     <div class="card py-4 h-100">
-                        <a href="<?php echo site_url('sim'); ?>">
+                        <a href="<?php echo site_url('tambah_data_sim'); ?>">
                             <div class="card-body text-center">
                                 <i class="fas fa-file-signature fa-3x"></i>
                                 <hr>
@@ -161,7 +161,7 @@
                 </div>
                 <div class="col-md-3 mb-3 mb-md-0">
                     <div class="card py-4 h-100">
-                        <a href="<?php echo site_url('skck'); ?>">
+                        <a href="<?php echo site_url('tambah_data_skck'); ?>">
                             <div class="card-body text-center">
                                 <i class="fas fa-file-signature fa-3x"></i>
                                 <hr>

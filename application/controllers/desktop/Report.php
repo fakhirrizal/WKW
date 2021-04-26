@@ -133,8 +133,9 @@ class Report extends CI_Controller {
             echo "<script>window.location='".base_url()."tambah_pengantar_kematian'</script>";
         }
         else{
-            $this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil ditambahkan.<br /></div>' );
-            echo "<script>window.location='".base_url()."detail_pengajuan_kematian/".md5($newid)."'</script>";
+            // $this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil ditambahkan.<br /></div>' );
+            // echo "<script>window.location='".base_url()."detail_pengajuan_kematian/".md5($newid)."'</script>";
+            $this->load->view('desktop/form_pdf/kematian', $data_insert);
         }
     }
     /* Data KK */
@@ -236,8 +237,9 @@ class Report extends CI_Controller {
             echo "<script>window.location='".base_url()."tambah_data_kk/'</script>";
         }
         else{
-            $this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil disimpan.<br /></div>' );
-            echo "<script>window.location='".base_url()."permohonan_kk/'</script>";
+            // $this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil disimpan.<br /></div>' );
+            // echo "<script>window.location='".base_url()."permohonan_kk/'</script>";
+            $this->load->view('desktop/form_pdf/permohonan_kk', $data_insert);
         }
     }
     public function detil_data_pengajuan_kk(){
@@ -445,8 +447,9 @@ class Report extends CI_Controller {
             echo "<script>window.location='".base_url()."tambah_permohonan_ktp/'</script>";
         }
         else{
-            $this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil disimpan.<br /></div>' );
-            echo "<script>window.location='".base_url()."permohonan_ktp/'</script>";
+            // $this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil disimpan.<br /></div>' );
+            // echo "<script>window.location='".base_url()."permohonan_ktp/'</script>";
+            $this->load->view('desktop/form_pdf/permohonan_ktp', $data_insert_pdf);
         }
     }
     public function perbarui_data_antrean_ktp(){
@@ -638,8 +641,9 @@ class Report extends CI_Controller {
             echo "<script>window.location='".base_url()."tambah_data_keterangan_domisili/'</script>";
         }
         else{
-            $this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil disimpan.<br /></div>' );
-            echo "<script>window.location='".base_url()."pengantar_domisili/'</script>";
+            // $this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil disimpan.<br /></div>' );
+            // echo "<script>window.location='".base_url()."pengantar_domisili/'</script>";
+            $this->load->view('desktop/form_pdf/keterangan_domisili', $data_insert);
         }
     }
     public function detail_surat_keterangan_domisili(){
@@ -794,8 +798,9 @@ class Report extends CI_Controller {
             echo "<script>window.location='".base_url()."tambah_data_usaha/'</script>";
         }
         else{
-            $this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil disimpan.<br /></div>' );
-            echo "<script>window.location='".base_url()."surat_keterangan_usaha/'</script>";
+            // $this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil disimpan.<br /></div>' );
+            // echo "<script>window.location='".base_url()."surat_keterangan_usaha/'</script>";
+            $this->load->view('desktop/form_pdf/keterangan_usaha', $data_insert);
         }
     }
     public function detail_surat_keterangan_usaha(){
@@ -1125,8 +1130,9 @@ class Report extends CI_Controller {
             echo "<script>window.location='".base_url()."tambah_data_sim/'</script>";
         }
         else{
-            $this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil disimpan.<br /></div>' );
-            echo "<script>window.location='".base_url()."sim/'</script>";
+            // $this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil disimpan.<br /></div>' );
+            // echo "<script>window.location='".base_url()."sim/'</script>";
+            $this->load->view('desktop/form_pdf/keterangan_sim', $data_insert);
         }
     }
     public function detail_pengajuan_sim(){
@@ -1276,8 +1282,9 @@ class Report extends CI_Controller {
             echo "<script>window.location='".base_url()."tambah_data_skck/'</script>";
         }
         else{
-            $this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil disimpan.<br /></div>' );
-            echo "<script>window.location='".base_url()."skck/'</script>";
+            // $this->session->set_flashdata('sukses','<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert"><i class="ace-icon fa fa-times"></i></button><strong></i>Yeah! </strong>data telah berhasil disimpan.<br /></div>' );
+            // echo "<script>window.location='".base_url()."skck/'</script>";
+            $this->load->view('desktop/form_pdf/keterangan_skck', $data_insert);
         }
     }
     public function detail_pengajuan_skck(){

@@ -808,6 +808,7 @@ class Report extends CI_Controller {
             'alamat' => $this->input->post('alamat'),
             'rt' => $this->input->post('rt'),
             'rw' => $this->input->post('rw'),
+            
             'nik' => $this->input->post('nik'),
             'jenis_kelamin' => $this->input->post('jenis_kelamin'),
             'tempat_lahir' => $this->input->post('tempat_lahir'),
@@ -816,7 +817,7 @@ class Report extends CI_Controller {
             'akta_kelahiran' => $this->input->post('akta_kelahiran'),
             'golongan_darah' => $this->input->post('golongan_darah'),
             'agama' => $this->input->post('agama'),
-            
+
             'status_perkawinan' => $this->input->post('status_perkawinan'),
             'tanggal_perkawinan' => $this->input->post('tanggal_perkawinan'),
             'status_hubungan_dalam_keluarga' => $this->input->post('status_hubungan_dalam_keluarga'),
